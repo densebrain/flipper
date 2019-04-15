@@ -24,7 +24,7 @@ public class RecordLeakService extends AbstractAnalysisResultService {
   @Override
   protected void onHeapAnalyzed(HeapDump heapDump, AnalysisResult result) {
     final String leakInfo = leakInfo(this, heapDump, result, true);
-    final FlipperClient client = AndroidFlipperClient.getInstance(this);
+    final FlipperClient client = AndroidFlipperClient.getClient();
 
     if (client != null) {
       final LeakCanaryFlipperPlugin plugin = client.getPlugin("LeakCanary");

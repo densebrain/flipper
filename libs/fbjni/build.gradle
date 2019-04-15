@@ -1,5 +1,7 @@
-apply plugin: 'com.android.library'
-apply plugin: 'maven'
+plugins {
+    id("com.android.library")
+    id("maven")
+}
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
@@ -15,6 +17,19 @@ android {
                     srcDir 'java'
                 }
             }
+        }
+
+        externalNativeBuild {
+            cmake {
+                arguments '-DANDROID_TOOLCHAIN=clang'
+                targets 'flipperfb'
+            }
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path 'CMakeLists.txt'
         }
     }
 }

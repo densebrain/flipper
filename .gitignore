@@ -21,3 +21,8 @@ local.properties
 
 # Mac OS X
 *.DS_Store
+
+.settings
+.classpath
+.project
+.cxx

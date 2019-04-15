@@ -126,18 +126,22 @@ bool ConnectionContextStore::resetFlipperDir() {
 
 std::string loadStringFromFile(std::string fileName) {
   if (!fileExists(fileName)) {
+    log("WARN: Flipper path does not exist: " + fileName);
     return "";
   }
-  std::stringstream buffer;
-  std::ifstream stream;
-  std::string line;
-  stream.open(fileName.c_str());
+  //std::stringstream buffer;
+  std::ifstream stream(fileName);
+  //std::string line;
+  //stream.open(fileName.c_str(), std::ios::binary);
   if (!stream) {
     log("ERROR: Unable to open ifstream: " + fileName);
     return "";
   }
-  buffer << stream.rdbuf();
-  std::string s = buffer.str();
+
+  std::string s((std::istreambuf_iterator<char>(stream)), std::istreambuf_iterator<char>());
+  //buffer << stream.rdbuf();
+  //std::string s = buffer.str();
+  log("INFO: Flipper content: " + s);
   return s;
 }
 

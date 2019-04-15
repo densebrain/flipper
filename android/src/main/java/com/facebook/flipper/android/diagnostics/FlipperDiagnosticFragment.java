@@ -11,6 +11,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,8 +42,13 @@ public class FlipperDiagnosticFragment extends Fragment implements FlipperStateU
       new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-          mReportCallback.report(
-              AndroidFlipperClient.getInstance(getContext()).getState(), getSummary().toString());
+          FlipperClient client = AndroidFlipperClient.getClient();
+          if (client != null) {
+            mReportCallback.report(
+              client.getState(),
+              getSummary().toString()
+            );
+          }
         }
       };
 
@@ -78,14 +84,29 @@ public class FlipperDiagnosticFragment extends Fragment implements FlipperStateU
     return root;
   }
 
+
+
   @Override
   public void onStart() {
     super.onStart();
-    final FlipperClient client = AndroidFlipperClient.getInstance(getContext());
-    client.subscribeForUpdates(this);
+    try {
+      new AndroidFlipperClient.Builder(getContext())
+        .withOnReady(new AndroidFlipperClient.OnReadyCallback() {
+          @Override
+          public void call(FlipperClient client) {
+            client.subscribeForUpdates(FlipperDiagnosticFragment.this);
+            mSummaryView.setText(getSummary());
+            mLogView.setText(client.getState());
+          }
+        })
+        .start();
+    } catch (Exception ex) {
+      Log.e(getClass().getName(),"Unable to build client",ex);
+    }
+    //final FlipperClient client = AndroidFlipperClient.getInstance(getContext());
 
-    mSummaryView.setText(getSummary());
-    mLogView.setText(client.getState());
+
+
   }
 
   @Override
@@ -96,7 +117,9 @@ public class FlipperDiagnosticFragment extends Fragment implements FlipperStateU
 
   @Override
   public void onUpdate() {
-    final String state = AndroidFlipperClient.getInstance(getContext()).getState();
+    final FlipperClient client = AndroidFlipperClient.getClient();
+    if (client == null) return;
+    final String state = client.getState();
     final CharSequence summary =
         mDiagnosticSummaryTextFilter == null
             ? getSummary()
@@ -118,7 +141,9 @@ public class FlipperDiagnosticFragment extends Fragment implements FlipperStateU
 
   CharSequence getSummary() {
     final Context context = getContext();
-    final StateSummary summary = AndroidFlipperClient.getInstance(context).getStateSummary();
+    final FlipperClient client = AndroidFlipperClient.getClient();
+    if (client == null) return "";
+    final StateSummary summary = client.getStateSummary();
     final StringBuilder stateText = new StringBuilder(16);
     for (StateElement e : summary.mList) {
       final String status;
@@ -144,7 +169,9 @@ public class FlipperDiagnosticFragment extends Fragment implements FlipperStateU
   @Override
   public void onStop() {
     super.onStop();
-    final FlipperClient client = AndroidFlipperClient.getInstance(getContext());
+    final FlipperClient client = AndroidFlipperClient.getClient();
+    if (client == null) return;
+    //final FlipperClient client = AndroidFlipperClient.getInstance(getContext());
     client.unsubscribe();
   }
 

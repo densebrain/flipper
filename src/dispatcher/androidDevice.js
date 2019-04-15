@@ -33,7 +33,14 @@ function createDevice(
       }
       const androidDevice = new AndroidDevice(device.id, type, name, adbClient);
       const ports = store.getState().application.serverPorts;
-      androidDevice.reverse([ports.secure, ports.insecure]);
+      try {
+        await androidDevice.reverse([ports.secure, ports.insecure]);
+      } catch (err) {
+        console.error(
+          'Unable to reverse, if TCPIP connection and Android SDK > 21 then MDNS will be used, ignore this message in that case',
+          err,
+        );
+      }
       resolve(androidDevice);
     });
   });

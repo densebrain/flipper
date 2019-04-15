@@ -10,6 +10,7 @@ import type {Logger} from './fb-interfaces/Logger';
 import type {ClientQuery} from './Client.js';
 import type {Store} from './reducers/index.js';
 
+import os from 'os';
 import CertificateProvider from './utils/CertificateProvider';
 import {RSocketServer, ReactiveSocket} from 'rsocket-core';
 import RSocketTCPServer from 'rsocket-tcp-server';
@@ -18,10 +19,13 @@ import Client from './Client.js';
 import type {UninitializedClient} from './UninitializedClient';
 import {reportPlatformFailures} from './utils/metrics';
 
+const mdns = require('multicast-dns')();
 const EventEmitter = (require('events'): any);
 const invariant = require('invariant');
 const tls = require('tls');
 const net = require('net');
+
+const MDNS_NAME = 'fbflipper._fbflipper._tcp.local';
 
 type RSocket = {|
   fireAndForget(payload: {data: string}): void,
@@ -59,6 +63,12 @@ export default class Server extends EventEmitter {
 
   init() {
     const {insecure, secure} = this.store.getState().application.serverPorts;
+    try {
+      this.startMDnsServer(insecure,secure);
+    } catch (err) {
+      console.error('Unable to start MDNS advertiser', err);
+    }
+
     this.initialisePromise = this.certificateProvider
       .loadSecureServerConfig()
       .then(options => (this.secureServer = this.startServer(secure, options)))
@@ -70,11 +80,91 @@ export default class Server extends EventEmitter {
     return this.initialisePromise;
   }
 
+  /**
+   * Responds to mDns queries with network info
+   *
+   * @param query
+   */
+  startMDnsServer(insecure: number, secure: number) {
+    mdns.on('response', (response: any) => {
+      //console.log('Response',response);
+    });
+    mdns.on('query', (query: any) => {
+      //console.log(query);
+      if (!Array.isArray(query.questions)) {
+        return;
+      }
+
+      // eslint-disable-next-line prettier/prettier
+      const question = query.questions.find(function(q: any) {
+        return (
+          (q.type === 'PTR' && q.class.includes('UNKNOWN')) ||
+          // eslint-disable-next-line prettier/prettier
+          q.name.includes('fbflipper'));
+      });
+      if (question) {
+        //console.log('got a query packet:', question, query);
+        const addresses = getNetworkAddresses();
+        mdns.respond({
+          additionals: [
+            {
+              class: 'IN',
+              name: MDNS_NAME,
+              type: 'TXT',
+              flush: true,
+              ttl: 30,
+              data: [
+                ...addresses.map(address => Buffer.from(`ip=${address}`)),
+                Buffer.from(`insecurePort=${insecure}`),
+                Buffer.from(`securePort=${secure}`),
+              ],
+            },
+            ...addresses.reduce((additionals, address) => {
+              additionals.push(
+                {
+                  class: 'IN',
+                  name: MDNS_NAME,
+                  type: 'A',
+                  flush: true,
+                  ttl: 30,
+                  data: address,
+                },
+                {
+                  class: 'IN',
+                  name: MDNS_NAME,
+                  type: 'SRV',
+                  flush: true,
+                  ttl: 30,
+                  data: {
+                    target: MDNS_NAME,
+                    insecure,
+                  },
+                },
+              );
+              return additionals;
+            }, []),
+          ],
+          answers: [
+            {
+              class: 'IN',
+              data: `fbflipper._fbflipper._tcp.local`,
+              type: 'PTR',
+              flush: true,
+              ttl: 30,
+              name: '_fbflipper._tcp.local',
+            },
+          ],
+        });
+      }
+    });
+  }
+
   startServer(
     port: number,
     sslConfig?: SecureServerConfig,
   ): Promise<RSocketServer> {
     const server = this;
+
     return new Promise((resolve, reject) => {
       let rsServer;
       const serverFactory = onConnect => {
@@ -348,4 +438,19 @@ class ConnectionTracker {
       );
     }
   }
+}
+
+function getNetworkAddresses(): Array<string> {
+  return Object.entries(os.networkInterfaces()).reduce(
+    (addresses, [_name, iface]: any) => {
+      addresses.push(
+        ...iface
+          .filter(it => 'IPv4' === it.family && !it.internal && it.address)
+          .map(it => it.address),
+      );
+
+      return addresses;
+    },
+    [],
+  );
 }

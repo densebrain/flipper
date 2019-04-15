@@ -6,40 +6,50 @@
 #
 
 cmake_minimum_required(VERSION 3.6.0)
-set(PACKAGE_NAME      "flipperfb")
+set(PACKAGE_NAME "flipperfb")
 project(${PACKAGE_NAME} CXX)
 
-set(CMAKE_VERBOSE_MAKEFILE on)
+set(ROOT_DIR ${CMAKE_CURRENT_LIST_DIR}/../..)
+include(${ROOT_DIR}/cmake/setup.cmake)
 
 add_compile_options(
-    -fno-omit-frame-pointer
-    -fexceptions
-    -O3
-    -Wall
-    -std=c++11
-    -frtti
-    -ffunction-sections
-    -DDISABLE_CPUCAP
-    -DDISABLE_XPLAT)
+  -fno-omit-frame-pointer
+  -fexceptions
+  -O3
+  -Wall
+  -std=c++11
+  -frtti
+  -ffunction-sections
+  -DDISABLE_CPUCAP
+  -DDISABLE_XPLAT)
 
-set(FBJNI_CXX ${PROJECT_SOURCE_DIR}/cxx)
+set(FBJNI_CXX ${CMAKE_CURRENT_LIST_DIR}/cxx)
 
-list(APPEND FBJNI_HDRS ${FBJNI_CXX})
-list(APPEND FBJNI_HDRS ${FBJNI_CXX}/fbjni/)
-list(APPEND FBJNI_HDRS ${FBJNI_CXX}/fbjni/detail)
-list(APPEND FBJNI_HDRS ${FBJNI_CXX}/lyra)
-list(APPEND FBJNI_HDRS ${FBJNI_CXX}/../../jni-hack)
+list(
+  APPEND FBJNI_HDRS
+  ${FBJNI_CXX}
+  ${FBJNI_CXX}/fbjni
+  ${FBJNI_CXX}/fbjni/detail
+  ${FBJNI_CXX}/lyra
+  ${FBJNI_CXX}/../../jni-hack
+)
 
-include_directories(${FBJNI_HDRS})
+include_directories(
+  BEFORE
+  ${FBJNI_HDRS}
+)
 
-file(GLOB FBJNI_SRC
-    ${FBJNI_CXX}/fbjni/*.cpp
-    ${FBJNI_CXX}/fbjni/detail/*.cpp
-    ${FBJNI_CXX}/lyra/*.cpp
-    )
+file(
+  GLOB FBJNI_SRC
+  ${FBJNI_CXX}/fbjni/*.cpp
+  ${FBJNI_CXX}/fbjni/detail/*.cpp
+  ${FBJNI_CXX}/lyra/*.cpp
+)
 
 add_library(${PACKAGE_NAME} SHARED
-    ${FBJNI_SRC})
+  ${FBJNI_SRC})
+
+SET_NATIVE_OUTPUT_DIRS(${PACKAGE_NAME})
 
 target_include_directories(${PACKAGE_NAME} PRIVATE ${FBJNI_HDRS})
 

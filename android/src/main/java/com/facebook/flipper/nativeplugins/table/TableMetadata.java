@@ -7,6 +7,10 @@ public class TableMetadata {
   final Column[] mColumns;
   final QueryableTableRowProvider mResponder;
 
+  public QueryableTableRowProvider getResponder() {
+    return mResponder;
+  }
+
   private TableMetadata(
       @Nullable Column[] columns, @Nullable QueryableTableRowProvider queryResponder) {
     this.mColumns = columns == null ? new Column[] {} : columns;

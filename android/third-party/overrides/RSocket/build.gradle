@@ -10,6 +10,7 @@ android {
         externalNativeBuild {
             cmake {
                 arguments '-DANDROID_TOOLCHAIN=clang'
+                targets "rsocket"
             }
         }
     }
@@ -26,5 +27,13 @@ android {
             path './CMakeLists.txt'
         }
     }
+}
+
+dependencies {
+    implementation project(':glog')
+    implementation project(':doubleconversion')
+    implementation project(':libevent')
+    implementation project(':folly')
+
 }
 //'x86', 'x86_64', 'armeabi-v7a',

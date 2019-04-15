@@ -10,7 +10,8 @@ android {
         buildConfigField "boolean", "IS_INTERNAL_BUILD", 'true'
         externalNativeBuild {
             cmake {
-                arguments '-DANDROID_TOOLCHAIN=clang'
+                arguments '-DANDROID_TOOLCHAIN=clang', '-DANDROID_STL=c++_shared'
+                targets "doubleconversion"
             }
         }
     }
@@ -19,12 +20,19 @@ android {
     }
     sourceSets {
         main {
+            jni.srcDir("${projectDir}/double-conversion-3.0.0")
             manifest.srcFile './ApplicationManifest.xml'
         }
     }
     externalNativeBuild {
         cmake {
-            path './CMakeLists.txt'
+            path 'CMakeLists.txt'
         }
+    }
+
+    dependencies {
+//        implementation project(':glog')
+//        implementation project(':doubleconversion')
+
     }
 }

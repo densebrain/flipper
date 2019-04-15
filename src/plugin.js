@@ -36,6 +36,8 @@ export interface PluginClient {
   // eslint-disable-next-line
   subscribe(method: string, callback: (params: any) => void): void;
   // eslint-disable-next-line
+  unsubscribe(method: string, callback: (params: any) => void): void;
+  // eslint-disable-next-line
   supportsMethod(method: string): Promise<boolean>;
 }
 
@@ -187,6 +189,9 @@ export class FlipperPlugin<S = *, A = *, P = *> extends FlipperBasePlugin<
           callback,
         });
         this.realClient.subscribe(id, method, callback);
+      },
+      unsubscribe: (method, callback) => {
+        this.realClient.unsubscribe(id, method, callback);
       },
       supportsMethod: method => this.realClient.supportsMethod(id, method),
     };

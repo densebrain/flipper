@@ -8,6 +8,13 @@ android {
     defaultConfig {
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
+
+        externalNativeBuild {
+            cmake {
+                arguments '-DANDROID_TOOLCHAIN=clang'
+                targets
+            }
+        }
     }
 
     sourceSets {
@@ -15,9 +22,23 @@ android {
             manifest.srcFile './AndroidManifest.xml'
         }
     }
+
+    externalNativeBuild {
+        cmake {
+            path 'CMakeLists.txt'
+        }
+    }
 }
 
 task prepare(dependsOn: [prepareAllLibs]) {
+}
+
+dependencies {
+    implementation project(':glog')
+    implementation project(':doubleconversion')
+    implementation project(':libevent')
+    implementation project(':rsocket')
+    implementation project(':folly')
 }
 
 build.dependsOn prepare
