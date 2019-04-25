@@ -16,22 +16,26 @@
 
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.io.FileOutputStream
+//import java.io.FileOutputStream
 import java.util.zip.ZipFile
-
-buildscript {
-    repositories {
-        google()
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.2'
-    }
-}
+//import com.jfrog.bintray.gradle.tasks.BintrayUploadTask
+//
+//buildscript {
+//    repositories {
+//        google()
+//        jcenter()
+//        gradlePluginPortal()
+//        mavenCentral()
+//    }
+//    dependencies {
+//        classpath 'com.android.tools.build:gradle:3.5.0-alpha10'
+//        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4"
+//    }
+//}
 
 // Android tasks for Javadoc and sources.jar generation
 
-afterEvaluate {
+//afterEvaluate {
     android {
         if (POM_PACKAGING == 'aar') {
             def androidJavadoc = tasks.create("androidJavadoc", Javadoc) {
@@ -55,6 +59,29 @@ afterEvaluate {
                 from android.sourceSets.main.java.srcDirs
             }
 
+//            Upload upload = tasks.getByName("uploadArchives")
+//            upload.artifacts.each { artifact ->
+//                logger.quiet("artifact: ${artifact.getClass().getName()}")
+//            }
+//            def deployers = upload.repositories//.withType(MavenDeployer)
+//            logger.quiet("Deployers: ${deployers}")
+
+//            tasks.getByName("bintrayUpload") {
+//                dependsOn("bundleReleaseAar",androidJavadocJar,androidSourcesJar)
+//                doFirst {
+////                    Upload upload = tasks.getByName("upload")
+////                    def artifacts = upload.artifacts
+////                    logger.quiet("Deployers: ${artifacts}")
+////                    def deployers = upload.repositories.withType(MavenDeployer)
+////                    logger.quiet("Deployers: ${deployers}")
+////                      .each { MavenDeployer deployer ->
+////                        deployer.
+////                    }
+////                    PublishingExtension pub = extensions.getByType()
+////                    def deployments = pub.publications.withType(MavenDeployment)
+////                    deployments.each { signing.signPom(it) }
+//                }
+//            }
 
             libraryVariants.all { variant ->
                 def name = variant.name.capitalize()
@@ -97,6 +124,11 @@ afterEvaluate {
 
             artifacts.add('archives', androidJavadocJar)
             artifacts.add('archives', androidSourcesJar)
+
+            publishing.publications.all {
+                artifact(androidJavadocJar)
+                artifact(androidSourcesJar)
+            }
         }
 
 
@@ -115,7 +147,9 @@ afterEvaluate {
         artifacts.add('archives', sourcesJar)
     }
         }
-}
+
+
+//}
 
 // Utility method to extract only one entry in a zip file
 private def extractEntry(archive, entryPath, outputPath) {

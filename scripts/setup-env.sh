@@ -3,13 +3,12 @@
 set -e
 
 main () {
-  local -r THIS_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-  ROOT_DIR=$(cd "$THIS_DIR" && hg root)
+  ROOT_DIR=$(dirname $(dirname "${BASH_SOURCE[0]}"))
 
-  source "$ROOT_DIR/xplat/js/env-utils/setup_env_vars.sh"
+  source "$ROOT_DIR/common/xplat/js/env-utils/setup_env_vars.sh"
 
-  export SONAR_DIR="$ROOT_DIR/xplat/infinity"
-  export PATH="$SONAR_DIR/node_modules/.bin:$ROOT_DIR/xplat/third-party/node/bin:$ROOT_DIR/xplat/third-party/yarn:$PATH"
+  export SONAR_DIR="$ROOT_DIR/common/xplat/infinity"
+  export PATH="$SONAR_DIR/node_modules/.bin:$ROOT_DIR/commonxplat/third-party/node/bin:$ROOT_DIR/common/xplat/third-party/yarn:$PATH"
 }
 
 main

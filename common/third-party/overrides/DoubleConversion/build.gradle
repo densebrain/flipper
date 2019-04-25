@@ -1,0 +1,41 @@
+plugin {
+  id("com.android.library")
+}
+
+
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        buildConfigField "boolean", "IS_INTERNAL_BUILD", 'true'
+        externalNativeBuild {
+            cmake {
+                arguments '-DANDROID_TOOLCHAIN=clang', '-DANDROID_STL=c++_shared'
+                targets "doubleconversion"
+            }
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+    sourceSets {
+        main {
+            jni.srcDir("${projectDir}/double-conversion-3.0.0")
+            manifest.srcFile './ApplicationManifest.xml'
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path 'CMakeLists.txt'
+        }
+    }
+
+    dependencies {
+//        implementation project(':glog')
+//        implementation project(':doubleconversion')
+
+    }
+}

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-apply plugin: 'signing'
+//apply plugin: 'signing'
 
 version = VERSION_NAME
 group = GROUP
@@ -23,14 +23,15 @@ def isReleaseBuild() {
   return !VERSION_NAME.contains('SNAPSHOT')
 }
 
+
 def getReleaseRepositoryUrl() {
-  return hasProperty('RELEASE_REPOSITORY_URL') ? RELEASE_REPOSITORY_URL
-      : "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+  return skipMavenRepos ? null : hasProperty('RELEASE_REPOSITORY_URL') ? RELEASE_REPOSITORY_URL
+    : "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
 }
 
 def getSnapshotRepositoryUrl() {
-  return hasProperty('SNAPSHOT_REPOSITORY_URL') ? SNAPSHOT_REPOSITORY_URL
-      : "https://oss.sonatype.org/content/repositories/snapshots/"
+  return skipMavenRepos ? null : hasProperty('SNAPSHOT_REPOSITORY_URL') ? SNAPSHOT_REPOSITORY_URL
+    : "https://oss.sonatype.org/content/repositories/snapshots/"
 }
 
 def getRepositoryUsername() {
@@ -51,7 +52,7 @@ def applyProxy(repo) {
   }
 }
 
-afterEvaluate { project ->
+//afterEvaluate { project ->
   uploadArchives {
     repositories {
       mavenDeployer {
@@ -61,13 +62,18 @@ afterEvaluate { project ->
         pom.artifactId = POM_ARTIFACT_ID
         pom.version = VERSION_NAME
 
-        repository(url: getReleaseRepositoryUrl()) {
-          authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
-          applyProxy(it)
+        if (getReleaseRepositoryUrl() != null) {
+          repository(url: getReleaseRepositoryUrl()) {
+            authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
+            applyProxy(it)
+          }
         }
-        snapshotRepository(url: getSnapshotRepositoryUrl()) {
-          authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
-          applyProxy(it)
+
+        if (getSnapshotRepositoryUrl() != null) {
+          snapshotRepository(url: getSnapshotRepositoryUrl()) {
+            authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
+            applyProxy(it)
+          }
         }
 
         pom.project {
@@ -99,10 +105,32 @@ afterEvaluate { project ->
         }
       }
     }
+  //}
+
+  def uploadTask = tasks.findByName("bintrayUpload")
+
+  if (extensions.findByName("signing") != null) {
+    boolean shouldSign =
+      signingReady &&
+        bintrayGpgPassword != null &&
+        uploadTask != null &&
+        ['uploadArchives', 'bintrayUploadAll'].any { signTaskName ->
+          gradle.startParameter.taskNames.any { taskName ->
+            taskName.contains(signTaskName)
+          }
+        }
+
+
+//    signing {
+//      required { shouldSign }
+//      sign configurations.archives
+//    }
+
   }
 
-  signing {
-    required { isReleaseBuild() && gradle.taskGraph.hasTask('uploadArchives') }
-    sign configurations.archives
-  }
+//  tasks.getByName("bintrayUpload") {
+//    dependsOn("bundleReleaseAar")
+//
+//  }
+
 }

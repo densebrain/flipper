@@ -3,9 +3,8 @@
 set -e
 
 main () {
-  local -r THIS_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-  ROOT_DIR=$(cd "$THIS_DIR" && hg root)
-  source "$ROOT_DIR/xplat/sonar/scripts/setup-env.sh"
+  ROOT_DIR=$(dirname $(dirname "${BASH_SOURCE[0]}"))
+  source "$ROOT_DIR/common/xplat/sonar/scripts/setup-env.sh"
 
   # save current cursor location
   printf "Ensuring correct dependencies..."
@@ -13,15 +12,15 @@ main () {
   PREV_DIR="`pwd`"
 
   # install dependencies
-  cd "$INFINITY_DIR"
-  "$INSTALL_NODE_MODULES"
+  # cd "$INFINITY_DIR"
+  # "$INSTALL_NODE_MODULES"
 
+  pushd $ROOT_DIR/desktop
   # ensure electron gets installed
   node node_modules/electron/install.js
 
-  # go back
-  cd "$PREV_DIR"
-
+  popd
+  
   # remove correct dependencies log
   printf "\r"
 }

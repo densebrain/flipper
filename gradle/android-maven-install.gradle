@@ -16,7 +16,7 @@
 
 // Configure the Android maven publication
 
-apply plugin: 'com.github.dcendents.android-maven'
+
 
 version = VERSION_NAME
 group = GROUP
@@ -24,30 +24,42 @@ group = GROUP
 // in case the module has a different name
 project.archivesBaseName = POM_ARTIFACT_ID
 
-install {
-    repositories.mavenInstaller {
-        // This generates POM.xml with proper parameters
-        pom.project {
-            name POM_NAME
+//install {
+afterEvaluate {
+    publishing {
+
+        repositories {
+            mavenLocal()
+        }
+
+        publications.create("${project.name}-pub", MavenPublication) {
+//        from(configurations["java"])
+            groupId GROUP
             artifactId POM_ARTIFACT_ID
-            packaging POM_PACKAGING
-            description POM_DESCRIPTION
-            url projectUrl
+            artifact(tasks.getByName("bundleReleaseAar"))
+            // This generates POM.xml with proper parameters
+            pom {
 
-            scm {
-                url scmUrl
-                connection scmConnection
-                developerConnection scmDeveloperConnection
-            }
+                packaging = POM_PACKAGING
+                description = POM_DESCRIPTION
+                url = projectUrl
 
-            licenses projectLicenses
+                scm {
+                    url = scmUrl
+                    connection = scmConnection
+                    developerConnection = scmDeveloperConnection
+                }
 
-            developers {
-                developer {
-                    id developerId
-                    name developerName
+                //licenses = projectLicenses
+
+                developers {
+                    developer {
+                        id = developerId
+                        name = developerName
+                    }
                 }
             }
         }
     }
+//}
 }

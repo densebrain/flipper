@@ -11,12 +11,12 @@ endif()
 
 set(RSOCKET_VERSION 0.10.3)
 
-set(LIBJNIHACK_DIR ${ROOT_DIR}/libs/jni-hack)
-set(LIBFBJNI_DIR ${ROOT_DIR}/libs/fbjni)
-set(LIBFLIPPER_DIR ${ROOT_DIR}/xplat)
+set(LIBJNIHACK_DIR ${ROOT_DIR}/platforms/android/jni-hack)
+set(LIBFBJNI_DIR ${ROOT_DIR}/platforms/android/fbjni)
+set(LIBFLIPPER_DIR ${ROOT_DIR}/common/xplat)
 
 set(NATIVE_BUILD_DIR ${ROOT_DIR}/build/native)
-set(EXTERNAL_DIR ${ROOT_DIR}/android/third-party/external)
+set(EXTERNAL_DIR ${ROOT_DIR}/common/third-party/external)
 
 set(LIBFOLLY_DIR ${EXTERNAL_DIR}/folly)
 set(LIBFOLLY_BUILD_DIR ${NATIVE_BUILD_DIR}/folly/${ANDROID_ABI})

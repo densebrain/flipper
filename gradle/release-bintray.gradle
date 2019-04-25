@@ -15,20 +15,131 @@
  */
 
 // Set up everything required for releasing on Bintray
+
 ext {
-    bintrayRepo = 'maven'
-    bintrayUserOrg = 'facebook'
+    localProps = new Properties()
+    def localPropsFile = file("${rootDir}/local.properties")
+    if (localPropsFile.exists()) {
+        localProps.load(localPropsFile.newInputStream())
+    }
+}
+
+String getProjectProperty(String ... names) {
+    for (String name : names) {
+        if (localProps.containsKey(name))
+            return localProps.getProperty(name)
+
+        if (project.hasProperty(name))
+            return project.property(name)
+
+        if (rootProject.hasProperty(name))
+            return rootProject.property(name)
+    }
+
+    return null
+}
+
+static String getSystemProperty(String ... names) {
+    for (String name : names) {
+        String value = System.getenv(name)
+        if (value != null)
+            return value
+    }
+
+    return null
+}
+
+String getProperty(List<String> systemProps, List<String> projectProps, String defaultValue) {
+    return getSystemProperty(systemProps.toArray(new String[0])) ?:
+      getProjectProperty(projectProps.toArray(new String[0])) ?:
+        defaultValue
+
+}
+
+ext {
+    skipMavenRepos = gradle.startParameter.taskNames.contains("bintrayUploadAll")
+
+
+
+    bintrayRepo = getProperty(
+      ['bintrayRepo','BINTRAY_REPO'],
+      ['bintrayRepo',"BINTRAY_REPO"],
+      "maven"
+    )
+
+    bintrayUsername = getProperty(
+      ['bintrayUsername','BINTRAY_USERNAME'],
+      ['bintrayUsername','BINTRAY_USERNAME'],
+      null
+    )
+
+    bintrayUserOrg = getProperty(
+      ['BINTRAY_USER_ORG'],
+      ['bintrayUserOrg',"BINTRAY_USER_ORG"],
+      "facebook"
+    )
+
+    bintrayApiKey = getProperty(
+      ['bintrayApiKey','BINTRAY_API_KEY'],
+      ['bintrayApiKey',"BINTRAY_API_KEY"],
+      null
+    )
+    bintrayGpgPassword = getProperty(
+      ['bintrayGpgPassword','BINTRAY_GPG_PASSWORD'],
+      ['bintrayGpgPassword',"BINTRAY_GPG_PASSWORD"],
+      null
+    )
+
+    signingKeyringFilename = getProperty(
+      ['signing.secretKeyRingFile'],
+      ['signing.secretKeyRingFile'],
+      null
+    )
+
+
+    signingKeyId = getProperty(
+      ['signing.keyId','SIGNING_KEY_ID'],
+      ['signing.keyId','SIGNING_KEY_ID'],
+      null
+    )
+
+    signingPassword = getProperty(
+      ['signing.password','SIGNING_PASSWORD'],
+      ['signing.password','SIGNING_PASSWORD'],
+      bintrayGpgPassword
+    )
+
+
+    signingReady = signingKeyringFilename != null &&
+      new File(signingKeyringFilename).exists() &&
+      signingKeyId != null &&
+      signingPassword != null
+
+    if (signingReady) {
+        try {
+            project.setProperty("signing.keyId", signingKeyId)
+            project.setProperty("signing.password", signingPassword)
+            project.setProperty("signing.secretKeyRingFile", signingKeyringFilename)
+        } catch (Throwable ignored) {}
+
+        PgpSignatoryProvider signatoryProvider = new PgpSignatoryProvider()
+        signatoryProvider.configure(signing) {
+            keyId = signingKeyId
+            password = signingPassword
+            secretKeyringFile = signingKeyringFilename
+        }
+        signing.setSignatories(signatoryProvider)
+    }
+
     bintrayName = "${GROUP}:${POM_ARTIFACT_ID}"
     bintrayDescription = POM_DESCRIPTION
     projectUrl = POM_URL
-    issuesUrl = 'https://github.com/facebook/litho/issues'
+    issuesUrl = 'https://github.com/facebook/flipper/issues'
     scmUrl = POM_SCM_URL
     scmConnection = POM_SCM_CONNECTION
     scmDeveloperConnection = POM_SCM_DEV_CONNECTION
 
     publishedGroupId = GROUP
-    libraryName = 'litho'
-    artifact = 'litho'
 
     developerId = POM_DEVELOPER_ID
     developerName = POM_DEVELOPER_NAME
