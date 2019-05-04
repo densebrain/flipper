@@ -9,7 +9,7 @@ export type GKID = string;
 
 export const TEST_PASSING_GK = 'TEST_PASSING_GK';
 export const TEST_FAILING_GK = 'TEST_FAILING_GK';
-const whitelistedGKs: Array<GKID> = [];
+const whitelistedGKs: Array<GKID> = ['sonar_show_console_plugin'];
 
 export default class GK {
   static init() {}

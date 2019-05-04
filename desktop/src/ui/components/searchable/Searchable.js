@@ -16,16 +16,17 @@ import Text from '../Text.js';
 import FlexBox from '../FlexBox.js';
 import Glyph from '../Glyph.js';
 import FilterToken from './FilterToken.js';
-import styled from '../../styled/index.js';
+import styled,{Transparent} from '../../styled';
+import {withStyles} from '../../themes';
 import {lighten} from '@material-ui/core/styles/colorManipulator';
-import {Transparent} from '../../styled';
 
-const SearchBar = styled(Toolbar)({
+import {makeRootView} from '../RootView'
+const SearchBar = makeRootView(() => ({
   height: 42,
   padding: 6,
-});
+}),Toolbar);
 
-export const SearchBox = styled(FlexBox)(({theme}) => ({
+export const SearchBox = makeRootView((theme) => ({
   backgroundColor: theme.colors.background,
   borderRadius: "10px",
   border: `1px solid ${theme.colors.border}`,
@@ -33,10 +34,10 @@ export const SearchBox = styled(FlexBox)(({theme}) => ({
   width: '100%',
   alignItems: 'center',
   paddingLeft: 4,
-}));
+}),FlexBox);
 
-export const SearchInput = styled(Input)(props => ({
-  border: props.focus ? `1px solid ${props.theme.colors.border}` : 0,
+export const SearchInput = makeRootView(({colors}) => ({
+  border: ({focus}) => focus ? `1px solid ${colors.border}` : 0,
   padding: 0,
   fontSize: '1em',
   flexGrow: 1,
@@ -46,41 +47,49 @@ export const SearchInput = styled(Input)(props => ({
   width: '100%',
   backgroundColor: Transparent,
   '&::-webkit-input-placeholder': {
-    color: lighten(props.theme.colors.textInput,0.2),
+    color: lighten(colors.textInput,0.2),
     fontWeight: 300,
   },
-}));
+}),Input);
 
-const Clear = styled(Text)(({theme}) => ({
-  position: 'absolute',
-  right: 6,
-  top: '50%',
-  marginTop: -9,
-  fontSize: 16,
-  width: 17,
-  height: 17,
-  borderRadius: 999,
-  lineHeight: '15.5px',
-  textAlign: 'center',
-  backgroundColor: 'rgba(0,0,0,0.1)',
-  color: theme.colors.text,
-  display: 'block',
-  '&:hover': {
-    backgroundColor: 'rgba(0,0,0,0.15)',
-  },
-}));
-
-export const SearchIcon = styled(Glyph)({
-  marginRight: 3,
-  marginLeft: 3,
-  marginTop: -1,
-  minWidth: 16,
+const Clear = withStyles((theme) => ({
+  root: {
+    position: 'absolute',
+    right: 6,
+    top: '50%',
+    marginTop: -9,
+    fontSize: 16,
+    width: 17,
+    height: 17,
+    borderRadius: 999,
+    lineHeight: '15.5px',
+    textAlign: 'center',
+    backgroundColor: 'rgba(0,0,0,0.1)',
+    color: theme.colors.text,
+    display: 'block',
+    '&:hover': {
+      backgroundColor: 'rgba(0,0,0,0.15)',
+    },
+  }
+}))(function Clear({classes,focused,style,className,...other}) {
+  return <Text style={style} className={`${classes.root} ${className}`} {...other}/>
 });
 
-const Actions = styled(FlexRow)({
+export const SearchIcon = withStyles(({
+  root: {
+    marginRight: 3,
+    marginLeft: 3,
+    marginTop: -1,
+    minWidth: 16,
+  }
+}))(React.forwardRef(({classes,className,...other},ref) => {
+  return <Glyph ref={ref} className={`${classes.root} ${className}`} {...other}/>
+}));
+
+const Actions = makeRootView(() => ({
   marginLeft: 8,
   flexShrink: 0,
-});
+}),FlexRow);
 
 export type SearchableProps = {|
   addFilter: (filter: Filter) => void,
@@ -182,9 +191,9 @@ const Searchable = (
         }
       } else if (prevProps.defaultFilters !== this.props.defaultFilters) {
         const mergedFilters = [...this.state.filters];
-        this.props.defaultFilters.forEach((defaultFilter: Filter) => {
+        this.props.defaultFilters.forEach((defaultFilter: Filter<any>) => {
           const filterIndex = mergedFilters.findIndex(
-            (f: Filter) => f.key === defaultFilter.key,
+            (f: Filter<any>) => f.key === defaultFilter.key,
           );
           if (filterIndex > -1) {
             mergedFilters[filterIndex] = defaultFilter;
@@ -294,13 +303,13 @@ const Searchable = (
       this._inputRef = ref;
     };
 
-    addFilter = (filter: Filter) => {
+    addFilter = (filter: Filter<any>) => {
       const filterIndex = this.state.filters.findIndex(
         f => f.key === filter.key,
       );
       if (filterIndex > -1) {
         const filters = [...this.state.filters];
-        const defaultFilter: Filter = this.props.defaultFilters[filterIndex];
+        const defaultFilter: Filter<any> = this.props.defaultFilters[filterIndex];
         if (
           defaultFilter != null &&
           defaultFilter.type === 'enum' &&
@@ -316,7 +325,7 @@ const Searchable = (
       const filters =
         filter.persistent === true
           ? [filter, ...this.state.filters]
-          : this.state.filters.concat(filter);
+          : [...this.state.filters,filter];
       this.setState({
         filters,
         focusedToken: -1,
@@ -326,7 +335,11 @@ const Searchable = (
     removeFilter = (index: number) => {
       const filters = this.state.filters.filter((_, i) => i !== index);
       const focusedToken = -1;
-      this.setState({filters, focusedToken}, () => {
+      this.setState({
+        filters,
+        focusedToken,
+        hasFocus: true
+      }, () => {
         if (this._inputRef) {
           this._inputRef.focus();
         }
@@ -339,11 +352,14 @@ const Searchable = (
       this.setState({filters});
     };
 
-    onInputFocus = () =>
+    onInputFocus = () => {
+      if (this.state.hasFocus) return;
+      
       this.setState({
         focusedToken: -1,
         hasFocus: true,
-      });
+      })
+    };
 
     onInputBlur = () =>
       setTimeout(
@@ -374,7 +390,7 @@ const Searchable = (
 
     render(): React.Node {
       const {placeholder, actions, ...props} = this.props;
-      return [
+      return <>
         <SearchBar position="top" key="searchbar">
           <SearchBox tabIndex={-1}>
             <SearchIcon
@@ -388,8 +404,8 @@ const Searchable = (
                 index={i}
                 filter={filter}
                 focused={i === this.state.focusedToken}
-                onFocus={this.onTokenFocus}
                 onDelete={this.removeFilter}
+                onFocus={this.onTokenFocus}
                 onReplace={this.replaceFilter}
                 onBlur={this.onTokenBlur}
               />
@@ -398,7 +414,7 @@ const Searchable = (
               placeholder={placeholder}
               onChange={this.onChangeSearchTerm}
               value={this.state.searchTerm}
-              ref={this.setInputRef}
+              innerRef={this.setInputRef}
               onFocus={this.onInputFocus}
               onBlur={this.onInputBlur}
             />
@@ -415,7 +431,7 @@ const Searchable = (
           searchTerm={this.state.searchTerm}
           filters={this.state.filters}
         />,
-      ];
+      </>;
     }
   };
 

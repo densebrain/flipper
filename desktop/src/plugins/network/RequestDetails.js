@@ -173,7 +173,7 @@ export default class RequestDetails extends Component<
             multiline={true}
             columnSizes={KeyValueColumnSizes}
             columns={KeyValueColumns}
-            rows={this.urlColumns(url)}
+            items={this.urlColumns(url)}
             autoHeight={true}
             floating={false}
             zebra={false}
@@ -267,7 +267,7 @@ class QueryInspector extends Component<{queryParams: URLSearchParams}> {
         multiline={true}
         columnSizes={KeyValueColumnSizes}
         columns={KeyValueColumns}
-        rows={rows}
+        items={rows}
         autoHeight={true}
         floating={false}
         zebra={false}
@@ -314,7 +314,7 @@ class HeaderInspector extends Component<
         multiline={true}
         columnSizes={KeyValueColumnSizes}
         columns={KeyValueColumns}
-        rows={rows}
+        items={rows}
         autoHeight={true}
         floating={false}
         zebra={false}

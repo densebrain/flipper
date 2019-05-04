@@ -20,7 +20,7 @@ export {
   FlipperDevicePlugin,
   callClient,
 } from './plugin.js';
-export type {PluginClient, Props} from './plugin.js';
+export type {FlipperPluginProps, PluginClient, Props} from './plugin.js';
 export {default as Client} from './Client.js';
 export {clipboard} from 'electron';
 export * from './fb-stubs/constants.js';
@@ -34,11 +34,9 @@ export type {Store, MiddlewareAPI} from './reducers/index.js';
 export {
   default as SidebarExtensions,
 } from './fb-stubs/LayoutInspectorSidebarExtensions.js';
-export {
-  DeviceLogListener,
-  DeviceLogEntry,
-  LogLevel,
-} from './devices/BaseDevice.js';
+// export {
+//
+// } from './devices/BaseDevice.js';
 //export * from "./ui/themes/ThemeTypes"
 
 export {shouldParseAndroidLog} from './utils/crashReporterUtility.js';
@@ -49,4 +47,9 @@ export {default as AndroidDevice} from './devices/AndroidDevice.js';
 export {default as ArchivedDevice} from './devices/ArchivedDevice.js';
 export {default as Device} from './devices/BaseDevice.js';
 export {default as IOSDevice} from './devices/IOSDevice.js';
-export type {OS} from './devices/BaseDevice.js';
+export type {
+  OS,
+  DeviceLogListener,
+  DeviceLogEntry,
+  LogLevel
+} from './devices/BaseDevice.js';

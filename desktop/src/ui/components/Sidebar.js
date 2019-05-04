@@ -10,26 +10,33 @@ import FlexColumn from './FlexColumn.js';
 import React, {Component} from 'react';
 import styled from '../styled/index.js';
 import {styleCreator} from '../styled/index';
+import {makeRootView} from './RootView';
 
-const SidebarInteractiveContainer = styled(Interactive)({
+const SidebarInteractiveContainer = makeRootView(theme => ({
   flex: 'none',
-});
+}),Interactive);
 
 type SidebarPosition = 'left' | 'top' | 'right' | 'bottom';
 
-const SidebarContainer = styled(FlexColumn)(styleCreator(props => ({
-  ...props.theme.sidebar,
-  backgroundColor: props.backgroundColor || props.theme.colors.backgroundStatus,
-  borderLeft: props.position === 'right' ? `1px solid ${props.theme.colors.border}` : 'none',
-  borderTop: props.position === 'bottom' ? `1px solid ${props.theme.colors.border}` : 'none',
-  borderRight: props.position === 'left' ? `1px solid ${props.theme.colors.border}` : 'none',
-  borderBottom: props.position === 'top' ? `1px solid ${props.theme.colors.border}` : 'none',
-  height: '100%',
-  overflowX: 'hidden',
-  overflowY: 'auto',
-  textOverflow: props.overflow ? 'ellipsis' : 'auto',
-  whiteSpace: props.overflow ? 'nowrap' : 'normal',
-}),['floating','padded','collapsed','overflow','position','backgroundColor']));
+const SidebarContainer = makeRootView(theme => ({
+  ...theme.sidebar,
+  
+  
+  
+}),FlexColumn,
+  props => ({
+    backgroundColor: props.backgroundColor || props.theme.colors.backgroundStatus,
+    borderLeft: props.position === 'right' ? `1px solid ${props.theme.colors.border}` : 'none',
+    borderTop: props.position === 'bottom' ? `1px solid ${props.theme.colors.border}` : 'none',
+    borderRight: props.position === 'left' ? `1px solid ${props.theme.colors.border}` : 'none',
+    borderBottom: props.position === 'top' ? `1px solid ${props.theme.colors.border}` : 'none',
+    textOverflow: props.overflow ? 'ellipsis' : 'auto',
+    whiteSpace: props.overflow ? 'nowrap' : 'normal',
+    height: '100%',
+    overflowX: 'hidden',
+    overflowY: 'auto',
+  })
+  )//['floating','padded','collapsed','overflow','position','backgroundColor']));
 
 type SidebarProps = {
   /**

@@ -5,12 +5,10 @@
  * @format
  */
 
-import {colors} from '../themes/colors.js';
 import Label from './Label.js';
-import styled from '../styled/index.js';
-
-export default styled(Label)({
-  color: colors.blackAlpha30,
+import {makeRootView} from './RootView'
+export default makeRootView(theme => ({
+  color: theme.colors.text,
   fontSize: 12,
   padding: 10,
-});
+}),Label);

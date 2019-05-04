@@ -2,14 +2,18 @@
 //import {React$Element} from 'react'
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { chainPropTypes, getDisplayName } from '@material-ui/utils';
+import {chainPropTypes, getDisplayName} from '@material-ui/utils';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import type {WithStylesOptions} from '../themes/withStylesAndTheme';
 import {withStyles} from '../themes/withStylesAndTheme';
-import type {StyledElement,StylerFnOrStyles} from "./StyleTypes";
-import React from 'react';
+import type {StyledElement, StylerFnOrStyles} from './StyleTypes';
+import filterProps from 'react-valid-props';
+import {memoFn} from '../../utils/memoize';
+
 //import {React$Element} from 'react';
 //import type {} from '@material-ui/core/styles/withStyles';
+
+
 
 function omit(input, fields) {
   const output = {};
@@ -24,60 +28,62 @@ function omit(input, fields) {
 
 
 //((style:StylerFnOrStyles<Props>, options: ?WithStylesOptions) => React.Element<Props>)
-function styled<Props : any>(Component:StyledElement<Props>, componentName:?string = null) {
-  return (style:StylerFnOrStyles<Props>, options:?WithStylesOptions = null) => {
-    const StyledComponent:any = React.forwardRef((props, ref) => {
-  
+function styled<Props : any>(Component: StyledElement<Props>, componentName: ?string = null) {
+  return (style: StylerFnOrStyles<Props>, options: ?WithStylesOptions = null) => {
+    const StyledComponent: any = React.forwardRef((props, ref) => {
+      
       // render() {
-        const {
-            children,
-            classes,
-            className: classNameProp,
-            clone,
-            component: ComponentProp,
-            //innerRef,
-          ...other
-          } = props;
-          //other = _objectWithoutPropertiesLoose(this.props, ["children", "classes", "className", "clone", "component","innerRef"]);
-    
-        const className = classNames(classes.root, classNameProp);
-    
-        if (clone) {
-          return React.cloneElement(children, {
-            className: classNames(children.props.className, className),
-            ref
-          });
-        }
-    
-        let spread = other;
-    
-        if (style.filterProps) {
-          const omittedProps = style.filterProps;
-          spread = omit(spread, omittedProps);
-        }
-    
-        if (typeof children === 'function') {
-          return children({
-            className,
-            ...spread,
-            ref
-            
-          });
-        }
-    
-        const
-          FinalComponent = ComponentProp || Component,
-          AllProps = {
-            className,
-            ...spread,
-            ref//...(typeof FinalComponent === 'string' ? {ref: innerRef} : {innerRef} )
-          };
-        
-        return React.createElement(FinalComponent, AllProps, children);
-      //}
+      const {
+        children,
+        classes,
+        className: classNameProp,
+        clone,
+        component: ComponentProp,
+        ...other
+      } = props;
+      //other = _objectWithoutPropertiesLoose(this.props, ["children", "classes", "className", "clone", "component","innerRef"]);
+      
+      if (options && options.forwardInnerRef === true) {
+        other.innerRef = ref;
+        ref = null;
+      }
+      
+      const className = `${classes.root} ${classNameProp}`;
+      
+      if (clone) {
+        return React.cloneElement(children, {
+          className: `${children.props.className} ${className}`,
+          ...(ref ? {ref} : {}),
+        });
+      }
+      
+      let spread = other;
+      
+      if (style.filterProps) {
+        const omittedProps = style.filterProps;
+        spread = omit(spread, omittedProps);
+      }
+      
+      if (typeof children === 'function') {
+        return children({
+          className,
+          ...spread,
+          ...(ref ? {ref} : {}),
+        });
+      }
+      
+      const
+        FinalComponent = ComponentProp || Component,
+        UnfilteredProps = {
+          ...spread,
+        },
+        AllProps = typeof FinalComponent === 'string' ? filterProps(UnfilteredProps) : UnfilteredProps;
+      
+      // noinspection JSUnresolvedFunction
+      return React.createElement(FinalComponent, {...AllProps, className, ...(ref ? {ref} : {})}, children);
     });
     
-    process.env.NODE_ENV !== "production" ? StyledComponent.propTypes = {
+    process.env.NODE_ENV !== 'production' ? StyledComponent.propTypes = {
       /**
        * A render function or node.
        */
@@ -95,30 +101,32 @@ function styled<Props : any>(Component:StyledElement<Props>, componentName:?stri
         }
       }),
       
-      innerRef:  PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+      innerRef: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
       /**
        * The component used for the root node.
        * Either a string to use a DOM element or a component.
        */
       component: PropTypes.oneOfType([PropTypes.string, PropTypes.func, PropTypes.object]),
       theme: PropTypes.object,
-      ...(style.propTypes || {})
+      ...(style.propTypes || {}),
+      ...(Component.propTypes || {}),
     } : void 0;
     
     if (process.env.NODE_ENV !== 'production') {
       StyledComponent.displayName = componentName || `Styled(${getDisplayName(Component)})`;
     }
     
-    const styles = typeof style === 'function' ? theme => ({
+    const styles = typeof style === 'function' ? memoFn(theme => ({
       root: props => style({
         theme,
-        ...props
-      })
-    }) : {
-      root: style
+        ...props,
+      }),
+    })) : {
+      root: style,
     };
     hoistNonReactStatics(StyledComponent, Component);
-    return (withStyles((styles : any), options || {}) : any)(StyledComponent);
+    //return React.memo((withStyles((styles: any), options || {}): any)(StyledComponent));
+    return (withStyles((styles: any), options || {}): any)(StyledComponent);
   };
   
 }

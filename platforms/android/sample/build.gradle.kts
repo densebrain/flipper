@@ -7,8 +7,6 @@ setupAndroidProject(project)
 
 android {
 
-
-
   lintOptions {
     isAbortOnError = false
   }

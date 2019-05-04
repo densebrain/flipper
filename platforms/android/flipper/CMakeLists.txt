@@ -16,11 +16,11 @@ add_library(${PACKAGE_NAME} SHARED ${SOURCES})
 target_link_libraries(${PACKAGE_NAME}
   flipperfb
   flippercpp
+  rsocket
+  folly
   event
   event_extra
   event_core
-  rsocket
-  folly
   glog
   doubleconversion
   log

@@ -214,7 +214,7 @@ export default class LogWatcher extends PureComponent<Props, State> {
             onRowHighlighted={this.onRowHighlighted}
             columnSizes={ColumnSizes}
             columns={Columns}
-            rows={this.buildRows()}
+            items={this.buildRows()}
             autoHeight={true}
             floating={false}
             zebra={false}

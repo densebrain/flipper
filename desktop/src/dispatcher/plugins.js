@@ -160,7 +160,10 @@ export const requirePlugin = (
       if (plugin.default) {
         plugin = plugin.default;
       }
-      if (!plugin.prototype instanceof FlipperBasePlugin) {
+      if (![plugin.prototype,plugin.Naked && plugin.Naked.prototype]
+        .filter(Boolean)
+        .some(proto => proto instanceof FlipperBasePlugin)
+      ) {
         throw new Error(`Plugin ${plugin.name} is not a FlipperBasePlugin`);
       }
 

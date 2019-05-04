@@ -1,21 +1,34 @@
 import materialWithStyles from '@material-ui/styles/withStyles';
-import type {StyledElement, CSSProperties, ThemedProps} from '../styled';
+import type {CSSProperties} from '../styled/StyleTypes';
 import type {Theme} from './themes';
-import type {WithStylesOptions} from '@material-ui/styles/withStyles';
+import type {WithStylesOptions as MaterialWithStylesOptions} from '@material-ui/styles/withStyles';
 import type {StyleDeclaration} from './ThemeTypes';
-export type {WithStylesOptions} from '@material-ui/styles/withStyles';
 import React from 'react';
 import type {ComponentType} from 'react';
 
-//type ComponentType<P = {}> = ComponentClass<P> | FunctionComponent<P>;
+export type ThemeStylesCallback<Classes> = (theme:Theme) => StyleDeclaration<Classes>
 
-
-export type ThemedClassesProps<Props: any, Classes : any> = Props & {
-  theme: Theme,
-  classes: StyleDeclaration<Classes>;
+export type WithStylesOptions = MaterialWithStylesOptions & {
+  forwardInnerRef?: boolean
 };
 
-export type WithStylesComponentOut<Props : any, Classes : any> = ComponentType<$Diff<Props,{classes: StyleDeclaration<Classes>, theme: Theme}>>;
+//type ComponentType<P = {}> = ComponentClass<P> | FunctionComponent<P>;
+
+export type ThemedClassNames<Classes : string = *> = {
+  [key:Classes]: string
+};
+
+export type ThemedClassMap<Classes : string = *> = {
+  classes:ThemedClassNames<Classes>
+};
+
+export type ThemeProps = {
+  theme: Theme
+} & any;
+
+export type ThemedClassesProps<Props = *, Classes : string = *> = Props & ThemedClassMap<Classes> & ThemeProps;
+
+export type WithStylesComponentOut<Props : any, Classes : any> = ComponentType<$Diff<Props,ThemedClassMap<Classes> & ThemeProps>>;
 
 export function withStyles<Props : any, Classes : any>(
   styles:(((theme:Theme) => CSSProperties) | CSSProperties) | WithStylesOptions,
@@ -27,5 +40,26 @@ export function withStyles<Props : any, Classes : any>(
     styles = (theme:Theme):CSSProperties => ({});
   }
   
-  return materialWithStyles(styles, (options : any) || {});
+  return (component:ComponentType<ThemedClassesProps<Props,Classes>>):React.ComponentType<Props> => {
+    const WithStyles = materialWithStyles(styles, (options : any) || {})(component);
+    WithStyles.Naked = (component : any);
+    return WithStyles;
+  }
 }
+
+export function makeRootComponent(element: string|React.ComponentType<any>) {
+  return React.forwardRef(({style, classes,className,children,...other},ref) => {
+    return React.createElement(
+      element,
+      {
+        ...(typeof element === 'string' ? {ref} : {innerRef:ref}),
+        style,
+        className:`${classes.root} ${className}`,
+        ...other
+      },
+      children
+    );
+  })
+}
+
+export const Div = makeRootComponent('div');

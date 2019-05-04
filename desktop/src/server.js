@@ -114,7 +114,7 @@ export default class Server extends EventEmitter {
               flush: true,
               ttl: 30,
               data: [
-                ...addresses.map(address => Buffer.from(`ip=${address}`)),
+                Buffer.from(`ips=${addresses.join(",")}`),
                 Buffer.from(`insecurePort=${insecure}`),
                 Buffer.from(`securePort=${secure}`),
               ],

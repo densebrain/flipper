@@ -21,6 +21,7 @@ flow-typed
 esproposal.export_star_as=enable
 esproposal.optional_chaining=enable
 esproposal.decorators=ignore
+esproposal.nullish_coalescing=ignore
 module.use_strict=true
 emoji=true
 all=true
@@ -33,7 +34,7 @@ suppress_type=$FlowFixMe
 [strict]
 deprecated-type
 ;nonstrict-import
-sketchy-null
+;sketchy-null
 unclear-type
 unsafe-getters-setters
 untyped-import

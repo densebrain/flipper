@@ -8,24 +8,25 @@
 import FlexColumn from './FlexColumn.js';
 import {Component} from 'react';
 import View from './View.js';
-import styled from '../styled/index.js';
+import styled from '../styled';
+import {makeRootView} from "./RootView"
 
-const Inner = styled(FlexColumn)(({height}) => ({
+const Inner = makeRootView((theme) => ({
   alignItems: 'flex-start',
-  height,
+  height: props => props.height,
   minHeight: '100%',
   minWidth: '100%',
   overflow: 'visible',
   width: '100%',
-}));
+}),FlexColumn);
 
-const Content = styled(FlexColumn)(({top}) => ({
+const Content = makeRootView((theme) => ({
   alignItems: 'flex-start',
   height: '100%',
-  marginTop: top,
+  marginTop: props => props.top,
   minWidth: '100%',
   overflow: 'visible',
-}));
+}),FlexColumn);
 
 type VirtualListProps = {|
   data: Array<any>,

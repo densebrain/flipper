@@ -5,14 +5,17 @@
  * @format
  */
 
-import styled from '../styled/index.js';
-import {styleCreator} from '../styled/index';
+import {makeRootView, RootView} from './RootView';
 
-const View = styled('div')(styleCreator(props => ({
-  height: props.grow ? '100%' : 'auto',
-  overflow: props.scrollable ? 'auto' : 'visible',
+const View = makeRootView(theme => ({
   position: 'relative',
-  width: props.grow ? '100%' : 'auto',
-}),['grow','shrink','scrollable','buildItems','focused','filterKey','addFilter','justifyContent','multiline','backgroundColor']));
+  overflow: 'visible',
+  height: 'auto',
+  width: 'auto'
+}),RootView, (props) => ({
+  ...(props.grow ? {height: '100%', width: '100%'} : {}),
+  ...(props.scrollable ? {overflow: 'auto'} : {}),
+  
+}));//(styleCreator(props => ,['grow','shrink','scrollable','buildItems','focused','filterKey','addFilter','justifyContent','multiline','backgroundColor']));
 
 export default View;

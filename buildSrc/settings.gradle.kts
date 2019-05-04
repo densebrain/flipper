@@ -1,9 +1,6 @@
 import org.gradle.kotlin.dsl.maven
-import java.io.File
-import java.util.*
 
 pluginManagement {
-
     repositories {
         mavenLocal()
         jcenter()
@@ -11,7 +8,6 @@ pluginManagement {
         gradlePluginPortal()
 
         maven(url = "https://dl.bintray.com/densebrain/oss")
-
     }
 
     resolutionStrategy {

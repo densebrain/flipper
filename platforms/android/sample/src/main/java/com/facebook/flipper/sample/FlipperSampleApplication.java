@@ -15,6 +15,8 @@ import androidx.annotation.Nullable;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.flipper.android.AndroidFlipperClient;
 import com.facebook.flipper.core.FlipperClient;
+import com.facebook.flipper.plugins.console.ConsoleFlipperPlugin;
+import com.facebook.flipper.plugins.console.JavascriptEnvironment;
 import com.facebook.flipper.plugins.crashreporter.CrashReporterPlugin;
 import com.facebook.flipper.plugins.example.ExampleFlipperPlugin;
 import com.facebook.flipper.plugins.fresco.FrescoFlipperPlugin;
@@ -66,7 +68,8 @@ public class FlipperSampleApplication extends Application {
       ComponentsConfiguration.isDebugModeEnabled = true;
       LithoFlipperDescriptors.add(descriptorMapping);
       clientBuilder.withPlugins(
-        new InspectorFlipperPlugin(this, descriptorMapping),
+        //new ConsoleFlipperPlugin(new JavascriptEnvironment()),
+        new InspectorFlipperPlugin(this, descriptorMapping,new JavascriptEnvironment()),
         networkPlugin,
         new SharedPreferencesFlipperPlugin(
           this,

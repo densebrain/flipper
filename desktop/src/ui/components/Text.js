@@ -7,31 +7,35 @@
 
 import styled from '../styled/index.js';
 import {styleCreator} from '../styled/index';
-
+import {withStyles} from '../themes';
+import filterProps from 'react-valid-props'
 /**
  * A Text component.
  */
-const Text = styled('span')(styleCreator(props => ({
-  filterProps: ['floating','padded','collapsed','color','bold','italic','align','size','code','selectable','family','whiteSpace'],
-  color: props.color || props.theme.colors.text,
-  display: 'inline',
-  fontWeight: props.bold ? 'bold' : 'inherit',
-  fontStyle: props.italic ? 'italic' : 'normal',
-  textAlign: props.align || 'left',
-  fontSize: props.size == null && props.code ? 12 : props.size,
-  fontFamily: props.code
-    ? 'SF Mono, Monaco, Andale Mono, monospace'
-    : props.family,
-  overflow: props.code ? 'auto' : 'visible',
-  userSelect:
-    props.selectable || (props.code && typeof props.selectable === 'undefined')
-      ? 'text'
-      : 'none',
-  wordWrap: props.code ? 'break-word' : props.wordWrap,
-  whiteSpace:
-    props.code && typeof props.whiteSpace === 'undefined'
-      ? 'pre'
-      : props.whiteSpace,
-}),['code']));
+const Text = withStyles(({colors}) => ({
+  root: {
+    color: props => props.color || colors.text,
+    display: 'inline',
+    fontWeight: props => props.bold ? 'bold' : 'inherit',
+    fontStyle: props => props.italic ? 'italic' : 'normal',
+    textAlign: props => props.align || 'left',
+    fontSize: props => props.size == null && props.code ? 12 : props.size,
+    fontFamily: props => props.code
+      ? 'SF Mono, Monaco, Andale Mono, monospace'
+      : props.family,
+    overflow: props => props.code ? 'auto' : 'visible',
+    userSelect:
+      props => props.selectable || (props.code && typeof props.selectable === 'undefined')
+        ? 'text'
+        : 'none',
+    wordWrap: props => props.code ? 'break-word' : props.wordWrap,
+    whiteSpace:
+      props => props.code && typeof props.whiteSpace === 'undefined'
+        ? 'pre'
+        : props.whiteSpace,
+  }
+}))(React.forwardRef(({classes,className, style, children,...other},ref) => {
+  return <span ref={ref} className={`${classes.root} ${className}`} style={style} {...filterProps(other)}>{children}</span>
+}));
 
 export default Text;

@@ -114,66 +114,69 @@ export class InspectorSidebar extends Component<Props, State> {
 
   render() {
     const {element, extensions} = this.props;
-    if (!element || !element.data) {
-      return null;
-    }
-
+  
     const sections: Array<any> =
       (extensions &&
         extensions.map(ext =>
           ext(
             this.props.client,
             this.props.realClient,
-            element.id,
+            element?.id,
             this.props.logger,
           ),
         )) ||
       [];
-
-    for (const key in element.data) {
-      if (key === 'Extra Sections') {
-        for (const extraSection in element.data[key]) {
-          let data = element.data[key][extraSection];
-
-          // data might be sent as stringified JSON, we want to parse it for a nicer persentation.
-          if (typeof data === 'string') {
-            try {
-              data = JSON.parse(data);
-            } catch (e) {
-              // data was not a valid JSON, type is required to be an object
-              console.error(
-                `ElementsInspector unable to parse extra section: ${extraSection}`,
-              );
-              data = {};
+    
+    if (element && element.data) {
+      for (const key in element.data) {
+        if (key === 'Extra Sections') {
+          for (const extraSection in element.data[key]) {
+            let data = element.data[key][extraSection];
+        
+            // data might be sent as stringified JSON, we want to parse it for a nicer persentation.
+            if (typeof data === 'string') {
+              try {
+                data = JSON.parse(data);
+              } catch (e) {
+                // data was not a valid JSON, type is required to be an object
+                console.error(
+                  `ElementsInspector unable to parse extra section: ${extraSection}`,
+                );
+                data = {};
+              }
             }
+            sections.push(
+              <InspectorSidebarSection
+                tooltips={this.props.tooltips}
+                key={extraSection}
+                id={extraSection}
+                data={data}
+                onValueChanged={this.props.onValueChanged}
+              />,
+            );
           }
+        } else {
           sections.push(
             <InspectorSidebarSection
               tooltips={this.props.tooltips}
-              key={extraSection}
-              id={extraSection}
-              data={data}
+              key={key}
+              id={key}
+              data={element.data[key]}
               onValueChanged={this.props.onValueChanged}
             />,
           );
         }
-      } else {
-        sections.push(
-          <InspectorSidebarSection
-            tooltips={this.props.tooltips}
-            key={key}
-            id={key}
-            data={element.data[key]}
-            onValueChanged={this.props.onValueChanged}
-          />,
-        );
       }
     }
+
+    
+
+    
 
     if (GK.get('sonar_show_console_plugin') && this.state.isConsoleEnabled) {
       sections.push(
         <Panel heading="JS Console" floating={false} grow={false}>
-          <Console client={this.props.client} getContext={() => element.id} />
+          <Console client={this.props.client} getContext={() => element ? element.id : null} />
         </Panel>,
       );
     }

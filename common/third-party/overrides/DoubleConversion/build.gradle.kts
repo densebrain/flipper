@@ -5,15 +5,18 @@ plugins {
 android {
   defaultConfig {
     buildConfigField("boolean", "IS_INTERNAL_BUILD", "true")
+    externalNativeBuild.cmake {
+      targets.clear()
+      targets.add("doubleconversion")
+    }
   }
 
   sourceSets["main"].apply {
-    jni.srcDir("${projectDir}/folly")
+    jni.srcDir("${projectDir}/double-conversion-3.0.0")
     manifest.srcFile("./ApplicationManifest.xml")
   }
 }
 
 dependencies {
-  implementation(project(":common:third-party:external:glog"))
-  implementation(project(":common:third-party:external:double-conversion"))
+
 }

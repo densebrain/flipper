@@ -5,102 +5,174 @@
  * @format
  */
 
-import type {ManagedTableProps, TableBodyRow, Filter} from 'flipper';
+import type {ManagedTableProps,TableBodyRowGetter} from '../table/ManagedTable';
+import type {TableBodyRow} from '../table/types';
+import type {Filter} from '../filter/types';
 import type {SearchableProps} from './Searchable.js';
 import {PureComponent} from 'react';
 import ManagedTable from '../table/ManagedTable.js';
-
 import textContent from '../../../utils/textContent.js';
 import Searchable from './Searchable.js';
 import deepEqual from 'deep-equal';
+import _ from 'lodash'
+import {ManagedTableDataPage} from '../table/types';
+import {getValue, isDefined} from 'typeguard'
 
 type Props = {|
   ...ManagedTableProps,
   ...SearchableProps,
   /** Reference to the table */
-  innerRef?: (ref: React.ElementRef<*>) => void,
+  innerRef?: (ref: ManagedTable) => void,
   /** Filters that are added to the filterbar by default */
-  defaultFilters: Array<Filter>,
+  defaultFilters: Array<Filter<any>>,
 |};
 
 type State = {
   filterRows: (row: TableBodyRow) => boolean,
+  filteredItems: Array<TableBodyRow | ManagedTableDataPage<any>>,
+  tableRef?: ManagedTable,
 };
 
-const filterRowsFactory = (filters: Array<Filter>, searchTerm: string) => (
-  row: TableBodyRow,
-): boolean =>
-  filters
-    .map((filter: Filter) => {
+const filterRowsFactory = (filters: Array<Filter<any>>, searchTerm: string, rowGetter: ?TableBodyRowGetter<any> = null) => (
+  rowHolder: any,
+): boolean => {
+  
+  // const row:TableBodyRow = !!filter.rowGetter ? filter.rowGetter(rowHolder) : rowHolder;
+  const row:TableBodyRow = !!rowGetter ? rowGetter(rowHolder) : rowHolder;
+  const match = filters
+    .every((filter: Filter<any>) => {
+      const {value} = filter;
       if (filter.type === 'enum' && row.type != null) {
-        return filter.value.length === 0 || filter.value.indexOf(row.type) > -1;
+        return value.length === 0 || value.indexOf(row.type) > -1;
       } else if (filter.type === 'include') {
+        const {value} = filter;
         return (
-          textContent(row.columns[filter.key].value).toLowerCase() ===
-          filter.value.toLowerCase()
-        );
+          typeof value === 'string' && textContent(row.columns[filter.key].value).toLowerCase() ===
+          value.toLowerCase()
+        )
       } else if (filter.type === 'exclude') {
+        const {value} = filter;
         return (
-          textContent(row.columns[filter.key].value).toLowerCase() !==
-          filter.value.toLowerCase()
+          typeof value === 'string' && textContent(row.columns[filter.key].value).toLowerCase() !==
+          value.toLowerCase()
         );
       } else {
         return true;
       }
-    })
-    .reduce((acc, cv) => acc && cv, true) &&
-  (searchTerm != null && searchTerm.length > 0
+    });
+  
+  
+  
+  //const row = ((results[0]: any): TableBodyRow);
+  return match && (searchTerm != null && searchTerm.length > 0
     ? Object.keys(row.columns)
-        .map(key => textContent(row.columns[key].value))
-        .join('~~') // prevent from matching text spanning multiple columns
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase())
+      .map(key => textContent(row.columns[key].value))
+      .join('~~') // prevent from matching text spanning multiple columns
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase())
     : true);
-
+  
+  
+};
 class SearchableManagedTable extends PureComponent<Props, State> {
   static defaultProps = {
     defaultFilters: [],
+    rowType: 'other'
   };
-
-  state = {
-    filterRows: filterRowsFactory(this.props.filters, this.props.searchTerm),
-  };
-
+  
+  constructor(props: Props) {
+    super(props);
+    
+    const
+      {filters,searchTerm,rowGetter} = this.props,
+      filterRows = filterRowsFactory(filters, searchTerm, rowGetter);
+    
+    this.state = {
+      filterRows,
+      filteredItems: this.makeFilteredRows(props,filterRows),
+    };
+  }
+  
+  setTableRef = tableRef => this.setState({tableRef}, () => this.props.innerRef?.(tableRef));
+  
+  isPageRowType(props:Props = this.props) {
+    return props.rowType === 'page'
+  }
+  
+  makeFilteredRows(props:Props = this.props, filterRows:(row: TableBodyRow) => boolean = this.state.filterRows):Array<ManagedTableDataPage<any> | TableBodyRow> {
+    return this.isPageRowType(props) ?
+      asType<Array<ManagedTableDataPage<any>>>(props.items)
+        .map(page => page.filter(filterRows)) :
+      (asType<Array<TableBodyRow>>(props.items).filter(filterRows): any);
+    
+  }
+  
   componentDidMount() {
     this.props.defaultFilters.map(this.props.addFilter);
   }
-
+  
+  
   componentWillReceiveProps(nextProps: Props) {
+    const
+      pagesChanged = nextProps.items !== this.props.items,
+      filterChanged = nextProps.searchTerm !== this.props.searchTerm ||
+        !deepEqual(this.props.filters, nextProps.filters),
+      patch: $Shape<State> = {};
+    
+    let filterRows = this.state.filterRows;
+    if (filterChanged) {
+      filterRows = patch.filterRows = filterRowsFactory(nextProps.filters, nextProps.searchTerm, nextProps.rowGetter);
+    }
+    
     if (
-      nextProps.searchTerm !== this.props.searchTerm ||
-      !deepEqual(this.props.filters, nextProps.filters)
+      pagesChanged ||
+      filterChanged
     ) {
-      this.setState({
-        filterRows: filterRowsFactory(nextProps.filters, nextProps.searchTerm),
-      });
+      if (!getValue(() => nextProps.items.length, 0)) {
+        patch.filteredItems = [];
+      } else {
+        patch.filteredItems = this.makeFilteredRows(nextProps,filterRows);
+      }
+    }
+    
+    // if (!this.state.filteredItems.length)
+    //   patch.filteredItems = this.makeFilteredRows(nextProps,filterRows);
+    
+    if (Object.keys(patch).length) {
+      console.info(`filterChanged=${String(filterChanged)},filteredItems=${patch.filteredItems.length}`);
+      this.setState(patch,() => patch.filteredItems && this.state.tableRef?.resetTable());
     }
   }
-
+  
+  
   render() {
-    const {
-      addFilter,
-      searchTerm: _searchTerm,
-      filters: _filters,
-      innerRef,
-      rows,
-      ...props
-    } = this.props;
-
+    const
+      {
+        addFilter,
+        searchTerm: _searchTerm,
+        filters: _filters,
+        innerRef,
+        items,
+        ...props
+      } = this.props,
+      {
+        filteredItems
+      } = this.state;
+    
     return (
       <ManagedTable
         {...props}
         filter={this.state.filterRows}
-        rows={rows.filter(this.state.filterRows)}
+        items={filteredItems}
         onAddFilter={addFilter}
-        ref={innerRef}
+        tableRef={this.setTableRef}
       />
     );
   }
+}
+
+function asType<T>(o:any):T {
+  return (o: T)
 }
 
 /**

@@ -38,7 +38,7 @@ buildscript {
 val publishedProjects = mutableListOf<String>()
 
 subprojects {
-
+  group = GROUP
   //applyfrom: rootProject.file("gradle/buildscript.gradle")
 
   // repositories {

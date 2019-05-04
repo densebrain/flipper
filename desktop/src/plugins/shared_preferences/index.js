@@ -225,7 +225,7 @@ export default class extends FlipperPlugin<SharedPreferencesState> {
               columnSizes={CHANGELOG_COLUMN_SIZES}
               columns={CHANGELOG_COLUMNS}
               rowLineHeight={26}
-              rows={entry.changesList.map((element, index) => {
+              items={entry.changesList.map((element, index) => {
                 return {
                   columns: {
                     event: {

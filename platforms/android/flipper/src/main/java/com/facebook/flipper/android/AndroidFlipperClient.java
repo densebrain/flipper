@@ -15,19 +15,23 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
+
 import androidx.core.content.ContextCompat;
+
 import com.facebook.flipper.core.FlipperClient;
 import com.facebook.flipper.core.FlipperPlugin;
+
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import nz.co.cic.mdns.MDNS;
+
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
 import java.net.*;
 import java.util.*;
 import java.util.concurrent.*;
 
+@SuppressWarnings("WeakerAccess")
 public final class AndroidFlipperClient {
 
   private static String TAG = AndroidFlipperClient.class.getName();
@@ -45,19 +49,14 @@ public final class AndroidFlipperClient {
 
   private static FlipperClient sClient = null;
 
-  private static Builder builder = null;
-
   public static FlipperClient getClient() {
     return sClient;
   }
 
   private static synchronized FlipperClient createClient(
-    @NotNull
-    Context context,
-    @NotNull
-    FlipperAddress address,
-    @NotNull
-    String rootDir
+    @NotNull Context context,
+    @NotNull AndroidFlipperAddress address,
+    @NotNull String rootDir
   ) {
     if (!sIsInitialized) {
       checkRequiredPermissions(context);
@@ -118,12 +117,10 @@ public final class AndroidFlipperClient {
   }
 
   static String getFriendlyDeviceName() {
-    if (isRunningOnGenymotion()) {
+    return (isRunningOnGenymotion()) ?
       // Genymotion already has a friendly name by default
-      return Build.MODEL;
-    } else {
-      return Build.MODEL + " - " + Build.VERSION.RELEASE + " - API " + Build.VERSION.SDK_INT;
-    }
+      Build.MODEL :
+      Build.MODEL + " - " + Build.VERSION.RELEASE + " - API " + Build.VERSION.SDK_INT;
   }
 
   @SuppressLint("MissingPermission")
@@ -134,16 +131,20 @@ public final class AndroidFlipperClient {
       // This means it will only work on emulators, not physical devices.
       return "10.0.2.2";
     } else if (isRunningOnGenymotion()) {
-      // This is hand-wavy but works on but ipv4 and ipv6 genymotion
-      final WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-      final WifiInfo info = wifi.getConnectionInfo();
-      final int ip = info.getIpAddress();
-      return String.format(Locale.getDefault(), "%d.%d.%d.2", (ip & 0xff), (ip >> 8 & 0xff), (ip >> 16 & 0xff));
-    } else {
-      // Running on physical device or modern stock emulator.
-      // Flipper desktop will run `adb reverse` to forward the ports.
-      return "localhost";
+      try {
+        // This is hand-wavy but works on but ipv4 and ipv6 genymotion
+        final WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        final WifiInfo info = wifi.getConnectionInfo();
+        final int ip = info.getIpAddress();
+        return String.format(Locale.getDefault(), "%d.%d.%d.2", (ip & 0xff), (ip >> 8 & 0xff), (ip >> 16 & 0xff));
+      } catch (Throwable cause) {
+        Log.e(TAG, "Unable to get wifi state", cause);
+      }
     }
+
+    // Running on physical device or modern stock emulator.
+    // Flipper desktop will run `adb reverse` to forward the ports.
+    return "localhost";
   }
 
   static String getRunningAppName(Context context) {
@@ -156,17 +157,14 @@ public final class AndroidFlipperClient {
 
   public static final class Builder {
 
-    private final static Object mainMutex = new Object();
     private final static ExecutorService worker = Executors.newSingleThreadExecutor();
 
-    private Handler mainHandler;
     private List<FlipperPlugin> plugins = new ArrayList<FlipperPlugin>();
     private OnReadyCallback onReady;
     private Context context;
-    private int insecurePort = FlipperProps.getInsecurePort();
-    private int securePort = FlipperProps.getSecurePort();
-    private FlipperAddress address;
-    private String host, defaultHost;
+
+    private AndroidFlipperAddress address, defaultAddress;
+
 
     private String rootDir;
 
@@ -174,42 +172,28 @@ public final class AndroidFlipperClient {
 
     private Disposable mdnsListener;
 
-    private Set<FlipperAddress> discoveredAddresses = new HashSet<>();
+    private List<AndroidFlipperAddress> discoveredAddresses = new Vector<>();
 
-    private Runnable connectRunnable = new Runnable() {
-      @Override
-      public void run() {
-        try {
-          FlipperClient client = sClient = createClient(context, address, rootDir);
-          for (FlipperPlugin plugin : plugins) {
-            client.addPlugin(plugin);
-          }
-          if (onReady != null)
-            onReady.call(client);
-
-          client.start();
-        } catch (Throwable ex) {
-          Log.e(TAG, "Unable to connect", ex);
-        } finally {
-          synchronized (mainMutex) {
-            mainMutex.notify();
-          }
-        }
+    private FlipperClient connect(AndroidFlipperAddress address) {
+      FlipperClient client = sClient = createClient(context, address, rootDir);
+      for (FlipperPlugin plugin : plugins) {
+        client.addPlugin(plugin);
       }
-    };
+      if (onReady != null)
+        onReady.call(client);
 
-    public Builder(Context context) throws Exception {
-      if (builder != null) {
-        throw new Exception("Builder already created");
-      }
+      client.start();
+      return client;
+    }
 
-      builder = this;
-
+    public Builder(Context context) {
 
       this.rootDir = context.getFilesDir().getAbsolutePath();
-      this.mainHandler = new Handler(context.getMainLooper());
       this.context = context;
-      this.host = this.defaultHost = getServerHost(context);
+      this.defaultAddress = new AndroidFlipperAddress(
+        getServerHost(context),
+        FlipperProps.getInsecurePort(),
+        FlipperProps.getSecurePort());
 
       // Above SDK 21 - use MDNS
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -219,21 +203,24 @@ public final class AndroidFlipperClient {
           new Consumer<NsdServiceInfo>() {
             @Override
             public void accept(NsdServiceInfo service) throws Exception {
-              String host = service.getHost().getHostAddress();
-              Map<String,byte[]> attrs = service.getAttributes();
-              List<String> requiredAttrs = Arrays.asList("insecurePort","securePort");
-              if (!attrs.keySet().containsAll(requiredAttrs)) {
-                Log.e(TAG, "Required attributes are missing");
-                return;
-              }
 
-              int insecurePort = Integer.parseInt(new String(Objects.requireNonNull(attrs.get("insecurePort"))));
-              int securePort = Integer.parseInt(new String(Objects.requireNonNull(attrs.get("securePort"))));
-              FlipperAddress address = new FlipperAddress(host,insecurePort,securePort);
-              //String address = host + ":" + port;
-              if (address.isValid()) { // !discoveredAddresses.contains(address)
-                Log.i(TAG, "Found address: " + address);
-                discoveredAddresses.add(address);
+              Map<String, byte[]> attrs = service.getAttributes();
+              String[] ips = new String(Objects.requireNonNull(attrs.get("ips"))).split(",");
+              for (String ip : ips) {
+                List<String> requiredAttrs = Arrays.asList("insecurePort", "securePort");
+                if (!attrs.keySet().containsAll(requiredAttrs)) {
+                  Log.e(TAG, "Required attributes are missing");
+                  continue;
+                }
+
+                int insecurePort = Integer.parseInt(new String(Objects.requireNonNull(attrs.get("insecurePort"))));
+                int securePort = Integer.parseInt(new String(Objects.requireNonNull(attrs.get("securePort"))));
+                AndroidFlipperAddress address = new AndroidFlipperAddress(ip, insecurePort, securePort);
+                //String address = host + ":" + port;
+                if (!discoveredAddresses.contains(address) && address.isValid()) { // !discoveredAddresses.contains(address)
+                  Log.i(TAG, "Found address: " + address);
+                  discoveredAddresses.add(address);
+                }
               }
             }
           },
@@ -247,24 +234,28 @@ public final class AndroidFlipperClient {
       }
     }
 
+    @Override
+    protected void finalize() throws Throwable {
+      try {
+        if (mdnsListener != null && !mdnsListener.isDisposed())
+          mdnsListener.dispose();
+      } catch (Throwable ignored) {
+      }
+      super.finalize();
+    }
 
     public Builder withRootDir(String rootDir) {
       this.rootDir = rootDir;
       return this;
     }
 
-    public Builder withHost(String host) {
-      this.host = host;
+    public Builder withAddress(AndroidFlipperAddress address) {
+      this.address = address;
       return this;
     }
 
-    public Builder withInsecurePort(int insecurePort) {
-      this.insecurePort = insecurePort;
-      return this;
-    }
-
-    public Builder withSecurePort(int securePort) {
-      this.securePort = securePort;
+    public Builder withDefaultAddress() {
+      this.address = defaultAddress;
       return this;
     }
 
@@ -278,18 +269,26 @@ public final class AndroidFlipperClient {
       return this;
     }
 
-    private boolean testConnection(FlipperAddress address) {
+    /**
+     * Test flipper address
+     *
+     * @param address
+     * @return
+     */
+    private boolean testAddress(AndroidFlipperAddress address) {
       String host = address.host;
-      for (int port : Arrays.asList(address.insecurePort,address.securePort)) {
+      for (int port : Arrays.asList(address.insecurePort, address.securePort)) {
         Socket socket = null;
 
         Log.i(TAG, String.format(Locale.getDefault(), "Connecting to [%s:%d]", host, port));
         try {
           InetAddress inetAddress = Inet4Address.getByName(host);
-          socket = new Socket(inetAddress, port);
-          if (socket.isConnected())
+          socket = new Socket();
+          socket.setSoTimeout(1000);
+          socket.connect(new InetSocketAddress(inetAddress, port), 1000);
+          if (socket.isConnected()) {
             return true;
-
+          }
         } catch (Throwable err) {
           Log.e(TAG, String.format(Locale.getDefault(), "Unable to connect to %s:%d", host, port));
         } finally {
@@ -300,6 +299,7 @@ public final class AndroidFlipperClient {
           }
         }
       }
+      Log.i(TAG, String.format(Locale.getDefault(), "Unable to connect to [%s]", address.host));
       return false;
     }
 
@@ -309,34 +309,27 @@ public final class AndroidFlipperClient {
         @Override
         public FlipperClient call() throws Exception {
           while (true) {
-            FlipperAddress address = null;
+            AndroidFlipperAddress address = null;
             if (discoveredAddresses.size() > 0) {
-              address = discoveredAddresses.iterator().next();
-            }
-
-            if (address == null || !address.isValid()) {
-              List<FlipperAddress> addresses = new ArrayList<>();
-              for (String host : new String[]{host, defaultHost}) {
-                addresses.add(new FlipperAddress(host,insecurePort, securePort));
-              }
-
-
-              for (FlipperAddress nextAddress : addresses) {
-                if (testConnection(nextAddress)) {
+              for (AndroidFlipperAddress nextAddress : discoveredAddresses) {
+                if (testAddress(nextAddress)) {
                   address = nextAddress;
                   break;
                 }
               }
             }
 
-            if (address != null && address.isValid()) {
-              Builder.this.address = address;
-              synchronized (mainMutex) {
-                mainHandler.post(connectRunnable);
-                mainMutex.wait();
-              }
+            if (address == null && Builder.this.address != null && testAddress(Builder.this.address)) {
+              address = Builder.this.address;
+            }
 
-              return sClient;
+            if (address != null && address.isValid()) {
+              Log.i(TAG, String.format("Using AndroidFlipperAddress: %s", address.toString()));
+              try {
+                return connect(address);
+              } catch (Throwable ex) {
+                Log.e(TAG, "Unable to connect", ex);
+              }
             }
 
             Thread.sleep(1000L);
@@ -346,46 +339,5 @@ public final class AndroidFlipperClient {
     }
   }
 
-  private static class FlipperAddress {
 
-    String host;
-    int insecurePort;
-    int securePort;
-
-    boolean isValid() {
-      return insecurePort > 0 && securePort > 0 && host != null;
-    }
-
-    FlipperAddress(String host, int insecurePort, int securePort) {
-      this.host = host;
-      this.insecurePort = insecurePort;
-      this.securePort = securePort;
-
-    }
-
-    @Override
-    public boolean equals(Object o) {
-      if (this == o) return true;
-      if (o == null || getClass() != o.getClass()) return false;
-      FlipperAddress address = (FlipperAddress) o;
-      return insecurePort == address.insecurePort &&
-        securePort == address.securePort &&
-        host.equals(address.host);
-    }
-
-    @Override
-    public int hashCode() {
-      return host.hashCode() + insecurePort + securePort;
-    }
-
-    @NotNull
-    @Override
-    public String toString() {
-      return "FlipperAddress{" +
-        "host='" + host + '\'' +
-        ", insecurePort=" + insecurePort +
-        ", securePort=" + securePort +
-        '}';
-    }
-  }
 }

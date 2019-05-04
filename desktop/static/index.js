@@ -258,7 +258,11 @@ function tryCreateWindow() {
         experimentalFeatures: true,
       },
     });
-    win.once('ready-to-show', () => win.show());
+  
+  
+    if (process.env.NODE_ENV !== 'development') {
+      win.once('ready-to-show', () => win.show());
+    }
     win.once('close', ({sender}) => {
       if (process.env.NODE_ENV === 'development') {
         // Removes as a default protocol for debug builds. Because even when the
@@ -292,6 +296,11 @@ function tryCreateWindow() {
         protocol: 'file:',
         slashes: true,
       });
+    if (process.env.NODE_ENV === 'development') {
+      win.show();
+      win.webContents.openDevTools();
+    }
+    
     win.loadURL(entryUrl);
   }
 }

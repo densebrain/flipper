@@ -1,10 +1,10 @@
 import com.android.build.gradle.TestedExtension
 
 plugins {
-  id("maven-publish")
   id("com.android.library")
   id("signing")
   id("com.jfrog.bintray")
+  id("maven-publish")
 }
 
 setupAndroidProject(project)
@@ -16,7 +16,7 @@ android {
 
     externalNativeBuild {
       cmake {
-        arguments.addAll(listOf("-DANDROID_TOOLCHAIN=clang", "-DANDROID_STL=c++_shared"))
+        arguments.addAll(listOf("-DANDROID_TOOLCHAIN=clang", "-DANDROID_STL=c++_static"))
         targets.clear()
         targets.add("flipper")
       }
@@ -42,6 +42,10 @@ android {
     }
   }
 
+  buildTypes {
+
+  }
+
 //    repositories {
 //        maven { url "https://jitpack.io" }
 //    }
@@ -49,8 +53,9 @@ android {
 
 dependencies {
   compileOnly(deps.lithoAnnotations)
+  compileOnly(project(":common:xplat"))
   implementation(project(":platforms:android:fbjni"))
-  implementation(project(":common:xplat"))
+
   implementation(deps.soloader)
   implementation(deps.jsr305)
   implementation(deps.mdns)
@@ -81,16 +86,7 @@ dependencies {
   testImplementation(deps.junit)
 }
 
-val sourcesJar by tasks.registering(Jar::class) {
-  from(android.sourceSets["main"].java.srcDirs)
-  archiveClassifier.set("sources")
-}
-artifacts.add("archives", sourcesJar)
-
-tasks.withType(Javadoc::class).all {
-  enabled = false
-}
-
+setupAndroidPublishProject(project)
 
 //preBuild.dependsOn(tasks.getByPath(":third-party:prepare"))
 

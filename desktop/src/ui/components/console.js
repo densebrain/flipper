@@ -5,18 +5,26 @@
  * @format
  */
 import {Component} from 'react';
-import {
-  CodeBlock,
-  colors,
-  ManagedTable,
-  FlexColumn,
-  Text,
-  ManagedDataInspector,
-  Input,
-  View,
-} from '../index';
+// import {
+//   CodeBlock,
+//   colors,
+//   ManagedTable,
+//   FlexColumn,
+//   Text,
+//   ManagedDataInspector,
+//   Input,
+//   View,
+// } from '../index';
+import CodeBlock from './CodeBlock';
+import ManagedTable from './table/ManagedTable';
+import {colors} from '../themes/colors';
+import FlexColumn from './FlexColumn';
+import Text from './Text';
+import ManagedDataInspector from './data-inspector/ManagedDataInspector';
+import Input from './Input';
+import View from './View';
 import styled from '../styled/index';
-import type {TableBodyRow, TableRows} from 'flipper';
+import type {TableBodyRow, TableRows} from './table/types';
 import type {PluginClient} from '../../plugin';
 
 type ValueWithType = {|
@@ -184,7 +192,7 @@ export class Console extends Component<Props, State> {
     return rows.length ? (
       <ManagedTable
         columns={Console.TableColumns}
-        rows={rows}
+        items={rows}
         multiline={true}
         stickyBottom={true}
         highlightableRows={false}

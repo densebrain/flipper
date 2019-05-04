@@ -5,13 +5,14 @@
  * @format
  */
 
-import styled from '../styled/index.js';
-import {colors} from '../themes/colors.js';
+import styled from '../styled';
+import {withStyles} from '../themes';
 import type {Theme} from '../themes';
 import {lighten} from '@material-ui/core/styles/colorManipulator';
-import {Transparent} from '../styled/index';
+import {Transparent} from '../styled';
+import filterProps from "react-valid-props";
 
-export const inputStyle = (theme: Theme, compact: boolean) => {
+export const inputStyle = (theme: Theme) => {
   const {colors} = theme;
   return ({
     border: `1px solid ${colors.border}`,
@@ -20,8 +21,8 @@ export const inputStyle = (theme: Theme, compact: boolean) => {
     borderRadius: 4,
     font: 'inherit',
     fontSize: '1em',
-    height: compact ? '17px' : '28px',
-    lineHeight: compact ? '17px' : '28px',
+    height: ({compact}:any) => compact ? '17px' : '28px',
+    lineHeight: ({compact}:any) => compact ? '17px' : '28px',
     marginRight: 5,
     
     '&:disabled': {
@@ -32,10 +33,14 @@ export const inputStyle = (theme: Theme, compact: boolean) => {
   });
 };
 
-const Input = styled('input')(({compact, theme}) => ({
-  ...inputStyle(theme, compact),
-  padding: compact ? '0 5px' : '0 10px',
-}));
+const Input = withStyles((theme) => ({
+  root: {
+    ...inputStyle(theme),
+    padding: ({compact}) => compact ? '0 5px' : '0 10px',
+  }
+}))((React.forwardRef(({classes,className, style, children,...other},ref) => {
+  return <input ref={ref} className={`${classes.root} ${className}`} style={style} {...filterProps(other)} children={children}/>
+})));
 
 Input.defaultProps = {
   type: 'text',

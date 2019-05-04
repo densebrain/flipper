@@ -17,7 +17,7 @@ android {
 
     externalNativeBuild {
       cmake {
-        arguments.addAll(listOf("-DANDROID_TOOLCHAIN=clang", "-DANDROID_STL=c++_shared"))
+        arguments.addAll(listOf("-DANDROID_TOOLCHAIN=clang", "-DANDROID_STL=c++_static"))
         targets.clear()
         targets.add("flipperfb")
       }
@@ -61,6 +61,8 @@ dependencies {
 
   testImplementation(deps.junit)
 }
+
+setupAndroidPublishProject(project)
 
 //buildscript {
 //    repositories {
@@ -124,13 +126,13 @@ dependencies {
 //}
 //
 //apply from: rootProject.file('gradle/release.gradle')
-
-val sourcesJar by tasks.registering(Jar::class) {
-  from(android.sourceSets["main"].java.srcDirs)
-  archiveClassifier.set("sources")
-}
-artifacts.add("archives", sourcesJar)
-
-tasks.withType(Javadoc::class).all {
-  enabled = false
-}
+//
+//val sourcesJar by tasks.registering(Jar::class) {
+//  from(android.sourceSets["main"].java.srcDirs)
+//  archiveClassifier.set("sources")
+//}
+//artifacts.add("archives", sourcesJar)
+//
+//tasks.withType(Javadoc::class).all {
+//  enabled = false
+//}

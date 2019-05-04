@@ -37,6 +37,8 @@ export type {
   TableColumnOrderVal,
   TableColumnSizes,
 } from './components/table/types.js';
+
+export {ManagedTableDataPage} from './components/table/types.js';
 export {default as ManagedTable} from './components/table/ManagedTable.js';
 export type {ManagedTableProps} from './components/table/ManagedTable.js';
 

@@ -5,9 +5,15 @@
  * @format
  */
 
-import {ManagedDataInspector, Panel} from 'flipper';
-import {createTablePlugin} from '../createTablePlugin';
-import {colors, styled, Text, Toolbar, Spacer, Button} from 'flipper';
+import Panel from './ui/components/Panel';
+import ManagedDataInspector from "./ui/components/data-inspector/DataInspector"
+import {createTablePlugin} from './createTablePlugin';
+import {colors} from './ui/themes/colors';
+import Text from './ui/components/Text';
+//{styled, Text, Toolbar, Spacer, Button}
+import styled from './ui/styled/styled';
+import {default as Toolbar, Spacer} from './ui/components/Toolbar';
+import Button from './ui/components/Button';
 
 type RowData = {
   id: string,

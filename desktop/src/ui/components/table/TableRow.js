@@ -11,19 +11,20 @@ import type {
   TableOnAddFilter,
   TableBodyRow,
 } from './types.js';
-
-import React from 'react';
+import React from 'react'
+import classNames from 'classnames';
 import FilterRow from '../filter/FilterRow.js';
-import styled from '../../styled/index.js';
-import FlexRow from '../FlexRow.js';
-import {colors} from '../../themes/colors.js';
+import * as Styles from '../../styled/flex-styles';
 import {normaliseColumnWidth} from './utils.js';
 import {DEFAULT_ROW_HEIGHT} from './types';
-import {styleCreator} from '../../styled/index';
+import {withStyles} from '../../themes';
+import type {Theme,ThemedClassesProps} from '../../themes';
+
 import {lighten} from '@material-ui/core/styles/colorManipulator';
+import type {ThemedProps} from '../../styled';
 
 const backgroundColor = props => {
-  const {theme:{colors}} = props;
+  const {theme: {colors}} = props;
   if (props.highlighted) {
     if (props.highlightedBackgroundColor) {
       return props.highlightedBackgroundColor;
@@ -34,56 +35,111 @@ const backgroundColor = props => {
     if (props.backgroundColor) {
       return props.backgroundColor;
     } else if (props.even && props.zebra) {
-      return lighten(colors.background,0.1);
+      return lighten(colors.background, 0.1);
     } else {
       return 'transparent';
     }
   }
 };
 
-const TableBodyRowContainer = styled(FlexRow)(styleCreator(props => {
-  const {colors} = props.theme;
-  
-  return ({
-    backgroundColor: backgroundColor(props),
-    boxShadow: props.zebra ? 'none' : `inset 0 -1px ${colors.border}`,
-    color: props.highlighted ? colors.textSelected : props.color || 'inherit',
-    '& *': {
-      color: props.highlighted ? `${colors.text} !important` : null,
-    },
-    '& img': {
-      backgroundColor: props.highlighted ? `${colors.backgroundSelected} !important` : 'none',
-    },
-    height: props.multiline ? 'auto' : props.rowLineHeight,
-    lineHeight: `${String(props.rowLineHeight || DEFAULT_ROW_HEIGHT)}px`,
-    fontWeight: props.fontWeight || 'inherit',
-    overflow: 'hidden',
-    width: '100%',
-    userSelect: 'none',
-    flexShrink: 0,
-    '&:hover': {
-      backgroundColor:
-        !props.highlighted && props.highlightOnHover ? colors.backgroundSelected : 'none',
-    },
-  })
-},['highlighted', 'highlightOnHover', 'highlightedBackgroundColor','zebra','even','backgroundColor','rowLineHeight','multiline','justifyContent']));
 
-const TableBodyColumnContainer = styled('div')(styleCreator(props => ({
-  display: 'flex',
-  flexShrink: props.width === 'flex' ? 1 : 0,
-  overflow: 'hidden',
-  padding: '0 8px',
-  userSelect: 'none',
-  textOverflow: 'ellipsis',
-  verticalAlign: 'top',
-  whiteSpace: props.multiline ? 'normal' : 'nowrap',
-  wordWrap: props.multiline ? 'break-word' : 'normal',
-  width: props.width === 'flex' ? '100%' : props.width,
-  maxWidth: '100%',
-  justifyContent: props.justifyContent,
-}),['highlighted', 'highlightOnHover', 'highlightedBackgroundColor','zebra','even','backgroundColor','rowLineHeight','multiline','justifyContent']));
+// const TableBodyRowContainer = makeRootView(({colors}: Theme) => ({
+//
+//
+//       '&:hover': {
+//         backgroundColor: ({highlightOnHover,highlighted}) =>
+//           !highlighted && highlightOnHover ? colors.backgroundSelected : 'none',
+//       },
+//
+//   }));
+//['highlighted', 'highlightOnHover', 'highlightedBackgroundColor','zebra','even','backgroundColor','rowLineHeight','multiline','justifyContent'])
+
+type ColumnContainerClasses = 'root' | 'multiline';
+
+type ColumnContainerProps = {
+  width: string,
+  multiline: boolean,
+  justifyContent: string
+};
+const TableBodyColumnContainer = withStyles<ColumnContainerProps, ColumnContainerClasses>(({colors}: Theme) => ({
+  root: {
+    display: 'flex',
+    flexShrink: 0,
+    overflow: 'hidden',
+    padding: '0 8px',
+    userSelect: 'none',
+    textOverflow: 'ellipsis',
+    verticalAlign: 'top',
+    whitespace: 'nowrap',
+    wordWrap: 'normal',
+    maxWidth: '100%',
+  },
+  multiline: {
+    whiteSpace: 'normal',
+    wordWrap: 'break-word',
+  },
+}))(class TableBodyColumnContainer extends React.PureComponent<ThemedClassesProps<ColumnContainerProps,Classes>> {
+  
+  render() {
+    const {width, multiline, justifyContent, classes, children} = this.props;
+    
+    return <div
+      className={classNames(classes.root, {
+        multiline,
+      })}
+      style={{
+        justifyContent,
+        width: width === 'flex' ? '100%' : width,
+      }}
+    >{children}</div>;
+  }
+});
+
+type RowClasses = 'root' | 'zebra' | 'highlighted' | 'multiline' | 'highlightOnHover'
+
+const rowBaseStyles = ({colors}) => {
+  
+  return {
+    root: {
+      ...Styles.FlexRow,
+      boxShadow: `inset 0 -1px ${colors.border}`,
+      overflow: 'hidden',
+      width: '100%',
+      userSelect: 'none',
+      flexShrink: 0,
+      '& img': {
+        backgroundColor: 'none',
+      },
+      
+    },
+    zebra: {
+      boxShadow: 'none',
+    },
+    highlighted: {
+      color: colors.textSelected,
+      '& *': {
+        color: `${colors.text} !important`,
+      },
+      '& img': {
+        backgroundColor: `${colors.backgroundSelected} !important`,
+      },
+      
+      
+    },
+    multiline: {
+      height: 'auto',
+    },
+    highlightOnHover: {
+      '&:hover': {
+        backgroundColor: colors.backgroundSelected,
+      },
+    },
+  };
+};
+
 
 type Props = {
+  className?: ?string,
   columnSizes: TableColumnSizes,
   columnKeys: TableColumnKeys,
   onMouseDown: (e: SyntheticMouseEvent<>) => mixed,
@@ -98,49 +154,61 @@ type Props = {
   zebra: ?boolean,
 };
 
-export default class TableRow extends React.PureComponent<Props> {
+const TableRow = withStyles<Props,RowClasses>(rowBaseStyles, {withTheme: true})(class TableRow extends React.PureComponent<ThemedClassesProps<Props,RowClasses>> {
   static defaultProps = {
     zebra: true,
   };
-
+  
   render() {
-    const {
-      index,
-      highlighted,
-      rowLineHeight,
-      row,
-      style,
-      multiline,
-      columnKeys,
-      columnSizes,
-      onMouseEnter,
-      onMouseDown,
-      zebra,
-      onAddFilter,
-    } = this.props;
-
+    const
+      {
+        index,
+        classes,
+        highlighted,
+        rowLineHeight,
+        row,
+        style,
+        multiline,
+        fontWeight,
+        columnKeys,
+        columnSizes,
+        onMouseEnter,
+        onMouseDown,
+        zebra,
+        className,
+        onAddFilter,
+        color
+      } = (this.props: any),
+      
+      rowStyle = {
+        ...style,
+        ...(row.style || {}),
+        height: row.height ? row.height : multiline ? 'auto' : rowLineHeight,
+        lineHeight: `${String(rowLineHeight || DEFAULT_ROW_HEIGHT)}px`,
+        fontWeight: fontWeight || 'inherit',
+        backgroundColor: backgroundColor(this.props),
+        color: color || 'inherit',
+      };
+    
     return (
-      <TableBodyRowContainer
-        rowLineHeight={rowLineHeight}
-        highlightedBackgroundColor={row.highlightedBackgroundColor}
-        backgroundColor={row.backgroundColor}
-        highlighted={highlighted}
-        multiline={multiline}
-        even={index % 2 === 0}
-        zebra={zebra}
+      <div
+        className={classNames(classes.root, className, row.className, {
+          zebra,
+          multiline,
+          highlightOnHover: row.highlightOnHover,
+          highlighted,
+        })}
         onMouseDown={onMouseDown}
         onMouseEnter={onMouseEnter}
-        style={style}
-        highlightOnHover={row.highlightOnHover}
-        data-key={row.key}
-        {...row.style}>
+        style={rowStyle}
+        data-key={row.key}>
         {columnKeys.map(key => {
           const col = row.columns[key];
-
+          
           const isFilterable = col?.isFilterable || false;
           const value = col?.value;
           const title = col?.title;
-
+          const node = col.render ? col.render(col) : value;
           return (
             <TableBodyColumnContainer
               key={key}
@@ -150,15 +218,17 @@ export default class TableRow extends React.PureComponent<Props> {
               width={normaliseColumnWidth(columnSizes[key])}>
               {isFilterable && onAddFilter != null ? (
                 <FilterRow addFilter={onAddFilter} filterKey={key}>
-                  {value}
+                  {node}
                 </FilterRow>
               ) : (
-                value
+                node
               )}
             </TableBodyColumnContainer>
           );
         })}
-      </TableBodyRowContainer>
+      </div>
     );
   }
-}
+});
+
+export default TableRow;

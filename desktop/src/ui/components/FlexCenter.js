@@ -7,12 +7,13 @@
 
 import View from './View.js';
 import styled from '../styled/index.js';
+import {makeRootView} from './RootView';
 
 /**
  * A container displaying its children horizontally and vertically centered.
  */
-export default styled(View)({
+export default makeRootView(theme => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-});
+}),View);

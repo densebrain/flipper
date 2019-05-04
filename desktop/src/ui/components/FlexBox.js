@@ -7,6 +7,7 @@
 
 import View from './View.js';
 import styled from '../styled/index.js';
+import {makeRootView} from './RootView';
 
 type Props = {
   /** Flexbox's shrink property. Set to `0`, to disable shrinking. */
@@ -16,7 +17,11 @@ type Props = {
 /**
  * A container using flexbox to layout its children
  */
-export default styled(View)(({shrink}: Props) => ({
-  display: 'flex',
-  flexShrink: shrink == null || shrink ? 1 : 0,
-}));
+export default makeRootView(
+  theme => ({
+    display: 'flex',
+  }),
+  View,
+  props => ({
+    flexShrink: (!props.shrink || props.shrink) ? 1 : 0,
+  }));

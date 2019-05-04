@@ -4,21 +4,21 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
+export type FilterType = {
+    value: string,
+    type: 'include' | 'exclude',
+  }
+  | {
+  value: Array<string>,
+  type: 'enum',
+  enum: Array<{
+    label: string,
+    color?: string,
+    value: string,
+  }>,
+  persistent?: boolean,
+};
 
-export type Filter =
-  | {
-      key: string,
-      value: string,
-      type: 'include' | 'exclude',
-    }
-  | {
-      key: string,
-      value: Array<string>,
-      type: 'enum',
-      enum: Array<{
-        label: string,
-        color?: string,
-        value: string,
-      }>,
-      persistent?: boolean,
-    };
+export type Filter<T> = {
+    key: string
+  } & FilterType;

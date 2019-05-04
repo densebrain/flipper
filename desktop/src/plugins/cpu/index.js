@@ -359,7 +359,7 @@ export default class CPUFrequencyTable extends FlipperDevicePlugin<CPUState> {
             autoHeight={true}
             floating={false}
             zebra={true}
-            rows={this.frequencyRows(this.state.cpuFreq)}
+            items={this.frequencyRows(this.state.cpuFreq)}
           />
         </FlexColumn>
       </FlexRow>

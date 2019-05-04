@@ -7,6 +7,7 @@
  */
 
 import React from "react"
+import {Properties} from "csstype";
 
 declare module "@material-ui/styles" {
   declare export {
@@ -240,14 +241,15 @@ declare module "@material-ui/styles/withStyles" {
   import type { Omit, PropInjector, PropsOf } from "@material-ui/core";
 
   import typeof * as CSS from "csstype";
+  import type {Properties} from "csstype";
 
   import typeof * as JSS from "jss";
 
   declare export type CSSProperties = {
     [k: string]:
-      | $ElementType<CSS.Properties<number | string>, $Keys<CSS.Properties>>
+      | $ElementType<Properties<number | string>, $Keys<Properties<string | number>>>
       | CSSProperties
-  } & CSS.Properties<number | string>;
+  } & Properties<number | string>;
 
   /**
    * This is basically the API of JSS. It defines a Map<string, CSS>,

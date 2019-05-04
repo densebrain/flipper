@@ -54,7 +54,7 @@ export type Notification = {|
   action?: string,
 |};
 
-export type Props<T> = {
+export type Props<T,ExtraProps = {}> = {
   logger: Logger,
   theme: Theme,
   persistedState: T,
@@ -63,13 +63,16 @@ export type Props<T> = {
   deepLinkPayload: ?string,
   selectPlugin: (pluginID: string, deepLinkPayload: ?string) => boolean,
   isArchivedDevice: boolean,
-};
+} & ExtraProps;
+
+export type FlipperPluginProps<PersistedState,ExtraProps> = Props<PersistedState,ExtraProps>;
 
 export class FlipperBasePlugin<
   State = *,
   Actions = *,
   PersistedState = *,
-> extends React.Component<Props<PersistedState>, State> {
+  ExtraProps = *
+> extends React.Component<Props<PersistedState,ExtraProps>, State> {
   static title: ?string = null;
   static id: string = '';
   static icon: ?string = null;
@@ -148,10 +151,11 @@ export class FlipperBasePlugin<
   }
 }
 
-export class FlipperDevicePlugin<S = *, A = *, P = *> extends FlipperBasePlugin<
+export class FlipperDevicePlugin<S = *, A = *, PersistedState = *, ExtraProps = *> extends FlipperBasePlugin<
   S,
   A,
-  P,
+  PersistedState,
+  ExtraProps
 > {
   device: BaseDevice;
 
@@ -159,7 +163,7 @@ export class FlipperDevicePlugin<S = *, A = *, P = *> extends FlipperBasePlugin<
     return this.props.theme
   }
   
-  constructor(props: Props<P>) {
+  constructor(props: Props<PersistedState>) {
     super(props);
     this.device = props.target;
   }
@@ -175,10 +179,11 @@ export class FlipperDevicePlugin<S = *, A = *, P = *> extends FlipperBasePlugin<
   }
 }
 
-export class FlipperPlugin<S = *, A = *, P = *> extends FlipperBasePlugin<
+export class FlipperPlugin<S = *, A = *, P = *, ExtraProps = *> extends FlipperBasePlugin<
   S,
   A,
   P,
+  ExtraProps
 > {
   constructor(props: Props<P>) {
     super(props);

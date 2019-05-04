@@ -1,6 +1,6 @@
 include(":common:third-party")
 include(":common:third-party:external:folly")
-include(":common:third-party:external:doubleconversion")
+include(":common:third-party:external:double-conversion")
 include(":common:third-party:external:glog")
 include(":common:third-party:external:LibEvent")
 include(":common:third-party:external:RSocket")
@@ -34,7 +34,7 @@ pluginManagement {
         else -> null
       }
 
-      logger.quiet("Plugin requested (${requested.id.namespace}/${requested.id.name}): ${module}")
+      logger.debug("Plugin requested (${requested.id.namespace}/${requested.id.name}): ${module}")
       if (module != null) {
         useModule(module)
       }

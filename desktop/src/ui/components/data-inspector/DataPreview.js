@@ -7,7 +7,7 @@
 
 import type {DataValueExtractor} from './DataInspector.js';
 import DataDescription from './DataDescription.js';
-import {InspectorName} from './DataInspector.js';
+import {InspectorName} from './DataComponents.js';
 import styled from '../../styled/index.js';
 import {getSortedKeys} from './utils.js';
 import {PureComponent} from 'react';

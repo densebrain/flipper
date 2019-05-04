@@ -23,7 +23,7 @@ import SearchableTable from './ui/components/searchable/SearchableTable';
 import textContent from './utils/textContent.js';
 import createPaste from './fb-stubs/createPaste.js';
 
-type ID = string;
+type ID = string | number;
 
 type RowData = {
   id: ID,
@@ -292,7 +292,7 @@ export function createTablePlugin<T: RowData>(props: Props<T>) {
             columns={columns}
             onRowHighlighted={this.onRowHighlighted}
             multiHighlight={true}
-            rows={this.applyMetadataToRows(rows)}
+            items={this.applyMetadataToRows(rows)}
             stickyBottom={true}
             actions={<Button onClick={this.clear}>Clear Table</Button>}
           />

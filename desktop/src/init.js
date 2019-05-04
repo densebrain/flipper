@@ -4,7 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import "source-map-support/register"
+//import "source-map-support/register"
 import {Provider} from 'react-redux';
 import ReactDOM from 'react-dom';
 import {ContextMenuProvider} from 'flipper';

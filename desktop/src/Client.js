@@ -19,7 +19,7 @@ import {performance} from 'perf_hooks';
 import {reportPluginFailures} from './utils/metrics';
 import {default as isProduction} from './utils/isProduction.js';
 import {registerPlugins} from './reducers/plugins';
-import createTableNativePlugin from './plugins/TableNativePlugin';
+import createTableNativePlugin from './TableNativePlugin';
 
 const EventEmitter = (require('events'): any);
 const invariant = require('invariant');

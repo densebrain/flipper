@@ -35,7 +35,7 @@ tasks {
 
 dependencies {
   "implementation"(project(":common:third-party:external:folly"))
-  "implementation"(project(":common:third-party:external:doubleconversion"))
+  "implementation"(project(":common:third-party:external:double-conversion"))
   "implementation"(project(":common:third-party:external:glog"))
   "implementation"(project(":common:third-party:external:LibEvent"))
   "implementation"(project(":common:third-party:external:RSocket"))

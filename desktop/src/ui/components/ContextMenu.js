@@ -53,8 +53,6 @@ export default class ContextMenu extends React.Component<Props> {
       items: _items,
       buildItems: _buildItems,
       component,
-      filterKey,
-      addFilter,
       ...props
     } = this.props;
     return React.createElement(

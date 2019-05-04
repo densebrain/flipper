@@ -9,77 +9,99 @@ import type {Filter} from 'flipper';
 import {PureComponent} from 'react';
 import Text from '../Text.js';
 import styled,{styleCreator} from '../../styled/index.js';
+import {withStyles} from '../../themes';
 import {findDOMNode} from 'react-dom';
 import {colors} from '../../themes/colors.js';
 import electron from 'electron';
+import {lighten,darken} from '@material-ui/core/styles/colorManipulator';
 
-const Token = styled(Text)(styleCreator(props => ({
-  display: 'inline-flex',
-  alignItems: 'center',
-  backgroundColor: props.focused
-    ? colors.macOSHighlightActive
-    : props.color || colors.macOSHighlight,
-  borderRadius: 4,
-  marginRight: 4,
-  padding: 4,
-  paddingLeft: 6,
-  height: 21,
-  color: props.focused ? 'white' : 'inherit',
-  '&:active': {
-    backgroundColor: colors.macOSHighlightActive,
-    color: colors.white,
-  },
-  '&:first-of-type': {
-    marginLeft: 3,
-  },
-}),['focused','color']));
 
-const Key = styled(Text)(styleCreator(props => ({
-  position: 'relative',
-  fontWeight: 500,
-  paddingRight: 12,
-  textTransform: 'capitalize',
-  lineHeight: '21px',
-  '&:after': {
-    content: props.type === 'exclude' ? '"≠"' : '"="',
-    paddingLeft: 5,
-    position: 'absolute',
-    top: -1,
-    right: 0,
-    fontSize: 14,
+const Token = withStyles(({colors}) => ({
+  root: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    backgroundColor: ({focused,color}) => focused
+      ? colors.backgroundSelected
+      : color || lighten(colors.background, 0.1),
+    border: ({focused}) => focused
+      ? 'none'
+      : colors.border,
+    borderRadius: 4,
+    marginRight: 4,
+    padding: 4,
+    paddingLeft: 6,
+    height: 21,
+    color: ({focused,color}) => focused ? colors.textSelected : colors.text,
+    '&:active': {
+      backgroundColor: colors.backgroundSelected,
+      color: colors.textSelected,
+    },
+    '&:first-of-type': {
+      marginLeft: 3,
+    }
   },
-  '&:active:after': {
-    backgroundColor: colors.macOSHighlightActive,
-  },
-}),['focused','type']));
+}))(React.forwardRef(({style, classes,focused,color,className,...other},ref) => {
+  return <Text innerRef={ref} style={style} className={`${classes.root} ${className}`} {...other}/>
+}));
 
-const Value = styled(Text)(styleCreator(props => ({
-  whiteSpace: 'nowrap',
-  maxWidth: 160,
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  lineHeight: '21px',
-  paddingLeft: 3,
-}),['focused','type']));
+const Key = withStyles(({colors}) => ({
+  root: {
+    position: 'relative',
+    fontWeight: 500,
+    paddingRight: 12,
+    textTransform: 'capitalize',
+    lineHeight: '21px',
+    '&:after': {
+      content: ({type}) => type === 'exclude' ? '"≠"' : '"="',
+      paddingLeft: 5,
+      position: 'absolute',
+      top: -1,
+      right: 0,
+      fontSize: 14,
+    },
+    '&:active:after': {
+      backgroundColor: colors.backgroundSelected,
+    },
+  }
+}))(function Key({style, classes,className,...other}) {
+  return <Text style={style} className={`${classes.root} ${className}`} {...other}/>
+});
 
-const Chevron = styled('div')(styleCreator(props => ({
-  border: 0,
-  paddingLeft: 3,
-  paddingRight: 1,
-  marginRight: 0,
-  fontSize: 16,
-  backgroundColor: 'transparent',
-  position: 'relative',
-  top: -2,
-  height: 'auto',
-  lineHeight: 'initial',
-  color: props.focused ? colors.white : 'inherit',
-  '&:hover, &:active, &:focus': {
-    color: 'inherit',
+const Value = withStyles(() => ({
+  root: {
+    whiteSpace: 'nowrap',
+    maxWidth: 160,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    lineHeight: '21px',
+    paddingLeft: 3,
+  }
+}))(function Value({style, classes,className,...other}) {
+  return <Text style={style} className={`${classes.root} ${className}`} {...other}/>
+});
+
+const Chevron = withStyles(({colors}) => ({
+  root: {
     border: 0,
+    paddingLeft: 3,
+    paddingRight: 1,
+    marginRight: 0,
+    fontSize: 16,
     backgroundColor: 'transparent',
-  },
-}),['focused','type']));
+    position: 'relative',
+    top: -2,
+    height: 'auto',
+    lineHeight: 'initial',
+    color: ({focused}) => focused ? colors.textSelected : 'inherit',
+    '&:hover, &:active, &:focus': {
+      color: 'inherit',
+      border: 0,
+      backgroundColor: 'transparent',
+    },
+  }
+}))(function Chevron({classes,focused,style,className,...other}) {
+  return <div  style={style} className={`${classes.root} ${className}`} {...other}/>
+});
 
 type Props = {|
   filter: Filter,
@@ -96,8 +118,7 @@ export default class FilterToken extends PureComponent<Props> {
 
   onMouseDown = () => {
     if (
-      this.props.filter.persistent == null ||
-      this.props.filter.persistent === false
+      this.props.filter.persistent !== true
     ) {
       this.props.onFocus(this.props.index);
     }
@@ -156,7 +177,7 @@ export default class FilterToken extends PureComponent<Props> {
   toggleFilter = () => {
     const {filter, index} = this.props;
     if (filter.type !== 'enum') {
-      const newFilter: Filter = {
+      const newFilter: Filter<any> = {
         ...filter,
         type: filter.type === 'include' ? 'exclude' : 'include',
       };
@@ -222,7 +243,7 @@ export default class FilterToken extends PureComponent<Props> {
         onMouseDown={this.onMouseDown}
         focused={this.props.focused}
         color={color}
-        ref={this.setRef}>
+        innerRef={this.setRef}>
         <Key type={this.props.filter.type} focused={this.props.focused}>
           {filter.key}
         </Key>

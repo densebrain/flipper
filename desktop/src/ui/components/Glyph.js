@@ -6,30 +6,44 @@
  */
 
 import React from 'react';
-import styled from '../styled/index.js';
+import {withStyles} from '../themes';
+import styled from '../styled/';
+
 const PropTypes = require('prop-types');
 import {getIconUrl} from '../../utils/icons.js';
-import {styleCreator} from '../styled/index';
+import {styleCreator} from '../styled';
+import filterProps from 'react-valid-props';
 
-const ColoredIconBlack = styled('img')(styleCreator(({size}) => ({
-  height: size,
-  verticalAlign: 'middle',
-  width: size,
-  flexShrink: 0,
-}),['backgroundColor']));
+const ColoredIconBlack = withStyles(theme => ({
+  root: {
+    height: ({size}) => size,
+    verticalAlign: 'middle',
+    width: ({size}) => size,
+    flexShrink: 0,
+  },
+}))(({classes, className, style, ...other}) =>
+  <img
+    className={`${classes.root} ${className}`}
+    style={style}
+    {...filterProps(other)}
+  />);
 
-const ColoredIconCustom = styled('div')(styleCreator(props => ({
-  height: props.size,
-  verticalAlign: 'middle',
-  width: props.size,
-  backgroundColor: props.color,
-  display: 'inline-block',
-  maskImage: `url('${props.src}')`,
-  maskSize: '100% 100%',
-  WebkitMaskImage: `url('${props.src}')`,
-  WebkitMaskSize: '100% 100%',
-  flexShrink: 0,
-}),['backgroundColor']));
+
+const ColoredIconCustom = withStyles(theme => ({
+  root: {
+    height: props => props.size,
+    verticalAlign: 'middle',
+    width: props => props.size,
+    backgroundColor: props => props.color,
+    display: 'inline-block',
+    maskImage: props => `url('${props.src}')`,
+    maskSize: '100% 100%',
+    WebkitMaskImage: props => `url('${props.src}')`,
+    WebkitMaskSize: '100% 100%',
+    flexShrink: 0,
+  },
+}))(({classes, className, style, ...other}) => <div className={`${classes.root} ${className}`}
+                                                    style={style} {...filterProps(other)}/>);
 
 function ColoredIcon(
   props: {|
@@ -43,21 +57,31 @@ function ColoredIcon(
     glyphColor?: string,
   |},
 ) {
-  const {color = context.glyphColor, name, size = 16, src} = props;
-
+  const
+    {
+      className,
+      color = className ? null : context.glyphColor,
+      name,
+      size = 16,
+      src,
+    } = props;
+  
+  
   const isBlack =
-    color == null ||
-    color === '#000' ||
-    color === 'black' ||
-    color === '#000000';
-
+    !className && (
+      color == null ||
+      color === '#000' ||
+      color === 'black' ||
+      color === '#000000'
+    );
+  
   if (isBlack) {
     return (
       <ColoredIconBlack
         alt={name}
         src={src}
         size={size}
-        className={props.className}
+        className={className}
       />
     );
   } else {
@@ -66,7 +90,7 @@ function ColoredIcon(
         color={color}
         size={size}
         src={src}
-        className={props.className}
+        className={className}
       />
     );
   }
@@ -85,7 +109,7 @@ export default class Glyph extends React.Component<{
 }> {
   render() {
     const {name, size, variant, color, className} = this.props;
-
+    
     return (
       <ColoredIcon
         name={name}

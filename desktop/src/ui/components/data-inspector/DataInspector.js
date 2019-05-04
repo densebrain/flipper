@@ -16,6 +16,7 @@ import {reportInteraction} from '../../../utils/InteractionTracker.js';
 import {getSortedKeys} from './utils.js';
 import {colors} from '../../themes/colors.js';
 import {clipboard} from 'electron';
+import {InspectorName} from "./DataComponents";
 
 const deepEqual = require('deep-equal');
 
@@ -49,9 +50,7 @@ const ExpandControl = styled('span')({
   whiteSpace: 'pre',
 });
 
-export const InspectorName = styled('span')({
-  color: colors.grapeDark1,
-});
+
 
 const nameTooltipOptions = {
   position: 'toLeft',

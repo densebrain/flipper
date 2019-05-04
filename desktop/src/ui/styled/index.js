@@ -9,5 +9,11 @@ export {default,styleCreator} from './styled';
 export type * from "./StyledCustom";
 export type * from "./StyleTypes";
 export * from "./prebuilt-styles";
+
 export {lighten,darken} from '@material-ui/core/styles/colorManipulator';
 
+import { create } from 'jss';
+import jssPreset from '@material-ui/styles/jssPreset'; // Default JSS instance.
+
+export const jss = create(jssPreset());
+//export {default as jss} from 'jss'

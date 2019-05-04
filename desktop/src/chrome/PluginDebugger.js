@@ -308,7 +308,7 @@ class PluginDebugger extends Component<Props> {
           <TableContainer>
             <ManagedTable
               columns={COLUMNS}
-              rows={this.getRows()}
+              items={this.getRows()}
               highlightableRows={false}
               columnSizes={COLUMNS_SIZES}
             />

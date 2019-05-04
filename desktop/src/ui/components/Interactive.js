@@ -13,7 +13,8 @@ import {
   maybeSnapTop,
   SNAP_SIZE,
 } from '../../utils/snap.js';
-import styled from '../styled/index.js';
+import styled,{makeTransition} from '../styled';
+import {Div,withStyles} from '../themes';
 import invariant from 'invariant';
 import React from 'react';
 
@@ -85,9 +86,11 @@ type InteractiveState = {|
   resizingInitialCursor: ?CursorState,
 |};
 
-const InteractiveContainer = styled('div')({
-  willChange: 'transform, height, width, z-index',
-});
+const InteractiveContainer = withStyles(theme => ({
+  root: {
+    ...makeTransition(['transform','height', 'width', 'z-index'])
+  }
+}))(Div);
 
 export default class Interactive extends React.Component<
   InteractiveProps,

@@ -24,6 +24,7 @@ import {colors} from '../../themes/colors.js';
 import FlexRow from '../FlexRow.js';
 import {styleCreator} from '../../styled/index';
 import {lighten} from '@material-ui/core/styles/colorManipulator';
+import {makeRootView} from '../RootView';
 
 const invariant = require('invariant');
 
@@ -42,9 +43,9 @@ const TableHeaderColumnInteractive = styled(Interactive)({
   width: '100%',
 });
 
-const TableHeaderColumnContainer = styled('div')(styleCreator(props => ({
+const TableHeaderColumnContainer = makeRootView(theme => ({
   padding: '0 8px',
-}),['backgroundColor']));
+}));
 
 const TableHeadContainer = styled(FlexRow)(({theme}) => ({
   borderBottom: `1px solid ${theme.colors.border}`,

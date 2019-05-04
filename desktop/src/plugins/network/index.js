@@ -403,7 +403,7 @@ class NetworkTable extends PureComponent<NetworkTableProps, NetworkTableState> {
           columnSizes={COLUMN_SIZE}
           columns={COLUMNS}
           columnOrder={COLUMN_ORDER}
-          rows={this.state.sortedRows}
+          items={this.state.sortedRows}
           onRowHighlighted={this.props.onRowHighlighted}
           highlightedRows={this.props.highlightedRows}
           rowLineHeight={26}

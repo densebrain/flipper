@@ -98,6 +98,9 @@ function makeTheme(themeConfig:ThemeConfig) {
     },
   
     logs: {
+      unknown: {
+        color: palette.base04
+      },
       verbose: {
         color: palette.base05
       },
@@ -116,6 +119,11 @@ function makeTheme(themeConfig:ThemeConfig) {
         backgroundColor: alpha(palette.base08,0.4),
         color: getContrastText(alpha(palette.base08,0.4)),
         fontWeight: 500,
+      },
+      fatal: {
+        backgroundColor: alpha(palette.base08,0.6),
+        color: getContrastText(alpha(palette.base08,0.6)),
+        fontWeight: 700,
       }
     },
     

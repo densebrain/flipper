@@ -6,8 +6,9 @@
  */
 
 import styled from '../styled/index.js';
-
-export default styled('div')({
+import Text from './Text'
+import {makeRootView} from './RootView'
+export default makeRootView(theme => ({
   fontSize: 12,
   fontWeight: 'bold',
-});
+}),Text);
