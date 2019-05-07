@@ -40,10 +40,10 @@ const ALL_RESIZABLE: ResizingSides = {
 };
 
 type InteractiveProps = {|
-  isMovableAnchor?: (event: SyntheticMouseEvent<>) => boolean,
+  isMovableAnchor?: (event: SyntheticMouseEvent<*>) => boolean,
   onMoveStart?: () => void,
   onMoveEnd?: () => void,
-  onMove?: (top: number, left: number, event: SyntheticMouseEvent<>) => void,
+  onMove?: (top: number, left: number, event: SyntheticMouseEvent<*>) => void,
   id?: string,
   movable?: boolean,
   hidden?: boolean,
