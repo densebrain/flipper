@@ -6,9 +6,9 @@
  */
 const defaultConsoleError = console.error
 
-console.error = function(message) {
+console.error = function(_message: string) {
   defaultConsoleError("console.error used in a test. This will be an error in the near future.")
   defaultConsoleError.apply(console, arguments)
 }
 
-global.fetch = require("jest-fetch-mock")
+Object.assign(global, {fetch: require("jest-fetch-mock")})

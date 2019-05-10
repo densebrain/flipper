@@ -15,6 +15,7 @@ export function getPossibleSnappedPosition(
     getGap,
     getNew
   }: {
+    debug?: boolean
     getNew: (win: Rect) => number,
     getGap: (win: Rect) => number
   }
@@ -93,7 +94,7 @@ export function maybeSnapLeft(props: Rect, windows: Array<Rect>, left: number): 
 
   return snapGrid(left)
 }
-export function maybeSnapTop(props: Rect, windows: Array<Rect>, top: number): number {
+export function maybeSnapTop(_props: Rect, windows: Array<Rect>, top: number): number {
   // snap bottom to bottom
   // ┌─┐
   // │A├─┐

@@ -234,7 +234,7 @@ class ElementsRow extends PureComponent<ElementsRowProps, ElementsRowState> {
       level: this.props.level
     })
   }
-  onDoubleClick = (event: SyntheticMouseEvent<any>) => {
+  onDoubleClick = (event: React.MouseEvent) => {
     this.props.onElementExpanded(this.props.id, event.altKey)
   }
   onMouseEnter = () => {

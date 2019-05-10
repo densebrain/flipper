@@ -11,21 +11,23 @@ import {
   TableOnColumnResize,
   TableOnSort,
   TableRowSortOrder
-} from "@types"
+} from "./types"
 import { normaliseColumnWidth, isPercentage } from "./utils"
 import { PureComponent } from "react"
 import ContextMenu from "../ContextMenu"
 import Interactive from "../Interactive"
 import styled from "../../styled/index"
-import { colors } from "../../themes/colors"
 import FlexRow from "../FlexRow"
 import { styleCreator } from "../../styled/index"
 import { lighten } from "@material-ui/core/styles/colorManipulator"
 import { makeRootView } from "../RootView"
+import {ThemeProps} from "../../themes"
+import * as React from "react"
+import {isNumber} from "typeguard"
 
 const invariant = require("invariant")
 
-type MenuTemplate = Array<Electron$MenuItemOptions>
+type MenuTemplate = Array<Electron.MenuItemConstructorOptions>
 const TableHeaderArrow = styled("span")(({ theme }) => ({
   float: "right",
   color: theme.colors.text
@@ -37,7 +39,7 @@ const TableHeaderColumnInteractive = styled(Interactive)({
   whiteSpace: "nowrap",
   width: "100%"
 })
-const TableHeaderColumnContainer = makeRootView(theme => ({
+const TableHeaderColumnContainer = makeRootView(() => ({
   padding: "0 8px"
 }))
 const TableHeadContainer = styled(FlexRow)(({ theme }) => ({
@@ -51,9 +53,13 @@ const TableHeadContainer = styled(FlexRow)(({ theme }) => ({
   top: 0,
   zIndex: 2
 }))
+
+type TableHeadColumnContainerProps = ThemeProps<{
+  width?: number | string
+},string,true>
 const TableHeadColumnContainer = styled("div")(
   styleCreator(
-    props => ({
+    (props:TableHeadColumnContainerProps) => ({
       position: "relative",
       backgroundColor: lighten(props.theme.colors.backgroundStatus, 0.15),
       flexShrink: props.width === "flex" ? 1 : 0,
@@ -112,7 +118,7 @@ class TableHeadColumn extends PureComponent<{
       })
     }
   }
-  onResize = (newWidth: number) => {
+  onResize = (newWidth: number | string) => {
     const { id, columnSizes, onColumnResize, width } = this.props
 
     if (!onColumnResize) {
@@ -129,7 +135,7 @@ class TableHeadColumn extends PureComponent<{
       const lastElem = childNodes[childNodes.length - 1]
       const right = lastElem instanceof HTMLElement ? lastElem.offsetLeft + lastElem.clientWidth + 1 : 0
 
-      if (right < parentWidth) {
+      if (isNumber(newWidth) && right < parentWidth) {
         normalizedWidth = calculatePercentage(parentWidth, newWidth)
       }
     }
@@ -231,7 +237,7 @@ export default class TableHead extends PureComponent<{
     }
 
     let lastResizable = true
-    const colElems = {}
+    const colElems: {[key: string]: React.ReactNode} = {}
 
     for (const column of columnOrder) {
       if (!column.visible) {

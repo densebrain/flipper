@@ -9,6 +9,7 @@ import FlexColumn from "./FlexColumn"
 import { Component } from "react"
 import View from "./View"
 import { makeRootView } from "./RootView"
+
 const Inner = makeRootView(
   () => ({
     alignItems: "flex-start",

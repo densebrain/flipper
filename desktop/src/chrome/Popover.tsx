@@ -128,7 +128,7 @@ export default class Popover extends PureComponent<Props> {
     window.document.addEventListener("click", this.handleClick)
   }
 
-  handleClick = (e: SyntheticMouseEvent<>) => {
+  handleClick = (e: React.MouseEvent) => {
     // $FlowFixMe
     if (this._ref && !this._ref.contains(e.target)) {
       this.props.onDismiss()

@@ -1,10 +1,14 @@
 {
-  "extends": "../tsconfig",
+  "extends": "../@types/tsconfig.json",
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
       "*": ["*"]
     }
   },
-  "exclude": ["./index.tsx"]
+  "exclude": ["./index.tsx"],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx"
+  ]
 }

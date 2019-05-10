@@ -18,7 +18,7 @@
     "esModuleInterop": true,
     "sourceMap": true,
     "target": "es6",
-    "baseUrl": "./@types",
+    "baseUrl": "./",
     "paths": {
       "package-json": ["./package-json"],
       "rsocket-core": ["./rsocket-core"],
@@ -28,7 +28,7 @@
       "rsocket-tcp-client": ["./rsocket-tcp-server"]
     },
     "typeRoots": [
-      "./@types","./node_modules/@types"
+      "./","../node_modules/@types"
     ]
   },
   
@@ -36,12 +36,12 @@
     "node_modules/**/*.*",
     "**/node_modules/**/*.*",
     "node_modules"
-//    "**/*.js",
-//    "**/*.js.flow",
-//    "src/**/*.ts",
-//    "src/**/*.tsx",
-//    "static/*.ts",
-//    "static/*.tsx"
+    //    "**/*.js",
+    //    "**/*.js.flow",
+    //    "src/**/*.ts",
+    //    "src/**/*.tsx",
+    //    "static/*.ts",
+    //    "static/*.tsx"
   ]
   
 }

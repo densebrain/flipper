@@ -4,13 +4,16 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import { Filter } from "@types"
+import { Filter } from "./types"
 import { PureComponent } from "react"
 import ContextMenu from "../ContextMenu"
 import textContent from "../../../utils/textContent"
 import styled from "../../styled/index"
-import { colors } from "../../themes/colors"
-const FilterText = styled("div")({
+//import { colors } from "../../themes/colors"
+import * as React from 'react'
+import {Theme} from "../../themes"
+
+const FilterText = styled("div")(({colors}:Theme) => ({
   display: "flex",
   alignSelf: "baseline",
   userSelect: "none",
@@ -18,7 +21,7 @@ const FilterText = styled("div")({
   position: "relative",
   maxWidth: "100%",
   "&:hover": {
-    color: colors.white,
+    color: colors.textLight,
     zIndex: 2
   },
   "&:hover::after": {
@@ -29,20 +32,20 @@ const FilterText = styled("div")({
     left: -6,
     right: -6,
     borderRadius: "999em",
-    backgroundColor: "rgba(0, 0, 0, 0.3)",
+    backgroundColor: colors.backgroundStatus,
     zIndex: -1
   },
   "&:hover *": {
-    color: `${colors.white} !important`
+    color: `${colors.textLight} !important`
   }
-})
+}))
 type Props = {
-  children: React.Node,
+  children: React.ReactNode,
   addFilter: (filter: Filter) => void,
   filterKey: string
 }
 export default class FilterRow extends PureComponent<Props> {
-  onClick = (e: SyntheticMouseEvent<>) => {
+  onMouseDown = (e: React.MouseEvent) => {
     if (e.button === 0) {
       this.props.addFilter({
         type: e.metaKey || e.altKey ? "exclude" : "include",
@@ -66,7 +69,7 @@ export default class FilterRow extends PureComponent<Props> {
   render() {
     const { children, ...props } = this.props
     return (
-      <ContextMenu items={this.menuItems} component={FilterText} onMouseDown={this.onClick} {...props}>
+      <ContextMenu items={this.menuItems} component={FilterText} onMouseDown={this.onMouseDown} {...props}>
         {children}
       </ContextMenu>
     )

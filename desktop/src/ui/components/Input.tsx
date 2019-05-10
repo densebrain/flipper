@@ -4,12 +4,13 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import styled from "../styled"
-import { withStyles } from "../themes"
+import * as React from "react"
+import {ThemeProps, withStyles} from "../themes"
 import { Theme } from "../themes"
 import { lighten } from "@material-ui/core/styles/colorManipulator"
 import { Transparent } from "../styled"
 import filterProps from "react-valid-props"
+import {RootViewProps} from "./RootView"
 export const inputStyle = (theme: Theme) => {
   const { colors } = theme
   return {
@@ -29,10 +30,16 @@ export const inputStyle = (theme: Theme) => {
     }
   }
 }
-const Input = withStyles(theme => ({
-  root: { ...inputStyle(theme), padding: ({ compact }) => (compact ? "0 5px" : "0 10px") }
+
+
+export type InputProps = ThemeProps<RootViewProps & {
+  compact?: boolean | undefined
+},"root",true>
+
+const Input = withStyles((theme: Theme) => ({
+  root: { ...inputStyle(theme), padding: ({ compact }:InputProps) => (compact ? "0 5px" : "0 10px") }
 }))(
-  React.forwardRef(({ classes, className, style, children, ...other }, ref) => {
+  React.forwardRef<HTMLInputElement, InputProps>(({ classes, className, style, children, ...other }, ref) => {
     return (
       <input
         ref={ref}

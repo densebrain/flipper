@@ -1,5 +1,4 @@
 import { BaseTheme, Colors, Palette, ThemeConfig } from "./ThemeTypes"
-import { lighten } from "@material-ui/core/styles/colorManipulator"
 const lightThemeConfig: ThemeConfig = {
   palette: {
     name: "light",
@@ -23,7 +22,7 @@ const lightThemeConfig: ThemeConfig = {
     base0F: "#986801"
   },
 
-  customizeTheme(theme: BaseTheme, palette: Palette, colors: Colors) {
+  customizeTheme(theme: BaseTheme, _palette: Palette, _colors: Colors) {
     return { ...theme }
   }
 }

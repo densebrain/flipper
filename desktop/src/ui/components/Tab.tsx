@@ -4,7 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-export default function Tab(props: {
+export default function Tab(_props: {
   label: React.ReactNode,
   closable?: boolean,
   hidden?: boolean,

@@ -4,19 +4,20 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import Interactive from "./Interactive"
+import * as React from "react"
+import Interactive, {InteractiveProps} from "./Interactive"
 import FlexColumn from "./FlexColumn"
-import React, { Component } from "react"
-import styled from "../styled/index"
-import { styleCreator } from "../styled/index"
-import { makeRootView } from "./RootView"
-const SidebarInteractiveContainer = makeRootView(
-  theme => ({
+import {Component} from "react"
+import {makeRootView} from "./RootView"
+
+const SidebarInteractiveContainer = makeRootView<InteractiveProps>(
+  () => ({
     flex: "none"
   }),
-  Interactive
+  (props: InteractiveProps) => <Interactive {...props} />
 )
 type SidebarPosition = "left" | "top" | "right" | "bottom"
+
 const SidebarContainer = makeRootView(theme => ({ ...theme.sidebar }), FlexColumn, props => ({
   backgroundColor: props.backgroundColor || props.theme.colors.backgroundStatus,
   borderLeft: props.position === "right" ? `1px solid ${props.theme.colors.border}` : "none",
@@ -66,7 +67,7 @@ export default class Sidebar extends Component<SidebarProps, SidebarState> {
     position: "left"
   }
 
-  componentWillReceiveProps(nextProps: SidebarProps, nextContext: any) {
+  componentWillReceiveProps(nextProps: SidebarProps) {
     if (!this.state.userChange) {
       this.setState({
         width: nextProps.width,

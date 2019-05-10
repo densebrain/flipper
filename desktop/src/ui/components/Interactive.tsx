@@ -7,10 +7,12 @@
 import { Rect } from "../../utils/geometry"
 import LowPassFilter from "../../utils/LowPassFilter"
 import { getDistanceTo, maybeSnapLeft, maybeSnapTop, SNAP_SIZE } from "../../utils/snap"
-import styled, { makeTransition } from "../styled"
+import { makeTransition } from "../styled"
 import { Div, withStyles } from "../themes"
-import invariant from "invariant"
-import React from "react"
+
+import * as React from "react"
+import {CSSProperties} from "jss/css"
+import {RootViewProps} from "./RootView"
 const WINDOW_CURSOR_BOUNDARY = 5
 type CursorState = {
   top: number,
@@ -31,11 +33,11 @@ const ALL_RESIZABLE: ResizingSides = {
   right: true,
   top: true
 }
-type InteractiveProps = {
-  isMovableAnchor?: (event: SyntheticMouseEvent<any>) => boolean,
+export type InteractiveProps = RootViewProps & {
+  isMovableAnchor?: (event: MouseEvent) => boolean,
   onMoveStart?: () => void,
   onMoveEnd?: () => void,
-  onMove?: (top: number, left: number, event: SyntheticMouseEvent<any>) => void,
+  onMove?: (top: number, left: number, event: MouseEvent) => void,
   id?: string,
   movable?: boolean,
   hidden?: boolean,
@@ -56,7 +58,7 @@ type InteractiveProps = {
   minHeight: number,
   maxWidth?: number,
   maxHeight?: number,
-  onCanResize?: (sides: ResizingSides) => void,
+  onCanResize?: (sides?: ResizingSides | undefined) => void,
   onResizeStart?: () => void,
   onResizeEnd?: () => void,
   onResize?: (width: number, height: number) => void,
@@ -65,7 +67,7 @@ type InteractiveProps = {
   innerRef?: (elem: HTMLElement) => void,
   style?: Object,
   className?: string,
-  children?: React$Element<any>
+  children?: React.ReactElement<any>
 }
 type InteractiveState = {
   moving: boolean,
@@ -78,7 +80,7 @@ type InteractiveState = {
   resizingInitialRect: Rect | null | undefined,
   resizingInitialCursor: CursorState | null | undefined
 }
-const InteractiveContainer = withStyles(theme => ({
+const InteractiveContainer = withStyles(() => ({
   root: { ...makeTransition(["transform", "height", "width", "z-index"]) }
 }))(Div)
 export default class Interactive extends React.Component<InteractiveProps, InteractiveState> {
@@ -102,14 +104,14 @@ export default class Interactive extends React.Component<InteractiveProps, Inter
   ref: HTMLElement
   nextTop: number | null | undefined
   nextLeft: number | null | undefined
-  nextEvent: SyntheticMouseEvent<> | null | undefined
+  nextEvent: MouseEvent | null | undefined
   static defaultProps = {
     minHeight: 0,
     minLeft: 0,
     minTop: 0,
     minWidth: 0
   }
-  onMouseMove = (event: SyntheticMouseEvent<>) => {
+  onMouseMove = (event: MouseEvent) => {
     if (this.state.moving) {
       this.calculateMove(event)
     } else if (this.state.resizing) {
@@ -118,7 +120,7 @@ export default class Interactive extends React.Component<InteractiveProps, Inter
       this.calculateResizable(event)
     }
   }
-  startAction = (event: SyntheticMouseEvent<>) => {
+  startAction = (event: MouseEvent) => {
     this.globalMouse = true
     window.addEventListener("pointerup", this.endAction, {
       passive: true
@@ -135,7 +137,7 @@ export default class Interactive extends React.Component<InteractiveProps, Inter
     }
   }
 
-  startTitleAction(event: SyntheticMouseEvent<>) {
+  startTitleAction(event: MouseEvent) {
     if (this.state.couldResize) {
       this.startResizeAction(event)
     } else if (this.props.movable === true) {
@@ -143,7 +145,7 @@ export default class Interactive extends React.Component<InteractiveProps, Inter
     }
   }
 
-  startMoving(event: SyntheticMouseEvent<>) {
+  startMoving(event: MouseEvent) {
     const { onMoveStart } = this.props
 
     if (onMoveStart) {
@@ -196,21 +198,24 @@ export default class Interactive extends React.Component<InteractiveProps, Inter
   }
 
   getPossibleTargetWindows(rect: Rect) {
-    const closeWindows = []
+    const closeWindows = Array<Rect>()
     const { siblings } = this.props
 
     if (siblings) {
-      for (const key in siblings) {
+      for (const key of Object.keys(siblings)) {
         if (key === this.props.id) {
           // don't target ourselves
           continue
         }
 
         const win = siblings[key]
-        const distance = getDistanceTo(rect, win)
+        if (!win)
+          continue
+        
+        const distance = getDistanceTo(rect, win as Rect)
 
         if (distance <= SNAP_SIZE) {
-          closeWindows.push(win)
+          closeWindows.push(win as Rect)
         }
       }
     }
@@ -218,13 +223,13 @@ export default class Interactive extends React.Component<InteractiveProps, Inter
     return closeWindows
   }
 
-  startWindowAction(event: SyntheticMouseEvent<>) {
+  startWindowAction(event: MouseEvent) {
     if (this.state.couldResize) {
       this.startResizeAction(event)
     }
   }
 
-  startResizeAction(event: SyntheticMouseEvent<>) {
+  startResizeAction(event: MouseEvent) {
     event.stopPropagation()
     event.preventDefault()
     const { onResizeStart } = this.props
@@ -243,7 +248,7 @@ export default class Interactive extends React.Component<InteractiveProps, Inter
     })
   }
 
-  componentDidUpdate(prevProps: InteractiveProps, prevState: InteractiveState) {
+  componentDidUpdate(_prevProps: InteractiveProps, prevState: InteractiveState) {
     if (prevState.cursor !== this.state.cursor) {
       const { updateCursor } = this.props
 
@@ -313,10 +318,10 @@ export default class Interactive extends React.Component<InteractiveProps, Inter
     }
   }
 
-  calculateMove(event: SyntheticMouseEvent<>) {
+  calculateMove(event: MouseEvent) {
     const { movingInitialCursor, movingInitialProps } = this.state
-    invariant(movingInitialProps, "TODO")
-    invariant(movingInitialCursor, "TODO")
+    // invariant(movingInitialProps, "TODO")
+    // invariant(movingInitialCursor, "TODO")
     const { clientX: cursorLeft, clientY: cursorTop } = event
     const movedLeft = movingInitialCursor.left - cursorLeft
     const movedTop = movingInitialCursor.top - cursorTop
@@ -362,7 +367,7 @@ export default class Interactive extends React.Component<InteractiveProps, Inter
     onResize(width, height)
   }
 
-  move(top: number, left: number, event: SyntheticMouseEvent<>) {
+  move(top: number, left: number, event: MouseEvent) {
     top = Math.max(this.props.minTop, top)
     left = Math.max(this.props.minLeft, left)
 
@@ -378,11 +383,11 @@ export default class Interactive extends React.Component<InteractiveProps, Inter
     }
   }
 
-  calculateResize(event: SyntheticMouseEvent<>) {
+  calculateResize(event: MouseEvent) {
     const { resizingInitialCursor, resizingInitialRect, resizingSides } = this.state
-    invariant(resizingInitialRect, "TODO")
-    invariant(resizingInitialCursor, "TODO")
-    invariant(resizingSides, "TODO")
+    // invariant(resizingInitialRect, "TODO")
+    // invariant(resizingInitialCursor, "TODO")
+    // invariant(resizingSides, "TODO")
     const deltaLeft = resizingInitialCursor.left - event.clientX
     const deltaTop = resizingInitialCursor.top - event.clientY
     let newLeft = resizingInitialRect.left
@@ -460,7 +465,7 @@ export default class Interactive extends React.Component<InteractiveProps, Inter
 
   getRect(): Rect {
     const { props, ref } = this
-    invariant(ref, "expected ref")
+    //invariant(ref, "expected ref")
     return {
       height: ref.offsetHeight || 0,
       left: props.left || 0,
@@ -482,7 +487,7 @@ export default class Interactive extends React.Component<InteractiveProps, Inter
   }
 
   checkIfResizable(
-    event: SyntheticMouseEvent<>
+    event: MouseEvent
   ):
     | {
         left: boolean,
@@ -515,7 +520,7 @@ export default class Interactive extends React.Component<InteractiveProps, Inter
     }
   }
 
-  calculateResizable(event: SyntheticMouseEvent<>) {
+  calculateResizable(event: MouseEvent) {
     const resizing = this.checkIfResizable(event)
 
     if (!resizing) {
@@ -600,7 +605,7 @@ export default class Interactive extends React.Component<InteractiveProps, Inter
       innerRef(ref)
     }
   }
-  onLocalMouseMove = (event: SyntheticMouseEvent<>) => {
+  onLocalMouseMove = (event: MouseEvent) => {
     if (!this.globalMouse) {
       this.onMouseMove(event)
     }
@@ -608,7 +613,7 @@ export default class Interactive extends React.Component<InteractiveProps, Inter
 
   render() {
     const { grow, height, left, movable, top, width, zIndex } = this.props
-    const style: Object = {
+    const style: CSSProperties = {
       cursor: this.state.cursor,
       zIndex: zIndex == null ? "auto" : zIndex
     }

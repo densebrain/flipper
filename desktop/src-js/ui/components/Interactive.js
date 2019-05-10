@@ -71,7 +71,7 @@ type InteractiveProps = {|
   innerRef?: (elem: HTMLElement) => void,
   style?: Object,
   className?: string,
-  children?: React$Element<*>,
+  children?: React.ReactElement<*>,
 |};
 
 type InteractiveState = {|

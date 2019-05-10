@@ -4,21 +4,23 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
+import * as React from "react"
 import styled from "../styled/index"
-const LargeHeading = styled("div")({
+import {Theme} from "../themes"
+const LargeHeading = styled("div")(({colors}: Theme) =>({
   fontSize: 18,
   fontWeight: "bold",
   lineHeight: "20px",
-  borderBottom: "1px solid #ddd",
+  borderBottom: `1px solid ${colors.border}`,
   marginBottom: 10
-})
-const SmallHeading = styled("div")({
+}))
+const SmallHeading = styled("div")(({colors}: Theme) =>({
   fontSize: 12,
-  color: "#90949c",
+  color: colors.text,
   fontWeight: "bold",
   marginBottom: 10,
   textTransform: "uppercase"
-})
+}))
 /**
  * A heading component.
  */

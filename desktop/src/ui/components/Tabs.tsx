@@ -4,20 +4,27 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
+import * as React from "react"
 import FlexColumn from "./FlexColumn"
 import styled from "../styled/index"
 import Orderable from "./Orderable"
 import FlexRow from "./FlexRow"
-import { colors } from "../themes/colors"
+
 import Tab from "./Tab"
+import {SimpleThemeProps, ThemeProps} from "../themes"
 const TabList = styled(FlexRow)({
   alignItems: "stretch"
 })
-const TabListItem = styled("div")(props => ({
-  backgroundColor: props.active ? colors.light15 : colors.light02,
+
+type TabListItemProps = ThemeProps<{
+  active?: boolean
+},string,true>
+
+const TabListItem = styled("div")(({active,theme:{colors}}:TabListItemProps) => ({
+  backgroundColor: active ? colors.accent : colors.background,
   borderBottom: "1px solid #dddfe2",
-  boxShadow: props.active ? "inset 0px 0px 3px rgba(0,0,0,0.25)" : "none",
-  color: colors.dark80,
+  boxShadow: active ? `inset 0px 0px 3px ${colors.border}` : "none",
+  color: active ? colors.accentText : colors.text,
   flex: 1,
   fontSize: 13,
   lineHeight: "28px",
@@ -28,7 +35,7 @@ const TabListItem = styled("div")(props => ({
   textOverflow: "ellipsis",
   whiteSpace: "nowrap",
   "&:hover": {
-    backgroundColor: props.active ? colors.light15 : colors.light05
+    backgroundColor: colors.accent
   }
 }))
 const TabListAddItem = styled(TabListItem)({
@@ -37,8 +44,8 @@ const TabListAddItem = styled(TabListItem)({
   flexGrow: 0,
   fontWeight: "bold"
 })
-const CloseButton = styled("div")({
-  color: "#000",
+const CloseButton = styled("div")(({theme:{colors}}: SimpleThemeProps) => ({
+  color: colors.textLight,
   float: "right",
   fontSize: 10,
   fontWeight: "bold",
@@ -50,10 +57,10 @@ const CloseButton = styled("div")({
   lineHeight: "16px",
   borderRadius: "50%",
   "&:hover": {
-    backgroundColor: colors.cherry,
-    color: "#fff"
+    backgroundColor: colors.error,
+    color: colors.errorText
   }
-})
+}))
 const OrderableContainer = styled("div")({
   display: "inline-block"
 })
@@ -70,7 +77,7 @@ export default function Tabs(props: {
   onActive?: (key: string | null | undefined) => void,
   defaultActive?: string,
   active?: string | null | undefined,
-  children?: Array<React$Element<any>>,
+  children?: Array<React.ReactElement<any>>,
   orderable?: boolean,
   onOrder?: (order: Array<string>) => void,
   order?: Array<string>,
@@ -86,13 +93,13 @@ export default function Tabs(props: {
   const before = props.before || []
   const after = props.after || [] //
 
-  const tabs = {} // a list of keys
+  const tabs:{[key: string]: typeof TabListItem} = {} // a list of keys
 
   const keys = props.order ? props.order.slice() : []
-  const tabContents = []
-  const tabSiblings = []
+  const tabContents = Array<typeof TabContent>()
+  const tabSiblings = Array<typeof Tab>()
 
-  function add(comps) {
+  function add(comps: Array<React.ReactElement<any>>) {
     for (const comp of [].concat(comps || [])) {
       if (Array.isArray(comp)) {
         add(comp)
@@ -134,7 +141,7 @@ export default function Tabs(props: {
         continue
       }
 
-      let closeButton
+      let closeButton: (typeof CloseButton) | null = null
       tabs[key] = (
         <TabListItem
           key={key}
@@ -143,7 +150,7 @@ export default function Tabs(props: {
           onMouseDown={
             !isActive &&
             onActive &&
-            ((event: SyntheticMouseEvent<>) => {
+            ((event: React.MouseEvent) => {
               if (event.target !== closeButton) {
                 onActive(key)
               }
@@ -153,7 +160,7 @@ export default function Tabs(props: {
           {comp.props.label}
           {closable && (
             <CloseButton // eslint-disable-next-line react/jsx-no-bind
-              innerRef={ref => (closeButton = ref)} // eslint-disable-next-line react/jsx-no-bind
+              innerRef={(ref: typeof CloseButton) => (closeButton = ref)} // eslint-disable-next-line react/jsx-no-bind
               onMouseDown={() => {
                 if (isActive && onActive) {
                   const index = keys.indexOf(key)
@@ -173,7 +180,7 @@ export default function Tabs(props: {
   }
 
   add(props.children)
-  let tabList
+  let tabList:React.ReactNode | Array<React.ReactNode>
 
   if (props.orderable === true) {
     tabList = (
@@ -182,10 +189,10 @@ export default function Tabs(props: {
       </OrderableContainer>
     )
   } else {
-    tabList = []
-
-    for (const key in tabs) {
-      tabList.push(tabs[key])
+    const list = tabList = Array<typeof TabListItem>()
+    
+    for (const key of Object.keys(tabs)) {
+      list.push(tabs[key])
     }
   }
 

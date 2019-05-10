@@ -46,14 +46,17 @@ export type ThemedClassNames<Classes extends string = string> = {[key in Classes
 //   classes: ThemedClassNames<ClassKeyOfStyles<S>> //Partial<ClassNameMap<Classes>> | ThemedClassNames<Classes> | undefined | null
 // } : {};
 
+export type SimpleThemeProps = {
+  theme: Theme
+}
+
 export type ThemeProps<Props = any, Classes extends string = string, IncludeTheme extends boolean = false> =
   Props & BasicThemeProps<Classes, IncludeTheme>
 
 export type BasicThemeProps<Classes extends string = string, IncludeTheme extends unknown | boolean = false> = {
-  theme: IncludeTheme extends true ? Theme : undefined
   innerRef?: React.Ref<any> | React.RefObject<any> | undefined
   classes: {[name in Classes]: string}
-}
+} & (IncludeTheme extends true ? SimpleThemeProps : {})
 
 //<S extends Styles<Theme, any> | unknown | string>
 // export type AllThemeProps = {
@@ -63,9 +66,11 @@ export type BasicThemeProps<Classes extends string = string, IncludeTheme extend
 // }
 //<S extends Styles<Theme, any> | unknown | string, IncludeTheme extends boolean = false>
 export type WithStylesInjector = <
-  C extends React.ComponentType<PropsOf<C>> // & ConsistentWith<PropsOf<C>, BasicThemeProps<S,IncludeTheme>>
-  >(component: C) => React.ReactElement<
-Omit<PropsOf<C>, "classes" | "theme"> //keyof BasicThemeProps<Classes, Options['withTheme']>
+  C extends React.ComponentType<any>, // & ConsistentWith<PropsOf<C>, BasicThemeProps<S,IncludeTheme>>
+  Props extends PropsOf<C> = any,
+  OutProps extends Omit<Props, "classes" | "theme"> = any
+  >(component: C) => C extends React.ComponentClass ? React.ComponentClass<OutProps> : React.ReactElement<
+OutProps //keyof BasicThemeProps<Classes, Options['withTheme']>
 > & any
 
 // function isWithStyleOptions(o:any): o is WithStylesOptions {

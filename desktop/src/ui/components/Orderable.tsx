@@ -4,17 +4,17 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
+import * as React from "react"
 import { Rect } from "../../utils/geometry"
 import styled from "../styled/index"
 import { Component } from "react"
 
-const React = require("react")
 
 export type OrderableOrder = Array<string>
 type OrderableOrientation = "horizontal" | "vertical"
 type OrderableProps = {
   items: {
-    [key: string]: React.Element<any>
+    [key: string]: React.ReactElement<any>
   },
   orientation: OrderableOrientation,
   onChange?: (order: OrderableOrder, key: string) => void,
@@ -45,12 +45,12 @@ class OrderableItem extends Component<{
   id: string,
   children?: React.ReactNode,
   addRef: (key: string, ref: HTMLElement) => void,
-  startMove: (KEY: string, event: SyntheticMouseEvent<>) => void
+  startMove: (KEY: string, event: React.MouseEvent<HTMLDivElement>) => void
 }> {
   addRef = (ref: HTMLElement) => {
     this.props.addRef(this.props.id, ref)
   }
-  startMove = (event: SyntheticMouseEvent<>) => {
+  startMove = (event: React.MouseEvent<HTMLDivElement>) => {
     this.props.startMove(this.props.id, event)
   }
 
@@ -113,7 +113,7 @@ export default class Orderable extends React.Component<OrderableProps, Orderable
     this.setProps(nextProps)
   }
 
-  startMove = (key: string, event: SyntheticMouseEvent<any>) => {
+  startMove = (key: string, event: React.MouseEvent<any>) => {
     if (this.props.altKey === true && event.altKey === false) {
       return
     }
@@ -147,7 +147,7 @@ export default class Orderable extends React.Component<OrderableProps, Orderable
     }
   }
 
-  _startMove(activeKey: string, event: SyntheticMouseEvent<>) {
+  _startMove(activeKey: string, event: React.MouseEvent) {
     // $FlowFixMe
     const clickOffset = event.nativeEvent[this.mouseKey] // calculate offsets before we start moving element
 

@@ -9,14 +9,23 @@ import { createPortal } from "react-dom"
 import { connect } from "react-redux"
 import { setActiveSheet } from "../../reducers/application"
 import { ActiveSheet } from "../../reducers/application"
+import {RootState} from "../../reducers"
 export const PLUGIN_SHEET_ELEMENT_ID = "pluginSheetContents"
-type Props = {
-  children: (onHide: () => void) => React.Node | null | undefined,
-  setActiveSheet: (sheet: ActiveSheet) => any,
+type StateProps = {
   activeSheet: ActiveSheet
 }
+
+type Actions = {
+  setActiveSheet: (sheet: ActiveSheet) => any
+}
+type OwnProps = {
+  children: (onHide: () => void) => React.ReactNode | null | undefined
+}
+
+type Props =StateProps & Actions & OwnProps
+
 type State = {
-  content: React.Node | null | undefined
+  content: React.ReactNode | null | undefined
 }
 /**
  * Usage: <Sheet>{onHide => <YourSheetContent onHide={onHide} />}</Sheet>
@@ -45,7 +54,7 @@ class Sheet extends Component<Props, State> {
     this.showSheetIfContentsAvailable()
   }
 
-  componentDidUpdate(prevProps: Props, prevState: State) {
+  componentDidUpdate(_prevProps: Props, prevState: State) {
     if (prevState.content !== this.state.content) {
       this.showSheetIfContentsAvailable()
     }
@@ -74,7 +83,7 @@ class Sheet extends Component<Props, State> {
   }
 } // $FlowFixMe
 
-export default connect(
+export default connect<StateProps, Actions, OwnProps, RootState>(
   ({ application: { activeSheet } }) => ({
     activeSheet
   }),

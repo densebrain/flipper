@@ -5,16 +5,15 @@
  * @format
  */
 import React from "react"
-import styled from "../styled/index"
+import styled, {styleCreator} from "../styled/index"
 import FlexColumn from "./FlexColumn"
 import FlexBox from "./FlexBox" //import {colors} from '../themes/colors';
-
 import Glyph from "./Glyph"
-import { styleCreator } from "../styled/index"
-import { Theme } from "../themes/themes"
-import { rem } from "../styled"
-import withStyles, { StyleRulesCallback } from "@material-ui/styles/withStyles"
+import {Theme} from "../themes/themes"
+import {rem} from "../styled"
+import withStyles from "@material-ui/styles/withStyles"
 import Text from "./Text"
+import {ThemeProps} from "../themes"
 
 function panelBorder(theme: Theme): string {
   const colors = theme.colors
@@ -26,9 +25,22 @@ const Chevron = styled(Glyph)({
   marginLeft: -2,
   marginBottom: 1
 })
-type Classes = "root"
+export type PanelClasses = "root"
 
-function baseStyles(theme): StyleRulesCallback<Classes> {
+export type PanelProps = ThemeProps<{
+  className?: string,
+  floating?: boolean,
+  theme?: Theme,
+  grow?: boolean,
+  heading: React.ReactNode,
+  children?: React.ReactNode,
+  padded?: boolean,
+  collapsable: boolean,
+  collapsed?: boolean,
+  accessory?: React.ReactNode
+},PanelClasses,true>
+
+function baseStyles(_theme: Theme) {
   return {
     root: {}
   }
@@ -38,22 +50,11 @@ function baseStyles(theme): StyleRulesCallback<Classes> {
  */
 
 export default
-@withStyles(baseStyles, {
+withStyles(baseStyles, {
   withTheme: true
-})
+})(
 class Panel extends React.Component<
-  {
-    className?: string,
-    floating?: boolean,
-    theme?: Theme,
-    grow?: boolean,
-    heading: React.ReactNode,
-    children?: React.ReactNode,
-    padded?: boolean,
-    collapsable: boolean,
-    collapsed?: boolean,
-    accessory?: React.ReactNode
-  },
+  PanelProps,
   {
     collapsed: boolean
   }
@@ -158,4 +159,4 @@ class Panel extends React.Component<
       </Panel.PanelContainer>
     )
   }
-}
+})

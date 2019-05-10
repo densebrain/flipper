@@ -91,7 +91,7 @@ export default function Tabs(props: {|
   /**
    * Tab elements.
    */
-  children?: Array<React$Element<any>>,
+  children?: Array<React.ReactElement<any>>,
   /**
    * Whether the tabs can be reordered by the user.
    */

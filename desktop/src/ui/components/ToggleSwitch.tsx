@@ -4,14 +4,14 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import React from "react"
+import * as React from "react"
 import styled from "../styled/index"
-import { colors } from "../themes/colors"
-export const StyledButton = styled("div")(props => ({
+import {SimpleThemeProps} from "../themes"
+export const StyledButton = styled("div")(({toggled,theme:{colors}}: Props) => ({
   cursor: "pointer",
   width: "30px",
   height: "16px",
-  background: props.toggled ? colors.green : colors.grey,
+  background: toggled ? colors.backgroundSelected : colors.background,
   display: "block",
   borderRadius: "100px",
   position: "relative",
@@ -20,7 +20,7 @@ export const StyledButton = styled("div")(props => ({
     content: '""',
     position: "absolute",
     top: "3px",
-    left: props.toggled ? "18px" : "3px",
+    left: toggled ? "18px" : "3px",
     width: "10px",
     height: "10px",
     background: "white",
@@ -28,8 +28,8 @@ export const StyledButton = styled("div")(props => ({
     transition: "all cubic-bezier(0.3, 1.5, 0.7, 1) 0.3s"
   }
 }))
-type Props = {
-  onClick?: (event: SyntheticMouseEvent<>) => void,
+type Props = SimpleThemeProps & {
+  onClick?: (event: React.MouseEvent) => void,
   toggled?: boolean
 }
 /**

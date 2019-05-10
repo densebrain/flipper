@@ -1,13 +1,12 @@
 {
-  "extends": "../../@types/tsconfig",
+  "extends": "../@types/tsconfig.json",
   "compilerOptions": {
+    "noImplicitAny": false,
     "baseUrl": "./",
     "paths": {
-      "*": ["*"],
-      "flipper": ["../index"]
+      "*": ["*"]
     }
   },
-  
   "include": [
     "**/*.ts",
     "**/*.tsx"

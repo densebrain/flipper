@@ -159,9 +159,9 @@ const rowBaseStyles = ({
 }
 
 
-@withStyles(rowBaseStyles, {
+export default withStyles(rowBaseStyles, {
   withTheme: true
-})
+})(
 class TableRow extends React.PureComponent<RowProps> {
   static defaultProps = {
     zebra: true
@@ -232,6 +232,4 @@ class TableRow extends React.PureComponent<RowProps> {
     </div>
   }
   
-}
-
-export default TableRow
+})

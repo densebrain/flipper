@@ -5,14 +5,13 @@
  * @format
  */
 import View from "./View"
-import styled from "../styled/index"
 import { makeRootView } from "./RootView"
 /**
  * A container displaying its children horizontally and vertically centered.
  */
 
 export default makeRootView(
-  theme => ({
+  () => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center"

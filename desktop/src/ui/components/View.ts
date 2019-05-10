@@ -4,28 +4,39 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import { makeRootView, RootView } from "./RootView"
-const View = makeRootView(
-  () => ({
-    position: "relative",
-    overflow: "visible",
-    height: "auto",
-    width: "auto"
-  }),
-  RootView,
-  props => ({
-    ...(props.grow
-      ? {
+import * as React from 'react'
+import {makeRootView, RootView, RootViewProps} from "./RootView"
+
+export type ViewProps = RootViewProps & {
+  grow?: number | boolean | undefined
+  scrollable?: boolean | undefined
+}
+
+export function makeView<Props extends ViewProps = ViewProps>(): React.ComponentType<Props> {
+  return makeRootView<Props>(
+    () => ({
+      position: "relative",
+      overflow: "visible",
+      height: "auto",
+      width: "auto"
+    }),
+    RootView,
+    props => ({
+      ...(props.grow
+        ? {
           height: "100%",
           width: "100%"
         }
-      : {}),
-    ...(props.scrollable
-      ? {
+        : {}),
+      ...(props.scrollable
+        ? {
           overflow: "auto"
         }
-      : {})
-  })
-) //(styleCreator(props => ,['grow','shrink','scrollable','buildItems','focused','filterKey','addFilter','justifyContent','multiline','backgroundColor']));
+        : {})
+    })
+  ) as React.ComponentType<Props> //(styleCreator(props => ,['grow','shrink','scrollable','buildItems','focused','filterKey','addFilter','justifyContent','multiline','backgroundColor']));
+}
+
+const View = makeView()
 
 export default View

@@ -13,7 +13,7 @@ export function makeDimensionConstraint<P extends any>(dim: 'width' | 'height', 
     [`min${dimUpper}`]: val,
     [`max${dimUpper}`]: val,
     overflow: 'hidden'
-  };
+  } as CSSProperties;
 } // noinspection JSUnusedGlobalSymbols
 
 export const HeightProperties = ["height", "maxHeight", "minHeight"]; // noinspection JSUnusedGlobalSymbols

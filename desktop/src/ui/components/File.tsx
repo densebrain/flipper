@@ -6,7 +6,7 @@
  */
 import { Component } from "react"
 
-const React = require("react")
+import * as React from "react"
 
 const fs = require("fs")
 
@@ -14,10 +14,10 @@ type FileProps = {
   src: string,
   buffer?: string | null | undefined,
   encoding: string,
-  onError?: (err: Error) => React.Element<any>,
-  onLoading?: () => React.Element<any>,
+  onError?: (err: Error) => React.ReactElement<any>,
+  onLoading?: () => React.ReactElement<any>,
   onData?: (content: string) => void,
-  onLoad: (content: string) => React.Element<any>
+  onLoad: (content: string) => React.ReactElement<any>
 }
 type FileState = {
   error: Error | null | undefined,
@@ -56,7 +56,7 @@ export default class File extends Component<FileProps, FileState> {
       return
     }
 
-    fs.readFile(this.props.src, this.props.encoding, (err, content) => {
+    fs.readFile(this.props.src, this.props.encoding, (err: Error | null, content: string) => {
       if (err) {
         this.setState({
           error: err

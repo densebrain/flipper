@@ -5,7 +5,7 @@
  * @format
  */
 import styled from "../styled/index"
-import React from "react"
+import * as React from "react"
 import CodeBlock from "./CodeBlock"
 export const ErrorBlockContainer = styled(CodeBlock)({
   backgroundColor: "#f2dede",

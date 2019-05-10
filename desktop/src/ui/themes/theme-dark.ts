@@ -23,10 +23,10 @@ const darkThemeConfig: ThemeConfig = {
     base0F: "#4a4a93"
   },
 
-  customizeTheme(theme: BaseTheme, palette: Palette, colors: Colors) {
+  customizeTheme(theme: BaseTheme, _palette: Palette, colors: Colors) {
     return {
       ...theme,
-      titlebar: props => {
+      titlebar: (props: any) => {
         const { focused } = props
         return {
           ...theme.titlebar(props),

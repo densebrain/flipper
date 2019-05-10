@@ -4,13 +4,21 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-const path = require("path")
+import * as Path from "path"
 
-const os = require("os")
+import * as Os from "os"
 
-const fs = require("fs")
+import * as Fs from "fs"
 
-module.exports = function(argv) {
+type FlipperConfig = {
+  pluginPaths: Array<string>
+  disabledPlugins: Array<string>
+  lastWindowPosition?: any
+  updaterEnabled?: boolean | undefined
+  launcherMsg?: string | undefined
+}
+
+export default function(argv: FlipperArgs) {
   if (!process.env.ANDROID_HOME) {
     process.env.ANDROID_HOME = "/opt/android_sdk"
   } // emulator/emulator is more reliable than tools/emulator, so prefer it if
@@ -18,27 +26,27 @@ module.exports = function(argv) {
 
   process.env.PATH = `${process.env.ANDROID_HOME}/emulator:${process.env.ANDROID_HOME}/tools:${process.env.PATH}` // ensure .flipper folder and config exist
 
-  const flipperDir = path.join(os.homedir(), ".flipper")
+  const flipperDir = Path.join(Os.homedir(), ".flipper")
 
-  if (!fs.existsSync(flipperDir)) {
-    fs.mkdirSync(flipperDir)
+  if (!Fs.existsSync(flipperDir)) {
+    Fs.mkdirSync(flipperDir)
   }
 
-  const configPath = path.join(flipperDir, "config.json")
-  let config = {
+  const configPath = Path.join(flipperDir, "config.json")
+  let config: FlipperConfig = {
     pluginPaths: [],
     disabledPlugins: [],
     lastWindowPosition: {}
   }
 
   try {
-    config = { ...config, ...JSON.parse(fs.readFileSync(configPath)) }
+    config = { ...config, ...JSON.parse(Fs.readFileSync(configPath,'utf-8')) }
   } catch (e) {
     // file not readable or not parsable, overwrite it with the new config
-    fs.writeFileSync(configPath, JSON.stringify(config))
+    Fs.writeFileSync(configPath, JSON.stringify(config))
   } // Non-persistent CLI arguments.
 
-  config = { ...config, updaterEnabled: argv.updater, launcherMsg: argv.launcherMsg }
+  config = { ...config, updaterEnabled: !!argv.updater, launcherMsg: argv["launcher-msg"] }
   return {
     config,
     configPath,

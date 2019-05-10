@@ -4,9 +4,11 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
+
 import styled from "../styled/index"
-export default styled("div")({
-  backgroundColor: "#c9ced4",
+import {Theme} from "../themes"
+export default styled("div")(({colors}: Theme) =>({
+  backgroundColor: colors.textLight,
   height: 1,
   margin: "5px 0"
-})
+}))

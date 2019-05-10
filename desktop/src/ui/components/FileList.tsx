@@ -6,15 +6,15 @@
  */
 import { Component } from "react"
 
-const path = require("path")
+import * as Path from "path"
+import * as Fs from "fs"
+import {promises as FsAsync} from "fs"
+import {getLogger} from "../../fb-interfaces/Logger"
 
-const fs = require("fs")
+const log = getLogger(__filename)
 
-const EMPTY_MAP = new Map()
-const EMPTY_FILE_LIST_STATE = {
-  error: null,
-  files: EMPTY_MAP
-}
+//const EMPTY_MAP = new Map()
+
 export type FileListFileType = "file" | "folder"
 export type FileListFile = {
   name: string,
@@ -37,6 +37,14 @@ type FileListState = {
   files: Map<string, FileListFile>,
   error: Error | null | undefined
 }
+
+function newFileList():Map<string, FileListFile> {
+  return new Map<string, FileListFile>()
+}
+const EMPTY_FILE_LIST_STATE: FileListState = {
+  error: null,
+  files: newFileList()
+}
 /**
  * List the contents of a folder from the user's file system. The file system is watched for
  * changes and this list will automatically update.
@@ -45,15 +53,15 @@ type FileListState = {
 export default class FileList extends Component<FileListProps, FileListState> {
   constructor(props: FileListProps, context: Object) {
     super(props, context)
-    this.state = EMPTY_FILE_LIST_STATE
+    this.state = {...EMPTY_FILE_LIST_STATE}
   }
 
-  watcher: fs.FSWatcher | null | undefined
+  watcher: Fs.FSWatcher | null | undefined
 
   fetchFile(name: string): Promise<FileListFile> {
     return new Promise((resolve, reject) => {
-      const loc = path.join(this.props.src, name)
-      fs.lstat(loc, (err, stat) => {
+      const loc = Path.join(this.props.src, name)
+      Fs.lstat(loc, (err:Error | undefined, stat: Fs.Stats) => {
         if (err) {
           reject(err)
         } else {
@@ -73,25 +81,19 @@ export default class FileList extends Component<FileListProps, FileListState> {
     })
   }
 
-  fetchFiles(callback?: Function) {
+  async fetchFiles(callback?: Function) {
     const { src } = this.props
 
-    const setState = data => {
+    const setState = (state: FileListState) => {
       if (!hasChangedDir()) {
-        this.setState(data)
+        this.setState(state)
       }
     }
 
     const hasChangedDir = () => this.props.src !== src
-
-    fs.readdir(src, (err, files) => {
-      if (err) {
-        setState({
-          error: err,
-          files: EMPTY_MAP
-        })
-        return
-      }
+    try {
+    const files = await FsAsync.readdir(src)
+      
 
       const filesSet: Map<string, FileListFile> = new Map()
 
@@ -122,13 +124,21 @@ export default class FileList extends Component<FileListProps, FileListState> {
           .catch(err => {
             setState({
               error: err,
-              files: EMPTY_MAP
+              files: newFileList()
             })
           })
       }
 
       next()
-    })
+    } catch (err) {
+      
+        setState({
+          error: err,
+          files: newFileList()
+        })
+      
+      
+    }
   }
 
   componentWillReceiveProps(nextProps: FileListProps) {
@@ -145,34 +155,38 @@ export default class FileList extends Component<FileListProps, FileListState> {
     this.removeWatcher()
   }
 
-  initialFetch(props: FileListProps) {
+  async initialFetch(props: FileListProps) {
     this.removeWatcher()
-    fs.access(props.src, fs.constants.R_OK, err => {
-      if (err) {
-        this.setState({
-          error: err,
-          files: EMPTY_MAP
-        })
-        return
-      }
-
-      this.fetchFiles(props.onLoad)
-      this.watcher = fs.watch(props.src, () => {
-        this.fetchFiles()
+    try {
+    await FsAsync.access(props.src, Fs.constants.R_OK)
+      
+      await this.fetchFiles(props.onLoad)
+      this.watcher = Fs.watch(props.src, async () => {
+        try {
+          this.fetchFiles()
+        } catch (err) {
+          log.error(`Unable to fetch files ${props.src}`, err)
+        }
       })
       this.watcher.on("error", err => {
         this.setState({
           error: err,
-          files: EMPTY_MAP
+          files: newFileList()
         })
         this.removeWatcher()
       })
-    })
+    } catch (err) {
+      this.setState({
+        error: err,
+        files: newFileList()
+      })
+    }
   }
 
   removeWatcher() {
     if (this.watcher) {
       this.watcher.close()
+      this.watcher = null
     }
   }
 

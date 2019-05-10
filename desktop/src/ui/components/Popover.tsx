@@ -60,7 +60,7 @@ export default class Popover extends PureComponent<Props> {
     window.document.addEventListener("keydown", this.handleKeydown)
   }
 
-  handleClick = (e: SyntheticMouseEvent<>) => {
+  handleClick = (e: React.MouseEvent) => {
     // $FlowFixMe
     if (this._ref && !this._ref.contains(e.target)) {
       this.props.onDismiss()

@@ -5,24 +5,13 @@
  * @format
  */
 import styled from "../styled/index"
-import { colors } from "../themes/colors"
-import { Component } from "react"
 import * as React from "react"
+import {SimpleThemeProps, Theme, withTheme} from "../themes"
+import {RootViewProps} from "./RootView"
 
 const PropTypes = require("prop-types")
 
-const defaultOptions = {
-  backgroundColor: colors.blueGrey,
-  position: "below",
-  color: colors.white,
-  showTail: true,
-  maxWidth: "200px",
-  width: "auto",
-  borderRadius: 4,
-  padding: "6px",
-  lineHeight: "20px",
-  delay: 0
-}
+
 export type TooltipOptions = {
   backgroundColor?: string,
   position?: "below" | "above" | "toRight" | "toLeft",
@@ -36,13 +25,26 @@ export type TooltipOptions = {
   delay?: number
 }
 
-export type TooltipProps = {
+const defaultOptions = ({colors}:Theme):TooltipOptions => ({
+  backgroundColor: colors.backgroundSelected,
+  position: "below",
+  color: colors.textSelected,
+  showTail: true,
+  maxWidth: "200px",
+  width: "auto",
+  borderRadius: 4,
+  padding: "6px",
+  lineHeight: "20px",
+  delay: 0
+})
+
+export type TooltipProps = RootViewProps & {
   top?: number | string,
   right?: number | string,
   bottom?: number | string,
   left?: number | string,
   options:TooltipOptions
-}
+} & SimpleThemeProps
 
 const TooltipBubble = styled("div")((props:TooltipProps) => ({
   position: "absolute",
@@ -94,7 +96,8 @@ type TooltipState = {
   tooltip: TooltipObject | null,
   timeoutID: number | undefined
 }
-export default class TooltipProvider extends Component<TooltipProps, TooltipState> {
+
+export class TooltipProvider extends React.Component<TooltipProps, TooltipState> {
   static childContextTypes = {
     TOOLTIP_PROVIDER: PropTypes.object
   }
@@ -109,36 +112,36 @@ export default class TooltipProvider extends Component<TooltipProps, TooltipStat
   }
   
   
-
+  
   // @ts-ignore
   getChildContext():any {
     return {
       TOOLTIP_PROVIDER: this
     }
   }
-
+  
   open(container: HTMLDivElement, title: React.ReactNode, options: TooltipOptions) {
     const node = container.childNodes[0]
-
+    
     if (node == null || !(node instanceof HTMLElement)) {
       return
     }
-
+    
     if (options.delay) {
       this.setState({
         timeoutID: window.setTimeout(() => {
-        this.setState({
-          tooltip: {
-            rect: node.getBoundingClientRect(),
-            title,
-            options: options
-          }
-        })
-      }, options.delay)
+          this.setState({
+            tooltip: {
+              rect: node.getBoundingClientRect(),
+              title,
+              options: options
+            }
+          })
+        }, options.delay)
       })
       return
     }
-
+    
     this.setState({
       tooltip: {
         rect: node.getBoundingClientRect(),
@@ -147,30 +150,30 @@ export default class TooltipProvider extends Component<TooltipProps, TooltipStat
       }
     })
   }
-
+  
   close() {
     if (this.state.timeoutID) {
       clearTimeout(this.state.timeoutID)
     }
-
+    
     this.setState({
       tooltip: null,
       timeoutID: undefined
     })
   }
-
+  
   getTooltipTail(tooltip: TooltipObject) {
     const opts = Object.assign(defaultOptions, tooltip.options)
-
+    
     if (!opts.showTail) {
       return null
     }
-
+    
     let left: number | string = "auto"
     let top: number | string = "auto"
     let bottom: number | string = "auto"
     let right: number | string = "auto"
-
+    
     if (opts.position === "below") {
       left = tooltip.rect.left + TAIL_AB_POSITION_HORIZONTAL_OFFSET
       top = tooltip.rect.bottom
@@ -184,63 +187,67 @@ export default class TooltipProvider extends Component<TooltipProps, TooltipStat
       right = window.innerWidth - tooltip.rect.left + TAIL_LR_POSITION_HORIZONTAL_OFFSET
       top = tooltip.rect.top
     }
-
+    
     return <TooltipTail key="tail" top={top} left={left} bottom={bottom} right={right} options={opts} />
   }
-
+  
   getTooltipBubble(tooltip: TooltipObject) {
-    const opts = Object.assign(defaultOptions, tooltip.options)
+    const opts = Object.assign(defaultOptions(this.props.theme), tooltip.options)
     let left: number | string = "auto"
     let top: number | string = "auto"
     let bottom: number | string = "auto"
     let right: number | string = "auto"
-
+    
     if (opts.position === "below") {
       left = tooltip.rect.left
       top = tooltip.rect.bottom
-
+      
       if (opts.showTail) {
         top += BUBBLE_SHOWTAIL_OFFSET
       }
     } else if (opts.position === "above") {
       bottom = window.innerHeight - tooltip.rect.top
-
+      
       if (opts.showTail) {
         bottom += BUBBLE_SHOWTAIL_OFFSET
       }
-
+      
       left = tooltip.rect.left
     } else if (opts.position === "toRight") {
       left = tooltip.rect.right + BUBBLE_LR_POSITION_HORIZONTAL_OFFSET
-
+      
       if (opts.showTail) {
         left += BUBBLE_SHOWTAIL_OFFSET
       }
-
+      
       top = tooltip.rect.top + BUBBLE_BELOW_POSITION_VERTICAL_OFFSET
     } else if (opts.position === "toLeft") {
       right = window.innerWidth - tooltip.rect.left + BUBBLE_LR_POSITION_HORIZONTAL_OFFSET
-
+      
       if (opts.showTail) {
         right += BUBBLE_SHOWTAIL_OFFSET
       }
-
+      
       top = tooltip.rect.top + BUBBLE_BELOW_POSITION_VERTICAL_OFFSET
     }
-
+    
     return (
       <TooltipBubble key="bubble" top={top} left={left} bottom={bottom} right={right} options={opts}>
         {tooltip.title}
       </TooltipBubble>
     )
   }
-
+  
   getTooltipElement() {
     const { tooltip } = this.state
     return tooltip && tooltip.title && [this.getTooltipTail(tooltip), this.getTooltipBubble(tooltip)]
   }
-
+  
   render() {
     return [this.getTooltipElement(), this.props.children]
   }
 }
+
+export const TooltipProviderStyled = withTheme()(TooltipProvider)
+
+export default TooltipProviderStyled

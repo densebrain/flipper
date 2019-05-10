@@ -1,5 +1,5 @@
-//import type {React$Element} from 'react';
-//import {React$Element} from 'react'
+//import type {React.ReactElement} from 'react';
+//import {React.ReactElement} from 'react'
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import {chainPropTypes, getDisplayName} from '@material-ui/utils';
@@ -10,7 +10,7 @@ import type {StyledElement, StylerFnOrStyles} from './StyleTypes';
 import filterProps from 'react-valid-props';
 import {memoFn} from '../../utils/memoize';
 
-//import {React$Element} from 'react';
+//import {React.ReactElement} from 'react';
 //import type {} from '@material-ui/core/styles/withStyles';
 
 

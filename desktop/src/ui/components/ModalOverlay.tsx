@@ -26,7 +26,7 @@ export default class ModalOverlay extends Component<{
   setRef = (ref: HTMLElement) => {
     this.ref = ref
   }
-  onClick = (e: SyntheticMouseEvent<>) => {
+  onClick = (e: React.MouseEvent) => {
     if (e.target === this.ref) {
       this.props.onClose()
     }

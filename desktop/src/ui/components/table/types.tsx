@@ -73,13 +73,13 @@ export type TableRowSortOrder = {
 export type TableOnDragSelect = (e: React.MouseEvent, key: string, index: number) => void;
 export type TableOnAddFilter = (filter: Filter) => void;
 export class ManagedTableDataPage<T extends any> {
-  _allItems: Array<T>;
-  _items: Array<T>;
-  _key: string;
-  _size: number = 0;
-  _filter: ((item: T) => boolean) | null = null;
-  _ready: boolean = false;
-  _height: number = 0;
+  private _allItems: Array<T>;
+  private _items: Array<T>;
+  private _key: string;
+  //private _size: number = 0;
+  private _filter: ((item: T) => boolean) | null = null;
+  private _ready: boolean = false;
+  private _height: number = 0;
 
   _prepare() {
     if (this._ready) return;
@@ -210,3 +210,4 @@ export type TableRowAddress = {
 export function isTableDataPage(o:any): o is ManagedTableDataPage<any> {
   return o instanceof ManagedTableDataPage
 }
+

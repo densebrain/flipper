@@ -34,3 +34,5 @@ self.addEventListener("fetch", (event: Event) => {
 function isFetchEvent(event: any): event is FetchEvent {
   return !!event.request && !!event.request.url && typeof event.repondWith === 'function'
 }
+
+export {}

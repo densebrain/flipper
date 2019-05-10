@@ -10,7 +10,11 @@ import child_process from "child_process"
 import promiseRetry from "promise-retry"
 import adbConfig from "../utils/adbConfig"
 import adbkit from "adbkit-fb"
-let instance
+
+
+type AdbClient = any
+
+let instance:AdbClient | null = null
 export function getAdbClient(): Promise<any> {
   if (!instance) {
     instance = reportPlatformFailures(createClient(), "createADBClient")
@@ -22,10 +26,11 @@ export function getAdbClient(): Promise<any> {
    however, it sometimes fails with ENOENT errors. So instead, we start it
    manually before requesting a client. */
 
+const ExecAsync:(cmd: string) => Promise<{ error?: Error | undefined, stdout: string | Buffer, stderr: string | Buffer }> = promisify(child_process.exec);
 function createClient() {
   const adbPath = process.env.ANDROID_HOME ? `${process.env.ANDROID_HOME}/platform-tools/adb` : "adb"
   return reportPlatformFailures(
-    promisify(child_process.exec)(`${adbPath} start-server`)
+    ExecAsync(`${adbPath} start-server`)
       .then(result => {
         if (result.error) {
           throw new Error(`Failed to start adb server: ${result.stderr.toString()}`)
@@ -41,13 +46,13 @@ function createClient() {
     const unsafeClient = adbkit.createClient(adbConfig())
     return reportPlatformFailures(
       promiseRetry(
-        (retry, number) => {
+        (retry, _number) => {
           return unsafeClient
             .listDevices()
             .then(() => {
               return unsafeClient
             })
-            .catch(e => {
+            .catch((e: Error) => {
               console.warn(`Failed to start adb client. Retrying. ${e.message}`)
               retry(e)
             })

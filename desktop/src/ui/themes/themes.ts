@@ -1,9 +1,10 @@
 import darkThemeConfig from "./theme-dark"
 import lightThemeConfig from "./theme-light"
-import { ColorProperty } from "csstype"
-import { getContrastRatio, lighten, darken } from "@material-ui/core/styles/colorManipulator"
-import { Colors, Palette, BaseTheme, ThemeComponents, ThemeConfig } from "./ThemeTypes"
-import { alpha } from "../styled/prebuilt-styles"
+import {ColorProperty} from "csstype"
+import {darken, getContrastRatio, lighten} from "@material-ui/core/styles/colorManipulator"
+import {BaseTheme, Colors, ThemeConfig} from "./ThemeTypes"
+import {alpha} from "../styled/prebuilt-styles"
+
 const contrastThreshold = 3
 
 function makeTheme(themeConfig: ThemeConfig) {
@@ -52,7 +53,7 @@ function makeTheme(themeConfig: ThemeConfig) {
     palette,
     colors,
     getContrastText,
-    titlebar: ({ focused }) => ({
+    titlebar: ({ focused }:{focused?: boolean}) => ({
       background: focused
         ? `linear-gradient(to bottom, ${colors.backgroundStatus} 0%, ${lighten(colors.backgroundStatus, 0.1)} 100%)`
         : colors.backgroundStatus,

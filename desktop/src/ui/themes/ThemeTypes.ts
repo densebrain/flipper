@@ -3,6 +3,7 @@ import { CSSProperties } from "@material-ui/styles/withStyles";
 export type Palette = {
   name: string;
   author: string;
+  scheme: string
   base00: ColorProperty;
   base01: ColorProperty;
   base02: ColorProperty;

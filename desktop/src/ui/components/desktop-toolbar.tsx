@@ -6,8 +6,7 @@
  */
 import styled from "../styled/index"
 import { colors, darkColors } from "../themes/colors"
-
-const React = require("react")
+import * as React from 'react'
 
 const DesktopDropdownContainer = styled("div")({
   borderBottom: `1px solid ${darkColors.dividers}`,
@@ -24,13 +23,14 @@ const DesktopDropdownContainer = styled("div")({
     borderBottom: "none"
   }
 })
-export function DesktopDropdown(props: { deactivate?: () => void, children?: any }) {
+export function DesktopDropdown(props: { deactivate?: () => void, children?: React.ReactNode | null }) {
   return (
     <DesktopDropdownContainer>
-      {React.Children.map(props.children, child => {
+      {React.Children.map(props.children, (child: undefined | string | React.ReactNode | React.ComponentType<any>) => {
         return (
           child &&
-          React.cloneElement(child, {
+            React.isValidElement(child) &&
+          React.cloneElement<any>(child, {
             deactivate: props.deactivate
           })
         )
@@ -38,7 +38,7 @@ export function DesktopDropdown(props: { deactivate?: () => void, children?: any
     </DesktopDropdownContainer>
   )
 }
-const DesktopDropdownItemContainer = styled("div")(props => ({
+const DesktopDropdownItemContainer = styled("div")((props:DesktopDropdownItemProps) => ({
   listStyle: "none",
   opacity: props.onClick || props.onHover ? 1 : 0.5,
   padding: "0 20px",
@@ -51,14 +51,14 @@ type DesktopDropdownItemState = {
   hovered: boolean
 }
 type DesktopDropdownItemProps = {
-  onClick?: false | ((event: SyntheticMouseEvent<>) => void | null | undefined),
+  onClick?: false | ((event: React.MouseEvent) => void | null | undefined),
   onHover?: false | (() => React.ReactNode | null | undefined),
   children?: React.ReactNode,
   deactivate?: () => void
 }
 export class DesktopDropdownItem extends React.Component<DesktopDropdownItemProps, DesktopDropdownItemState> {
-  constructor(props: DesktopDropdownItemProps, context: Object) {
-    super(props, context)
+  constructor(props: DesktopDropdownItemProps) {
+    super(props)
     this.state = {
       hovered: false
     }
@@ -74,10 +74,10 @@ export class DesktopDropdownItem extends React.Component<DesktopDropdownItemProp
       hovered: false
     })
   }
-  onClick = (event: SyntheticMouseEvent<>) => {
+  onClick = (event: React.MouseEvent) => {
     const { deactivate, onClick } = this.props
 
-    if (typeof onClick === "function") {
+    if (onClick) {
       if (deactivate) {
         deactivate()
       }
@@ -102,7 +102,7 @@ export class DesktopDropdownItem extends React.Component<DesktopDropdownItemProp
     )
   }
 }
-export const DesktopDropdownSelectedItem = styled(DesktopDropdownItem)({
+export const DesktopDropdownSelectedItem = styled<DesktopDropdownItemProps>(DesktopDropdownItem)({
   position: "relative",
   "&::before": {
     content: "'✔'",

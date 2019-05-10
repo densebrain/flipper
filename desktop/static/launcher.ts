@@ -31,7 +31,7 @@ const isLauncherInstalled = () => {
   return false
 }
 
-const startLauncher = argv => {
+const startLauncher = (argv: FlipperArgs) => {
   const args = []
 
   if (argv.file) {
@@ -73,7 +73,7 @@ const checkIsCycle = async () => {
  * it has. You should shut down this instance of the app in that case.
  */
 
-module.exports = async function delegateToLauncher(argv) {
+export default async function delegateToLauncher(argv: FlipperArgs) {
   if (argv.launcher && isProduction() && isLauncherInstalled()) {
     if (await checkIsCycle()) {
       console.error("Launcher cycle detected. Not delegating even though I usually would.")

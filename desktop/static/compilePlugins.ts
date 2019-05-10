@@ -5,19 +5,22 @@
  * @format
  * @flow strict-local
  */
-const path = require("path")
+import * as Path from "path"
 
-const fs = require("fs")
+import * as Fs from "fs"
+
+import * as Util from "util"
+
+import recursiveReaddir from "recursive-readdir"
+
+import expandTilde from "expand-tilde"
+
+import * as Os from 'os'
 
 const Metro = require("metro")
 
-const util = require("util")
+const HOME_DIR = Os.homedir()
 
-const recursiveReaddir = require("recursive-readdir")
-
-const expandTilde = require("expand-tilde")
-
-const HOME_DIR = require("os").homedir()
 /* eslint-disable prettier/prettier */
 
 /*::
@@ -34,17 +37,17 @@ const DEFAULT_COMPILE_OPTIONS =
     failSilently: true
   }
 
-module.exports = async (reloadCallback, pluginPaths, pluginCache, options = DEFAULT_COMPILE_OPTIONS) => {
+export default async function (reloadCallback:any, pluginPaths:any, pluginCache:any, options = DEFAULT_COMPILE_OPTIONS) {
   const plugins = pluginEntryPoints(pluginPaths)
 
-  if (!fs.existsSync(pluginCache)) {
-    fs.mkdirSync(pluginCache)
+  if (!Fs.existsSync(pluginCache)) {
+    Fs.mkdirSync(pluginCache)
   }
 
   watchChanges(plugins, reloadCallback, pluginCache, options)
   const dynamicPlugins = []
 
-  for (let plugin of Object.values(plugins)) {
+  for (let plugin of Object.values(plugins) as any[]) {
     const dynamicOptions = Object.assign(options, {
       force: false
     })
@@ -59,16 +62,16 @@ module.exports = async (reloadCallback, pluginPaths, pluginCache, options = DEFA
   return dynamicPlugins
 }
 
-function watchChanges(plugins, reloadCallback, pluginCache, options = DEFAULT_COMPILE_OPTIONS) {
+function watchChanges(plugins:any, reloadCallback:any, pluginCache:any, options:any = DEFAULT_COMPILE_OPTIONS) {
   // eslint-disable-next-line no-console
   console.log("🕵️‍  Watching for plugin changes")
-  Object.values(plugins).map(plugin =>
-    fs.watch(
+  Object.values(plugins).map((plugin: any) =>
+    Fs.watch(
       plugin.rootDir,
       {
         recursive: true
       },
-      (eventType, filename) => {
+      (_eventType:any, filename) => {
         // only recompile for changes in not hidden files. Watchman might create
         // a file called .watchman-cookie
         if (!filename.startsWith(".")) {
@@ -84,17 +87,17 @@ function watchChanges(plugins, reloadCallback, pluginCache, options = DEFAULT_CO
   )
 }
 
-function hash(string) {
+function hash(str:string) {
   let hash = 0
 
-  if (string.length === 0) {
+  if (str.length === 0) {
     return hash
   }
 
   let chr
 
-  for (let i = 0; i < string.length; i++) {
-    chr = string.charCodeAt(i)
+  for (let i = 0; i < str.length; i++) {
+    chr = str.charCodeAt(i)
     hash = (hash << 5) - hash + chr
     hash |= 0
   }
@@ -104,7 +107,7 @@ function hash(string) {
 
 const fileToIdMap = new Map()
 
-const createModuleIdFactory = () => filePath => {
+const createModuleIdFactory = () => (filePath: string) => {
   if (filePath === "__prelude__") {
     return 0
   }
@@ -119,8 +122,8 @@ const createModuleIdFactory = () => filePath => {
   return id
 }
 
-function pluginEntryPoints(additionalPaths = []) {
-  const defaultPluginPath = path.join(HOME_DIR, ".flipper", "node_modules")
+function pluginEntryPoints(additionalPaths:string[] = []) {
+  const defaultPluginPath = Path.join(HOME_DIR, ".flipper", "node_modules")
   const entryPoints = entryPointForPluginFolder(defaultPluginPath)
 
   if (typeof additionalPaths === "string") {
@@ -136,25 +139,25 @@ function pluginEntryPoints(additionalPaths = []) {
   return entryPoints
 }
 
-function entryPointForPluginFolder(pluginPath) {
+function entryPointForPluginFolder(pluginPath: string): any {
   pluginPath = expandTilde(pluginPath)
 
-  if (!fs.existsSync(pluginPath)) {
+  if (!Fs.existsSync(pluginPath)) {
     return {}
   }
 
-  return fs
+  return Fs
     .readdirSync(pluginPath)
     .filter(name =>
       /*name.startsWith('flipper-plugin') && */
-      fs.lstatSync(path.join(pluginPath, name)).isDirectory()
+      Fs.lstatSync(Path.join(pluginPath, name)).isDirectory()
     )
     .filter(Boolean)
     .map(name => {
       let packageJSON
 
       try {
-        packageJSON = fs.readFileSync(path.join(pluginPath, name, "package.json")).toString()
+        packageJSON = Fs.readFileSync(Path.join(pluginPath, name, "package.json")).toString()
       } catch (e) {}
 
       if (packageJSON) {
@@ -163,8 +166,8 @@ function entryPointForPluginFolder(pluginPath) {
           return {
             packageJSON: pkg,
             name: pkg.name,
-            entry: path.join(pluginPath, name, pkg.main || "index.js"),
-            rootDir: path.join(pluginPath, name)
+            entry: Path.join(pluginPath, name, pkg.main || "index.js"),
+            rootDir: Path.join(pluginPath, name)
           }
         } catch (e) {
           console.error(`Could not load plugin "${pluginPath}", because package.json is invalid.`)
@@ -177,23 +180,23 @@ function entryPointForPluginFolder(pluginPath) {
     .reduce((acc, cv) => {
       acc[cv.name] = cv
       return acc
-    }, {})
+    }, {} as any)
 }
 
-function mostRecentlyChanged(dir) {
-  return util
+function mostRecentlyChanged(dir: string) {
+  return Util
     .promisify(recursiveReaddir)(dir)
-    .then(files => files.map(f => fs.lstatSync(f).ctime).reduce((a, b) => (a > b ? a : b), new Date(0)))
+    .then((files: Array<string>) => files.map((f:string) => Fs.lstatSync(f).ctime).reduce((a:Date, b:Date) => (a > b ? a : b), new Date(0)))
 }
 
 async function compilePlugin(
-  { rootDir, name, entry, packageJSON },
-  pluginCache,
-  options
+  { rootDir, name, entry, packageJSON }: any,
+  pluginCache: any,
+  options: any
   /*: CompileOptions */
 ) {
   const fileName = `${name}@${packageJSON.version || "0.0.0"}.js`
-  const out = path.join(pluginCache, fileName)
+  const out = Path.join(pluginCache, fileName)
   const result = Object.assign({}, packageJSON, {
     rootDir,
     name,
@@ -203,7 +206,7 @@ async function compilePlugin(
 
   const rootDirCtime = await mostRecentlyChanged(rootDir)
 
-  if (!options.force && fs.existsSync(out) && rootDirCtime < fs.lstatSync(out).ctime) {
+  if (!options.force && Fs.existsSync(out) && rootDirCtime < Fs.lstatSync(out).ctime) {
     // eslint-disable-next-line no-console
     console.log(`🥫  Using cached version of ${name}...`)
     return result
@@ -219,11 +222,11 @@ async function compilePlugin(
           projectRoot: rootDir,
           watchFolders: [__dirname, rootDir],
           serializer: {
-            getRunModuleStatement: moduleID => `module.exports = global.__r(${moduleID}).default;`,
+            getRunModuleStatement: (moduleID: any) => `module.exports = global.__r(${moduleID}).default;`,
             createModuleIdFactory
           },
           transformer: {
-            babelTransformerPath: path.join(__dirname, "transforms", "index.js")
+            babelTransformerPath: Path.join(__dirname, "transforms", "index.js")
           },
           resolver: {
             blacklistRE: /\/(sonar|flipper-public)\/dist\//

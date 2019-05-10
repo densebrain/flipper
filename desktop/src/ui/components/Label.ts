@@ -4,11 +4,11 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import styled from "../styled/index"
 import Text from "./Text"
-import { makeRootView } from "./RootView"
+import {makeRootView} from "./RootView"
+
 export default makeRootView(
-  theme => ({
+  () => ({
     fontSize: 12,
     fontWeight: "bold"
   }),

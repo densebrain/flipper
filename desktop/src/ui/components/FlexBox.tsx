@@ -4,21 +4,23 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import View from "./View"
-import styled from "../styled/index"
-import { makeRootView } from "./RootView"
-type Props = {
+// @ts-ignore
+import * as React from 'react'
+import {makeView} from "./View"
+import {makeRootView, RootViewProps} from "./RootView"
+import {Theme} from "../themes"
+export type FlexBoxProps = RootViewProps & {
   shrink: number
 }
+
 /**
  * A container using flexbox to layout its children
  */
-
-export default makeRootView(
-  theme => ({
+export default makeRootView<FlexBoxProps>(
+  (_theme:Theme) => ({
     display: "flex"
   }),
-  View,
+  makeView<FlexBoxProps>(),
   props => ({
     flexShrink: !props.shrink || props.shrink ? 1 : 0
   })

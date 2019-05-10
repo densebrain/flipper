@@ -4,48 +4,63 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
+import * as React from 'react'
 import { Component } from "react"
 import styled from "../styled/index"
-import electron from "electron"
+import * as Electron from "electron"
+import {ContextMenuContext, ContextMenuContextProvider, ContextMenuTemplate} from "./ContextMenuContext"
 
-const PropTypes = require("prop-types")
 
-type MenuTemplate = Array<Electron$MenuItemOptions>
+
+
 const Container = styled("div")({
   display: "contents"
 })
+
+interface Props {
+  children: React.ReactNode
+}
 /**
  * Flipper's root is already wrapped with this component, so plugins should not
  * need to use this. ContextMenu is what you probably want to use.
  */
 
-export default class ContextMenuProvider extends Component<{
-  children: React.ReactNode
+export default class ContextMenuProvider extends Component<Props, {
+  contextMenuContext: ContextMenuContext
 }> {
-  static childContextTypes = {
-    appendToContextMenu: PropTypes.func
-  }
+  
 
-  getChildContext() {
+  constructor(props:Props) {
+    super(props)
+    this.state = {
+      contextMenuContext: {
+        appendToContextMenu: this.appendToContextMenu.bind(this)
+      }
+    }
+  }
+  
+  getContextMenuContext() {
     return {
-      appendToContextMenu: this.appendToContextMenu
+    
     }
   }
 
-  _menuTemplate: MenuTemplate = []
-  appendToContextMenu = (items: MenuTemplate) => {
-    this._menuTemplate = this._menuTemplate.concat(items)
+  private menuTemplate: ContextMenuTemplate = []
+  
+  private appendToContextMenu(items: ContextMenuTemplate) {
+    this.menuTemplate = this.menuTemplate.concat(items)
   }
-  onContextMenu = () => {
-    const menu = electron.remote.Menu.buildFromTemplate(this._menuTemplate)
-    this._menuTemplate = []
+  private onContextMenu = () => {
+    const menu = Electron.remote.Menu.buildFromTemplate(this.menuTemplate)
+    this.menuTemplate = []
     menu.popup({
-      window: electron.remote.getCurrentWindow(),
-      async: true
+      window: Electron.remote.getCurrentWindow()
     })
   }
 
   render() {
-    return <Container onContextMenu={this.onContextMenu}>{this.props.children}</Container>
+    return <ContextMenuContextProvider value={this.state.contextMenuContext}>
+      <Container onContextMenu={this.onContextMenu}>{this.props.children}</Container>
+    </ContextMenuContextProvider>
   }
 }

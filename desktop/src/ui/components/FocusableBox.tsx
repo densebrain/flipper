@@ -4,36 +4,45 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import { Component } from "react"
+import {Component, HTMLAttributes} from "react"
 import Box from "./Box"
-import { colors } from "../themes/colors"
+import * as React from 'react'
 import styled from "../styled/index"
-const FocusableBoxBorder = styled(Box)({
-  border: `1px solid ${colors.highlight}`,
+import {Theme} from "../themes"
+const FocusableBoxBorder = styled(Box)(({colors}: Theme) => ({
+  border: `1px solid ${colors.border}`,
   bottom: "0",
   left: "0",
   pointerEvents: "none",
   position: "absolute",
   right: "0",
   top: "0"
-})
+}))
+
+type Props = HTMLAttributes<any> & {
+  focusable?: boolean | undefined
+}
 export default class FocusableBox extends Component<
-  Object,
+  Props,
   {
     focused: boolean
   }
 > {
-  constructor(props: Object, context: Object) {
+  
+  static defaultProps = {
+    focusable: true
+  }
+  
+  constructor(props: Props, context: any) {
     super(props, context)
+    
     this.state = {
       focused: false
     }
   }
 
-  static defaultProps = {
-    focusable: true
-  }
-  onBlur = (e: SyntheticFocusEvent<>) => {
+  
+  onBlur = (e: React.FocusEvent) => {
     const { onBlur } = this.props
 
     if (onBlur) {
@@ -46,7 +55,7 @@ export default class FocusableBox extends Component<
       })
     }
   }
-  onFocus = (e: SyntheticFocusEvent<>) => {
+  onFocus = (e: React.FocusEvent) => {
     const { onFocus } = this.props
 
     if (onFocus) {

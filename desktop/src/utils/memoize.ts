@@ -1,6 +1,6 @@
 export type ArgEqualityFn = (newArgs: any[], lastArgs: any[]) => boolean;
 export const simpleIsEqual: ArgEqualityFn = (newArgs: {}[], lastArgs: {}[]) => newArgs.length === lastArgs.length && newArgs.every((newArg: {}, index: number): boolean => newArg === lastArgs[index]);
-export function memoFn<Fn extends Function>(fn: Fn, equalityFn?: ArgEqualityFn = simpleIsEqual, checkResult: boolean = false): Fn {
+export function memoFn<Fn extends Function>(fn: Fn, equalityFn: ArgEqualityFn = simpleIsEqual, checkResult: boolean = false): Fn {
   let lastArgs: {}[] = [];
   let called = false;
   let lastResult: any = null;

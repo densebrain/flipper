@@ -4,15 +4,14 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import FlexBox from "./FlexBox"
-import styled from "../styled/index"
+import FlexBox, {FlexBoxProps} from "./FlexBox"
 import { makeRootView } from "./RootView"
 /**
  * A container displaying its children in a column
  */
 
-export default makeRootView(
-  theme => ({
+export default makeRootView<FlexBoxProps>(
+  () => ({
     flexDirection: "column"
   }),
   FlexBox

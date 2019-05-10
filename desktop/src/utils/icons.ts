@@ -74,7 +74,7 @@ export const precachedIcons: Array<string> = [
     size: 8
   }
 ].map(icon => getIconUrl(icon.name, icon.size || undefined))
-export function getIconUrl(name: string, size?: number = 16, variant?: "filled" | "outline" = "filled"): string {
+export function getIconUrl(name: string, size: number = 16, variant: "filled" | "outline" = "filled"): string {
   if (name.indexOf("/") > -1) {
     return name
   }

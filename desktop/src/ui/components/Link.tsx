@@ -4,6 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
+import * as React from "react"
 import styled from "../styled/index"
 import { colors } from "../themes/colors"
 import { Component } from "react"

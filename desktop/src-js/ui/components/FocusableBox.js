@@ -35,7 +35,7 @@ export default class FocusableBox extends Component<
     focusable: true,
   };
 
-  onBlur = (e: SyntheticFocusEvent<>) => {
+  onBlur = (e: React.FocusEvent) => {
     const {onBlur} = this.props;
     if (onBlur) {
       onBlur(e);
@@ -45,7 +45,7 @@ export default class FocusableBox extends Component<
     }
   };
 
-  onFocus = (e: SyntheticFocusEvent<>) => {
+  onFocus = (e: React.FocusEvent) => {
     const {onFocus} = this.props;
     if (onFocus) {
       onFocus(e);

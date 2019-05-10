@@ -12,4 +12,4 @@ export { lighten, darken } from "@material-ui/core/styles/colorManipulator"
 import { create } from "jss"
 import jssPreset from "@material-ui/styles/jssPreset" // Default JSS instance.
 
-export const jss = create(jssPreset()) //export {default as jss} from 'jss'
+export const jss = create(jssPreset() as any) //export {default as jss} from 'jss'

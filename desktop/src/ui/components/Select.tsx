@@ -4,6 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
+import * as React from "react"
 import { Component } from "react"
 import Text from "./Text"
 import styled, { styleCreator } from "../styled"
@@ -12,7 +13,7 @@ const Label = styled("label")({
   alignItems: "center"
 })
 const LabelText = styled(Text)({
-  fontWeight: "500",
+  fontWeight: 500,
   marginRight: 5
 })
 const SelectMenu = styled("select")(
@@ -38,7 +39,7 @@ export default class Select extends Component<{
   grow?: boolean
 }> {
   selectID: string = Math.random().toString(36)
-  onChange = (event: Object) => {
+  onChange = (event: React.ChangeEvent<any>) => {
     this.props.onChange(event.target.value)
   }
 

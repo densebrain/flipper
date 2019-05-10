@@ -1,9 +1,14 @@
+import * as React from 'react'
 import filterProps from 'react-valid-props';
-import { Theme } from '../themes';
+import {Theme, ThemeProps} from '../themes'
 import { withStyles } from '../themes';
 import { memoFn, simpleIsEqual } from '../../utils/memoize'; //import React from 'react';
 
-export function RootView(props: React.HTMLProps<any>) {
+export type RootViewClasses = "root";
+export type RootViewProps<ElementType = any> = React.HTMLAttributes<ElementType> & {
+  innerRef?: React.Ref<ElementType> | React.RefObject<ElementType> | undefined
+}
+export function RootView<Props extends RootViewProps = RootViewProps>(props: Props): React.ReactElement<Props,any> {
   const {
     className,
     children,
@@ -11,19 +16,28 @@ export function RootView(props: React.HTMLProps<any>) {
   } = (props as any);
   return <div className={className} {...filterProps(other)}>{children}</div>;
 }
-export type RootViewClasses = "root";
-export function makeRootView(styles: (theme: Theme) => any, Component: React.ComponentType<any> = RootView, styler: (props: any) => any | null | undefined = null): React.ComponentType<any> {
-  const memoStyler = memoFn(({
-    style,
-    ...other
-  }) => ({ ...(styler ? styler(other) : {}),
-    ...(style || {})
-  }), simpleIsEqual, true);
-  return withStyles<React.HTMLProps<any>, RootViewClasses>(((theme => ({
+
+export type RootViewComponentType<Props extends RootViewProps> = React.ComponentType<Props> | (((props:Props) => (React.ReactElement<Props,any> | React.ReactNode)) | React.ReactElement<Props,any>)
+
+export function makeRootView<
+  Props extends RootViewProps = any,
+  Classes extends RootViewClasses = RootViewClasses,
+  ViewProps extends ThemeProps<Props,Classes,true> = any,
+  C extends RootViewComponentType<Props> = any
+>(styles: (theme: Theme) => any, component: C = RootView as C, styler: (props: ViewProps) => any | null | undefined = null): C {
+  //if (!Component)
+  const memoStyler = memoFn((props: ViewProps) => {
+    const {style} = props
+    return {
+      ...(styler ? styler(props) : {}),
+      ...(style || {})
+    }
+  }, simpleIsEqual, true);
+  return withStyles((((theme: Theme) => ({
     root: styles(theme)
   })) as any), {
     withTheme: true
-  })(React.forwardRef((props, ref) => {
+  })(React.forwardRef<C, ViewProps>((props, ref) => {
     let {
       style,
       className,
@@ -36,12 +50,13 @@ export function makeRootView(styles: (theme: Theme) => any, Component: React.Com
       style = memoStyler(props);
     }
 
-    return <Component {...!ref ? {} : Component.Naked ? {
+    const Component = component as any
+    return <Component {...!ref ? {} : (Component as any).Naked ? {
       innerRef: ref
     } : {
       ref
     }} {...style ? {
       style
-    } : {}} className={`${classes.root}${!className ? '' : ` ${className}`}`} {...other} />;
+    } : {}} className={`${(classes as any).root}${!className ? '' : ` ${className}`}`} {...other} />;
   }));
 }

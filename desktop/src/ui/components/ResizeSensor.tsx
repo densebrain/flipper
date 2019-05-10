@@ -4,6 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
+import * as React from "react"
 import styled from "../styled/index"
 import { Component } from "react"
 const IFrame = styled("iframe")({
@@ -21,7 +22,7 @@ const IFrame = styled("iframe")({
  */
 
 export default class ResizeSensor extends Component<{
-  onResize: (e: UIEvent) => void
+  onResizeAnimation: (time: number) => void
 }> {
   iframe: HTMLIFrameElement | null | undefined
   setRef = (ref: HTMLIFrameElement | null | undefined) => {
@@ -49,6 +50,6 @@ export default class ResizeSensor extends Component<{
   }
 
   handleResize = () => {
-    window.requestAnimationFrame(this.props.onResize)
+    window.requestAnimationFrame(this.props.onResizeAnimation)
   }
 }

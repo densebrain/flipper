@@ -4,35 +4,38 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
+
+import { app, BrowserWindow, ipcMain, Notification } from "electron"
+import * as Electron from "electron"
+
+import Path from "path"
+
+import url from "url"
+
+import Fs from "fs"
+
+import { exec } from "child_process"
+
+import compilePlugins from "./compilePlugins"
+
+import setup from "./setup"
+
+import * as delegateToLauncher from "./launcher"
+
+import expandTilde from "expand-tilde"
+
+import yargs from "yargs"
+
 const [s, ns] = process.hrtime()
 let launchStartTime = s * 1e3 + ns / 1e6
 
-const { app, BrowserWindow, ipcMain, Notification } = require("electron")
-
-const Path = require("path")
-
-const url = require("url")
-
-const Fs = require("fs")
-
-const { exec } = require("child_process")
-
-const compilePlugins = require("./compilePlugins.js")
-
-const setup = require("./setup")
-
-const delegateToLauncher = require("./launcher")
-
-const expandTilde = require("expand-tilde")
-
-const yargs = require("yargs")
 
 if (!app) {
   console.error("This is not a single instance")
   process.exit(0)
 } // disable electron security warnings: https://github.com/electron/electron/blob/master/docs/tutorial/security.md#security-native-capabilities-and-your-responsibility
 
-process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true
+;(process.env as any).ELECTRON_DISABLE_SECURITY_WARNINGS = true
 
 if (process.platform === "darwin") {
   // If we are running on macOS and the app is called Flipper, we add a comment
@@ -74,9 +77,14 @@ const argv = yargs
     describe: "[Internal] Used to provide a user message from the launcher to the user.",
     type: "string"
   })
-  .version(global.__VERSION__)
+  .version((global as any).__VERSION__)
   .help()
   .parse(process.argv.slice(1))
+
+declare global {
+  type FlipperArgs = typeof argv
+}
+
 let { config, configPath, flipperDir } = setup(argv)
 const pluginPaths = config.pluginPaths
   .concat(Path.join(__dirname, "..", "src", "plugins"), Path.join(__dirname, "..", "src", "fb", "plugins"))
@@ -84,7 +92,7 @@ const pluginPaths = config.pluginPaths
   .filter(Fs.existsSync)
 process.env.CONFIG = JSON.stringify({ ...config, pluginPaths }) // possible reference to main app window
 
-let win
+let win: Electron.BrowserWindow | null | undefined
 let appReady = false
 let pluginsCompiled = false
 let deeplinkURL = argv.url
@@ -114,7 +122,7 @@ const gotTheLock = app.requestSingleInstanceLock()
 if (!gotTheLock) {
   app.quit()
 } else {
-  app.on("second-instance", (event, commandLine, workingDirectory) => {
+  app.on("second-instance", (_event, _commandLine, _workingDirectory) => {
     // Someone tried to run a second instance, we should focus our window.
     if (win) {
       if (win.isMinimized()) {
@@ -291,3 +299,5 @@ function tryCreateWindow() {
     win.loadURL(entryUrl)
   }
 }
+
+export {}
