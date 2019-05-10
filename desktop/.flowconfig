@@ -8,6 +8,7 @@
 .*/build/.*
 .*/dist/.*
 .*/static/.*
+.*/src/.*
 <PROJECT_ROOT>/src/fb/plugins/relaydevtools/relay-devtools/DevtoolsUI.js$
 .*/website/.*
 <PROJECT_ROOT>/src/fb/plugins/sections/d3/d3.js$

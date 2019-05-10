@@ -1,0 +1,48 @@
+{
+  "compilerOptions": {
+    //"declaration": true,
+    "lib": [
+      "es2015","es2016","es2017","esnext","dom", "webworker"
+    ],
+    "jsx": "react",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "outDir": "dist",
+    "preserveConstEnums": false,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "target": "es6",
+    "baseUrl": "./",
+    "paths": {
+      "*": ["*"],
+      "flipper": ["./src/index"],
+      "package-json": ["./@types/package-json"],
+      "rsocket-core": ["./@types/rsocket-core"],
+      "rsocket-types": ["./@types/rsocket-types"],
+      "rsocket-flowable": ["./@types/rsocket-flowable"],
+      "rsocket-tcp-server": ["./@types/rsocket-tcp-server"],
+      "rsocket-tcp-client": ["./@types/rsocket-tcp-server"]
+    },
+    "typeRoots": [
+      "./@types","./node_modules/@types"
+    ]
+  },
+  "exclude": [
+    "node_modules/**/*.*",
+    "**/node_modules/**/*.*",
+    "node_modules",
+    "**/*.js",
+    "**/*.js.flow"
+  ],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "static/*.ts",
+    "static/*.tsx"
+  ]
+}

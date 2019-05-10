@@ -201,7 +201,7 @@ declare module "react-redux" {
 
   declare export class Provider<Store> extends React$Component<{
     store: Store,
-    children?: React$Node,
+    children?: React.ReactNode,
   }> {}
 
   declare export function createProvider(

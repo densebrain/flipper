@@ -1,0 +1,6 @@
+{
+  "name": "@types/rsocket-tcp-client",
+  "version": "1.0.0",
+  "main": "",
+  "types": "index"
+}

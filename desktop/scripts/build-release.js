@@ -36,7 +36,7 @@ function modifyPackageManifest(buildFolder, versionNumber, hgRevision) {
   // eslint-disable-next-line no-console
   console.log('Creating package.json manifest');
   const manifest = require('../package.json');
-  const manifestStatic = require('../static/package.json');
+  const manifestStatic = require('../static-js/package.json');
 
   // The manifest's dependencies are bundled with the final app by
   // electron-builder. We want to bundle the dependencies from the static-folder

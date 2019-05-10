@@ -46,23 +46,23 @@ declare module 'react-transition-group' {
 
   declare export class Transition extends React$Component<TransitionProps & {
     in?: boolean,
-    children: ((status: TransitionStatus) => React$Node) | React$Node,
+    children: ((status: TransitionStatus) => React.ReactNode) | React.ReactNode,
   }> {}
 
   declare export class TransitionGroup extends React$Component<TransitionActions & {
     component?: React$ElementType | null,
-    children?: React$Node,
-    childFactory?: (child: React$Node) => React$Node,
+    children?: React.ReactNode,
+    childFactory?: (child: React.ReactNode) => React.ReactNode,
   }> {}
 
   declare export class ReplaceTransition extends React$Component<TransitionProps & {
     in: boolean,
-    children: React$Node,
+    children: React.ReactNode,
   }> {}
 
   declare export class CSSTransition extends React$Component<TransitionProps & {
     in?: boolean,
     classNames: string | CSSTransitionClassNames,
-    children?: ((status: TransitionStatus) => React$Node) | React$Node,
+    children?: ((status: TransitionStatus) => React.ReactNode) | React.ReactNode,
   }> {}
 }

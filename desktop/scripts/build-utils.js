@@ -5,8 +5,8 @@
  * @format
  */
 
-const Metro = require('../static/node_modules/metro');
-const compilePlugins = require('../static/compilePlugins');
+const Metro = require('../static-js/node_modules/metro');
+const compilePlugins = require('../static-js/compilePlugins');
 const tmp = require('tmp');
 const path = require('path');
 const fs = require('fs-extra');
