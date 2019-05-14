@@ -1,0 +1,19 @@
+{
+  "name": "@flipper/plugin-example",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "license": "MIT",
+  "title": "Example Plugin",
+  "icon": "apps",
+  "bugs": {
+    "email": "oncall+flipper@xmail.facebook.com",
+    "url": "https://fb.workplace.com/groups/230455004101832/"
+  },
+  "devDependencies": {
+    "@flipper/dev": "^1.0.0"
+  },
+  "dependencies": {
+    "@flipper/core": "^1.0.0"
+  }
+}

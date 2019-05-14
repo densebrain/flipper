@@ -1,0 +1,16 @@
+{
+  "name": "@flipper/app",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "license": "MIT",
+  "dependencies": {
+  
+  },
+  "devDependencies": {
+    "@flipper/dev": "^1.0.0"
+  },
+  "resolutions": {
+    "metro/temp": "0.9.0"
+  }
+}

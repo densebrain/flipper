@@ -1,0 +1,24 @@
+{
+  "name": "@flipper/plugin-inspector",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "license": "MIT",
+  "dependencies": {
+    "@flipper/core": "^1.0.0",
+    "deep-equal": "^1.0.1"
+  },
+  "peerDependencies": {
+    "lodash": "^4.17.5"
+  },
+  "devDependencies": {
+    "@flipper/dev": "^1.0.0"
+  },
+  "title": "Layout",
+  "icon": "target",
+  "bugs": {
+    "email": "oncall+flipper@xmail.facebook.com",
+    "url": "https://fb.workplace.com/groups/230455004101832/"
+  }
+  
+}

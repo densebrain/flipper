@@ -1,0 +1,17 @@
+{
+  "name": "@flipper/plugin-sandbox",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "license": "MIT",
+  "dependencies": {
+    "@flipper/core": "^1.0.0"
+  },
+  "devDependencies": {
+    "@flipper/dev": "^1.0.0"
+  },
+  "title": "Shared Preferences Viewer",
+  "bugs": {
+    "email": "halsibai@fb.com"
+  }
+}

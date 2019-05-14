@@ -1,0 +1,30 @@
+{
+  remote: {
+    process: {
+      env: {},
+    },
+    getCurrentWindow: function() {
+      return {
+        isFocused: function() {return true;},
+        on: function() {return true;}
+      };
+    },
+    app: {
+      getVersion: function() {return global.__VERSION__ || '1';},
+      getName: function() {return '';},
+      getAppPath: function() {return process.cwd();}
+    },
+    shell: {
+      openExternal: function() {}
+    },
+    Menu: {
+      buildFromTemplate: function() {
+        return {items: []}
+      },
+      setApplicationMenu: function() {}
+    }
+  },
+  ipcRenderer: {
+    on: function() {return true;}
+  },
+}

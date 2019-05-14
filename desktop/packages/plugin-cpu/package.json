@@ -1,0 +1,19 @@
+{
+  "name": "@flipper/plugin-cpu",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "license": "MIT",
+  "dependencies": {
+    "@flipper/core": "^1.0.0",
+    "adbkit-fb": "2.10.1"
+  },
+  "devDependencies": {
+    "@flipper/dev": "^1.0.0"
+  },
+  "title": "CPU",
+  "icon": "underline",
+  "bugs": {
+    "email": "barney@fb.com"
+  }
+}

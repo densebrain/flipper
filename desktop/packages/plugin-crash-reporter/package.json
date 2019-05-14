@@ -1,0 +1,21 @@
+{
+  "name": "@flipper/plugin-crash-reporter",
+  "version": "0.1.0",
+  "description": "A plugin which will display a crash",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "repository": "https://github.com/facebook/flipper",
+  "license": "MIT",
+  "title": "Crash Reporter",
+  "bugs": {
+    "email": "prit91@fb.com",
+    "url": "https://fb.workplace.com/groups/220760072184928/"
+  },
+  "devDependencies": {
+    "@flipper/dev": "^1.0.0"
+  },
+  "dependencies": {
+    "@flipper/core": "^1.0.0",
+    "unicode-substring": "^1.0.0"
+  }
+}

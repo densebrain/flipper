@@ -1,0 +1,21 @@
+{
+  "name": "@flipper/plugin-leak-canary",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "license": "MIT",
+  "dependencies": {
+    "@flipper/core": "^1.0.0"
+  },
+  "peerDependencies": {
+    "lodash": "^4.17.5"
+  },
+  "devDependencies": {
+    "@flipper/dev": "^1.0.0"
+  },
+  "icon": "bird",
+  "title": "LeakCanary",
+  "bugs": {
+    "email": "jhli@fb.com"
+  }
+}
