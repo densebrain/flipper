@@ -5,11 +5,11 @@
  * @format
  */
 
-const Metro = require('../static-js/node_modules/metro');
-const compilePlugins = require('../static-js/compilePlugins');
+const Metro = require('../static/node_modules/metro');
+const compilePlugins = require('../static/compilePlugins').default
 const tmp = require('tmp');
 const path = require('path');
-const fs = require('fs-extra');
+const fs = require('mz/fs');
 const cp = require('child-process-es6-promise');
 
 function die(err) {
@@ -17,8 +17,8 @@ function die(err) {
   process.exit(1);
 }
 
-function compileDefaultPlugins(defaultPluginDir) {
-  return compilePlugins(
+async function compileDefaultPlugins(defaultPluginDir) {
+  const defaultPlugins = await compilePlugins(
     null,
     [
       path.join(__dirname, '..', 'src', 'plugins'),
@@ -27,18 +27,21 @@ function compileDefaultPlugins(defaultPluginDir) {
     defaultPluginDir,
     {force: true, failSilently: false},
   )
-    .then(defaultPlugins =>
-      fs.writeFileSync(
-        path.join(defaultPluginDir, 'index.json'),
-        JSON.stringify(
-          defaultPlugins.map(({entry, rootDir, out, ...plugin}) => ({
-            ...plugin,
-            out: path.parse(out).base,
-          })),
-        ),
+  
+  try {
+    return await fs.writeFile(
+      path.join(defaultPluginDir, 'index.json'),
+      JSON.stringify(
+        defaultPlugins.map(({entry, rootDir, out, ...plugin}) => ({
+          ...plugin,
+          out: path.parse(out).base,
+        })),
       ),
     )
-    .catch(die);
+  
+  } catch(err) {
+    return die(err)
+  }
 }
 
 function compile(buildFolder, entry) {

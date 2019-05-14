@@ -1,0 +1,59 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "lib": [
+      "es2015",
+      "es2016",
+      "es2017",
+      "esnext",
+      "dom"
+    ],
+    "jsx": "react",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+  
+    "preserveConstEnums": false,
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "target": "ESNext",
+
+    "baseUrl": "./",
+    "paths": {
+      "*": [
+        "*"
+      ],
+      "@flipper/*": [
+        "./*/src"
+      ],
+      "package-json": [
+        "./types/src/package-json"
+      ],
+      "rsocket-core": [
+        "./types/src/rsocket-core"
+      ],
+      "rsocket-types": [
+        "./types/src/rsocket-types"
+      ],
+      "rsocket-flowable": [
+        "./types/src/rsocket-flowable"
+      ],
+      "rsocket-tcp-server": [
+        "./types/src/rsocket-tcp-server"
+      ],
+      "rsocket-tcp-client": [
+        "./types/src/rsocket-tcp-server"
+      ]
+    },
+    "typeRoots": [
+      "./types/src",
+      "../node_modules/@types"
+    ]
+
+  }
+}

@@ -343,7 +343,7 @@ export default class DataInspector extends Component<DataInspectorProps> {
       nextProps.diff !== props.diff ||
       nextProps.name !== props.name ||
       nextProps.depth !== props.depth ||
-      !deepEqual(nextProps.path, props.path) ||
+      !deepEqual(nextProps.path, props.Path) ||
       nextProps.onExpanded !== props.onExpanded ||
       nextProps.setValue !== props.setValue
     );
