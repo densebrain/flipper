@@ -51,7 +51,7 @@ export default class Search extends Component<Props, State> {
     this.setState({
       value
     })
-    this.timer = window.setTimeout(() => this.performSearch(value), 200)
+    this.timer = (setTimeout as any)(() => this.performSearch(value), 200)
   }
   
   private onKeyDown = (e: React.KeyboardEvent) => {

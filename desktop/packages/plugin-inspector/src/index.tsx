@@ -12,7 +12,7 @@ import {
   PluginClient,
   PluginType,
   Plugin,
-  PluginExport, FlipperPluginProps, Store
+  PluginModuleExport, FlipperPluginProps, Store
 } from "@flipper/core"
 import { FlexColumn, FlexRow, FlipperPluginComponent, Toolbar, Sidebar, Link, Glyph, DetailSidebar, styled } from "@flipper/core"
 import Inspector from "./Inspector"
@@ -271,4 +271,4 @@ export default {
   id: LayoutPlugin.id,
   type: LayoutPlugin.type,
   componentClazz: LayoutPlugin
-} as PluginExport<typeof LayoutPlugin>
+} as PluginModuleExport<typeof LayoutPlugin>

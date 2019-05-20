@@ -1,3 +1,4 @@
+import "@flipper/common"
 import {Store} from "./reducers"
 
 declare global {
@@ -16,10 +17,14 @@ declare global {
     }
   }
   
-  type Omit<T, K extends keyof any> = T extends any ? Pick<T, Exclude<keyof T, K>> : never;
-  type FilterTypes<T, U> = T extends U ? T : never;
+  const nodeRequire: NodeRequire
+  
   
 }
+
+Object.assign(global, {
+  nodeRequire: __non_webpack_require__
+})
 
 export {
 

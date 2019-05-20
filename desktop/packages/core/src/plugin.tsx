@@ -39,6 +39,9 @@ export class FlipperBasePluginComponent<Props extends FlipperPluginProps<Persist
     
   }
   
+  get theme():Theme {
+    return this.props.theme
+  }
   
   get id() {
     return this.props.id
@@ -127,6 +130,9 @@ export class FlipperBasePluginComponent<Props extends FlipperPluginProps<Persist
       throw new TypeError(`Reducer ${type} isn't a function`)
     }
   }
+  
+  
+  
 }
 
 export class FlipperPluginComponent<Props extends FlipperPluginProps<PersistedState> = any, State = any, Actions extends PluginActions = any, PersistedState = any>
@@ -187,7 +193,7 @@ export class FlipperPluginComponent<Props extends FlipperPluginProps<PersistedSt
     // automatically unsubscribe subscriptions
     for (const {method, callback} of this.subscriptions) {
       this.realClient.unsubscribe(this.id, method, callback)
-    } // run plugin teardown
+    }
     
     this.teardown()
     
@@ -207,14 +213,16 @@ export class FlipperDevicePluginComponent<Props extends FlipperPluginProps<Persi
     Props,
     State,
     Actions,
-    PersistedState> implements DevicePluginComponent<Props, State,
-  Actions,
-  PersistedState> {
+    PersistedState
+  > implements DevicePluginComponent<
+    Props,
+    State,
+    Actions,
+    PersistedState
+  > {
+  
   device:PluginTarget
   
-  get theme():Theme {
-    return this.props.theme
-  }
   
   constructor(props:Props) {
     super(props)

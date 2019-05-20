@@ -5,7 +5,8 @@
  * @format
  */
 import {TableColumnKeys, TableColumnSizes, TableOnAddFilter, TableBodyRow} from './types'
-import React, {HTMLAttributes} from 'react'
+import * as React from "react"
+import {HTMLAttributes} from 'react'
 import classNames from 'classnames'
 import FilterRow from '../filter/FilterRow'
 import * as Styles from '../../styled/flex-styles'
@@ -61,7 +62,7 @@ const backgroundColor = (props:RowProps) => {
     } else if (props.even && props.zebra) {
       return lighten(colors.background, 0.1)
     } else {
-      return 'transparent'
+      return null
     }
   }
 } // const TableBodyRowContainer = makeRootView(({colors}: Theme) => ({
@@ -91,7 +92,7 @@ const TableBodyColumnContainer = withStyles((_theme:Theme) => ({
     userSelect: 'none',
     textOverflow: 'ellipsis',
     verticalAlign: 'top',
-    whitespace: 'nowrap',
+    whiteSpace: 'nowrap',
     wordWrap: 'normal',
     maxWidth: '100%'
   },
@@ -198,7 +199,7 @@ class TableRow extends React.PureComponent<RowProps> {
         fontWeight: (fontWeight || 'inherit') as string | number,
         backgroundColor: backgroundColor(this.props),
         color: color || 'inherit'
-      } as CSSProperties
+      }
     return <div
       className={classNames(classes.root, className, row.className, {
         zebra,
@@ -208,7 +209,7 @@ class TableRow extends React.PureComponent<RowProps> {
       })}
       onMouseDown={onMouseDown}
       onMouseEnter={onMouseEnter}
-      style={rowStyle}
+      style={rowStyle as any}
       data-key={row.key}
     >
       {columnKeys.map(key => {
@@ -216,7 +217,7 @@ class TableRow extends React.PureComponent<RowProps> {
         if (!col) return <div key={key}/>
         
         const [isFilterable, title, node, align] =
-          [col.isFilterable || false, col.value, col.title, col.render ? col.render(col) : col.value, col.align]
+          [col.isFilterable || false, col.title, col.render ? col.render(col) : col.value, col.align]
         return <TableBodyColumnContainer
           key={key}
           title={title}

@@ -15,7 +15,19 @@ import plugins from "./plugins"
 import user from "./user"
 import { Logger } from "../fb-interfaces/Logger"
 import { Store } from "../reducers/index"
-export default (store: Store, logger: Logger) =>
-  [application, androidDevice, iOSDevice, windowsDevice, tracking, server, notifications, plugins, user].forEach(fn =>
-    fn(store, logger)
-  )
+
+export default async function (store: Store, logger: Logger) {
+  for (const fn of [
+    application,
+    androidDevice,
+    iOSDevice,
+    windowsDevice,
+    tracking,
+    server,
+    notifications,
+    plugins,
+    user
+  ]) {
+    await fn(store, logger)
+  }
+}

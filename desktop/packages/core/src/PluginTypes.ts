@@ -10,7 +10,7 @@ import {getValue, isString} from "typeguard"
 import {KeyboardActionHandler, KeyboardActions} from "./KeyboardTypes"
 import {Store} from "./reducers"
 import * as _ from 'lodash'
-import {Device} from "./index"
+import Device from "./devices/BaseDevice"
 
 export interface PluginClient {
   send<P = any>(method: string, params: P): void;
@@ -135,14 +135,14 @@ export type PluginTypes = typeof PluginTypeValues[number]
 
 export type PluginMetadata = {
   id: string
+  name?: string
   path?: string
   pkg?: IPackageJSON
 }
 
-export interface PluginExport<ComponentClazz extends PluginComponentClass<Props, State, Actions, PersistedState> = any, Props extends PluginComponentProps<PersistedState> = any, State = any, Actions extends PluginActions = any, PersistedState = any, Type extends PluginType = PluginType.Normal> extends PluginMetadata {
+export interface PluginModuleExport<ComponentClazz extends PluginComponentClass<Props, State, Actions, PersistedState> = any, Props extends PluginComponentProps<PersistedState> = any, State = any, Actions extends PluginActions = any, PersistedState = any, Type extends PluginType = PluginType.Normal> extends PluginMetadata {
   type: Type
   path?: string
-  name?: string
   title?: string
   url?: string
   componentClazz: ComponentClazz
@@ -156,7 +156,7 @@ export interface Plugin<
   PersistedState = any,
   ComponentClazz extends PluginComponentClass<Props, State, Actions, PersistedState> = PluginComponentClass<Props, State, Actions, PersistedState>,
   Type extends PluginType = any
-> extends PluginExport<ComponentClazz,Props,State, Actions, PersistedState, Type> {
+> extends PluginModuleExport<ComponentClazz,Props,State, Actions, PersistedState, Type> {
   
   pluginPath?: string | null
   name: string
@@ -173,7 +173,7 @@ export type PluginProp = keyof Plugin
 
 export type PluginProps = { [key in PluginProp]: Plugin[key] }
 
-export const PluginPropNamesRequired = Array<PluginProp>("id", "title", "entry", "component")
+export const PluginPropNamesRequired = Array<PluginProp>("id", "title", "componentClazz")
 export const PluginPropNamesCopied = Array<PluginProp>("id", "name", "title", "entry", "icon", "gatekeeper", "bugs")
 
 

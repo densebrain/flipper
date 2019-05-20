@@ -66,7 +66,7 @@ function getRunningEmulatorName(id: string): Promise<string | null | undefined> 
   })
 }
 
-export default (store: Store, logger: Logger) => {
+export default async function(store: Store, logger: Logger) {
   const watchAndroidDevices = () => {
     // get emulators
     promisify(which)("emulator").then(emulatorPath => {

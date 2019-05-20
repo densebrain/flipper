@@ -8,7 +8,7 @@ import * as React from "react"
 import {
   Button,
   colors,
-  ContextMenu,
+  ContextMenuComponent,
   DetailSidebar,
   FlexColumn,
   FlipperPluginComponent,
@@ -16,7 +16,7 @@ import {
   Glyph,
   KeyboardActions,
   Notification,
-  PluginExport,
+  PluginModuleExport,
   PluginType,
   PureComponent,
   SearchableTable,
@@ -375,7 +375,7 @@ function calculateState(
 }
 
 class NetworkTable extends PureComponent<NetworkTableProps, NetworkTableState> {
-  static ContextMenu = styled(ContextMenu)({
+  static ContextMenu = styled(ContextMenuComponent)({
     flex: 1
   })
   
@@ -481,24 +481,14 @@ class DurationColumn extends PureComponent<{
 class SizeColumn extends PureComponent<{
   response:Response | null | undefined
 }> {
-  static Text = styled(Text)({
+  
+  private static Text = styled(Text)({
     flex: 1,
     textAlign: "right",
     paddingRight: 10
   })
   
-  render() {
-    const {response} = this.props
-    
-    if (response) {
-      const text = formatBytes(this.getResponseLength(response))
-      return <SizeColumn.Text>{text}</SizeColumn.Text>
-    } else {
-      return null
-    }
-  }
-  
-  getResponseLength(response:Response) {
+  private static getResponseLength(response:Response) {
     let length = 0
     const lengthString = response.headers ? getHeaderValue(response.headers, "content-length") : undefined
     
@@ -513,10 +503,23 @@ class SizeColumn extends PureComponent<{
     
     return length
   }
+  
+  render() {
+    const {response} = this.props
+    
+    if (response) {
+      const text = formatBytes(SizeColumn.getResponseLength(response))
+      return <SizeColumn.Text>{text}</SizeColumn.Text>
+    } else {
+      return null
+    }
+  }
+  
+  
 }
 
 export default {
   id: NetworkPluginComponent.id,
   type: PluginType.Normal,
   componentClazz: NetworkPluginComponent
-} as PluginExport<typeof NetworkPluginComponent>
+} as PluginModuleExport<typeof NetworkPluginComponent>

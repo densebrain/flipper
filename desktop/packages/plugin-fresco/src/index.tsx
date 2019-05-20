@@ -25,7 +25,7 @@ import {
   styled,
   FlipperPluginProps,
   PluginType,
-  PluginExport
+  PluginModuleExport
 } from "@flipper/core"
 import ImagesSidebar from "./ImagesSidebar"
 import ImagePool from "./ImagePool"
@@ -297,4 +297,4 @@ export default {
   id: FrescoPlugin.id,
   type: PluginType.Normal,
   componentClazz: FrescoPlugin
-} as PluginExport<typeof FrescoPlugin>
+} as PluginModuleExport<typeof FrescoPlugin>

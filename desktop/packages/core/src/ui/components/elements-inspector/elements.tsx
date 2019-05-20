@@ -7,7 +7,7 @@
 import * as React from "react"
 import { ElementID, Element, ElementSearchResultSet } from "./ElementsInspector"
 import { reportInteraction } from "../../../utils/InteractionTracker"
-import ContextMenu from "../ContextMenu"
+import ContextMenuComponent from "../ContextMenuComponent"
 import { PureComponent } from "react"
 import FlexRow from "../FlexRow"
 import FlexColumn from "../FlexColumn"
@@ -54,7 +54,7 @@ const backgroundColorHover = (props: Props) => {
   }
 }
 
-const ElementsRowContainer = styled(ContextMenu)(props => ({
+const ElementsRowContainer = styled(ContextMenuComponent)(props => ({
   flexDirection: "row",
   alignItems: "center",
   backgroundColor: backgroundColor(props),

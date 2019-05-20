@@ -5,7 +5,7 @@
  * @format
  */
 import * as React from "react"
-import {FlipperPluginComponent, FlipperPluginProps, PluginExport, PluginReducers, PluginType} from "@flipper/core"
+import {FlipperPluginComponent, FlipperPluginProps, PluginModuleExport, PluginReducers, PluginType} from "@flipper/core"
 import { FlexColumn } from "@flipper/core"
 import { ButtonGroup, Button, styled, colors } from "@flipper/core"
 export type Sandbox = {
@@ -150,4 +150,4 @@ export default {
   id: SandboxView.id,
   type: PluginType.Normal,
   componentClazz: SandboxView
-} as PluginExport<typeof SandboxView>
+} as PluginModuleExport<typeof SandboxView>

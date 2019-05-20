@@ -27,6 +27,7 @@ test("Empty app state matches snapshot", () => {
     <Provider store={mockStore}>
       <App
         theme="dark"
+        loadPlugins={() => ({}) as any}
         store={mockStore}
         logger={logger}
         bugReporter={bugReporter}

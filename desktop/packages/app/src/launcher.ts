@@ -4,8 +4,8 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import "@flipper/init"
-import * as os from "os"
+
+import {isMac} from "@flipper/common"
 
 import * as fs from "fs"
 
@@ -24,7 +24,7 @@ const mkdirp = require("mkdirp")
 const isProduction = () => !/node_modules[\\/]electron[\\/]/.test(process.execPath)
 
 const isLauncherInstalled = () => {
-  if (os.type() == "Darwin") {
+  if (isMac()) {
     const receipt = "com.facebook.flipper.launcher"
     const plistLocation = "/Applications/Flipper.app/Contents/Info.plist"
     return fs.existsSync(plistLocation) && fs.readFileSync(plistLocation).indexOf(receipt) > 0
@@ -44,7 +44,7 @@ const startLauncher = (argv: FlipperOptions) => {
     args.push("--url", argv.url)
   }
 
-  if (os.type() == "Darwin") {
+  if (isMac()) {
     spawn("open", ["/Applications/Flipper.app", "--args"].concat(args))
   }
 }
@@ -75,7 +75,7 @@ const checkIsCycle = async () => {
  * it has. You should shut down this instance of the app in that case.
  */
 
-export default async function delegateToLauncher(argv: FlipperArgs) {
+export default async function delegateToLauncher(argv: FlipperOptions) {
   if (argv.launcher && isProduction() && isLauncherInstalled()) {
     if (await checkIsCycle()) {
       console.error("Launcher cycle detected. Not delegating even though I usually would.")

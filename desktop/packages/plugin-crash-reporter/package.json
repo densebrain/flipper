@@ -2,7 +2,7 @@
   "name": "@flipper/plugin-crash-reporter",
   "version": "0.1.0",
   "description": "A plugin which will display a crash",
-  "main": "lib/index.js",
+  "main": "dist/bundle.js",
   "types": "lib/index.d.ts",
   "repository": "https://github.com/facebook/flipper",
   "license": "MIT",
@@ -16,6 +16,11 @@
   },
   "dependencies": {
     "@flipper/core": "^1.0.0",
+    "@material-ui/core": "^3.9.3",
+    "@material-ui/styles": "^3.0.0-alpha.10",
+    "mz": "^2.7.0",
+    "ts-optchain": "^0.1.6",
+    "typeguard": "^0.0.13",
     "unicode-substring": "^1.0.0"
   }
 }

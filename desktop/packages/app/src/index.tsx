@@ -1,4 +1,4 @@
-///<reference path="../../types/flipper-static/index.d.ts"/>
+
 
 /**
  * Copyright 2018-present Facebook.
@@ -7,180 +7,132 @@
  * @format
  */
 
-import {app, BrowserWindow, ipcMain} from "electron"
+
 import * as Electron from "electron"
+
+import * as Fs from "fs"
 
 import * as Path from "path"
 
 import * as url from "url"
+import {MainState} from "./types"
+import * as _ from 'lodash'
 
-import * as Fs from "fs"
-
-import {exec} from "child_process"
-
-import compilePlugins from "./compilePlugins"
-
-
-import delegateToLauncher from "./launcher"
-
-import setup from "@flipper/init"
-
-const expandTilde = require("expand-tilde").default
+const {app, session, BrowserWindow, ipcMain} = Electron
 
 const [s, ns] = process.hrtime()
+
+
 let launchStartTime = s * 1e3 + ns / 1e6
 
+console.info(`Started at: ${launchStartTime}`)
 
 if (!app) {
   console.error("This is not a single instance")
   process.exit(0)
-} // disable electron security warnings: https://github.com/electron/electron/blob/master/docs/tutorial/security.md#security-native-capabilities-and-your-responsibility
+} // disable electron security warnings:
+  // https://github.com/electron/electron/blob/master/docs/tutorial/security.md#security-native-capabilities-and-your-responsibility
 
 ;(process.env as any).ELECTRON_DISABLE_SECURITY_WARNINGS = true
 
-if (process.platform === "darwin") {
-  // If we are running on macOS and the app is called Flipper, we add a comment
-  // with the old name, to make it findable via Spotlight using its old name.
-  const APP_NAME = "Flipper.app"
-  const i = process.execPath.indexOf(`/${APP_NAME}/`)
+
+
+
+async function onReady() {
+  await import("@flipper/common")
+  const {getLogger} = await import("@flipper/common"), {setup} = await import("@flipper/init"),
+    
+    checkMacAppName = (await import("./env-fixes/mac-app-name")).default,
+    delegateToLauncher = (await import("./launcher")).default,
+    checkSingleInstance = (await import("./single-instance-check")).default,
+    enableTracking = (await import("./tracking")).default
   
-  if (i > -1) {
-    exec(
-      `osascript -e 'on run {f, c}' -e 'tell app "Finder" to set comment of (POSIX file f as alias) to c' -e end "${process.execPath.substr(
-        0,
-        i
-      )}/${APP_NAME}" "sonar"`
-    )
+  const
+    log = getLogger(__filename),
+    options = FlipperArgs,
+    state: MainState = {
+      win: null,
+      link: _.pick(options, 'url', 'file'),
+      options
+    },
+    {config, configPath} = setup(options),
+    pluginPaths = [...(config.pluginPaths || [])] as Array<string>
+
+  process.env.CONFIG = JSON.stringify({...config, pluginPaths}) // possible reference to main app window
+  
+  const getWindow = () => {
+    return state.win
   }
-}
-
-const argv = FlipperArgs
-let {config, configPath, flipperDir} = setup(argv)
-const pluginPaths = config.pluginPaths
-  .concat(Path.join(__dirname, "..", "src", "plugins"), Path.join(__dirname, "..", "src", "fb", "plugins"))
-  .map(expandTilde)
-  .filter(Fs.existsSync)
-process.env.CONFIG = JSON.stringify({...config, pluginPaths}) // possible reference to main app window
-
-let win:Electron.BrowserWindow | null | undefined
-let appReady = false
-let pluginsCompiled = false
-let deeplinkURL = argv.url
-let filePath = argv.file // tracking
-
-setInterval(() => {
-  if (win && win.isFocused()) {
-    win.webContents.send("trackUsage")
-  }
-}, 60 * 1000)
-compilePlugins(
-  () => {
-    if (win) {
-      win.reload()
-    }
-  },
-  pluginPaths,
-  Path.join(flipperDir, "plugins")
-).then(dynamicPlugins => {
-  process.env.PLUGINS = JSON.stringify(dynamicPlugins)
-  pluginsCompiled = true
-  tryCreateWindow()
-}) // check if we already have an instance of this app open
-
-const gotTheLock = app.requestSingleInstanceLock()
-
-if (!gotTheLock) {
-  app.quit()
-} else {
-  app.on("second-instance", (_event, _commandLine, _workingDirectory) => {
-    // Someone tried to run a second instance, we should focus our window.
-    if (win) {
-      if (win.isMinimized()) {
-        win.restore()
+  
+  if (!checkSingleInstance(app, getWindow)) return
+  
+  
+  enableTracking(getWindow)
+  
+  checkMacAppName()
+  
+  app.on("window-all-closed", () => {
+    app.quit()
+  })
+  
+  app.on("will-finish-launching", () => {
+    // Protocol handler for osx
+    app.on("open-url", function (event, url) {
+      event.preventDefault()
+      state.link.url = url
+      
+      const win = getWindow()
+      if (win) {
+        win.webContents.send("flipper-protocol-handler", url)
       }
-      
-      win.focus()
-    }
-  }) // Create myWindow, load the rest of the app, etc...
+    })
+    app.on("open-file", (event, file) => {
+      // When flipper app is running, and someone double clicks the import file, `componentDidMount` will not be called
+      // again and windows object will exist in that case. That's why calling
+      // `win.webContents.send('open-flipper-file', filePath);` again.
+      event.preventDefault()
   
-  app.on("ready", () => {
-  })
-} // quit app once all windows are closed
-
-app.on("window-all-closed", () => {
-  appReady = false
-  app.quit()
-})
-app.on("will-finish-launching", () => {
-  // Protocol handler for osx
-  app.on("open-url", function (event, url) {
-    event.preventDefault()
-    deeplinkURL = url
-    argv.url = url
-    
-    if (win) {
-      win.webContents.send("flipper-protocol-handler", deeplinkURL)
-    }
-  })
-  app.on("open-file", (event, path) => {
-    // When flipper app is running, and someone double clicks the import file, `componentDidMount` will not be called again and windows object will exist in that case. That's why calling `win.webContents.send('open-flipper-file', filePath);` again.
-    event.preventDefault()
-    filePath = path
-    argv.file = path
-    
-    if (win) {
-      win.webContents.send("open-flipper-file", filePath)
-      filePath = null
-    }
-  })
-})
-app.on("ready", () => {
-  // If we delegate to the launcher, shut down this instance of the app.
-  delegateToLauncher(argv).then(hasLauncherInvoked => {
-    if (hasLauncherInvoked) {
-      app.quit()
-      return
-    }
-    
-    appReady = true
-    app.commandLine.appendSwitch("scroll-bounce")
-    tryCreateWindow() // if in development install the react devtools extension
-    
-    if (process.env.NODE_ENV === "development") {
-      const {
-        default: installExtension,
-        REACT_DEVELOPER_TOOLS,
-        REDUX_DEVTOOLS
-      } = require("electron-devtools-installer")
-      
-      installExtension(REACT_DEVELOPER_TOOLS.id)
-      installExtension(REDUX_DEVTOOLS.id)
-    }
-  })
-})
-ipcMain.on("componentDidMount", () => {
-  if (deeplinkURL) {
-    win.webContents.send("flipper-protocol-handler", deeplinkURL)
-    deeplinkURL = null
-  }
+      state.link.file = file
   
-  if (filePath) {
-    // When flipper app is not running, the windows object might not exist in the callback of `open-file`, but after ``componentDidMount` it will definitely exist.
-    win.webContents.send("open-flipper-file", filePath)
-    filePath = null
-  }
-})
-ipcMain.on("getLaunchTime", (event: Electron.Event) => {
-  if (launchStartTime) {
-    event.sender.send("getLaunchTime", launchStartTime) // set launchTime to null to only report it once, to prevents reporting wrong
-    // launch times for example after reloading the renderer process
+      const win = getWindow()
+      if (win) {
+        win.webContents.send("open-flipper-file", file)
+      }
+    })
+  })
+  
+  
+  ipcMain.on("componentDidMount", () => {
+    const {url, file} = state.link
+    const win = getWindow()
+    if (url) {
+      win.webContents.send("flipper-protocol-handler", url)
+      state.link = {}
+    }
     
-    launchStartTime = null
-  }
-})
-ipcMain.on("sendNotification", (e: any, {payload, pluginNotification, closeAfter}: any) => {
-  // notifications can only be sent when app is ready
-  if (appReady) {
+    if (file) {
+      // When flipper app is not running, the windows object might not exist in the callback of `open-file`, but after
+      // ``componentDidMount` it will definitely exist.
+      win.webContents.send("open-flipper-file", file)
+      state.link = {}
+    }
+  })
+  
+  
+  ipcMain.on("getLaunchTime", (event:Electron.Event) => {
+    if (launchStartTime) {
+      event.sender.send("getLaunchTime", launchStartTime) // set launchTime to null to only report it once, to prevents
+                                                          // reporting wrong
+      // launch times for example after reloading the renderer process
+      
+      launchStartTime = null
+    }
+  })
+  
+  
+  ipcMain.on("sendNotification", (e:any, {payload, pluginNotification, closeAfter}:any) => {
+    // notifications can only be sent when app is ready
+    
     const n = new Electron.Notification(payload) // Forwarding notification events to renderer process
     // https://electronjs.org/docs/api/notification#instance-events
     
@@ -199,36 +151,30 @@ ipcMain.on("sendNotification", (e: any, {payload, pluginNotification, closeAfter
         n.close()
       }, closeAfter)
     }
-  }
-}) // Define custom protocol handler. Deep linking works on packaged versions of the application!
-
-app.setAsDefaultProtocolClient("flipper")
-
-function tryCreateWindow() {
-  if (appReady && pluginsCompiled) {
-    win = new BrowserWindow({
-      show: false,
-      title: "Flipper",
-      width: config.lastWindowPosition.width || 1400,
-      height: config.lastWindowPosition.height || 1000,
-      minWidth: 800,
-      minHeight: 600,
-      center: true,
-      titleBarStyle: "hiddenInset",
-      vibrancy: "sidebar",
+    
+  }) // Define custom protocol handler. Deep linking works on packaged versions of the application!
+  
+  app.setAsDefaultProtocolClient("flipper")
+  
+  function tryCreateWindow() {
+    log.info(`Creating window`)
+    
+    const win = state.win = new BrowserWindow({
+      show: false, title: "Flipper", width: config.lastWindowPosition.width || 1400,
+      height: config.lastWindowPosition.height || 1000, minWidth: 800, minHeight: 600, center: true,
+      titleBarStyle: "hiddenInset", vibrancy: "sidebar",
+      
       webPreferences: {
-        webSecurity: false,
-        scrollBounce: true,
-        experimentalFeatures: true
+        nodeIntegration: true, webSecurity: false, scrollBounce: true, experimentalFeatures: true
       }
     })
     
-    if (process.env.NODE_ENV !== "development") {
+    if (isDev) {
       win.once("ready-to-show", () => win.show())
     }
     
     win.once("close", () => {
-      if (process.env.NODE_ENV === "development") {
+      if (isDev) {
         // Removes as a default protocol for debug builds. Because even when the
         // production application is installed, and one tries to deeplink through
         // browser, it still looks for the debug one and tries to open electron
@@ -239,32 +185,22 @@ function tryCreateWindow() {
       const [x, y] = win.getPosition()
       const [width, height] = win.getSize() // save window position and size
       
-      Fs.writeFileSync(
-        configPath,
-        JSON.stringify({
-          ...config,
-          lastWindowPosition: {
-            x,
-            y,
-            width,
-            height
-          }
-        })
-      )
+      Fs.writeFileSync(configPath, JSON.stringify({
+        ...config, lastWindowPosition: {
+          x, y, width, height
+        }
+      }))
     })
     
     if (config.lastWindowPosition.x && config.lastWindowPosition.y) {
       win.setPosition(config.lastWindowPosition.x, config.lastWindowPosition.y)
     }
     
-    const entryUrl =
-      process.env.ELECTRON_URL ||
-      url.format({
-        pathname: Path.join(__dirname, "index.html"),
-        protocol: "file:",
-        slashes: true
-      })
+    const entryUrl = process.env.CORE_URL || url.format({
+      pathname: Path.join(__dirname, "index.html"), protocol: "file:", slashes: true
+    })
     
+    console.info("Loading window with url", entryUrl, process.env.CORE_URL)
     if (process.env.NODE_ENV === "development") {
       win.show()
       win.webContents.openDevTools()
@@ -272,6 +208,43 @@ function tryCreateWindow() {
     
     win.loadURL(entryUrl)
   }
+  
+  // HACK: patch webrequest to fix devtools incompatibility with electron 2.x.
+  // See https://github.com/electron/electron/issues/13008#issuecomment-400261941
+  session.defaultSession.webRequest.onBeforeRequest({urls: []}, (details, callback) => {
+    if (details.url.indexOf('7accc8730b0f99b5e7c0702ea89d1fa7c17bfe33') !== -1) {
+      callback({
+        redirectURL: details.url.replace(
+          '7accc8730b0f99b5e7c0702ea89d1fa7c17bfe33',
+          '57c9d07b416b5a2ea23d28247300e4af36329bdc'
+        )
+      })
+    } else {
+      callback({ cancel: false })
+    }
+  })
+
+  
+  // If we delegate to the launcher, shut down this instance of the app.
+  delegateToLauncher(options).then(hasLauncherInvoked => {
+    if (hasLauncherInvoked) {
+      app.quit()
+      return
+    }
+    
+    app.commandLine.appendSwitch("scroll-bounce")
+    tryCreateWindow() // if in development install the react devtools extension
+    
+    if (isDev) {
+      const {
+        default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS
+      } = require("electron-devtools-installer")
+      
+      installExtension(REACT_DEVELOPER_TOOLS.id)
+      installExtension(REDUX_DEVTOOLS.id)
+    }
+  })
 }
 
+app.on("ready", onReady)
 export {}

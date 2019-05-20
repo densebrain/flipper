@@ -5,7 +5,7 @@
  * @format
  */
 import { FlipperPluginComponent } from "../../plugin"
-import {PluginExport} from "../../PluginTypes"
+import {PluginModuleExport} from "../../PluginTypes"
 class TestPluginComponent extends FlipperPluginComponent {
   static id = "Static ID"
 }
@@ -13,4 +13,4 @@ export default {
   id: TestPluginComponent.id,
   title: TestPluginComponent.id,
   componentClazz: TestPluginComponent
-} as PluginExport<typeof TestPluginComponent>
+} as PluginModuleExport<typeof TestPluginComponent>

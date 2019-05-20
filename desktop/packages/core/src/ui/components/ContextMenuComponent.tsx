@@ -10,7 +10,9 @@ import FlexColumn from "./FlexColumn"
 import {ContextMenuContext, ContextMenuContextConsumer} from "./ContextMenuContext"
 import {HTMLAttributes} from "react"
 import {PropsOf} from "../themes"
+
 export type MenuTemplate = Array<Electron.MenuItemConstructorOptions>
+
 type Props<C extends (React.ComponentType<any> | string) = any> = {
   items?: MenuTemplate,
   buildItems?: () => MenuTemplate,
@@ -26,7 +28,8 @@ type Props<C extends (React.ComponentType<any> | string) = any> = {
  * Separators can be added by `{type: 'separator'}`
  */
 
-export default class ContextMenu extends React.Component<Props> {
+export default class ContextMenuComponent extends React.Component<Props> {
+  
   static defaultProps = {
     component: FlexColumn
   } as Props

@@ -5,11 +5,11 @@
  * @format
  */
 import * as React from "react"
-import {FlipperDevicePluginComponent, Device, FlipperPluginProps} from 'flipper'
+import {FlipperDevicePluginComponent, Device, FlipperPluginProps} from '@flipper/core'
 
 
 
-import { FlexColumn, FlexRow, Button, Toolbar, Text, ManagedTable, lighten } from 'flipper';
+import { FlexColumn, FlexRow, Button, Toolbar, Text, ManagedTable, lighten } from '@flipper/core';
 const adb = require('adbkit-fb');
 type ADBClient = any;
 type AndroidDevice = {
@@ -211,7 +211,7 @@ export default class CPUFrequencyTable extends FlipperDevicePluginComponent<Prop
       return;
     }
 
-    this.intervalID = window.setInterval(() => {
+    this.intervalID = (setInterval as any)(() => {
       for (let i = 0; i < this.state.cpuCount; ++i) {
         this.readCoreFrequency(i);
       }

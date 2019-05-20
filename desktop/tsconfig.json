@@ -1,0 +1,21 @@
+{
+  "extends": "./packages/tsconfig.base.json",
+  "files": [],
+  "references": [
+    {"path": "./packages/types"},
+    {"path": "./packages/dev"},
+    {"path": "./packages/common"},
+    {"path": "./packages/core"},
+    {"path": "./packages/init"},
+    {"path": "./packages/plugin-cpu"},
+    {"path": "./packages/plugin-crash-reporter"},
+    {"path": "./packages/plugin-example"},
+    {"path": "./packages/plugin-fresco"},
+    {"path": "./packages/plugin-inspector"},
+    {"path": "./packages/plugin-leak-canary"},
+    {"path": "./packages/plugin-logs"},
+    {"path": "./packages/plugin-network"},
+    {"path": "./packages/plugin-sandbox"},
+    {"path": "./packages/plugin-shared-preferences"}
+  ]
+}

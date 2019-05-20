@@ -8,28 +8,13 @@ import "./Args"
 
 import * as Path from "path"
 
-import * as Os from "os"
-
 import * as Fs from "fs"
+import {FlipperConfig, flipperDir} from "@flipper/common"
 
-type FlipperConfig = {
-  pluginPaths: Array<string>
-  disabledPlugins: Array<string>
-  lastWindowPosition?: any
-  updaterEnabled?: boolean | undefined
-  launcherMsg?: string | undefined
-}
+
 
 export default function(argv: Partial<FlipperOptions>) {
-  if (!process.env.ANDROID_HOME) {
-    process.env.ANDROID_HOME = "/opt/android_sdk"
-  } // emulator/emulator is more reliable than tools/emulator, so prefer it if
-  // it exists
-
-  process.env.PATH = `${process.env.ANDROID_HOME}/emulator:${process.env.ANDROID_HOME}/tools:${process.env.PATH}` // ensure .flipper folder and config exist
-
-  const flipperDir = Path.join(Os.homedir(), ".flipper")
-
+  
   if (!Fs.existsSync(flipperDir)) {
     Fs.mkdirSync(flipperDir)
   }

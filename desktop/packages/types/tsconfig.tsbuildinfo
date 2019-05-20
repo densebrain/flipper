@@ -129,17 +129,21 @@
         "version": "63b66918290d794f73832a6d0325be5026236674fe8c0cb0b68d162000d7bbe8",
         "signature": "63b66918290d794f73832a6d0325be5026236674fe8c0cb0b68d162000d7bbe8"
       },
-      "/projects/oss/flipper.v2/desktop/packages/types/src/package-json/package-json.d.ts": {
-        "version": "bf95e242829ab93b8aabbe910ef2dfd7ad0a9476d60604a7207fc1e9ee18f53d",
-        "signature": "bf95e242829ab93b8aabbe910ef2dfd7ad0a9476d60604a7207fc1e9ee18f53d"
+      "/projects/oss/flipper.v2/desktop/packages/types/src/custom.d.ts": {
+        "version": "ce3ab33a0d507f742822325218129de88df5c3b2dcd612d2a2787d3a82837548",
+        "signature": "ce3ab33a0d507f742822325218129de88df5c3b2dcd612d2a2787d3a82837548"
       },
-      "/projects/oss/flipper.v2/desktop/packages/types/src/flipper-static.d.ts": {
-        "version": "96a4291c723094fe9194bef86a33aaa8c8b1e1bd1d1734d7758a7d50a81e1581",
-        "signature": "96a4291c723094fe9194bef86a33aaa8c8b1e1bd1d1734d7758a7d50a81e1581"
+      "/projects/oss/flipper.v2/desktop/packages/types/src/sugar.ts": {
+        "version": "7fb31b1f4314395750cf964318dafcbf34355763c7dbfa59923056028a06f060",
+        "signature": "2033e247e4486c1e9a174173ce427b1a1b5b2ff5922b9784c1d2d33a401769be"
+      },
+      "/projects/oss/flipper.v2/desktop/packages/types/src/sugar-extended.ts": {
+        "version": "f645ecebf53c6c060dcc89b133f2dd64e7c18a2473323564f7f6b8eb83b20257",
+        "signature": "60ebe12e4901e8dd0d8a23f16bd94b693405088c9a04565fdcc81a4152e22722"
       },
       "/projects/oss/flipper.v2/desktop/packages/types/src/index.ts": {
-        "version": "96f77444819f19dce347f9384fad3f936faf07f78c82c22de40efbcb11a9220e",
-        "signature": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+        "version": "6d0c55c1704e527e696fe46ab8c3ef9c6dc9864ae66d425892bb71e0f24d5871",
+        "signature": "78a7eec72a325b8c87e6857c68fd699e61da950299b5cdd26aaf0e4178f8ec99"
       },
       "/projects/oss/flipper.v2/desktop/packages/types/src/JSONStream/index.d.ts": {
         "version": "ace5fcf6ea689af0581294c1e206573799efd77e9ba1bb1c85b4599f7103b09b",
@@ -153,9 +157,13 @@
         "version": "cacb439f68e1114df17c48e1558ccc1b360b8b7ef1588500d0fee467a690760f",
         "signature": "cacb439f68e1114df17c48e1558ccc1b360b8b7ef1588500d0fee467a690760f"
       },
-      "/projects/oss/flipper.v2/desktop/packages/types/src/flipper-static/index.d.ts": {
-        "version": "b4f83392673db1680d212625c90b317555328446ef994696caa1d6877082fed2",
-        "signature": "b4f83392673db1680d212625c90b317555328446ef994696caa1d6877082fed2"
+      "/projects/oss/flipper.v2/desktop/packages/types/src/concurrently/index.d.ts": {
+        "version": "60bdcfe6268a7ecbaf0229c55178ba320510ee1a6329d8f2f87b281f11e54319",
+        "signature": "60bdcfe6268a7ecbaf0229c55178ba320510ee1a6329d8f2f87b281f11e54319"
+      },
+      "/projects/oss/flipper.v2/desktop/packages/types/src/package-json/package-json.d.ts": {
+        "version": "bf95e242829ab93b8aabbe910ef2dfd7ad0a9476d60604a7207fc1e9ee18f53d",
+        "signature": "bf95e242829ab93b8aabbe910ef2dfd7ad0a9476d60604a7207fc1e9ee18f53d"
       },
       "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-flowable/build/Flowable.d.ts": {
         "version": "19ce4e41824b886f859b6185b610a91e383841f02a60a053c399bf1b1381a983",
@@ -285,6 +293,18 @@
         "version": "d634aa9055aade0428ccfa5e77491a444f5fc98b0ad222bd54387b5489ae69fb",
         "signature": "d634aa9055aade0428ccfa5e77491a444f5fc98b0ad222bd54387b5489ae69fb"
       },
+      "/projects/oss/flipper.v2/desktop/packages/types/src/tsc-watch/index.d.ts": {
+        "version": "1ebdf7018867277ba4a126ffb4feb7aeec5cbf563b8f18be32d42ec96d6b7c73",
+        "signature": "1ebdf7018867277ba4a126ffb4feb7aeec5cbf563b8f18be32d42ec96d6b7c73"
+      },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/anymatch/index.d.ts": {
+        "version": "48b52264fa193879a074197839dbb4796fa07e86350ff888e5361e06aa46df76",
+        "signature": "48b52264fa193879a074197839dbb4796fa07e86350ff888e5361e06aa46df76"
+      },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/babel-types/index.d.ts": {
+        "version": "d9422bf2f3d2b4a02d901bd80370b6e58b4165e4bf488b99a3687c6eea721d27",
+        "signature": "d9422bf2f3d2b4a02d901bd80370b6e58b4165e4bf488b99a3687c6eea721d27"
+      },
       "/projects/oss/flipper.v2/desktop/node_modules/@babel/types/lib/index.d.ts": {
         "version": "9eac0dd4de5669db2b8321dffa400b997f7b21181118efc7a2c1743d93d4be57",
         "signature": "9eac0dd4de5669db2b8321dffa400b997f7b21181118efc7a2c1743d93d4be57"
@@ -306,24 +326,12 @@
         "signature": "3e0a34f7207431d967dc32d593d1cda0c23975e9484bc8895b39d96ffca4a0d8"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/babel__core/index.d.ts": {
-        "version": "80e6d098a9998f0523ef6fc423449017dab64c61610c770563617d59bf2902ed",
-        "signature": "80e6d098a9998f0523ef6fc423449017dab64c61610c770563617d59bf2902ed"
+        "version": "8f279d393b3572c5c0a8428d46d00281c38a5ef52dc9dd513fc861c31a5d6420",
+        "signature": "8f279d393b3572c5c0a8428d46d00281c38a5ef52dc9dd513fc861c31a5d6420"
       },
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/classnames/index.d.ts": {
-        "version": "44a98fe2984bb0940a8c1414b1e48bddca58aa2c52e8995c061b06bb0cc6f2de",
-        "signature": "44a98fe2984bb0940a8c1414b1e48bddca58aa2c52e8995c061b06bb0cc6f2de"
-      },
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/deep-equal/index.d.ts": {
-        "version": "2e345cb6511f4c4c60c274df6626c94f3182939034f06cdf414bfbccc584f822",
-        "signature": "2e345cb6511f4c4c60c274df6626c94f3182939034f06cdf414bfbccc584f822"
-      },
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/events/index.d.ts": {
-        "version": "400db42c3a46984118bff14260d60cec580057dc1ab4c2d7310beb643e4f5935",
-        "signature": "400db42c3a46984118bff14260d60cec580057dc1ab4c2d7310beb643e4f5935"
-      },
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/expand-tilde/index.d.ts": {
-        "version": "e4d8bd53f9df7191fe158b27fa15abb841d449e1cb205f7991f437efd72e3531",
-        "signature": "e4d8bd53f9df7191fe158b27fa15abb841d449e1cb205f7991f437efd72e3531"
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/babylon/index.d.ts": {
+        "version": "e7ef01fb3213b1be13321648ac2612d60e9e2742e28fc2fcf68d27fb965a8d5c",
+        "signature": "e7ef01fb3213b1be13321648ac2612d60e9e2742e28fc2fcf68d27fb965a8d5c"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/node/globals.d.ts": {
         "version": "3af134c0480536f901a30692d216bd29712a3869fe38a7be066ea1eef34a8561",
@@ -340,6 +348,10 @@
       "/projects/oss/flipper.v2/desktop/node_modules/@types/node/buffer.d.ts": {
         "version": "fe892fea1e75a442fffb4a604d7eeb451e858787a9f2f01c4e83bf12a3b5048d",
         "signature": "fe892fea1e75a442fffb4a604d7eeb451e858787a9f2f01c4e83bf12a3b5048d"
+      },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/events/index.d.ts": {
+        "version": "400db42c3a46984118bff14260d60cec580057dc1ab4c2d7310beb643e4f5935",
+        "signature": "400db42c3a46984118bff14260d60cec580057dc1ab4c2d7310beb643e4f5935"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/node/child_process.d.ts": {
         "version": "c5a3c14cb11afb48d405562e6843145caa67c60be9738f408cd7977ce30a0b00",
@@ -378,8 +390,8 @@
         "signature": "0be551fde848d5adde38731272ee980bda2bde0f8bf2a76ce99e01b86985546c"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/node/fs.d.ts": {
-        "version": "10c5b29dccf29ea7f9aea324ab09b0e2237d6506bd8e28538963b28855819616",
-        "signature": "10c5b29dccf29ea7f9aea324ab09b0e2237d6506bd8e28538963b28855819616"
+        "version": "443b649496d14353d14e79b502a210f33c2d868f4c07df84c0e08cb013c08211",
+        "signature": "443b649496d14353d14e79b502a210f33c2d868f4c07df84c0e08cb013c08211"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/node/http.d.ts": {
         "version": "cc4cd9d8af7f5689b5df3c91d0fc287fafbd89e6e305183da28a6877a8aa08a8",
@@ -501,6 +513,54 @@
         "version": "765fc34423b93c2ab763670d8d11d99e5f47387c13c161d6f1640dd6d91b7d1c",
         "signature": "765fc34423b93c2ab763670d8d11d99e5f47387c13c161d6f1640dd6d91b7d1c"
       },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/connect/index.d.ts": {
+        "version": "c3be42b83b5f57ae2f65280fa395f6d31f61304ac1a29b7b406b6a0e71da8c82",
+        "signature": "c3be42b83b5f57ae2f65280fa395f6d31f61304ac1a29b7b406b6a0e71da8c82"
+      },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/body-parser/index.d.ts": {
+        "version": "1b7919dbb6b43ff272f38f6f6522fb9f4e9e854356b2932a36aa4674f4a2fcf2",
+        "signature": "1b7919dbb6b43ff272f38f6f6522fb9f4e9e854356b2932a36aa4674f4a2fcf2"
+      },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/classnames/index.d.ts": {
+        "version": "44a98fe2984bb0940a8c1414b1e48bddca58aa2c52e8995c061b06bb0cc6f2de",
+        "signature": "44a98fe2984bb0940a8c1414b1e48bddca58aa2c52e8995c061b06bb0cc6f2de"
+      },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/clean-css/index.d.ts": {
+        "version": "4bfa64d72f076287ee5c40a3a91aa1ac2dc0b480cacc0f4fabdb3a2002d1ef67",
+        "signature": "4bfa64d72f076287ee5c40a3a91aa1ac2dc0b480cacc0f4fabdb3a2002d1ef67"
+      },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/console-stamp/index.d.ts": {
+        "version": "239230fbd9ac9ca733d1ba3ef5ce96a62e8405a436eaeab1aa0aa436e7920cf8",
+        "signature": "239230fbd9ac9ca733d1ba3ef5ce96a62e8405a436eaeab1aa0aa436e7920cf8"
+      },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/deep-equal/index.d.ts": {
+        "version": "2e345cb6511f4c4c60c274df6626c94f3182939034f06cdf414bfbccc584f822",
+        "signature": "2e345cb6511f4c4c60c274df6626c94f3182939034f06cdf414bfbccc584f822"
+      },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/expand-tilde/index.d.ts": {
+        "version": "e4d8bd53f9df7191fe158b27fa15abb841d449e1cb205f7991f437efd72e3531",
+        "signature": "e4d8bd53f9df7191fe158b27fa15abb841d449e1cb205f7991f437efd72e3531"
+      },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/range-parser/index.d.ts": {
+        "version": "4e88b833be14c7f384e0dcd57bb30acd799e8e34d212635d693e41a75a71164b",
+        "signature": "4e88b833be14c7f384e0dcd57bb30acd799e8e34d212635d693e41a75a71164b"
+      },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/express-serve-static-core/index.d.ts": {
+        "version": "d1e81dc16bb5a4c4ba7cfcf11df969a44a70d0a61c8a568ee5e88e1a042e1b9e",
+        "signature": "d1e81dc16bb5a4c4ba7cfcf11df969a44a70d0a61c8a568ee5e88e1a042e1b9e"
+      },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/mime/index.d.ts": {
+        "version": "be27a64e821a3e5af838650e4aa25805c60f057d0c37a9762c378d19d364b3e6",
+        "signature": "be27a64e821a3e5af838650e4aa25805c60f057d0c37a9762c378d19d364b3e6"
+      },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/serve-static/index.d.ts": {
+        "version": "b27dd918d8c3f10270cadea529c69e3a9b37ce59db0852945a39068cc5c10fff",
+        "signature": "b27dd918d8c3f10270cadea529c69e3a9b37ce59db0852945a39068cc5c10fff"
+      },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/express/index.d.ts": {
+        "version": "434d7d3188d85bd46c64dcc8268422ffdfdd19fdbc98ec01446d650414fcaa0b",
+        "signature": "434d7d3188d85bd46c64dcc8268422ffdfdd19fdbc98ec01446d650414fcaa0b"
+      },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/minimatch/index.d.ts": {
         "version": "1d1e6bd176eee5970968423d7e215bfd66828b6db8d54d17afec05a831322633",
         "signature": "1d1e6bd176eee5970968423d7e215bfd66828b6db8d54d17afec05a831322633"
@@ -528,6 +588,34 @@
       "/projects/oss/flipper.v2/desktop/node_modules/@types/hoist-non-react-statics/index.d.ts": {
         "version": "bfe1b52cf71aea9bf8815810cc5d9490fa9617313e3d3c2ee3809a28b80d0bb4",
         "signature": "bfe1b52cf71aea9bf8815810cc5d9490fa9617313e3d3c2ee3809a28b80d0bb4"
+      },
+      "/projects/oss/flipper.v2/desktop/node_modules/source-map/source-map.d.ts": {
+        "version": "2887592574fcdfd087647c539dcb0fbe5af2521270dad4a37f9d17c16190d579",
+        "signature": "2887592574fcdfd087647c539dcb0fbe5af2521270dad4a37f9d17c16190d579"
+      },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/uglify-js/index.d.ts": {
+        "version": "bdc18dd47aea9977e419a8e03e7e5d04ed8cf8265e014d8788848b76b969cbba",
+        "signature": "bdc18dd47aea9977e419a8e03e7e5d04ed8cf8265e014d8788848b76b969cbba"
+      },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/relateurl/index.d.ts": {
+        "version": "a523644fe1d30f36465118be107642c78c36afe0d885f93eae399b3c44dc8fe9",
+        "signature": "a523644fe1d30f36465118be107642c78c36afe0d885f93eae399b3c44dc8fe9"
+      },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/html-minifier/index.d.ts": {
+        "version": "3f6bff86e78e065dad71ca8e395824703f56977f7309139127e58718d7915410",
+        "signature": "3f6bff86e78e065dad71ca8e395824703f56977f7309139127e58718d7915410"
+      },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/tapable/index.d.ts": {
+        "version": "c3175d4a7894de56cdc5e62f4269f1f57c2f08da88d3a91ad47bc0652ac8cb46",
+        "signature": "c3175d4a7894de56cdc5e62f4269f1f57c2f08da88d3a91ad47bc0652ac8cb46"
+      },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack/index.d.ts": {
+        "version": "ce4ec2f508914034bb1f6dc45f2bc26f157549a65a045328fc50a743d05be0c9",
+        "signature": "ce4ec2f508914034bb1f6dc45f2bc26f157549a65a045328fc50a743d05be0c9"
+      },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/html-webpack-plugin/index.d.ts": {
+        "version": "d196b1899e9f892684d3bc0f9729cc82836d79ab4806180b1eaac938fadc425c",
+        "signature": "d196b1899e9f892684d3bc0f9729cc82836d79ab4806180b1eaac938fadc425c"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/istanbul-lib-coverage/index.d.ts": {
         "version": "9e951ec338c4232d611552a1be7b4ecec79a8c2307a893ce39701316fe2374bd",
@@ -578,8 +666,8 @@
         "signature": "e0accf016f4ff83e7da0c8dcf54d36b23575921f7c8ed699ffba6aa507a0ae84"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/common.d.ts": {
-        "version": "d1fb9170b3b6186d6188b7f45a153386a8d0214a3bc050a0542bf7c067f4b317",
-        "signature": "d1fb9170b3b6186d6188b7f45a153386a8d0214a3bc050a0542bf7c067f4b317"
+        "version": "1ab36cdbb5af99fc06711bbd51d7bf09d5fedaba0223f15f45708d9882ffb853",
+        "signature": "1ab36cdbb5af99fc06711bbd51d7bf09d5fedaba0223f15f45708d9882ffb853"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/array.d.ts": {
         "version": "b6d3763d7f9ce84118df4340505c24384267ccb48fa8772852260cb5ed4617c2",
@@ -610,8 +698,8 @@
         "signature": "00baffbe8a2f2e4875367479489b5d43b5fc1429ecb4a4cc98cfc3009095f52a"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/object.d.ts": {
-        "version": "3c8b2281afd7efbf11382e4bbbc8db655cd2f1cda05e7a9b35ed45e6ae2bb126",
-        "signature": "3c8b2281afd7efbf11382e4bbbc8db655cd2f1cda05e7a9b35ed45e6ae2bb126"
+        "version": "d04c462c622fc52b3b75c8b7eeb9e6ec2123414893a1cf3668c592e22f185ed2",
+        "signature": "d04c462c622fc52b3b75c8b7eeb9e6ec2123414893a1cf3668c592e22f185ed2"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/seq.d.ts": {
         "version": "3c92b6dfd43cc1c2485d9eba5ff0b74a19bb8725b692773ef1d66dac48cda4bd",
@@ -628,6 +716,18 @@
       "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/index.d.ts": {
         "version": "bbf144d4354e2aaa6439f32761f3ee798cc68d1600adab6e2a596f25269f106d",
         "signature": "bbf144d4354e2aaa6439f32761f3ee798cc68d1600adab6e2a596f25269f106d"
+      },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/loglevel/index.d.ts": {
+        "version": "936817f7caf33d5cd6e7d4fcbf1db4463c48efcea6190fdb0cf68d0fd5505a3a",
+        "signature": "936817f7caf33d5cd6e7d4fcbf1db4463c48efcea6190fdb0cf68d0fd5505a3a"
+      },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/memory-fs/index.d.ts": {
+        "version": "57b717dde581dea92f7cc5c903040ed08972477b700fc0e222ea7757164f8d74",
+        "signature": "57b717dde581dea92f7cc5c903040ed08972477b700fc0e222ea7757164f8d74"
+      },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/morgan/index.d.ts": {
+        "version": "fc20fb48224b5162c584b7907221cce2c03bd01a1af59036ccbb23e094796350",
+        "signature": "fc20fb48224b5162c584b7907221cce2c03bd01a1af59036ccbb23e094796350"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/child_process.d.ts": {
         "version": "c4494ef0db9a14d77401bf1703c28b72c8423354b33749729be1cab9ce710ebc",
@@ -656,6 +756,10 @@
       "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/index.d.ts": {
         "version": "ad1f3ffcde31019536358bab477c4dd6146e8a5ff10952b5b87051c22d10a839",
         "signature": "ad1f3ffcde31019536358bab477c4dd6146e8a5ff10952b5b87051c22d10a839"
+      },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node-ipc/index.d.ts": {
+        "version": "12167428d91a725fa8773f9b9d080e83f34ada71b57290477b741fa59c72665f",
+        "signature": "12167428d91a725fa8773f9b9d080e83f34ada71b57290477b741fa59c72665f"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/pako/index.d.ts": {
         "version": "ac8256962829db28179e5b4ee97f4a0b27d85f219ad5c7b03b375673fadddd59",
@@ -777,13 +881,17 @@
         "version": "c8059c504a2b8f436480f95afb44fd75361b8cc90a20870eff9fd8c7e1fb4025",
         "signature": "c8059c504a2b8f436480f95afb44fd75361b8cc90a20870eff9fd8c7e1fb4025"
       },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/shelljs/index.d.ts": {
+        "version": "c28c80a7ad12093d1cec4b2e3d925a5694c724fd247fdbb8ac031c0901549933",
+        "signature": "c28c80a7ad12093d1cec4b2e3d925a5694c724fd247fdbb8ac031c0901549933"
+      },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/stack-utils/index.d.ts": {
         "version": "41422586881bcd739b4e62d9b91cd29909f8572aa3e3cdf316b7c50f14708d49",
         "signature": "41422586881bcd739b4e62d9b91cd29909f8572aa3e3cdf316b7c50f14708d49"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/tinycolor2/index.d.ts": {
-        "version": "0f2347f7a077eb3d708d86050612de9d4f4f84a2d039963932f93beac5ca4639",
-        "signature": "0f2347f7a077eb3d708d86050612de9d4f4f84a2d039963932f93beac5ca4639"
+        "version": "27bd05635cf2be7e3f75f375de542eab00cbb24c6b9961d37a0bf99fd344d1fc",
+        "signature": "27bd05635cf2be7e3f75f375de542eab00cbb24c6b9961d37a0bf99fd344d1fc"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/tmp/index.d.ts": {
         "version": "5685ea2eb87a7a405e106c5bea5936fdaed1184eaaf9bd075d27c40b4984eea6",
@@ -796,6 +904,22 @@
       "/projects/oss/flipper.v2/desktop/node_modules/@types/uuid/index.d.ts": {
         "version": "ad52430a0480fd221ff10281a93e3683cbc6666027e24aea148db93d732a68f7",
         "signature": "ad52430a0480fd221ff10281a93e3683cbc6666027e24aea148db93d732a68f7"
+      },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack-dev-middleware/index.d.ts": {
+        "version": "98f9cc71b09736e24c9f1930ad319cee1aff9945534f300dd410d694b353e207",
+        "signature": "98f9cc71b09736e24c9f1930ad319cee1aff9945534f300dd410d694b353e207"
+      },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack-env/index.d.ts": {
+        "version": "3900cfe2c4e64affddbe6054a846835b6ac65eeceaaca56bdf8e0631f268edff",
+        "signature": "3900cfe2c4e64affddbe6054a846835b6ac65eeceaaca56bdf8e0631f268edff"
+      },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack-hot-middleware/index.d.ts": {
+        "version": "fcc9e46c5fbf78f8530e08951429aae62fe35b489b67dbd5bce4a91dabb330ce",
+        "signature": "fcc9e46c5fbf78f8530e08951429aae62fe35b489b67dbd5bce4a91dabb330ce"
+      },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack-node-externals/index.d.ts": {
+        "version": "87121e39b10306e9aa1c1b084888754d288f13639e48747897a1197a3c8dc6d8",
+        "signature": "87121e39b10306e9aa1c1b084888754d288f13639e48747897a1197a3c8dc6d8"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/which/index.d.ts": {
         "version": "c455069e411ff65f3c9207bd37e3642255e907745eb873439a386412a76ef4e9",
@@ -836,6 +960,9 @@
         "@flipper/*": [
           "./*/src"
         ],
+        "sugar": [
+          "./types/src/sugar-extended.ts"
+        ],
         "package-json": [
           "./types/src/package-json"
         ],
@@ -862,6 +989,7 @@
       "outDir": "/projects/oss/flipper.v2/desktop/packages/types/lib",
       "rootDir": "/projects/oss/flipper.v2/desktop/packages/types/src",
       "composite": true,
+      "project": "/projects/oss/flipper.v2/desktop/packages/types",
       "watch": true,
       "configFilePath": "/projects/oss/flipper.v2/desktop/packages/types/tsconfig.json"
     },
@@ -994,16 +1122,23 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/packages/types/src/package-json/package-json.d.ts": [
+      "/projects/oss/flipper.v2/desktop/packages/types/src/custom.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/packages/types/src/flipper-static.d.ts": [
-        "/projects/oss/flipper.v2/desktop/packages/types/src/package-json/package-json.d.ts",
+      "/projects/oss/flipper.v2/desktop/packages/types/src/sugar.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/packages/types/src/sugar-extended.ts": [
+        "/projects/oss/flipper.v2/desktop/packages/types/src/sugar.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
       "/projects/oss/flipper.v2/desktop/packages/types/src/index.ts": [
+        "/projects/oss/flipper.v2/desktop/packages/types/src/sugar.ts",
+        "/projects/oss/flipper.v2/desktop/packages/types/src/sugar-extended.ts",
+        "/projects/oss/flipper.v2/desktop/packages/types/src/custom.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -1019,8 +1154,11 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/packages/types/src/flipper-static/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/packages/types/src/package-json/package-json.d.ts",
+      "/projects/oss/flipper.v2/desktop/packages/types/src/concurrently/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/packages/types/src/package-json/package-json.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -1207,6 +1345,18 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "/projects/oss/flipper.v2/desktop/packages/types/src/tsc-watch/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/anymatch/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/babel-types/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "/projects/oss/flipper.v2/desktop/node_modules/@babel/types/lib/index.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
@@ -1241,19 +1391,8 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/classnames/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/deep-equal/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/events/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/expand-tilde/index.d.ts": [
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/babylon/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/babel-types/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -1270,6 +1409,10 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
       "/projects/oss/flipper.v2/desktop/node_modules/@types/node/buffer.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/events/index.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -1523,6 +1666,71 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/globals.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts"
       ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/connect/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/http.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/body-parser/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/connect/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/http.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/classnames/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/clean-css/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/https.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/http.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/console-stamp/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/deep-equal/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/expand-tilde/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/range-parser/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/express-serve-static-core/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/http.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/events.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/range-parser/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/mime/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/serve-static/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/express-serve-static-core/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/mime/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/express/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/body-parser/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/serve-static/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/express-serve-static-core/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "/projects/oss/flipper.v2/desktop/node_modules/@types/minimatch/index.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
@@ -1555,6 +1763,46 @@
       ],
       "/projects/oss/flipper.v2/desktop/node_modules/@types/hoist-non-react-statics/index.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/source-map/source-map.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/uglify-js/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/source-map/source-map.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/relateurl/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/html-minifier/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/uglify-js/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/clean-css/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/relateurl/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/tapable/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/tapable/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/uglify-js/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/anymatch/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/source-map/source-map.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/html-webpack-plugin/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/tapable/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/html-minifier/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -1826,6 +2074,20 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/loglevel/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/memory-fs/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/morgan/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/express/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/child_process.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/child_process.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
@@ -1869,6 +2131,12 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/fs.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/readline.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/zlib.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node-ipc/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/net.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
@@ -2056,6 +2324,13 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/shelljs/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/child_process.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/glob/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "/projects/oss/flipper.v2/desktop/node_modules/@types/stack-utils/index.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
@@ -2075,6 +2350,29 @@
       ],
       "/projects/oss/flipper.v2/desktop/node_modules/@types/uuid/index.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/uuid/interfaces.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack-dev-middleware/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/loglevel/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/connect/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/memory-fs/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack-env/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack-hot-middleware/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/connect/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack-node-externals/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -2216,19 +2514,16 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/packages/types/src/package-json/package-json.d.ts": [
+      "/projects/oss/flipper.v2/desktop/packages/types/src/custom.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/packages/types/src/flipper-static/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/packages/types/src/package-json/package-json.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      "/projects/oss/flipper.v2/desktop/packages/types/src/sugar-extended.ts": [
+        "/projects/oss/flipper.v2/desktop/packages/types/src/sugar.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/packages/types/src/flipper-static.d.ts": [
-        "/projects/oss/flipper.v2/desktop/packages/types/src/package-json/package-json.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      "/projects/oss/flipper.v2/desktop/packages/types/src/index.ts": [
+        "/projects/oss/flipper.v2/desktop/packages/types/src/sugar.ts",
+        "/projects/oss/flipper.v2/desktop/packages/types/src/sugar-extended.ts"
       ],
       "/projects/oss/flipper.v2/desktop/packages/types/src/JSONStream/index.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
@@ -2242,8 +2537,30 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "/projects/oss/flipper.v2/desktop/packages/types/src/concurrently/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/packages/types/src/package-json/package-json.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-flowable/build/Flowable.d.ts": [
         "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-flowable/build/Single.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-flowable/build/FlowableProcessor.d.ts": [
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-flowable/build/FlowableTimer.d.ts": [
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-flowable/build/Flowable.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -2260,21 +2577,117 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-tcp-server/build/RSocketTCPServer.d.ts": [
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/net.d.ts",
+      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/build/ReactiveSocketTypes.d.ts": [
         "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-flowable/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-tcp-server/build/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-tcp-server/build/RSocketTCPServer.d.ts",
+      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/build/ReactiveStreamTypes.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-tcp-server/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-tcp-server/build/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/build/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/build/ReactiveSocketTypes.d.ts",
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/build/ReactiveStreamTypes.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/build/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketSerialization.d.ts": [
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketClient.d.ts": [
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketSerialization.d.ts",
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-flowable/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketServer.d.ts": [
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketSerialization.d.ts",
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-flowable/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/LiteBuffer.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketBufferUtils.d.ts": [
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/LiteBuffer.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketEncoding.d.ts": [
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketBufferUtils.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketResumableTransport.d.ts": [
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-flowable/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketFrame.d.ts": [
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketBinaryFraming.d.ts": [
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketEncoding.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketClient.d.ts",
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketServer.d.ts",
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketEncoding.d.ts",
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketSerialization.d.ts",
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketResumableTransport.d.ts",
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketFrame.d.ts",
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketBinaryFraming.d.ts",
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketBufferUtils.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketMachine.d.ts": [
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketSerialization.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketVersion.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-flowable/build/FlowableMapOperator.d.ts": [
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-flowable/build/FlowableRequestOperator.d.ts": [
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-flowable/build/FlowableTakeOperator.d.ts": [
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -2297,135 +2710,58 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketResumableTransport.d.ts": [
+      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-tcp-server/build/RSocketTCPServer.d.ts": [
         "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/net.d.ts",
         "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-flowable/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketClient.d.ts",
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketServer.d.ts",
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketEncoding.d.ts",
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketSerialization.d.ts",
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketResumableTransport.d.ts",
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketFrame.d.ts",
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketBinaryFraming.d.ts",
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketBufferUtils.d.ts",
+      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-tcp-server/build/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-tcp-server/build/RSocketTCPServer.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-tcp-server/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-tcp-server/build/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketServer.d.ts": [
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketSerialization.d.ts",
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-flowable/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/packages/types/src/tsc-watch/index.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketClient.d.ts": [
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketSerialization.d.ts",
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-flowable/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/anymatch/index.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/build/ReactiveSocketTypes.d.ts": [
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-flowable/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/build/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/build/ReactiveSocketTypes.d.ts",
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/build/ReactiveStreamTypes.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/build/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-flowable/build/FlowableTakeOperator.d.ts": [
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-flowable/build/FlowableRequestOperator.d.ts": [
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-flowable/build/FlowableMapOperator.d.ts": [
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketMachine.d.ts": [
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketSerialization.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketBinaryFraming.d.ts": [
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketEncoding.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketFrame.d.ts": [
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketEncoding.d.ts": [
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketBufferUtils.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketSerialization.d.ts": [
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-flowable/build/FlowableProcessor.d.ts": [
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-flowable/build/FlowableTimer.d.ts": [
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-flowable/build/Flowable.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-flowable/build/Single.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/build/ReactiveStreamTypes.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/LiteBuffer.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketBufferUtils.d.ts": [
-        "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/LiteBuffer.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketVersion.d.ts": [
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/babel-types/index.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
       "/projects/oss/flipper.v2/desktop/node_modules/@babel/types/lib/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/babel__generator/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@babel/types/lib/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/babel__traverse/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@babel/types/lib/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@babel/parser/typings/babel-parser.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@babel/types/lib/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/babel__template/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@babel/parser/typings/babel-parser.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@babel/types/lib/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -2438,40 +2774,8 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/babel__template/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@babel/parser/typings/babel-parser.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@babel/types/lib/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@babel/parser/typings/babel-parser.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@babel/types/lib/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/babel__traverse/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@babel/types/lib/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/babel__generator/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@babel/types/lib/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/classnames/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/deep-equal/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/events/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/expand-tilde/index.d.ts": [
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/babylon/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/babel-types/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -2480,6 +2784,211 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
       "/projects/oss/flipper.v2/desktop/node_modules/@types/node/assert.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/async_hooks.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/buffer.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/events/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/child_process.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/events.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/net.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/stream.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/cluster.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/child_process.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/events.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/net.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/console.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/constants.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/crypto.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/stream.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/dgram.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/net.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/dns.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/events.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/dns.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/domain.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/events.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/events.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/fs.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/stream.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/events.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/url.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/http.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/events.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/stream.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/url.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/net.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/http2.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/events.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/fs.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/net.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/stream.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/tls.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/url.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/http.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/https.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/tls.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/events.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/http.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/url.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/inspector.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/events.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/module.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/net.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/stream.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/events.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/dns.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/os.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/path.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/perf_hooks.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/async_hooks.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/process.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/punycode.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/querystring.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/readline.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/events.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/stream.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/repl.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/readline.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/vm.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/stream.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/events.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/string_decoder.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/timers.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/tls.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/crypto.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/dns.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/net.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/stream.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/trace_events.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/tty.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/net.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/url.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/querystring.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/v8.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/stream.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/vm.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/worker_threads.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/vm.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/events.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/stream.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/zlib.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/stream.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -2526,72 +3035,86 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/zlib.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/globals.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/globals.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/base.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/globals.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/uuid/interfaces.d.ts": [
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/connect/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/http.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/uuid/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/uuid/interfaces.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/recursive-readdir/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/fs.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/body-parser/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/connect/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/http.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/child_process.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/crypto.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/dns.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/fs.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/readline.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/zlib.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/classnames/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/clean-css/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/https.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/http.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/zlib.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/zlib.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/console-stamp/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/deep-equal/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/expand-tilde/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/range-parser/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/express-serve-static-core/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/http.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/events.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/range-parser/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/readline.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/readline.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/mime/index.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/fs.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/fs.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/serve-static/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/express-serve-static-core/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/mime/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/dns.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/dns.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/express/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/body-parser/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/serve-static/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/express-serve-static-core/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/crypto.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/crypto.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/child_process.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/child_process.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/minimatch/index.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -2602,564 +3125,134 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/async_hooks.d.ts": [
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/react/global.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/perf_hooks.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/async_hooks.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/csstype/index.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/buffer.d.ts": [
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/prop-types/index.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/child_process.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/events.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/net.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/stream.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/csstype/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/prop-types/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/global.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/cluster.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/child_process.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/events.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/net.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/console.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/constants.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/crypto.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/stream.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/tls.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/crypto.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/dns.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/net.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/stream.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/https.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/tls.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/events.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/http.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/url.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/http2.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/events.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/fs.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/net.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/stream.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/tls.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/url.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/http.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/dgram.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/net.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/dns.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/events.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/dns.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/net.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/stream.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/events.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/dns.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/tty.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/net.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/http.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/events.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/stream.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/url.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/net.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/domain.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/events.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/events.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/worker_threads.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/vm.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/events.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/stream.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/stream.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/events.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/zlib.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/stream.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/v8.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/stream.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/readline.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/events.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/stream.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/repl.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/readline.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/vm.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/fs.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/stream.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/events.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/url.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/inspector.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/events.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/module.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/os.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/path.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/process.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/punycode.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/querystring.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/url.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/querystring.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/string_decoder.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/timers.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/trace_events.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/yargs/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/which/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/tmp/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/tinycolor2/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/stack-utils/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-window/index.d.ts": [
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/hoist-non-react-statics/index.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-virtualized-auto-sizer/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/source-map/source-map.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-transition-group/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-transition-group/CSSTransition.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-transition-group/Transition.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-transition-group/TransitionGroup.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/uglify-js/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/source-map/source-map.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-transition-group/TransitionGroup.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-transition-group/Transition.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/relateurl/index.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-transition-group/CSSTransition.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-transition-group/Transition.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/html-minifier/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/uglify-js/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/clean-css/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/relateurl/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-transition-group/Transition.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/tapable/index.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-test-renderer/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/tapable/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/uglify-js/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/anymatch/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/source-map/source-map.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-redux/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/redux/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/hoist-non-react-statics/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/html-webpack-plugin/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/tapable/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/html-minifier/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/redux/index.d.ts": [
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/istanbul-lib-coverage/index.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-dom/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/istanbul-lib-report/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/istanbul-lib-coverage/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/alpha/Alpha.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/block/Block.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/common/Checkboard.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/chrome/Chrome.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/circle/Circle.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/compact/Compact.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/github/Github.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/hue/Hue.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/material/Material.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/photoshop/Photoshop.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/sketch/Sketch.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/slider/Slider.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/swatches/Swatches.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/twitter/Twitter.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/common/ColorWrap.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/istanbul-reports/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/istanbul-lib-report/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/istanbul-lib-coverage/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/common/ColorWrap.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/jest-diff/index.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/twitter/Twitter.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/jest-diff/build/types.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/swatches/Swatches.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/jest-diff/build/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/jest-diff/build/types.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/slider/Slider.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/jest/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/jest-diff/build/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/jest-diff/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/sketch/Sketch.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/indefinite-observable/dist/types.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/photoshop/Photoshop.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/indefinite-observable/dist/IndefiniteObservable.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/indefinite-observable/dist/types.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/material/Material.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/indefinite-observable/dist/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/indefinite-observable/dist/types.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/indefinite-observable/dist/IndefiniteObservable.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/hue/Hue.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/jss/css.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/indefinite-observable/dist/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/csstype/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/github/Github.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/jss/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/jss/css.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/compact/Compact.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/circle/Circle.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/chrome/Chrome.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/block/Block.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/alpha/Alpha.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/common/Checkboard.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/promise-retry/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/retry/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/retry/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/pako/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/common.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/common.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/array.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/collection.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/date.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/function.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/lang.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/math.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/number.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/object.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/seq.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/string.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/util.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/common.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/array.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/collection.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/date.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/function.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/lang.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/math.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/number.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/object.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/seq.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/string.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/string.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/common.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/array.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/collection.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/date.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/function.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/lang.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/math.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/number.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/object.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/seq.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/seq.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/common.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/array.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/collection.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/date.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/function.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/lang.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/math.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/number.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/object.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/string.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/object.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/common.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/array.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/collection.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/date.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/function.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/lang.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/math.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/number.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/seq.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/string.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/number.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/common.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/array.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/collection.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/date.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/function.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/lang.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/math.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/object.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/seq.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/string.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/math.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/common.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/array.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/collection.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/date.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/function.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/lang.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/number.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/object.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/seq.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/string.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/lang.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/common.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/array.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/collection.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/date.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/function.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/math.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/number.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/object.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/seq.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/string.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/function.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/common.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/array.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/collection.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/date.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/lang.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/math.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/number.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/object.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/seq.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/string.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/date.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/common.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/array.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/collection.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/function.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/lang.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/math.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/number.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/object.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/seq.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/string.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/collection.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/common.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/array.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/date.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/function.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/lang.d.ts",
@@ -3188,8 +3281,168 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/common.d.ts": [
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/collection.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/common.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/array.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/date.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/function.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/lang.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/math.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/number.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/object.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/seq.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/string.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/date.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/common.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/array.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/collection.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/function.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/lang.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/math.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/number.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/object.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/seq.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/string.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/function.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/common.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/array.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/collection.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/date.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/lang.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/math.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/number.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/object.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/seq.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/string.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/lang.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/common.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/array.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/collection.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/date.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/function.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/math.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/number.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/object.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/seq.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/string.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/math.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/common.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/array.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/collection.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/date.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/function.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/lang.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/number.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/object.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/seq.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/string.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/number.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/common.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/array.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/collection.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/date.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/function.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/lang.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/math.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/object.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/seq.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/string.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/object.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/common.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/array.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/collection.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/date.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/function.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/lang.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/math.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/number.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/seq.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/string.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/seq.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/common.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/array.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/collection.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/date.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/function.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/lang.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/math.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/number.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/object.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/string.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/string.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/common.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/array.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/collection.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/date.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/function.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/lang.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/math.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/number.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/object.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/seq.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/util.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/common.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/array.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/collection.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/date.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/function.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/lang.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/math.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/number.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/object.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/seq.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/string.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/common.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/array.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/collection.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/date.d.ts",
@@ -3204,103 +3457,313 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/jss/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/jss/css.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/loglevel/index.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/jss/css.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/indefinite-observable/dist/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/csstype/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/memory-fs/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/indefinite-observable/dist/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/indefinite-observable/dist/types.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/indefinite-observable/dist/IndefiniteObservable.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/morgan/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/express/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/indefinite-observable/dist/IndefiniteObservable.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/indefinite-observable/dist/types.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/child_process.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/child_process.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/indefinite-observable/dist/types.d.ts": [
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/crypto.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/crypto.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/jest/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/jest-diff/build/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/jest-diff/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/dns.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/dns.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/jest-diff/build/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/jest-diff/build/types.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/fs.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/fs.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/jest-diff/build/types.d.ts": [
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/readline.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/readline.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/jest-diff/index.d.ts": [
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/zlib.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/zlib.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/istanbul-reports/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/istanbul-lib-report/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/istanbul-lib-coverage/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/child_process.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/crypto.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/dns.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/fs.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/readline.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/zlib.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/istanbul-lib-report/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/istanbul-lib-coverage/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node-ipc/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/net.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/istanbul-lib-coverage/index.d.ts": [
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/pako/index.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/hoist-non-react-statics/index.d.ts": [
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/retry/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/promise-retry/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/retry/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/alpha/Alpha.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/block/Block.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/common/Checkboard.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/csstype/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/prop-types/index.d.ts",
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/global.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/chrome/Chrome.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/prop-types/index.d.ts": [
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/circle/Circle.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/csstype/index.d.ts": [
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/compact/Compact.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/react/global.d.ts": [
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/github/Github.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/minimatch/index.d.ts": [
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/hue/Hue.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/globals.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/globals.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/material/Material.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts": [
-        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts"
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/photoshop/Photoshop.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/node/vm.d.ts": [
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/sketch/Sketch.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/slider/Slider.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/swatches/Swatches.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/twitter/Twitter.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/common/ColorWrap.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/alpha/Alpha.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/block/Block.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/common/Checkboard.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/chrome/Chrome.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/circle/Circle.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/compact/Compact.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/github/Github.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/hue/Hue.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/material/Material.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/photoshop/Photoshop.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/sketch/Sketch.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/slider/Slider.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/swatches/Swatches.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/twitter/Twitter.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-color/lib/components/common/ColorWrap.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-dom/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/redux/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-redux/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/redux/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/hoist-non-react-statics/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-test-renderer/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-transition-group/Transition.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-transition-group/CSSTransition.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-transition-group/Transition.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-transition-group/TransitionGroup.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-transition-group/Transition.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-transition-group/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-transition-group/CSSTransition.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-transition-group/Transition.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react-transition-group/TransitionGroup.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-virtualized-auto-sizer/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/react-window/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/recursive-readdir/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/fs.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/shelljs/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/child_process.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/glob/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/stack-utils/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/tinycolor2/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/tmp/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/uuid/interfaces.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/uuid/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/uuid/interfaces.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack-dev-middleware/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/loglevel/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/connect/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/memory-fs/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack-env/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack-hot-middleware/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/connect/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack-node-externals/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/which/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/yargs/index.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ]
@@ -3338,13 +3801,15 @@
       "/projects/oss/flipper.v2/desktop/node_modules/typescript/lib/lib.es2019.symbol.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/typescript/lib/lib.esnext.intl.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/typescript/lib/lib.esnext.bigint.d.ts",
-      "/projects/oss/flipper.v2/desktop/packages/types/src/package-json/package-json.d.ts",
-      "/projects/oss/flipper.v2/desktop/packages/types/src/flipper-static.d.ts",
+      "/projects/oss/flipper.v2/desktop/packages/types/src/custom.d.ts",
+      "/projects/oss/flipper.v2/desktop/packages/types/src/sugar.ts",
+      "/projects/oss/flipper.v2/desktop/packages/types/src/sugar-extended.ts",
       "/projects/oss/flipper.v2/desktop/packages/types/src/index.ts",
       "/projects/oss/flipper.v2/desktop/packages/types/src/JSONStream/index.d.ts",
       "/projects/oss/flipper.v2/desktop/packages/types/src/adbkit-fb/index.d.ts",
       "/projects/oss/flipper.v2/desktop/packages/types/src/adbkit-logcat-fb/index.d.ts",
-      "/projects/oss/flipper.v2/desktop/packages/types/src/flipper-static/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/packages/types/src/concurrently/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/packages/types/src/package-json/package-json.d.ts",
       "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-flowable/build/Flowable.d.ts",
       "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-flowable/build/Single.d.ts",
       "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-flowable/build/FlowableProcessor.d.ts",
@@ -3377,20 +3842,21 @@
       "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-tcp-server/build/RSocketTCPServer.d.ts",
       "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-tcp-server/build/index.d.ts",
       "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-tcp-server/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/packages/types/src/tsc-watch/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/anymatch/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/babel-types/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@babel/types/lib/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/babel__generator/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/babel__traverse/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@babel/parser/typings/babel-parser.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/babel__template/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/babel__core/index.d.ts",
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/classnames/index.d.ts",
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/deep-equal/index.d.ts",
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/events/index.d.ts",
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/expand-tilde/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/babylon/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/node/globals.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/node/assert.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/node/async_hooks.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/node/buffer.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/events/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/node/child_process.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/node/cluster.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/node/console.d.ts",
@@ -3431,6 +3897,18 @@
       "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/globals.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/connect/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/body-parser/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/classnames/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/clean-css/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/console-stamp/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/deep-equal/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/expand-tilde/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/range-parser/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/express-serve-static-core/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/mime/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/serve-static/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/express/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/minimatch/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/glob/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/react/global.d.ts",
@@ -3438,6 +3916,13 @@
       "/projects/oss/flipper.v2/desktop/node_modules/@types/prop-types/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/hoist-non-react-statics/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/source-map/source-map.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/uglify-js/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/relateurl/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/html-minifier/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/tapable/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/html-webpack-plugin/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/istanbul-lib-coverage/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/istanbul-lib-report/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/istanbul-reports/index.d.ts",
@@ -3463,6 +3948,9 @@
       "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/string.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/util.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/loglevel/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/memory-fs/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/morgan/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/child_process.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/crypto.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/dns.d.ts",
@@ -3470,6 +3958,7 @@
       "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/readline.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/zlib.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/node-ipc/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/pako/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/retry/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/promise-retry/index.d.ts",
@@ -3500,11 +3989,16 @@
       "/projects/oss/flipper.v2/desktop/node_modules/@types/react-virtualized-auto-sizer/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/react-window/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/recursive-readdir/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/shelljs/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/stack-utils/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/tinycolor2/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/tmp/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/uuid/interfaces.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/uuid/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack-dev-middleware/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack-env/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack-hot-middleware/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack-node-externals/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/which/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/yargs/index.d.ts"
     ]

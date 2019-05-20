@@ -31,6 +31,9 @@
       "@flipper/*": [
         "./*/src"
       ],
+      "sugar": [
+        "./types/src/sugar-extended.ts"
+      ],
       "package-json": [
         "./types/src/package-json"
       ],
@@ -53,7 +56,9 @@
     "typeRoots": [
       "./types/src",
       "../node_modules/@types"
-    ]
+    ],
+    
 
-  }
+  },
+  
 }

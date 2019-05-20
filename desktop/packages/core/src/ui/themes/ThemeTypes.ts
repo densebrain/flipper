@@ -1,5 +1,6 @@
-import { ColorProperty } from 'csstype';
-import { CSSProperties } from "@material-ui/styles/withStyles";
+import {ColorProperty} from 'csstype'
+import {CSSProperties} from "../styled"
+
 export type Palette = {
   name: string;
   author: string;

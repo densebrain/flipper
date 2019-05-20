@@ -14,7 +14,7 @@ import {
 } from "./types"
 import { normaliseColumnWidth, isPercentage } from "./utils"
 import { PureComponent } from "react"
-import ContextMenu from "../ContextMenu"
+import ContextMenuComponent from "../ContextMenuComponent"
 import Interactive from "../Interactive"
 import styled from "../../styled/index"
 import FlexRow from "../FlexRow"
@@ -279,9 +279,9 @@ export default class TableHead extends PureComponent<{
     }
 
     return (
-      <ContextMenu buildItems={this.buildContextMenu}>
+      <ContextMenuComponent buildItems={this.buildContextMenu}>
         <TableHeadContainer>{elems}</TableHeadContainer>
-      </ContextMenu>
+      </ContextMenuComponent>
     )
   }
 }

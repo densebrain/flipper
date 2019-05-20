@@ -28,7 +28,7 @@ import styled from "./ui/styled"
 import FlexColumn from "./ui/components/FlexColumn"
 import {makeRootView} from "./ui/components/RootView"
 import FlexBox from "./ui/components/FlexBox"
-import ContextMenu from "./ui/components/ContextMenu"
+import ContextMenuComponent from "./ui/components/ContextMenuComponent"
 import Glyph from "./ui/components/Glyph"
 import {RootState} from "./reducers"
 import {SimpleThemeProps, Theme, withTheme} from "./ui/themes"
@@ -295,7 +295,7 @@ const NotificationsTable = withTheme()(class NotificationsTable extends React.Co
           onClear={onClear}
           inactive
         />).reverse()
-    return <ContextMenu items={this.contextMenuItems} component={Content}>
+    return <ContextMenuComponent items={this.contextMenuItems} component={Content}>
       {activeItems.length && <>
         <Heading>Active notifications</Heading>
         <FlexColumn shrink={false}>{activeItems}</FlexColumn>
@@ -308,7 +308,7 @@ const NotificationsTable = withTheme()(class NotificationsTable extends React.Co
         <Glyph name="bell-null" size={24} variant="outline" color={colors.accent}/>
         No Notifications
       </NoContent>}
-    </ContextMenu>
+    </ContextMenuComponent>
   }
   
 })
@@ -544,15 +544,15 @@ const NotificationItem = withTheme()(class NotificationItem extends React.Compon
     //severity={notification.severity}
     // isSelected={isSelected}
     //inactive={inactive}
-    return <ContextMenu data-role="notification"
-                        component={NotificationBox}
-                        componentProps={{
+    return <ContextMenuComponent data-role="notification"
+                                 component={NotificationBox}
+                                 componentProps={{
                           severity: notification.severity,
                           isSelected,
                           inactive
                         }}
-                        onClick={this.props.onHighlight}
-                        items={this.contextMenuItems}>
+                                 onClick={this.props.onHighlight}
+                                 items={this.contextMenuItems}>
       <Glyph name={getValue(() => plugin.icon, 'bell')} size={12}/>
       <NotificationContent isSelected={isSelected}>
         <Title>{notification.title}</Title>
@@ -586,7 +586,7 @@ const NotificationItem = withTheme()(class NotificationItem extends React.Compon
           Not helpful
         </NotificationButton>}
       </FlexColumn>}
-    </ContextMenu>
+    </ContextMenuComponent>
   }
   
 })

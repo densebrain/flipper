@@ -6,8 +6,14 @@
  */
 import styled from "../styled/index"
 import { inputStyle } from "./Input"
-export default styled("textarea")(({ compact }) => ({
-  ...inputStyle(compact),
+import {SimpleThemeProps} from "../themes"
+import {HTMLAttributes} from "react"
+type Props = SimpleThemeProps & HTMLAttributes<any> & {
+  compact?: boolean
+}
+
+export default styled("textarea")(({ theme, compact }: Props) => ({
+  ...inputStyle(theme),
   lineHeight: "normal",
   padding: compact ? "5px" : "8px",
   resize: "none"

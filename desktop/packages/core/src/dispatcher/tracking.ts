@@ -11,7 +11,7 @@ import { Store } from "../reducers/index"
 import { Logger } from "../fb-interfaces/Logger"
 import Client from "../Client"
 
-export default (store: Store, logger: Logger) => {
+export default async function (store: Store, logger: Logger) {
   let droppedFrames: number = 0
   let largeFrameDrops: number = 0
 

@@ -61,7 +61,7 @@ export default class ImagePool {
 
     if (!this.updateNotificationScheduled) {
       this.updateNotificationScheduled = true
-      window.setTimeout(this._notify, 1000)
+      ;(setTimeout as any)(this._notify, 1000)
     }
   }
 

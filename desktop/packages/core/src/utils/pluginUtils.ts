@@ -6,7 +6,7 @@
  */
 import BaseDevice from "../devices/BaseDevice"
 import { PluginStatesState as PluginStatesState } from "../reducers/pluginStates"
-import {PluginExport, PluginType} from "../PluginTypes"
+import {PluginModuleExport, PluginType} from "../PluginTypes"
 export function getPluginKey(
   selectedApp: string | null | undefined,
   baseDevice: BaseDevice | null | undefined,
@@ -23,7 +23,7 @@ export function getPluginKey(
 
   return `unknown#${pluginID}`
 }
-export function getPersistedState<PersistedState = any, P extends PluginExport<any,any,any,PersistedState,any, PluginType.Device | PluginType.Normal> = any>(
+export function getPersistedState<PersistedState = any, P extends PluginModuleExport<any,any,any,PersistedState,any, PluginType.Device | PluginType.Normal> = any>(
   pluginKey: string,
   persistingPlugin:
     | P

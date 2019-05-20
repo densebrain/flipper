@@ -1,12 +1,17 @@
 {
   "name": "@flipper/plugin-cpu",
   "version": "1.0.0",
-  "main": "lib/index.js",
+  "main": "dist/bundle.js",
   "types": "lib/index.d.ts",
   "license": "MIT",
   "dependencies": {
     "@flipper/core": "^1.0.0",
-    "adbkit-fb": "2.10.1"
+    "@material-ui/core": "^3.9.3",
+    "@material-ui/styles": "^3.0.0-alpha.10",
+    "adbkit-fb": "2.10.1",
+    "mz": "^2.7.0",
+    "ts-optchain": "^0.1.6",
+    "typeguard": "^0.0.13"
   },
   "devDependencies": {
     "@flipper/dev": "^1.0.0"

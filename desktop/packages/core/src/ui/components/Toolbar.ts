@@ -16,24 +16,31 @@ export type ToolbarProps = RootViewProps & {
   compact?: boolean | undefined
 }
 
-const Toolbar = makeRootView(theme => {
-  const { colors } = theme
-  return {
-    backgroundColor: colors.backgroundStatus,
-    borderBottom: (props: ToolbarProps) => (props.position === "bottom" ? "none" : `1px solid ${colors.border}`),
-    borderTop: (props: ToolbarProps) => (props.position === "bottom" ? `1px solid ${colors.border}` : "none"),
-    flexShrink: 0,
-    height: (props: ToolbarProps) => (props.compact ? 28 : 42),
-    lineHeight: "32px",
-    alignItems: "center",
-    padding: 6,
-    width: "100%"
-  }
-}, FlexRow)
+const Toolbar = makeRootView(
+  theme => {
+    const { colors } = theme
+    return {
+      backgroundColor: colors.backgroundStatus,
+      borderBottom: (props: ToolbarProps) => (props.position === "bottom" ? "none" : `1px solid ${colors.border}`),
+      borderTop: (props: ToolbarProps) => (props.position === "bottom" ? `1px solid ${colors.border}` : "none"),
+      flexShrink: 0,
+      height: (props: ToolbarProps) => (props.compact ? 28 : 42),
+      lineHeight: "32px",
+      alignItems: "center",
+      padding: 6,
+      width: "100%",
+      ...S.FillWidth
+    }
+  },
+  FlexRow,
+  "Toolbar"
+)
+
 export const Spacer = makeRootView(
   () => ({
     flexGrow: 1
   }),
-  FlexBox
+  FlexBox,
+  "Spacer"
 )
 export default Toolbar

@@ -7,7 +7,7 @@
  */
 import * as React from 'react'
 import {
-  PluginExport,
+  PluginModuleExport,
   FlipperPluginProps,
   Notification,
   Button,
@@ -98,7 +98,7 @@ class ExamplePlugin extends FlipperPluginComponent<FlipperPluginProps<PersistedS
   sendMessage() {
     this.client
       .call("displayMessage", {
-        message: this.state.message || "Weeeee!"
+        message: this.state.message || "Weeeee4!"
       })
       .then((_params: DisplayMessageResponse) => {
         this.setState({
@@ -131,4 +131,4 @@ export default {
   type: PluginType.Normal,
   title: ExamplePlugin.title,
   componentClazz: ExamplePlugin
-} as PluginExport<typeof ExamplePlugin>
+} as PluginModuleExport<typeof ExamplePlugin>

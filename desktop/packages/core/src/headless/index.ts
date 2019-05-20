@@ -13,7 +13,7 @@ import {init as initLogger} from "../fb-stubs/Logger"
 import reducers, {Store} from "../reducers/index"
 import {exportStore} from "../utils/exportData" // $FlowFixMe this file exist, trust me, flow!
 
-import setup from "@flipper/init"
+import {setup} from "@flipper/init"
 
 yargs
   .usage("$0 [args]")

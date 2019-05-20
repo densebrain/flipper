@@ -12,7 +12,7 @@ import {
   styled,
   FlexColumn,
   FlexRow,
-  ContextMenu,
+  ContextMenuComponent,
   clipboard,
   Button,
   getPluginKey,
@@ -31,7 +31,7 @@ import {
   OS,
   Notification,
   Plugin,
-  FlipperPluginProps, PluginType, PluginExport
+  FlipperPluginProps, PluginType, PluginModuleExport
 } from "@flipper/core"
 
 //import unicodeSubstring from "unicode-substring"
@@ -444,7 +444,7 @@ class HeaderRow extends Component<HeaderRowProps> {
           <Padder paddingLeft={8}>
             <FlexRow>
               <Title>{title}</Title>
-              <ContextMenu
+              <ContextMenuComponent
                 items={[
                   {
                     label: "copy",
@@ -455,7 +455,7 @@ class HeaderRow extends Component<HeaderRowProps> {
                 ]}
               >
                 <Value code={true}>{value}</Value>
-              </ContextMenu>
+              </ContextMenuComponent>
             </FlexRow>
           </Padder>
           <Line />
@@ -690,7 +690,7 @@ class CrashReporterComponent extends FlipperDevicePluginComponent<FlipperPluginP
             <Padder paddingLeft={8} paddingTop={4} paddingBottom={2}>
               <Title> Stacktrace </Title>
             </Padder>
-            <ContextMenu
+            <ContextMenuComponent
               items={[
                 {
                   label: "copy",
@@ -707,7 +707,7 @@ class CrashReporterComponent extends FlipperDevicePluginComponent<FlipperPluginP
                 padded={false}
                 backgroundColor={colors.greyStackTraceTint}
               />
-            </ContextMenu>
+            </ContextMenuComponent>
           </ScrollableColumn>
         </FlexColumn>
       )
@@ -737,6 +737,6 @@ const CrashReporterPlugin = {
   id: CrashReporterComponent.id,
   type: PluginType.Device,
   componentClazz: CrashReporterComponent
-} as PluginExport<typeof CrashReporterComponent, any, any, any, any, PluginType.Device>
+} as PluginModuleExport<typeof CrashReporterComponent, any, any, any, any, PluginType.Device>
 
 export default CrashReporterPlugin

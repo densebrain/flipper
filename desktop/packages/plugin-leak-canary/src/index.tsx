@@ -16,7 +16,7 @@ import {
   FlipperPluginComponent,
   Button,
   styled,
-  PluginExport, FlipperPluginProps, PluginType
+  PluginModuleExport, FlipperPluginProps, PluginType
 } from "@flipper/core"
 import * as React from "react"
 import { ElementID, Element } from "@flipper/core"
@@ -237,4 +237,4 @@ export default {
   id: LeakCanary.id,
   type: PluginType.Normal,
   componentClazz: LeakCanary
-} as PluginExport<typeof LeakCanary>
+} as PluginModuleExport<typeof LeakCanary>

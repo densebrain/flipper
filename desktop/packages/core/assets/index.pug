@@ -1,0 +1,90 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    link(rel="stylesheet" href=`${require("!!file-loader!./style.css")}`)
+    link(rel="stylesheet" href=`${require("!!file-loader!./graphiql/graphiql.css")}`)
+    link(rel="stylesheet" href=`${require("!!file-loader!./vis/vis.min.css")}`)
+    each asset in htmlWebpackPlugin.files.css
+      link(rel="stylesheet" href=`${asset}`)
+
+
+    title Flipper
+    style.
+      #loading {
+        -webkit-app-region: drag;
+        z-index: 999999;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        padding: 50px;
+        overflow: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        color: #525252;
+        text-align: center;
+      }
+
+      .__infinity-dev-box-error {
+        background-color: #000;
+        font-family: monospace;
+        white-space: pre;
+        font-size: 16px;
+      }
+  body
+    #root
+      #loading
+        | Loading...
+
+    .__infinity-dev-box.__infinity-dev-box-error(hidden="")
+
+    //script(src="/socket.io/socket.io.js")
+    script.
+      (function() {
+        if (typeof global === 'undefined') {
+          window.global = window.globalThis
+        }
+        global.electronRequire = window.require;
+
+        // let suppressErrors = false;
+        // // const socket = io(location.origin);
+        // // socket.on('refresh', function() {
+        // //   location.reload();
+        // // });
+        // // socket.on('hasErrors', function(html) {
+        // //   openError(html);
+        // //   suppressErrors = true;
+        // // });
+        // //
+        // function openError(text) {
+        //   if (suppressErrors) {
+        //     return;
+        //   }
+        //   const box = document.querySelector('.__infinity-dev-box-error');
+        //   box.removeAttribute('hidden');
+        //   box.textContent = text;
+        // }
+        //
+        // function init() {
+        //   const script = document.createElement('script');
+        //   script.src = process.env.BUNDLE_URL;
+        //   script.onerror = function() {
+        //     openError('Script failure. Check Chrome console for more info.');
+        //   };
+        //   // script.onload = function() {
+        //   //   global.Flipper.init();
+        //   // };
+        //   document.body.appendChild(script);
+        // }
+
+        //init();
+
+      })();
+    each asset in htmlWebpackPlugin.files.js
+      script=`require('${asset}')`
+      //console.log("Loading asset", asset)

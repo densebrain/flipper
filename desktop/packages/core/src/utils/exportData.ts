@@ -296,7 +296,7 @@ export function importDataToStore(data: string, store: Store) {
         const clientPlugin = arr.join("#")
         return client.id === clientPlugin
       })
-      .map(client => client.split("#").pop())
+      .map((client:any) => client.split("#").pop())
     store.dispatch({
       type: "NEW_CLIENT",
       payload: new Client(client.id, client.query, null, getInstance(), store, clientPlugins)

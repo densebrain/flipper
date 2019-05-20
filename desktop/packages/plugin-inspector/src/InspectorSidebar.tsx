@@ -5,13 +5,13 @@
  * @format
  */
 import * as React from "react"
-import { Element } from "@flipper/core"
+import { Client,Logger,Tooltips,Element } from "@flipper/core"
 import { PluginClient } from "@flipper/core"
-import Client from "../../Client"
-import { Logger } from "../../fb-interfaces/Logger"
+
+
 import { GK, ManagedDataInspector, Console, Panel, FlexCenter, styled, colors, SidebarExtensions } from "@flipper/core"
 import { Component } from "react"
-import {Tooltips} from "../../ui/components/Tooltip"
+
 
 const deepEqual = require("deep-equal")
 

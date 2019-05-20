@@ -5,3 +5,4 @@
  * @format
  */
 export { default as textContent } from "./textContent"
+export * from "./Function"

@@ -6,18 +6,20 @@
  */
 
 import {HTMLAttributes, PureComponent} from "react"
+import {isString} from "typeguard"
 import Text, {TextProps} from "../Text"
 import * as React from 'react'
 import {Theme, ThemeProps, withStyles} from "../../themes"
 import { findDOMNode } from "react-dom"
 
-import Electron from "electron"
+//import * as Electron from "electron"
+import {remote,MenuItemConstructorOptions} from "electron"
 import { lighten } from "@material-ui/core/styles/colorManipulator"
 
 import {Filter, FilterType, isFilterPersistent, isFilterType} from "../filter/types"
-import {isString} from "typeguard"
+//import {isString} from "typeguard"
 
-
+const {Menu} = remote
 type TokenProps = HTMLAttributes<any> & ThemeProps<{
   focused: boolean
 },"root", false>
@@ -124,8 +126,12 @@ type Props = {
   onReplace: (index: number, filter: Filter) => void
 }
 export default class FilterToken extends PureComponent<Props> {
-  _ref: HTMLElement | null | undefined
-  onMouseDown = () => {
+  
+  static displayName = "FilterToken"
+  
+  private _ref: HTMLElement | null | undefined
+  
+  private onMouseDown = () => {
     const {onFocus,filter, index} = this.props
     if (!isFilterPersistent(filter)) {
       onFocus(index)
@@ -133,10 +139,14 @@ export default class FilterToken extends PureComponent<Props> {
 
     this.showDetails()
   }
-  showDetails = () => {
+  
+  private onDeleteFilter = () => this.props.onDelete(this.props.index)
+  
+  private showDetails = () => {
     const
-      menuTemplate = Array<Electron.MenuItemConstructorOptions>(),
-      {filter, onDelete, index} = this.props
+      menuTemplate = Array<MenuItemConstructorOptions>(),
+      {filter} = this.props,
+      self = this
     
     if (isFilterType(filter, "enum")) {
       menuTemplate.push(
@@ -166,28 +176,30 @@ export default class FilterToken extends PureComponent<Props> {
             isFilterType(filter, "include")
               ? `Entries excluding "${filter.value}"`
               : `Entries including "${filter.value}"`,
-          click: this.toggleFilter
+          click() { self.toggleFilter() }
         },
         {
           label: "Remove this filter",
-          click: () => onDelete(index)
+          click() { self.onDeleteFilter() }
         }
       )
     }
 
-    const menu = Electron.remote.Menu.buildFromTemplate(menuTemplate)
+    const menu = Menu.buildFromTemplate(menuTemplate)
     
     const element = this._ref
     if (!element) return
     
-    const { bottom, left } = element.getBoundingClientRect()
+    //const { bottom, left } = element.getBoundingClientRect()
     menu.popup({
-      window: Electron.remote.getCurrentWindow(),
-      x: left,
-      y: bottom + 8
-    })
+      // window: remote.getCurrentWindow(),
+      // async: true,
+      // x: left,
+      // y: bottom + 8
+    } as any)
   }
-  toggleFilter = () => {
+  
+  private toggleFilter = () => {
     const { filter, index } = this.props
 
     if (filter.type !== "enum") {
@@ -195,7 +207,8 @@ export default class FilterToken extends PureComponent<Props> {
       this.props.onReplace(index, newFilter)
     }
   }
-  changeEnum = (newValue: string) => {
+  
+  private changeEnum = (newValue: string) => {
     const { filter, index } = this.props
 
     if (isFilterType(filter, "enum")) {
@@ -219,7 +232,8 @@ export default class FilterToken extends PureComponent<Props> {
       this.props.onReplace(index, newFilter)
     }
   }
-  setRef = (ref: HTMLElement) => {
+  
+  private setRef = (ref: HTMLElement) => {
     const element = findDOMNode(ref)
 
     if (element instanceof HTMLElement) {

@@ -7,6 +7,7 @@
  * @format
  * @flow strict-local
  */
+import "@flipper/common"
 import * as Path from "path"
 
 import * as Fs from "fs"
@@ -15,10 +16,8 @@ import * as Util from "util"
 
 import * as recursiveReaddir from "recursive-readdir"
 
-import {PluginPackage} from "flipper-static"
-
 import * as Os from 'os'
-import {getLogger} from "./Logger"
+import {getLogger} from "@flipper/common"
 import {isString} from "typeguard"
 import {IPackageJSON} from "package-json"
 

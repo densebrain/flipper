@@ -5,34 +5,54 @@
  * @format
  */
 //import "source-map-support/register"
+
+import "react-hot-loader"
+import "./react-hot-config"
 import "./GlobalTypes"
-import { Provider } from "react-redux"
-import * as React from "react"
+
 import * as ReactDOM from "react-dom"
-import { precachedIcons } from "./utils/icons"
+
+import {getLogger} from "@flipper/common"
+import {Provider} from "react-redux"
+import * as React from "react"
+
 import GK from "./fb-stubs/GK"
-import { init as initLogger } from "./fb-stubs/Logger"
+import {init as initLogger} from "./fb-stubs/Logger"
 import App from "./App"
 import BugReporter from "./fb-stubs/BugReporter"
 import {createStore} from "redux"
-import { persistStore } from "redux-persist"
+import {persistStore} from "redux-persist"
 import reducers from "./reducers/index"
 import dispatcher from "./dispatcher/index"
 import {TooltipProviderStyled as TooltipProvider} from "./ui/components/TooltipProvider"
 import config from "./utils/processConfig"
-import { initLauncherHooks } from "./utils/launcher"
+import {initLauncherHooks} from "./utils/launcher"
 import ContextMenuProvider from "./ui/components/ContextMenuProvider"
 
-const path = require("path")
+// const path = require("path")
 
-const store = createStore(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+const
+  log = getLogger(__filename),
+  store = createStore(
+    reducers,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  )
 Object.assign(global,{
-  flipperStore: store
+  //webpackInitRequire: require,
+  webpackRequire: __webpack_require__,
+  webpackModules: __webpack_modules__,
+  flipperStore: store,
+  "isDev": isDev,
+  "__non_webpack_require__": __non_webpack_require__
 })
+
+async function init() {
 persistStore(store)
-const logger = initLogger(store)
-const bugReporter = new BugReporter(logger, store)
-dispatcher(store, logger)
+const
+  logger = initLogger(store),
+  bugReporter = new BugReporter(logger, store)
+  
+await dispatcher(store, logger)
 GK.init()
 
 const AppFrame = (): React.ReactElement => (
@@ -45,20 +65,34 @@ const AppFrame = (): React.ReactElement => (
   </TooltipProvider>
 )
 
-export default function init() {
-  // $FlowFixMe: this element exists!
   ReactDOM.render(<AppFrame />, document.getElementById("root")) // $FlowFixMe: service workers exist!
 
-  ;(navigator as any).serviceWorker
-    .register(process.env.NODE_ENV === "production" ? path.join(__dirname, "serviceWorker") : "./serviceWorker")
-    .then((r:any) => {
-      const worker = r.installing || r.active
-      if (worker) {
-        worker.postMessage({
-          precachedIcons
-        })
-      }
-    })
-    .catch(console.error)
+  // ;(navigator as any).serviceWorker
+  //   .register(process.env.NODE_ENV === "production" ? path.join(__dirname, "serviceWorker") : "./serviceWorker")
+  //   .then((r:any) => {
+  //     const worker = r.installing || r.active
+  //     if (worker) {
+  //       worker.postMessage({
+  //         precachedIcons
+  //       })
+  //     }
+  //   })
+  //   .catch(console.error)
   initLauncherHooks(config(), store)
-} // make init function callable from outside
+}
+
+window.addEventListener("load", () => {
+  console.info("loaded")
+  init()
+})
+
+if (module.hot) {
+  module.hot.addStatusHandler(status => {
+    log.info(`HMR: Status Changed: ${status}`)
+    if (['abort','fail'].includes(status)) {
+      window.location.reload()
+    }
+  })
+}
+
+export {}

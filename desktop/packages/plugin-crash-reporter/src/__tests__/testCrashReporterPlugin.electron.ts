@@ -12,7 +12,7 @@ import CrashReporterPlugin, {
   parsePath,
   shouldShowCrashNotification
 } from "../index"
-import {BaseDevice, getPersistedState, getPluginKey} from 'flipper'
+import {BaseDevice, getPersistedState, getPluginKey} from "@flipper/core"
 
 function setDefaultPersistedState(defaultState: CrashReporterPersistedState) {
   CrashReporterPlugin.componentClazz.defaultPersistedState = defaultState

@@ -9,9 +9,9 @@ import styled, {styleCreator} from "../styled/index"
 import FlexColumn from "./FlexColumn"
 import FlexBox from "./FlexBox" //import {colors} from '../themes/colors';
 import Glyph from "./Glyph"
-import {Theme} from "../themes/themes"
+import {withStyles,Theme} from "../themes"
 import {rem} from "../styled"
-import withStyles from "@material-ui/styles/withStyles"
+
 import Text from "./Text"
 import {ThemeProps} from "../themes"
 

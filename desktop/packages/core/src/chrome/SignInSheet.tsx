@@ -15,7 +15,7 @@ import Input from "../ui/components/Input"
 import Link from "../ui/components/Link"
 import Button from "../ui/components/Button"
 import {RootState} from "../reducers"
-import {Spacer} from "../ui"
+import {Spacer} from "../ui/components/Toolbar"
 import FlexRow from "../ui/components/FlexRow"
 import {SimpleThemeProps, withTheme} from "../ui/themes"
 const Container = styled(FlexColumn)({

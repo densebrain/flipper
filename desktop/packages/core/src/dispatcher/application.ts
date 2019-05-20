@@ -31,7 +31,7 @@ export const uriComponents = (url: string) => {
 
   return [];
 };
-export default ((store: Store, _logger: Logger) => {
+export default async function(store: Store, _logger: Logger) {
   const currentWindow = remote.getCurrentWindow();
   currentWindow.on('focus', () => {
     store.dispatch({
@@ -101,4 +101,4 @@ export default ((store: Store, _logger: Logger) => {
         Example expected format: "1111,2222".`);
     }
   }
-});
+};

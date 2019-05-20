@@ -16,5 +16,6 @@ export default makeRootView(
     alignItems: "center",
     justifyContent: "center"
   }),
-  View
+  View,
+  "FlexCenter",
 )

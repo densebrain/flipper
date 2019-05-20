@@ -4,19 +4,25 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-export { default as styled } from "./styled"
-export { default as Button } from "./components/Button"
-export { default as ToggleButton } from "./components/ToggleSwitch"
-export { default as ButtonNavigationGroup } from "./components/ButtonNavigationGroup"
-export { default as ButtonGroup } from "./components/ButtonGroup" //
+import "./styled"
+import styled from "./styled"
 
-export { colors, darkColors, brandColors } from "./themes/colors" //
+import Button from "./components/Button"
 
-export { default as Glyph } from "./components/Glyph" //
+import ToggleButton from "./components/ToggleSwitch"
 
-export { default as LoadingIndicator } from "./components/LoadingIndicator" //
+import ButtonNavigationGroup from "./components/ButtonNavigationGroup"
 
-export { default as Popover } from "./components/Popover" //
+import ButtonGroup from "./components/ButtonGroup"
+
+
+export {colors, darkColors, brandColors} from "./themes/colors" //
+
+import Glyph from "./components/Glyph"
+
+import LoadingIndicator from "./components/LoadingIndicator"
+
+import Popover from "./components/Popover"
 
 export {
   TableColumns,
@@ -27,92 +33,180 @@ export {
   TableRowSortOrder,
   TableColumnOrder,
   TableColumnOrderVal,
-  TableColumnSizes
+  TableColumnSizes,
+  ManagedTableDataPage
 } from "./components/table/types"
-export { ManagedTableDataPage } from "./components/table/types"
-export { default as ManagedTable } from "./components/table/ManagedTable"
-export { ManagedTableProps } from "./components/table/ManagedTable" //
 
-export { DataValueExtractor, DataInspectorExpanded } from "./components/data-inspector/DataInspector"
-export { default as DataInspector } from "./components/data-inspector/DataInspector"
-export { default as ManagedDataInspector } from "./components/data-inspector/ManagedDataInspector"
-export { default as DataDescription } from "./components/data-inspector/DataDescription" // tabs
+import ManagedTable from "./components/table/ManagedTable"
 
-export { default as Tabs } from "./components/Tabs"
-export { default as Tab } from "./components/Tab" // inputs
+export {IManagedTable, ManagedTableProps} from "./components/table/ManagedTable" //
 
-export { default as Input } from "./components/Input"
-export { default as Textarea } from "./components/Textarea"
-export { default as Select } from "./components/Select"
-export { default as Checkbox } from "./components/Checkbox" // code
+export {DataValueExtractor, DataInspectorExpanded} from "./components/data-inspector/DataInspector"
+import DataInspector from "./components/data-inspector/DataInspector"
 
-export { default as CodeBlock } from "./components/CodeBlock" // error
+import ManagedDataInspector from "./components/data-inspector/ManagedDataInspector"
 
-export { default as ErrorBlock } from "./components/ErrorBlock"
-export { ErrorBlockContainer } from "./components/ErrorBlock"
-export { default as ErrorBoundary } from "./components/ErrorBoundary" // interactive components
+import DataDescription from "./components/data-inspector/DataDescription"
 
-export { OrderableOrder } from "./components/Orderable"
-export { default as Interactive } from "./components/Interactive"
-export { default as Orderable } from "./components/Orderable"
-export { default as VirtualList } from "./components/VirtualList" // base components
+import Tabs from "./components/Tabs"
 
-export { Component, PureComponent } from "react" // context menus and dropdowns
+import Tab from "./components/Tab"
 
-export { default as ContextMenuProvider } from "./components/ContextMenuProvider"
-export { default as ContextMenu } from "./components/ContextMenu" // file
 
-export { FileListFile, FileListFiles } from "./components/FileList"
-export { default as FileList } from "./components/FileList"
-export { default as File } from "./components/File" // context menu items
+import Input from "./components/Input"
 
-export { DesktopDropdownItem, DesktopDropdownSelectedItem, DesktopDropdown } from "./components/desktop-toolbar" // utility elements
+import Textarea from "./components/Textarea"
 
-export { default as View } from "./components/View"
-export { default as ViewWithSize } from "./components/ViewWithSize"
-export { default as Block } from "./components/Block"
-export { default as FocusableBox } from "./components/FocusableBox"
-export { default as Sidebar } from "./components/Sidebar"
-export { default as SidebarLabel } from "./components/SidebarLabel"
-export { default as Box } from "./components/Box"
-export { default as FlexBox } from "./components/FlexBox"
-export { default as FlexRow } from "./components/FlexRow"
-export { default as FlexColumn } from "./components/FlexColumn"
-export { default as FlexCenter } from "./components/FlexCenter"
-export { default as Toolbar, Spacer } from "./components/Toolbar"
-export { default as Panel } from "./components/Panel"
-export { default as Text } from "./components/Text"
-export { default as TextParagraph } from "./components/TextParagraph"
-export { default as Link } from "./components/Link"
-export { default as PathBreadcrumbs } from "./components/PathBreadcrumbs"
-export { default as ModalOverlay } from "./components/ModalOverlay"
-export { default as Tooltip } from "./components/Tooltip"
-export { default as TooltipProvider } from "./components/TooltipProvider"
-export { default as ResizeSensor } from "./components/ResizeSensor" // typography
+import Select from "./components/Select"
 
-export { default as HorizontalRule } from "./components/HorizontalRule"
-export { default as VerticalRule } from "./components/VerticalRule"
-export { default as Label } from "./components/Label"
-export { default as Heading } from "./components/Heading" // filters
+import Checkbox from "./components/Checkbox"
 
-export { Filter } from "./components/filter/types"
-export { default as MarkerTimeline } from "./components/MarkerTimeline"
-export { default as StackTrace } from "./components/StackTrace" //
 
-export { SearchBox, SearchInput, SearchIcon, default as Searchable } from "./components/searchable/Searchable"
-export { default as SearchableTable } from "./components/searchable/SearchableTable"
-export { SearchableProps } from "./components/searchable/Searchable" //
+import CodeBlock from "./components/CodeBlock"
+
+import ErrorBlock from "./components/ErrorBlock"
+
+export {ErrorBlockContainer} from "./components/ErrorBlock"
+import ErrorBoundary from "./components/ErrorBoundary"
+
+export {OrderableOrder} from "./components/Orderable"
+
+import Interactive from "./components/Interactive"
+
+import Orderable from "./components/Orderable"
+
+import VirtualList from "./components/VirtualList"
+
+export {Component, PureComponent} from "react" // context menus and dropdowns
+
+import ContextMenuProvider from "./components/ContextMenuProvider"
+
+import ContextMenuComponent from "./components/ContextMenuComponent"
+
+export {FileListFile, FileListFiles} from "./components/FileList"
+
+import FileList from "./components/FileList"
+
+import File from "./components/File"
+
+
+export {DesktopDropdownItem, DesktopDropdownSelectedItem, DesktopDropdown} from "./components/desktop-toolbar" // utility
+                                                                                                               // elements
+
+import View from "./components/View"
+
+import ViewWithSize from "./components/ViewWithSize"
+
+import Block from "./components/Block"
+import FocusableBox from "./components/FocusableBox"
+import Sidebar from "./components/Sidebar"
+import SidebarLabel from "./components/SidebarLabel"
+import Box from "./components/Box"
+import FlexBox from "./components/FlexBox"
+import FlexRow from "./components/FlexRow"
+import FlexColumn from "./components/FlexColumn"
+import FlexCenter from "./components/FlexCenter"
+import Toolbar from "./components/Toolbar"
+import Panel from "./components/Panel"
+import Text from "./components/Text"
+import TextParagraph from "./components/TextParagraph"
+import Link from "./components/Link"
+import PathBreadcrumbs from "./components/PathBreadcrumbs"
+import ModalOverlay from "./components/ModalOverlay"
+import Tooltip from "./components/Tooltip"
+
+export {Tooltips} from "./components/Tooltip"
+
+import TooltipProvider from "./components/TooltipProvider"
+import ResizeSensor from "./components/ResizeSensor"  // typography
+
+import HorizontalRule from "./components/HorizontalRule"
+import VerticalRule from "./components/VerticalRule"
+import Label from "./components/Label"
+import Heading from "./components/Heading" // filters
+
+export {Filter} from "./components/filter/types"
+import MarkerTimeline from "./components/MarkerTimeline"
+import StackTrace from "./components/StackTrace"  //
+
+import Searchable from "./components/searchable/Searchable"
+import SearchableTable from "./components/searchable/SearchableTable"
+
+
+export * from "./components/searchable/Searchable" //
 
 export {
-  ElementID,
-  ElementData,
-  ElementAttribute,
-  Element,
-  ElementSearchResultSet
+  ElementID, ElementData, ElementAttribute, Element, ElementSearchResultSet
 } from "./components/elements-inspector/ElementsInspector"
-export { Elements } from "./components/elements-inspector/elements"
-export { ContextMenuExtension } from "./components/elements-inspector/elements"
-export { default as ElementsInspector } from "./components/elements-inspector/ElementsInspector"
-export { InspectorSidebar } from "./components/elements-inspector/sidebar"
-export { Console } from "./components/console"
-export { default as Sheet } from "./components/Sheet"
+export {Elements} from "./components/elements-inspector/elements"
+export {ContextMenuExtension} from "./components/elements-inspector/elements"
+import ElementsInspector from "./components/elements-inspector/ElementsInspector"
+
+import Sheet from "./components/Sheet"
+
+
+export {InspectorSidebar} from "./components/elements-inspector/sidebar"
+export {Console} from "./components/console"
+export * from "./components/Toolbar"
+
+export {
+  ElementsInspector,
+  SearchableTable,
+  Searchable,
+  StackTrace,
+  MarkerTimeline,
+  Heading,
+  Label,
+  VerticalRule,
+  HorizontalRule,
+  ResizeSensor,
+  TooltipProvider,
+  Tooltip,
+  ModalOverlay,
+  PathBreadcrumbs,
+  Link,
+  TextParagraph,
+  Text,
+  Panel,
+  Toolbar,
+  FlexCenter,
+  FlexColumn,
+  FlexRow,
+  FlexBox,
+  Box,
+  SidebarLabel,
+  FocusableBox,
+  Sidebar,
+  Block,
+  View,
+  ViewWithSize,
+	DataDescription,  // tabs
+	DataInspector,
+	ManagedTable,
+	ManagedDataInspector,
+	Tabs,
+	Tab,  // inputs
+	Input,
+	Textarea,
+	Select,
+	Popover,  //
+	LoadingIndicator,  //
+	Glyph,  //
+	styled,
+	Button,
+	ToggleButton,
+	ButtonNavigationGroup,
+	ButtonGroup,  //
+	Checkbox,  // code
+	CodeBlock,  // error
+	ErrorBlock,
+	ErrorBoundary,  // interactive components
+	Interactive,
+	Orderable,
+	VirtualList,  // base components
+	ContextMenuProvider,
+	ContextMenuComponent,  // file
+	FileList,
+	File,  // context menu items
+  Sheet
+}

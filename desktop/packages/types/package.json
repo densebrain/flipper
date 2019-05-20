@@ -10,5 +10,11 @@
   },
   "bugs": {
     "email": "halsibai@fb.com"
+  },
+  "dependencies": {
+    "mz": "^2.7.0",
+    "sugar": "^2.0.6",
+    "ts-optchain": "^0.1.6",
+    "typeguard": "^0.0.13"
   }
 }

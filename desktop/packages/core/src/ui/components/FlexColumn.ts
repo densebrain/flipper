@@ -14,5 +14,6 @@ export default makeRootView<FlexBoxProps>(
   () => ({
     flexDirection: "column"
   }),
-  FlexBox
+  FlexBox,
+  "FlexColumn"
 )

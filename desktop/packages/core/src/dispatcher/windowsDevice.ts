@@ -7,7 +7,7 @@
 import { Store } from "../reducers/index"
 import { Logger } from "../fb-interfaces/Logger"
 import WindowsDevice from "../devices/WindowsDevice"
-export default (store: Store, _logger: Logger) => {
+export default async function (store: Store, _logger: Logger) {
   if (process.platform !== "win32") {
     return
   }

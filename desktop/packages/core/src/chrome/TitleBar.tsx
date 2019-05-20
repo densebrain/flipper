@@ -109,8 +109,8 @@ export class TitleBarNaked extends React.Component<Props> {
         {isAutoUpdaterEnabled() ? <AutoUpdateVersion version={version} /> : <UpdateIndicator launcherMsg={launcherMsg} />}
         {config.bugReportButtonVisible && <Button compact={true} onClick={() => setActiveSheet(ACTIVE_SHEET_BUG_REPORTER)} title="Report Bug" icon="bug" />}
         <ButtonGroup>
-          <Button compact={true} disabled={false} selected={leftSidebarVisible} onClick={() => toggleLeftSidebarVisible()} icon="icons/sidebar_left.svg" iconSize={20} title="Toggle Plugins" />
-          <Button compact={true} disabled={false} selected={rightSidebarVisible} onClick={() => toggleRightSidebarVisible()} icon="icons/sidebar_right.svg" iconSize={20} title="Toggle Details" //disabled={!rightSidebarAvailable}
+          <Button compact={true} disabled={false} selected={leftSidebarVisible} onClick={() => toggleLeftSidebarVisible()} icon={require("!!file-loader!assets/icons/sidebar_left.svg")} iconSize={20} title="Toggle Plugins" />
+          <Button compact={true} disabled={false} selected={rightSidebarVisible} onClick={() => toggleRightSidebarVisible()} icon={require("!!file-loader!assets/icons/sidebar_right.svg")} iconSize={20} title="Toggle Details" //disabled={!rightSidebarAvailable}
         />
         </ButtonGroup>
       </AppTitleBar>;

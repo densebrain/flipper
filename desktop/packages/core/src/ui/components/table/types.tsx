@@ -7,7 +7,7 @@
 import { Filter } from '../filter/types';
 import _ from "lodash";
 import * as React from 'react'
-import {CSSProperties} from "@material-ui/styles/withStyles"
+import {CSSProperties} from "../../styled"
 
 
 // import {

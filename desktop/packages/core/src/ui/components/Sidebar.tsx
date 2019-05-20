@@ -7,8 +7,10 @@
 import * as React from "react"
 import Interactive, {InteractiveProps} from "./Interactive"
 import FlexColumn from "./FlexColumn"
+import {darken} from "../themes"
 import {Component} from "react"
 import {makeRootView} from "./RootView"
+import * as _ from 'lodash'
 
 const SidebarInteractiveContainer = makeRootView<InteractiveProps>(
   () => ({
@@ -18,18 +20,23 @@ const SidebarInteractiveContainer = makeRootView<InteractiveProps>(
 )
 type SidebarPosition = "left" | "top" | "right" | "bottom"
 
-const SidebarContainer = makeRootView(theme => ({ ...theme.sidebar }), FlexColumn, props => ({
-  backgroundColor: props.backgroundColor || props.theme.colors.backgroundStatus,
-  borderLeft: props.position === "right" ? `1px solid ${props.theme.colors.border}` : "none",
-  borderTop: props.position === "bottom" ? `1px solid ${props.theme.colors.border}` : "none",
-  borderRight: props.position === "left" ? `1px solid ${props.theme.colors.border}` : "none",
-  borderBottom: props.position === "top" ? `1px solid ${props.theme.colors.border}` : "none",
-  textOverflow: props.overflow ? "ellipsis" : "auto",
-  whiteSpace: props.overflow ? "nowrap" : "normal",
+const SidebarContainer = makeRootView(theme => ({ ...theme.sidebar }), FlexColumn, props => {
+  const
+    {position, overflow, backgroundColor, theme:{colors}} = props,
+    border = darken(colors.border,0.2)
+  
+  return ({
+  backgroundColor: backgroundColor || colors.backgroundStatus,
+  borderLeft: position === "right" ? `1px solid ${border}` : "none",
+  borderTop: position === "bottom" ? `1px solid ${border}` : "none",
+  borderRight: position === "left" ? `1px solid ${border}` : "none",
+  borderBottom: position === "top" ? `1px solid ${border}` : "none",
+  textOverflow: overflow ? "ellipsis" : "auto",
+  whiteSpace: overflow ? "nowrap" : "normal",
   height: "100%",
   overflowX: "hidden",
   overflowY: "auto"
-})) //['floating','padded','collapsed','overflow','position','backgroundColor']));
+})}) //['floating','padded','collapsed','overflow','position','backgroundColor']));
 
 type SidebarProps = {
   position: SidebarPosition,
@@ -91,49 +98,59 @@ export default class Sidebar extends Component<SidebarProps, SidebarState> {
   }
 
   render() {
-    const { backgroundColor, onResize, position, children } = this.props
-    let height, minHeight, maxHeight, width, minWidth, maxWidth
-    const resizable: {
-      [key: string]: boolean
-    } = {}
+    const
+      { backgroundColor, onResize, position, children, className, ...other } = this.props
+    
+    let wrapperProps = {
+    
+    } as Partial<InteractiveProps>
+    //let height, minHeight, maxHeight, width, minWidth, maxWidth
+    
+    
 
-    if (position === "left") {
-      resizable.right = true
-      ;({ width, minWidth, maxWidth } = this.props)
-    } else if (position === "top") {
-      resizable.bottom = true
-      ;({ height, minHeight, maxHeight } = this.props)
-    } else if (position === "right") {
-      resizable.left = true
-      ;({ width, minWidth, maxWidth } = this.props)
-    } else if (position === "bottom") {
-      resizable.top = true
-      ;({ height, minHeight, maxHeight } = this.props)
+    if ([ "left","right"].includes(position)) {
+      wrapperProps = {
+        resizable: {
+          [position === "left" ? "right" : "left"]: true
+        },
+        ..._.pick(other,"width", "minWidth","maxWidth")
+      }
+    } else if (["top","bottom"].includes(position)) {
+      wrapperProps = {
+        resizable: {
+          [position === "top" ? "bottom" : "top"]: true,
+        },
+        ..._.pick(other,"height", "minHeight","maxHeight")
+      }
     }
 
     const horizontal = position === "left" || position === "right"
 
     if (horizontal) {
-      width = width == null ? 200 : width
-      minWidth = minWidth == null ? 100 : minWidth
-      maxWidth = maxWidth == null ? 600 : maxWidth
+      const {width, minWidth, maxWidth} = wrapperProps
+      wrapperProps = {
+        ...wrapperProps,
+        width: onResize ? (width == null ? 200 : width) : this.state.width,
+        minWidth: minWidth == null ? 100 : minWidth,
+        maxWidth: maxWidth == null ? 600 : maxWidth
+      }
+      
     } else {
-      height = height == null ? 200 : height
-      minHeight = minHeight == null ? 100 : minHeight
-      maxHeight = maxHeight == null ? 600 : maxHeight
+      const {height, minHeight, maxHeight} = wrapperProps
+      wrapperProps = {
+        ...wrapperProps,
+        height: onResize ? (height == null ? 200 : height) : this.state.height,
+        minHeight: minHeight == null ? 100 : minHeight,
+        maxHeight: maxHeight == null ? 600 : maxHeight
+      }
+      
     }
 
     return (
       <SidebarInteractiveContainer
-        className={this.props.className}
-        minWidth={minWidth}
-        maxWidth={maxWidth}
-        width={horizontal ? (onResize ? width : this.state.width) : undefined}
-        minHeight={minHeight}
-        maxHeight={maxHeight}
-        height={!horizontal ? (onResize ? height : this.state.height) : undefined}
-        resizable={resizable}
+        className={className}
         onResize={this.onResize}
+        {...wrapperProps}
       >
         <SidebarContainer position={position} backgroundColor={backgroundColor}>
           {children}

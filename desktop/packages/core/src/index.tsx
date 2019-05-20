@@ -4,8 +4,9 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import "./GlobalTypes"
 
+import "./GlobalTypes"
+import "./GlobalStyles"
 export { default as styled } from "./ui/styled"
 export * from "./ui/styled"
 export * from "./ui/themes"
@@ -28,6 +29,7 @@ export { getPluginKey, getPersistedState } from "./utils/pluginUtils"
 export { default as BaseDevice } from "./devices/BaseDevice"
 export { Store, MiddlewareAPI } from "./reducers/index"
 export { default as SidebarExtensions } from "./fb-stubs/LayoutInspectorSidebarExtensions" // export {
+export {Logger} from "./fb-interfaces/Logger"
 //
 // } from './devices/BaseDevice';
 //export * from "./ui/themes/ThemeTypes"
@@ -41,3 +43,4 @@ export { default as Device } from "./devices/BaseDevice"
 export { default as IOSDevice } from "./devices/IOSDevice"
 export { OS, DeviceLogListener, DeviceLogEntry, LogLevel } from "./devices/BaseDevice"
 export * from "./KeyboardTypes"
+

@@ -4,7 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import dispatcher, { getDynamicPlugins, checkDisabled, checkGK, requirePlugin } from "../plugins"
+import dispatcher, { getDynamicPlugins, checkDisabled, checkGK, makeRequirePlugin } from "../plugins"
 import path from "path"
 import { remote } from "electron"
 import { FlipperPluginComponent } from "../../plugin"
@@ -97,17 +97,17 @@ test("checkGK for failing plugin", () => {
   expect(plugins).toBeFalsy()
   expect(gatekeepedPlugins[0].name).toEqual(name)
 })
-test("requirePlugin returns null for invalid requires", () => {
-  const plugin = requirePlugin([], require)({
+test("makeRequirePlugin returns null for invalid requires", () => {
+  const plugin = makeRequirePlugin([])({
     name: "pluginID",
     entry: "this/path/does not/exist"
   })
   expect(plugin).toBeNull()
 })
-test("requirePlugin loads plugin", () => {
+test("makeRequirePlugin loads plugin", async () => {
   const name = "pluginID"
   const url = "https://fb.workplace.com/groups/230455004101832/"
-  const plugin = requirePlugin([], require)({
+  const plugin = await makeRequirePlugin([])({
     name,
     url,
     path: path.join(__dirname, "TestPlugin")

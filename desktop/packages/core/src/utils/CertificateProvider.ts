@@ -21,7 +21,6 @@ import { openssl, isInstalled as opensslInstalled } from "./openssl-wrapper-with
 import * as Path from "path"
 
 import * as Tmp from "tmp"
-import Try from "./Try"
 
 //const FsAsync = Fs.promises
 type TmpFile = {path: string, fd: any, cleanupFn: () => void}
@@ -311,15 +310,13 @@ export default class CertificateProvider {
   }
 
   async androidDeviceHasMatchingCSR(directory: string, deviceId: string, processName: string, csr: string): Promise<boolean> {
-    const result = await Try(async () => {
+    try {
       const deviceCsr = await this.executeCommandOnAndroid(deviceId, processName, `cat ${directory + csrFileName}`)
       return this.santitizeString(deviceCsr.toString()) === csr
-    }, err => {
+    } catch (err) {
       log.error('androidDeviceHasMatchingCSR failed ', err)
       return false
-    })
-    
-    return result.getOrElse(false)
+    }
   }
 
   async iOSDeviceHasMatchingCSR(directory: string, deviceId: string, bundleId: string, csr: string): Promise<boolean> {

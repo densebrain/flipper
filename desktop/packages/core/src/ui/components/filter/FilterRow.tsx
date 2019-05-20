@@ -6,7 +6,7 @@
  */
 import { Filter } from "./types"
 import { PureComponent } from "react"
-import ContextMenu from "../ContextMenu"
+import ContextMenuComponent from "../ContextMenuComponent"
 import textContent from "../../../utils/textContent"
 import styled from "../../styled/index"
 //import { colors } from "../../themes/colors"
@@ -69,9 +69,9 @@ export default class FilterRow extends PureComponent<Props> {
   render() {
     const { children, ...props } = this.props
     return (
-      <ContextMenu items={this.menuItems} component={FilterText} onMouseDown={this.onMouseDown} {...props}>
+      <ContextMenuComponent items={this.menuItems} component={FilterText} onMouseDown={this.onMouseDown} {...props}>
         {children}
-      </ContextMenu>
+      </ContextMenuComponent>
     )
   }
 }

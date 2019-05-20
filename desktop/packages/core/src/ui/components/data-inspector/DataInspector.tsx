@@ -7,7 +7,7 @@
 import * as React from "react"
 import DataDescription from "./DataDescription"
 import { Component } from "react"
-import ContextMenu from "../ContextMenu"
+import ContextMenuComponent from "../ContextMenuComponent"
 import Tooltip from "../Tooltip"
 import styled from "../../styled/index"
 import DataPreview from "./DataPreview"
@@ -513,9 +513,9 @@ export default class DataInspector<T = any> extends Component<DataInspectorProps
 
     if (expandRoot === true) {
       return (
-        <ContextMenu component="span" items={getRootContextMenu(data)}>
+        <ContextMenuComponent component="span" items={getRootContextMenu(data)}>
           {propertyNodesContainer}
-        </ContextMenu>
+        </ContextMenuComponent>
       )
     } // create name components
 
@@ -587,13 +587,13 @@ export default class DataInspector<T = any> extends Component<DataInspectorProps
     )
     return (
       <BaseContainer depth={depth} disabled={Boolean(this.props.setValue) === true && Boolean(setValue) === false}>
-        <ContextMenu component="span" items={contextMenuItems}>
+        <ContextMenuComponent component="span" items={contextMenuItems}>
           <PropertyContainer onClick={isExpandable ? this.handleClick : null}>
             {expandedPaths && <ExpandControl>{expandGlyph}</ExpandControl>}
             {descriptionOrPreview}
             {wrapperStart}
           </PropertyContainer>
-        </ContextMenu>
+        </ContextMenuComponent>
         {propertyNodesContainer}
         {wrapperEnd}
       </BaseContainer>

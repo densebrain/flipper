@@ -5,6 +5,7 @@
  * @format
  */
 import * as React from "react"
+import {oc} from "ts-optchain"
 import Client from "../Client"
 import { TableBodyRow } from "../ui/components/table/types"
 import {Component, Fragment, HTMLAttributes} from "react"
@@ -289,6 +290,6 @@ export default connect<StateProps,{},OwnProps,RootState>(
     clients,
     disabledPlugins,
     failedPlugins,
-    selectedDevice: selectedDevice.serial
+    selectedDevice: oc(selectedDevice).serial(null)
   })
 )(PluginDebugger)

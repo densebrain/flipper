@@ -5,6 +5,7 @@
  * @format
  */
 
+import FlexColumn from "../FlexColumn"
 import {TableColumns} from "../table/types"
 import * as React from 'react'
 import {HTMLAttributes, PureComponent} from "react"
@@ -22,6 +23,7 @@ import {makeRootView} from "../RootView"
 import {Filter, isFilterPersistent, isFilterType} from "../filter/types"
 import * as _ from "lodash"
 
+// const {default:ThemeContext} = require("@material-ui/styles/ThemeContext")
 type FocusProps = {
   focused?:boolean | undefined
   focus?:boolean | undefined
@@ -32,19 +34,21 @@ const SearchBar = makeRootView(
     height: 42,
     padding: 6
   }),
-  Toolbar
+  Toolbar,
+  "SearchBar"
 )
 export const SearchBox = makeRootView(
-  theme => ({
-    backgroundColor: theme.colors.background,
+  ({colors}) => ({
+    backgroundColor: colors.background,
     borderRadius: "10px",
-    border: `1px solid ${theme.colors.border}`,
+    border: `1px solid ${colors.border}`,
     height: "100%",
     width: "100%",
     alignItems: "center",
     paddingLeft: 4
   }),
-  FlexBox
+  FlexBox,
+  "SearchBox"
 )
 export const SearchInput = makeRootView(
   ({colors}:Theme) => ({
@@ -62,7 +66,8 @@ export const SearchInput = makeRootView(
       fontWeight: 300
     }
   }),
-  Input
+  Input,
+  "SearchInput"
 )
 const Clear = withStyles((theme:Theme) => ({
   root: {
@@ -83,7 +88,7 @@ const Clear = withStyles((theme:Theme) => ({
       backgroundColor: "rgba(0,0,0,0.15)"
     }
   }
-}))(function Clear({classes, focused, style, className, ...other}:ThemeProps<HTMLAttributes<any>, "root"> & FocusProps) {
+}),{name: "Clear"})(function Clear({classes, focused, style, className, ...other}:ThemeProps<HTMLAttributes<any>, "root"> & FocusProps) {
   return <Text style={style} className={`${classes.root} ${className}`} {...other} />
 })
 
@@ -99,7 +104,7 @@ const SearchIconStyles = {
 
 type SearchIconClassMap = { classes:ThemedClassNames<keyof typeof SearchIconStyles> }
 
-export const SearchIcon = withStyles(SearchIconStyles)(
+export const SearchIcon = withStyles(SearchIconStyles, {name: "SearchIcon"})(
   React.forwardRef<Glyph, GlyphProps>(({classes, className, ...other}:GlyphProps & SearchIconClassMap, ref) => {
     return <Glyph
       ref={ref} className={`${classes.root} ${className}`} {...other} />
@@ -107,10 +112,12 @@ export const SearchIcon = withStyles(SearchIconStyles)(
 )
 const Actions = makeRootView(
   () => ({
-    marginLeft: 8,
-    flexShrink: 0
+    paddingLeft: 8,
+    ...S.FlexRowCenter,
+    ...S.FlexAuto
   }),
-  FlexRow
+  FlexRow,
+  "Actions"
 )
 export type SearchableProps = {
   addFilter:(filter:Filter) => void,
@@ -126,7 +133,7 @@ type OwnProps = {
   columns?:TableColumns,
   onFilterChange:(filters:Array<Filter>) => void,
   defaultFilters:Array<Filter>
-}
+} & HTMLAttributes<any>
 
 type Props = ThemeProps<OwnProps,string,true>
 
@@ -450,10 +457,15 @@ const Searchable = <C extends React.ComponentType<any> = any>(Component:C):React
     
     render() {
       const
-        {theme: {colors}, placeholder, actions, ...props} = this.props,
+        {theme:{ colors }, className, placeholder, actions, style, ...other} = this.props,
         {filters, searchTerm, focusedToken} = this.state
       return (
-        <>
+        <FlexColumn className={className} style={{
+          ...S.FillHeight,
+          ...(style || {})
+        }}>
+          {/*<ThemeContext.Consumer >*/}
+          {/*  {({colors}:Theme) => <>*/}
           <SearchBar position="top" key="searchbar">
             <SearchBox tabIndex={-1}>
               <SearchIcon name="magnifying-glass" color={colors.text} size={16}/>
@@ -481,16 +493,18 @@ const Searchable = <C extends React.ComponentType<any> = any>(Component:C):React
             </SearchBox>
             {actions != null && <Actions>{actions}</Actions>}
           </SearchBar>
-          ,
+          
           <AnyComponent
-            {...props}
+            {...other}
+            style={{...S.FlexScale}}
             key="table"
             addFilter={this.addFilter}
             searchTerm={searchTerm}
             filters={filters}
           />
-          ,
-        </>
+          </FlexColumn>
+    
+        
       )
     }
   }) as React.ComponentType<Partial<PropsOf<C>> & Partial<OwnProps>>

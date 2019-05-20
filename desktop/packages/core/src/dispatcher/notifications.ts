@@ -15,7 +15,7 @@ import GK from "../fb-stubs/GK"
 import {DevicePlugin, Plugin} from "../PluginTypes"
 import {oc} from "ts-optchain"
 type NotificationEvents = "show" | "click" | "close" | "reply" | "action"
-export default (store: Store, logger: Logger) => {
+export default async function(store: Store, logger: Logger)  {
   if (GK.get("flipper_disable_notifications")) {
     return
   }

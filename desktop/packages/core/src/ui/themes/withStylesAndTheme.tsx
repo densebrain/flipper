@@ -1,19 +1,23 @@
-import {CSSProperties} from "../styled"
-import materialWithStyles, {
-  WithStylesOptions as MaterialWithStylesOptions
-} from '@material-ui/styles/withStyles'
-
-
-import {Theme} from './themes'
-
-
-import {StyleDeclaration} from './ThemeTypes'
 import * as React from 'react'
 import {HTMLAttributes, Ref} from 'react'
-import {isDefined} from "typeguard"
+import {nameFunction} from "../../utils"
+import {CSSProperties} from "../styled"
+import {Theme} from './Themes'
+import {StyleDeclaration} from './ThemeTypes'
+import {getValue, isDefined, isFunction} from "typeguard"
+
+const {
+  withStyles: materialWithStyles
+} = require('@material-ui/styles')
 
 //type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 
+export interface WithStylesOptions  {
+  flip?: boolean;
+  withTheme?: boolean;
+  name?: string;
+  forwardInnerRef?: boolean;
+}
 
 export type StyleRules<Props extends any, ClassKey extends string = string> = Record<
   ClassKey,
@@ -27,6 +31,7 @@ export type PropsOf<C> = C extends new (props: infer P) => React.Component
     : C extends keyof JSX.IntrinsicElements
       ? JSX.IntrinsicElements[C]
       : never;
+
 export type StyleRulesCallback<Theme, Props extends any, ClassKey extends string = string> = (
   theme: Theme,
 ) => StyleRules<Props, ClassKey>;
@@ -36,15 +41,9 @@ export type Styles<Theme, Props extends any, Classes extends string | null = nul
   | StyleRulesCallback<Theme, Props, Classes>;
 
 export type ThemeStylesCallback<Classes extends string> = (theme: Theme) => StyleDeclaration<Classes>;
-export type WithStylesOptions = MaterialWithStylesOptions & {
-  forwardInnerRef?: boolean;
-}; //type ComponentType<P = {}> = ComponentClass<P> | FunctionComponent<P>;
 
 export type ThemedClassNames<Classes extends string = string> = {[key in Classes]: string}
 
-// export type ThemedClassMap<S extends Styles<Theme, any> = Styles<Theme, any>> = S extends Styles<Theme, any> ? {
-//   classes: ThemedClassNames<ClassKeyOfStyles<S>> //Partial<ClassNameMap<Classes>> | ThemedClassNames<Classes> | undefined | null
-// } : {};
 
 export type SimpleThemeProps = {
   theme: Theme
@@ -58,13 +57,6 @@ export type BasicThemeProps<Classes extends string = string, IncludeTheme extend
   classes: {[name in Classes]: string}
 } & (IncludeTheme extends true ? SimpleThemeProps : {})
 
-//<S extends Styles<Theme, any> | unknown | string>
-// export type AllThemeProps = {
-//   theme?: Theme
-//   classes?: ThemedClassNames
-//   innerRef?: Ref<any>
-// }
-//<S extends Styles<Theme, any> | unknown | string, IncludeTheme extends boolean = false>
 export type WithStylesInjector = <
   C extends React.ComponentType<any>, // & ConsistentWith<PropsOf<C>, BasicThemeProps<S,IncludeTheme>>
   Props extends PropsOf<C> = any,
@@ -73,23 +65,29 @@ export type WithStylesInjector = <
 OutProps //keyof BasicThemeProps<Classes, Options['withTheme']>
 > & any
 
-// function isWithStyleOptions(o:any): o is WithStylesOptions {
-//   return o && typeof o !== 'function' && ['flip', 'withTheme', 'name'].some(prop => !!(o as any)[prop])
-// }
-
-
-// export function withStyles<S extends Styles<Theme, any>  = Styles<Theme,any>, Options extends WithStylesOptions = {}>(
-//   styles: S,
-//   options?: Options
-// ): WithStylesInjector<S, Options>
 export function withStyles<S extends Styles<Theme, any> | unknown = Styles<Theme,any>, Options extends WithStylesOptions = {}>(
   stylesOrOptions: S,
   options?: Options
 ): WithStylesInjector {
   
   return component => {
-    const WithStyles:any = materialWithStyles<any,any>(stylesOrOptions as any, (options as any) || {})(component as any);
+    options = options || {} as Options
+    options.name = getValue(() => options.name,null) ||
+      getValue(() => (component as any).displayName || (component as any).name,null) ||
+      "withStyles"
+  
+    if (isFunction(component) && !component.displayName && !component.name)
+      component = nameFunction(options.name, component)
+    
+    if (!component.displayName) {
+      component.displayName = options.name
+    }
+    
+    const WithStyles:any = materialWithStyles(stylesOrOptions as any, (options as any))(component as any);
     (WithStyles as any).Naked = (component as any)
+  
+    WithStyles.displayName = options.name
+    
     return WithStyles as any
   };
 }
@@ -99,14 +97,18 @@ export function withTheme(
 
 
 export type RootComponentProps = HTMLAttributes<any> & {classes?:ThemedClassNames | undefined}
-export function makeRootComponent<T = any, Props extends RootComponentProps = any>(element: string | React.ComponentType<Props>) {
-  return React.forwardRef<T,Props>(({
-    style,
-    classes,
-    className,
-    children,
-    ...other
-  }:Props, ref:Ref<T>) => {
+export function makeRootComponent<T = any, Props extends RootComponentProps = any>(element: string | React.ComponentType<Props>, displayName: string | null = null) {
+  displayName = getValue(() => (element as any).displayName || (element as any).name,null) ||
+    displayName ||
+    "makeRootComponent"
+  
+  const fn = nameFunction(displayName, ({
+                style,
+                classes,
+                className,
+                children,
+                ...other
+              }:Props, ref:Ref<T>) => {
     const props = { ...(typeof element === 'string' ? {
         ref
       } : {
@@ -117,6 +119,12 @@ export function makeRootComponent<T = any, Props extends RootComponentProps = an
       ...other
     }
     return React.createElement(element, props as any, children);
-  });
+  })
+  
+  const view = React.forwardRef<T,Props>(fn);
+  
+  view.displayName = displayName
+  
+  return view
 }
 export const Div = makeRootComponent('div');

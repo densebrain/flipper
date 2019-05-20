@@ -1,15 +1,11 @@
-//import type {React.ReactElement} from 'react';
-//import {React.ReactElement} from 'react'
 import * as React from 'react'
 import {HTMLAttributes} from 'react'
 import hoistNonReactStatics from 'hoist-non-react-statics'
-import {Theme, ThemedClassNames, withStyles, WithStylesOptions} from '../themes'
+import {ThemedClassNames, withStyles, WithStylesOptions} from '../themes/withStylesAndTheme'
+import {Theme} from '../themes/Themes'
 import {StyledElement, StyleMakerFn, StylerFnOrStyles} from './StyleTypes'
-
 import filterProps from 'react-valid-props'
 import {memoFn} from '../../utils/memoize'
-//import {React.ReactElement} from 'react';
-//import type {} from '@material-ui/core/styles/withStyles';
 
 const { getDisplayName } = require('@material-ui/utils');
 
@@ -21,9 +17,7 @@ function omit<I extends any = any, F extends keyof I = any, O extends FilterType
     }
   });
   return output;
-} // styled-components's API removes the mapping between components and styles.
-// Using components as a low-level styling construct can be simpler.
-//((style:StylerFnOrStyles<Props>, options: ?WithStylesOptions) => React.Element<Props>)
+}
 
 export type AllStyledProps<Props> = HTMLAttributes<any> & Props & {
   classes?: ThemedClassNames<"root">
@@ -37,7 +31,7 @@ function styled<Props = any, State = {}, AllProps extends AllStyledProps<Props> 
 ) {
   return (style: StylerFnOrStyles<AllProps> | StyleMakerFn<AllProps>, options: WithStylesOptions | null | undefined = null) => {
     const StyledComponent: any = React.forwardRef<ComponentType, AllProps>((props, ref) => {
-      // render() {
+      
       const {
         children,
         classes,
@@ -45,11 +39,11 @@ function styled<Props = any, State = {}, AllProps extends AllStyledProps<Props> 
         clone,
         component: ComponentProp,
         ...other
-      } = props; //other = _objectWithoutPropertiesLoose(this.props, ["children", "classes", "className", "clone", "component","innerRef"]);
+      } = props
 
       if (options && options.forwardInnerRef === true) {
-        other.innerRef = ref;
-        ref = null;
+        other.innerRef = ref
+        ref = null
       }
 
       const className = `${classes.root} ${classNameProp}`;
@@ -61,7 +55,7 @@ function styled<Props = any, State = {}, AllProps extends AllStyledProps<Props> 
           ...(ref ? {
             ref
           } : {})
-        });
+        })
       }
 
       let spread = other;
@@ -91,52 +85,26 @@ function styled<Props = any, State = {}, AllProps extends AllStyledProps<Props> 
           ref
         } : {})
       }, children);
-    });
-    // process.env.NODE_ENV !== 'production' ? StyledComponent.propTypes = {
-    //   /**
-    //    * A render function or node.
-    //    */
-    //   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-    //   classes: PropTypes.object.isRequired,
-    //   className: PropTypes.string,
-    //
-    //   /**
-    //    * If `true`, the component will recycle it's children DOM element.
-    //    * It's using `React.cloneElement` internally.
-    //    */
-    //   clone: chainPropTypes(PropTypes.bool, (props: AllProps) => {
-    //     if (props.clone && props.component) {
-    //       throw new Error('You can not use the clone and component properties at the same time.');
-    //     }
-    //   }),
-    //   innerRef: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-    //
-    //   /**
-    //    * The component used for the root node.
-    //    * Either a string to use a DOM element or a component.
-    //    */
-    //   component: PropTypes.oneOfType([PropTypes.string, PropTypes.func, PropTypes.object]),
-    //   theme: PropTypes.object,
-    //   ...(style.propTypes || {}),
-    //   ...(Component.propTypes || {})
-    // } : void 0;
-
+    })
+    
     if (process.env.NODE_ENV !== 'production') {
-      StyledComponent.displayName = componentName || `Styled(${getDisplayName(Component)})`;
+      StyledComponent.displayName = componentName || `Styled(${getDisplayName(Component)})`
     }
 
     const styles = typeof style === 'function' ? memoFn((theme: Theme) => ({
       root: (props: AllProps) => style({
         theme,
+        ...theme,
         ...props
       })
     })) : {
       root: style
-    };
-    hoistNonReactStatics(StyledComponent, Component as any); //return React.memo((withStyles((styles: any), options || {}): any)(StyledComponent));
+    }
+    
+    hoistNonReactStatics(StyledComponent, Component as any)
 
-    return (withStyles((styles as any), options || {}) as any)(StyledComponent);
+    return (withStyles((styles as any), options || {}) as any)(StyledComponent)
   };
 }
 
-export default styled;
+export default styled

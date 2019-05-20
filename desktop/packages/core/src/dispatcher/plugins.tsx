@@ -4,61 +4,126 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
+import { getDevIPCClient } from "@flipper/common"
+import { remote } from "electron"
+import path from "path"
+import { getLogger, Logger } from "../fb-interfaces/Logger"
+import GK from "../fb-stubs/GK"
 import "../GlobalTypes"
+import { setupMenuBar } from "../MenuBar"
+import { PluginLoader } from "../plugin/PluginLoader"
+import {
+  isPlugin,
+  Plugin,
+  PluginError,
+  PluginMetadata,
+  PluginPropNamesCopied
+} from "../PluginTypes"
 import { Store } from "../reducers/index"
-import {getLogger, Logger} from "../fb-interfaces/Logger"
 //import { FlipperPlugin, FlipperDevicePlugin } from "../plugin"
-import { State } from "../reducers/plugins"
+import {
+  addDisabledPlugins,
+  addFailedPlugins,
+  addGatekeepedPlugins,
+  registerPlugins,
+  State
+} from "../reducers/plugins"
+import isProduction from "../utils/isProduction"
+import { default as config } from "../utils/processConfig"
 //import * as React from "react"
 //import * as ReactDOM from "react-dom"
 
-import { registerPlugins, addGatekeepedPlugins, addDisabledPlugins, addFailedPlugins } from "../reducers/plugins"
-import { remote } from "electron"
-import GK from "../fb-stubs/GK"
-import { setupMenuBar } from "../MenuBar"
-import path from "path"
-import { default as config } from "../utils/processConfig"
-import isProduction from "../utils/isProduction"
-import {isPlugin, Plugin, PluginError, PluginPropNamesCopied, validatePlugin} from "../PluginTypes"
-
-
-import {Run} from "../utils/runtime"
-
 const log = getLogger(__filename)
 
-export default (store: Store, _logger: Logger) => {
+export default async function(store: Store, _logger: Logger) {
   // expose Flipper and exact globally for dynamically loaded plugins
   //const globalObject = typeof window === "undefined" ? global : window
-  
+
   // globalObject.React = React
   // globalObject.ReactDOM = ReactDOM
   // globalObject.Flipper = require("../index")
   const gatekeepedPlugins: Array<Plugin> = []
   const disabledPlugins: Array<Plugin> = []
   const failedPlugins: Array<PluginError> = []
-  const initialPlugins: Array<Plugin> = [
-    ...getBundledPlugins(),
-    ...getDynamicPlugins()
-  ]
-    .filter(checkDisabled(disabledPlugins))
-    .filter(checkGK(gatekeepedPlugins))
-    .map(requirePlugin(failedPlugins))
-    .filter(Boolean)
-  
+  const initialPlugins: Array<Plugin> = (await Promise.all(
+    [...getBundledPlugins(), ...getDynamicPlugins()]
+      .filter(checkDisabled(disabledPlugins))
+      .filter(checkGK(gatekeepedPlugins))
+      .map(makeRequirePlugin(failedPlugins))
+  )).filter(Boolean)
+
   store.dispatch(addGatekeepedPlugins(gatekeepedPlugins))
   store.dispatch(addDisabledPlugins(disabledPlugins))
   store.dispatch(addFailedPlugins(failedPlugins))
   store.dispatch(registerPlugins(initialPlugins))
+  
   let state: State | null | undefined = null
+
   store.subscribe(() => {
     const newState = store.getState().plugins
 
     if (state !== newState) {
-      setupMenuBar([...newState.devicePlugins.values(), ...newState.clientPlugins.values()], store)
+      setupMenuBar(
+        [
+          ...newState.devicePlugins.values(),
+          ...newState.clientPlugins.values()
+        ],
+        store
+      )
     }
 
     state = newState
   })
+
+  if (isDev) {
+    const ipcClient = await getDevIPCClient()
+    ipcClient.on(
+      "pluginUpdated",
+      (
+        _ipc,
+        _type,
+        {
+          payload: {
+            plugin: { id, path, assets }
+          }
+        }
+      ) => {
+        path = path.replace(/\@flipper\//,'')
+        
+        log.info("Plugin loading", id, path, assets)
+        loadPlugin(store, { id, path })
+      }
+    )
+
+    ipcClient.on("getPlugins", (_ipc, _type, { payload: { plugins } }) => {
+      log.info("getPlugins response", plugins)
+
+      loadPlugin(store, ...plugins)
+    })
+  }
+}
+
+async function loadPlugin(store: Store, ...metadata: PluginMetadata[]) {
+  const failedPlugins = Array<PluginError>(),
+    requirePlugin = makeRequirePlugin(failedPlugins),
+    plugins = (await Promise.all(
+      metadata.map(async md => {
+        try {
+          return await requirePlugin(md)
+        } catch (err) {
+          log.error(`Unable to load plugin`, md)
+          return null
+        }
+      })
+    )).filter(Boolean)
+
+  if (failedPlugins.length) {
+    store.dispatch(addFailedPlugins(failedPlugins))
+  }
+
+  if (plugins.length) {
+    store.dispatch(registerPlugins(plugins))
+  }
 }
 
 function getBundledPlugins(): Array<Plugin> {
@@ -68,7 +133,8 @@ function getBundledPlugins(): Array<Plugin> {
   } // DefaultPlugins that are included in the bundle.
   // List of defaultPlugins is written at build time
 
-  const pluginPath = process.env.BUNDLED_PLUGIN_PATH || path.join(__dirname, "defaultPlugins")
+  const pluginPath =
+    process.env.BUNDLED_PLUGIN_PATH || path.join(__dirname, "defaultPlugins")
   let bundledPlugins: Array<Plugin> = []
 
   try {
@@ -77,7 +143,10 @@ function getBundledPlugins(): Array<Plugin> {
     console.error(e)
   }
 
-  return bundledPlugins.map(plugin => ({ ...plugin, out: path.join(pluginPath, plugin.entry) }))
+  return bundledPlugins.map(plugin => ({
+    ...plugin,
+    out: path.join(pluginPath, plugin.entry)
+  }))
 }
 
 export function getDynamicPlugins() {
@@ -93,7 +162,9 @@ export function getDynamicPlugins() {
 
   return dynamicPlugins
 }
-export const checkGK = (gatekeepedPlugins: Array<Plugin>) => (plugin: Partial<Plugin>): boolean => {
+export const checkGK = (gatekeepedPlugins: Array<Plugin>) => (
+  plugin: Partial<Plugin>
+): boolean => {
   if (!plugin.gatekeeper || !isPlugin(plugin)) {
     return true
   }
@@ -111,10 +182,11 @@ export const checkGK = (gatekeepedPlugins: Array<Plugin>) => (plugin: Partial<Pl
 
   return result
 }
-export const checkDisabled = (disabledPlugins: Array<Plugin>) => (plugin: Partial<Plugin>): boolean => {
-  if (!isPlugin(plugin))
-    return false
-  
+export const checkDisabled = (disabledPlugins: Array<Plugin>) => (
+  plugin: Partial<Plugin>
+): boolean => {
+  if (!isPlugin(plugin)) return false
+
   let disabledList: Set<string> = new Set()
 
   try {
@@ -130,54 +202,51 @@ export const checkDisabled = (disabledPlugins: Array<Plugin>) => (plugin: Partia
   return !disabledList.has(plugin.id)
 }
 
+export const makeRequirePlugin = (failedPlugins: Array<PluginError>) => async (
+  pluginExport: Partial<Plugin>
+): Promise<Plugin | null | undefined> => {
+  const { id, pkg, path: pluginPath } = pluginExport
 
-export const requirePlugin = (
-  failedPlugins: Array<PluginError>,
-  reqFn: NodeRequire = global.electronRequire
-) => {
-  return (failedPlugin: Partial<Plugin>): Plugin | null | undefined => {
-    const {pkg, path: pluginPath} = failedPlugin
-    
-    let plugin:Plugin | null = null
-    try {
-      
-      const pluginFlow:Array<[() => (true | Error), (err?:Error | null | undefined) => string]> = [
-        [() => !!pkg.main ? true : new Error(`Main not specified`), err => `Main not defined in ${pluginPath}: ${err.message}`],
-        [() => Run(() => {
-          try {
-            plugin = reqFn(pkg.main)
-            if ((plugin as any).default) {
-              plugin = (plugin as any).default
-            }
-            
-            return validatePlugin(plugin) ? true : new Error(`Unable to validate plugin`)
-          } catch (err) {
-            log.error(err)
-            return err
-          }
-        }), err => `Unable to load plugin: ${err.message}`]
-      ]
-      
-      for (const [checkFn, errFn] of pluginFlow) {
-        const answer = checkFn()
-        if (answer !== true) {
-          throw new Error(errFn(answer))
-        }
+  let plugin: Plugin | null = null
+  try {
+    const loader = await PluginLoader.load({ id, path: pluginPath }),
+      { pkg, plugin } = loader
+
+    //
+    // const pluginFlow:Array<[() => (true | Error), (err?:Error | null | undefined) => string]> = [
+    //   [() => !!pkg.main ? true : new Error(`Main not specified`), err => `Main not defined in ${pluginPath}: ${err.message}`],
+    //   [() => Run(() => {
+    //     try {
+    //       plugin = reqFn(pkg.main)
+    //       if ((plugin as any).default) {
+    //         plugin = (plugin as any).default
+    //       }
+    //
+    //       return validatePlugin(plugin) ? true : new Error(`Unable to validate plugin`)
+    //     } catch (err) {
+    //       log.error(err)
+    //       return err
+    //     }
+    //   }), err => `Unable to load plugin: ${err.message}`]
+    // ]
+    //
+    // for (const [checkFn, errFn] of pluginFlow) {
+    //   const answer = checkFn()
+    //   if (answer !== true) {
+    //     throw new Error(errFn(answer))
+    //   }
+    // }
+    PluginPropNamesCopied.forEach(key => {
+      if (key === "name") {
+        plugin.id = plugin.id || pkg.name
+      } else {
+        plugin[key] = plugin[key] || (pkg as any)[key]
       }
-      PluginPropNamesCopied.forEach(key => {
-        if (key === "name") {
-          plugin.id = plugin.id || pkg.name
-        } else {
-          plugin[key] = plugin[key] || (pkg as any )[key]
-        }
-        
-        
-      })
-      return plugin
-    } catch (e) {
-      failedPlugins.push([pkg, plugin, e, e.message])
-      log.error(pkg, e)
-      return null
-    }
+    })
+    return plugin
+  } catch (e) {
+    failedPlugins.push([pkg, plugin, e, e.message])
+    log.error(pkg, e)
+    return null
   }
 }

@@ -21,6 +21,7 @@ export default makeRootView<FlexBoxProps>(
     display: "flex"
   }),
   makeView<FlexBoxProps>(),
+  "FlexBox",
   props => ({
     flexShrink: !props.shrink || props.shrink ? 1 : 0
   })

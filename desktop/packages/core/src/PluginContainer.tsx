@@ -5,6 +5,7 @@
  * @format
  */
 
+import {getLogger} from "@flipper/common"
 import {Logger} from './fb-interfaces/Logger'
 import BaseDevice from './devices/BaseDevice'
 import {Plugin, PluginComponent, PluginComponentProps} from './PluginTypes'
@@ -20,36 +21,34 @@ import ArchivedDevice from "./devices/ArchivedDevice"
 import {setPluginState} from "./reducers/pluginStates"
 import {selectPlugin} from "./reducers/connections"
 import { activateMenuItems } from './MenuBar';
-import styled, {ThemedProps} from "./ui/styled"
+import styled from "./ui/styled"
+import {ThemeProps} from "./ui/themes"
 import FlexRow from "./ui/components/FlexRow"
 import FlexColumn from "./ui/components/FlexColumn"
 import {makeRootView} from "./ui/components/RootView"
-import {guard} from "typeguard"
+
 import ErrorBoundary from "./ui/components/ErrorBoundary"
 import NotificationsHub from "./NotificationsHub"
+
+const log = getLogger(__filename)
 
 const Container = styled(FlexColumn)(({
   theme: {
     colors
   }
-}: ThemedProps) => ({
+}: ThemeProps) => ({
   width: 0,
   flexGrow: 1,
   flexShrink: 1,
   backgroundColor: colors.background
 }));
+
 const SidebarContainer = makeRootView(({colors}) => ({
   backgroundColor: colors.backgroundStatus,
   height: '100%',
   overflow: 'scroll'
 }),FlexRow);
-/*
-pluginState: pluginStates[pluginKey],
-activePlugin,
-target,
-deepLinkPayload,
-pluginKey,
-*/
+
 
 interface OwnProps  {
   logger: Logger
@@ -64,7 +63,7 @@ interface StateProps  {
   deepLinkPayload: string | null | undefined;
   
   isArchivedDevice: boolean;
-};
+}
 
 interface Actions {
   setPluginState: (payload: {
@@ -83,34 +82,22 @@ interface Props extends StateProps, OwnProps, Actions, BasicThemeProps<undefined
 }
 
 const PluginContainer = withTheme()(
-class PluginContainer extends React.Component<Props,{}> {
-  pluginComponent: PluginComponent | null | undefined = null
+class extends React.Component<Props,{}> {
+  
+  private pluginComponent: PluginComponent | null | undefined = null
+  private pluginComponentRef = React.createRef<PluginComponent>()
   
   constructor(props:Props, context?:any) {
     super(props, context)
     
-    
+    if (this.props.activePlugin) {
+      this.makePluginComponent()
+    }
   }
   
-  refChanged = (ref: PluginComponent | null | undefined) => {
-    if (this.pluginComponent) {
-      guard(() => this.pluginComponent.teardown!!())
-      
-      this.pluginComponent = null;
-    }
-
-    const {target, logger, activePlugin} = this.props
-    if (ref && target) {
-      activateMenuItems(activePlugin, ref);
-
-      guard(() => ref.init!!());
-
-      logger.trackTimeSince(`activePlugin-${activePlugin.id}`);
-      this.pluginComponent = ref;
-    }
-  };
-
-  render(): React.ReactNode | null {
+  
+  
+  private makePluginComponent(): void {
     const {
       pluginState,
       setPluginState,
@@ -122,59 +109,84 @@ class PluginContainer extends React.Component<Props,{}> {
       logger,
       store
     } = this.props;
+  
+    if (!activePlugin || !target) {
+      return null;
+    }
+  
+    const
+      {id,title,componentClazz} = activePlugin,
+      {defaultPersistedState} = componentClazz,
+      pluginProps: PluginComponentProps<any> = {
+        id,
+        title,
+        store,
+        key: pluginKey,
+        theme,
+        logger,
+        persistedState: componentClazz.defaultPersistedState ? { ...defaultPersistedState,
+          ...pluginState
+        } : pluginState,
+        setPersistedState: state => setPluginState({
+          pluginKey,
+          state
+        }),
+        target,
+        deepLinkPayload: this.props.deepLinkPayload,
+        selectPlugin: (pluginID: string, deepLinkPayload: string | null | undefined) => {
+          const {
+            target
+          } = this.props; // check if plugin will be available
+        
+          if (target instanceof Client && target.plugins.some(p => p === pluginID)) {
+            this.props.selectPlugin({
+              selectedPlugin: pluginID,
+              deepLinkPayload
+            });
+            return true;
+          } else if (target instanceof BaseDevice) {
+            this.props.selectPlugin({
+              selectedPlugin: pluginID,
+              deepLinkPayload
+            });
+            return true;
+          } else {
+            return false;
+          }
+        },
+        ref: this.pluginComponentRef,
+        isArchivedDevice
+      }
+    
+    this.pluginComponent = React.createElement(componentClazz, pluginProps) as any
+    activateMenuItems(activePlugin, this.pluginComponent)
+  }
+
+  componentWillReceiveProps(nextProps:Readonly<Props>, _nextContext:any):void {
+    if (nextProps.activePlugin !== this.props.activePlugin) {
+      this.makePluginComponent()
+    }
+  }
+  
+  render(): React.ReactNode | null {
+    const {
+      activePlugin,
+      target,
+      logger
+    } = this.props;
 
     if (!activePlugin || !target) {
       return null;
     }
     
-    const
-      {id,title,componentClazz} = activePlugin,
-      {defaultPersistedState} = componentClazz,
-      pluginProps: PluginComponentProps<any> = {
-      id,
-      title,
-      store,
-      key: pluginKey,
-      theme,
-      logger,
-      persistedState: componentClazz.defaultPersistedState ? { ...defaultPersistedState,
-        ...pluginState
-      } : pluginState,
-      setPersistedState: state => setPluginState({
-        pluginKey,
-        state
-      }),
-      target,
-      deepLinkPayload: this.props.deepLinkPayload,
-      selectPlugin: (pluginID: string, deepLinkPayload: string | null | undefined) => {
-        const {
-          target
-        } = this.props; // check if plugin will be available
-
-        if (target instanceof Client && target.plugins.some(p => p === pluginID)) {
-          this.props.selectPlugin({
-            selectedPlugin: pluginID,
-            deepLinkPayload
-          });
-          return true;
-        } else if (target instanceof BaseDevice) {
-          this.props.selectPlugin({
-            selectedPlugin: pluginID,
-            deepLinkPayload
-          });
-          return true;
-        } else {
-          return false;
-        }
-      },
-      ref: this.refChanged,
-      isArchivedDevice
-    };
+    
     return <>
         <Container key="plugin">
-          <ErrorBoundary heading={`Plugin "${activePlugin.title || 'Unknown'}" encountered an error during render`} logger={logger}>
-            {React.createElement(componentClazz, pluginProps)}
-          </ErrorBoundary>
+          {activePlugin && this.pluginComponent &&
+            <ErrorBoundary heading={`Plugin "${activePlugin.title || 'Unknown'}" encountered an error during render`} logger={logger}>
+              {this.pluginComponent}
+            </ErrorBoundary>
+          }
         </Container>
         <SidebarContainer id="detailsSidebar" />
       </>;
@@ -216,10 +228,10 @@ export default connect<StateProps, Actions, OwnProps, RootState>(({
       activePlugin = clientPlugins.get(selectedPlugin);
 
       if (!activePlugin || !target) {
-        throw new Error(`Plugin "${selectedPlugin || ''}" could not be found.`);
+        log.error(`Plugin "${selectedPlugin || ''}" could not be found.`)
+      } else {
+        pluginKey = getPluginKey(selectedApp, selectedDevice, activePlugin.id);
       }
-
-      pluginKey = getPluginKey(selectedApp, selectedDevice, activePlugin.id);
     }
   }
 

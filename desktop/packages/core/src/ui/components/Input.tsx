@@ -8,10 +8,10 @@ import * as React from "react"
 import {ThemeProps, withStyles} from "../themes"
 import { Theme } from "../themes"
 import { lighten } from "@material-ui/core/styles/colorManipulator"
-import { Transparent } from "../styled"
+import {CSSProperties, Transparent} from "../styled"
 import filterProps from "react-valid-props"
 import {RootViewProps} from "./RootView"
-export const inputStyle = (theme: Theme) => {
+export const inputStyle = (theme: Theme): CSSProperties => {
   const { colors } = theme
   return {
     border: `1px solid ${colors.border}`,

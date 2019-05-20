@@ -127,7 +127,7 @@ function getActiveDevices(): Promise<Array<IOSDeviceParams>> {
   })
 }
 
-export default (store: Store, logger: Logger) => {
+export default async function(store: Store, logger: Logger) {
   // monitoring iOS devices only available on MacOS.
   if (process.platform !== "darwin") {
     return

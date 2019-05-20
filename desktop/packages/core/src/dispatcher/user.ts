@@ -6,20 +6,20 @@
  */
 import { Store } from "../reducers/index"
 import { Logger } from "../fb-interfaces/Logger"
-import { login } from "../reducers/user"
-import { getUser, logoutUser } from "../fb-stubs/user"
-export default (store: Store, _logger: Logger) => {
-  getUser()
-    .then(user => {
-      store.dispatch(login(user))
-    })
-    .catch(console.debug)
-  let prevUserName = store.getState().user.name
-  store.subscribe(() => {
-    if (prevUserName && !store.getState().user.name) {
-      logoutUser()
-    }
-
-    prevUserName = store.getState().user.name
-  })
+// import { login } from "../reducers/user"
+// import { getUser, logoutUser } from "../fb-stubs/user"
+export default async function(_store: Store, _logger: Logger) {
+  // getUser()
+  //   .then(user => {
+  //     store.dispatch(login(user))
+  //   })
+  //   .catch(console.debug)
+  // let prevUserName = store.getState().user.name
+  // store.subscribe(() => {
+  //   if (prevUserName && !store.getState().user.name) {
+  //     logoutUser()
+  //   }
+  //
+  //   prevUserName = store.getState().user.name
+  // })
 }

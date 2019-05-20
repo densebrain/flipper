@@ -1,11 +1,16 @@
 {
   "name": "@flipper/plugin-shared-preferences",
   "version": "1.0.0",
-  "main": "lib/index.js",
+  "main": "dist/bundle.js",
   "types": "lib/index.d.ts",
   "license": "MIT",
   "dependencies": {
-    "@flipper/core": "^1.0.0"
+    "@flipper/core": "^1.0.0",
+    "@material-ui/core": "^3.9.3",
+    "@material-ui/styles": "^3.0.0-alpha.10",
+    "mz": "^2.7.0",
+    "ts-optchain": "^0.1.6",
+    "typeguard": "^0.0.13"
   },
   "peerDependencies": {
     "lodash": "^4.17.5"

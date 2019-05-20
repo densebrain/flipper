@@ -4,7 +4,9 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
+import {hot} from "react-hot-loader/root"
 import * as React from 'react';
+import {Action as PluginAction, loadPlugins} from "./reducers/plugins"
 import { FlexColumn, FlexRow } from './ui';
 import { connect } from 'react-redux';
 import WelcomeScreen from './chrome/WelcomeScreen';
@@ -24,13 +26,18 @@ import { Logger } from './fb-interfaces/Logger';
 import BugReporter from './fb-stubs/BugReporter';
 import BaseDevice from './devices/BaseDevice';
 import { ActiveSheet } from './reducers/application';
-import { ThemeProvider } from '@material-ui/styles';
-import { Themes } from './ui/themes';
+import { Themes, ThemeContext } from './ui/themes';
 
 import styled from './ui/styled';
 import {RootState, Store} from "./reducers"
-const version = remote.app.getVersion();
 
+
+
+
+const version = remote.app.getVersion();
+type Actions = {
+  loadPlugins: () => PluginAction
+}
 type OwnProps = {
   logger: Logger;
   bugReporter: BugReporter;
@@ -46,14 +53,14 @@ type StateProps = {
   exportFile: string | null;
 }
 
-type Props = OwnProps & StateProps;
+type Props = OwnProps & StateProps & Actions;
 const RootContainer = styled(FlexColumn)(({
   theme
 }:any) => ({
   backgroundColor: theme.colors.background
 }));
 
-export class App extends React.Component<Props & OwnProps> {
+export class App extends React.Component<Props > {
   componentDidMount() {
     // track time since launch
     const [s, ns] = process.hrtime();
@@ -63,6 +70,8 @@ export class App extends React.Component<Props & OwnProps> {
     });
     ipcRenderer.send('getLaunchTime');
     ipcRenderer.send('componentDidMount');
+    
+    this.props.loadPlugins()
   }
 
   getSheet = (onHide: () => any) => {
@@ -98,7 +107,7 @@ export class App extends React.Component<Props & OwnProps> {
       store,
       selectedDevice
     } = this.props;
-    return <ThemeProvider theme={Themes[theme]}>
+    return <ThemeContext.Provider value={Themes[theme]}>
         <RootContainer grow={true}>
           <TitleBar version={version} />
           <Sheet>{this.getSheet}</Sheet>
@@ -108,11 +117,11 @@ export class App extends React.Component<Props & OwnProps> {
           </FlexRow>
           <ErrorBar text={this.props.error} />
         </RootContainer>
-      </ThemeProvider>;
+      </ThemeContext.Provider>;
   }
 
 }
-export default connect<StateProps, {}, OwnProps, RootState>(({
+export default hot(connect<StateProps, Actions, OwnProps, RootState>(({
   application: {
     theme,
     leftSidebarVisible,
@@ -130,4 +139,6 @@ export default connect<StateProps, {}, OwnProps, RootState>(({
   theme,
   exportFile,
   error
-}))(App);
+}), {
+  loadPlugins
+})(App))

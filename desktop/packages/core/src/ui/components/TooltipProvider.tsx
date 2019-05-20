@@ -130,7 +130,7 @@ export class TooltipProvider extends React.Component<TooltipProps, TooltipState>
     
     if (options.delay) {
       this.setState({
-        timeoutID: window.setTimeout(() => {
+        timeoutID: (setTimeout as any)(() => {
           this.setState({
             tooltip: {
               rect: node.getBoundingClientRect(),

@@ -10,10 +10,13 @@ import {isString} from "typeguard"
 export type TrackType = "duration" | "usage" | "performance" | "success-rate"
 
 export enum LogLevel {
+  unknown,
+  verbose,
   debug,
   info,
   warn,
-  error
+  error,
+  fatal
 }
 
 export type LogLevelName = keyof typeof LogLevel

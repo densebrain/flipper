@@ -16,7 +16,7 @@ import {
   ManagedDataInspector,
   styled,
   Select,
-  FlipperPluginProps, PluginType, PluginExport
+  FlipperPluginProps, PluginType, PluginModuleExport
 } from "@flipper/core"
 import { clone,mapKeys } from "lodash"
 
@@ -285,4 +285,4 @@ export default {
   type: PluginType.Normal,
   title: SharedPreferencesPlugin.title,
   componentClazz: SharedPreferencesPlugin
-} as PluginExport
+} as PluginModuleExport

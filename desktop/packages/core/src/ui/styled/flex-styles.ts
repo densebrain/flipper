@@ -1,4 +1,4 @@
-import { CSSProperties } from "@material-ui/styles/withStyles"
+import { CSSProperties } from "./StyleTypes"
 import { makeFlexAlign, makeStyle } from "./prebuilt-styles"
 export const FlexAuto = makeFlex(0, 0, "auto")
 /**
