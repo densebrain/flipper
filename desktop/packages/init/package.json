@@ -5,9 +5,8 @@
   "types": "lib/index.d.ts",
   "license": "MIT",
   "devDependencies": {
-    "@flipper/dev": "^1.0.0",
-    "@flipper/common": "^1.0.0"
-    
+    "@flipper/common": "^1.0.0",
+    "@flipper/dev": "^1.0.0"
   },
   "dependencies": {
     "mz": "^2.7.0",

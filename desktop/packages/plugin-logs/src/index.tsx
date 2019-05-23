@@ -5,7 +5,6 @@
  * @format
  */
 import {getLogger} from "@flipper/common"
-
 import {
   BaseDevice,
   Button,
@@ -185,7 +184,7 @@ class LogTable extends FlipperDevicePluginComponent<
   Actions,
   PersistedState
 > {
-  static id = "DeviceLogs"
+  static id = "@flipper/plugin-logs"
 
   static keyboardActions: KeyboardActions = [
     "clear",
@@ -458,14 +457,14 @@ class LogTable extends FlipperDevicePluginComponent<
 
   createState(_props: Props = this.props): Partial<State> {
     log.info("Create state")
-    const supportedColumns = this.device.supportedColumns()
+    const supportedColumns = this.getDevice().supportedColumns()
     this.columns = keepKeys(COLUMNS, supportedColumns)
     this.columnSizes = keepKeys(COLUMN_SIZE, supportedColumns)
     this.columnOrder = INITIAL_COLUMN_ORDER.filter(obj =>
       supportedColumns.includes(obj.key)
     )
 
-    const { device } = this
+    const device = this.getDevice()
     if (device instanceof BaseDevice) {
       let logs = device.getLogs()
       const logCount = logs.length
@@ -751,8 +750,12 @@ class LogTable extends FlipperDevicePluginComponent<
   }
 }
 
+// const LogTableHot = hot(LogTable)
+// Object.assign(LogTableHot,{
+//   ..._.pick(LogTable, 'supportsDevice', 'id', 'keyboardActions')
+// })
 export default {
   id: LogTable.id,
   type: PluginType.Device,
-  componentClazz: LogTable
+  componentClazz: LogTable // LogTableHot as any
 } as PluginModuleExport<typeof LogTable, any, any, any, any, PluginType.Device>

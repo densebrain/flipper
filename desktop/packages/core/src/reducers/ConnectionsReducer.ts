@@ -6,6 +6,7 @@
  */
 import BaseDevice from "../devices/BaseDevice"
 import Client from "../Client"
+import {DefaultPluginId} from "../Constants"
 import { UninitializedClient } from "../UninitializedClient"
 import { isEqual } from "lodash"
 import iosUtil from "../fb-stubs/iOSContainerUtility" // $FlowFixMe perf_hooks is a new API in node
@@ -99,7 +100,7 @@ export type Action =
         error: Error
       }
     }
-const DEFAULT_PLUGIN = "DeviceLogs"
+const DEFAULT_PLUGIN = DefaultPluginId
 const INITAL_STATE: State = {
   devices: [],
   androidEmulators: [],

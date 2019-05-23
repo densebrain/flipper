@@ -9,7 +9,7 @@ export type Pair<T1, T2> = [T1, T2]
 
 export type FunctionOrValue<T> = (() => T) | T | null
 
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
+//export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 
 
 
@@ -73,6 +73,9 @@ export type FlipperConfig = {
 	launcherMsg?: string | undefined
 }
 
+export const NotificationEvents = ["show", "click", "close", "reply", "action"]
+export type NotificationEvent = typeof NotificationEvents[number]
+
 import {IPackageJSON} from "package-json"
 
 
@@ -82,7 +85,7 @@ import {IPackageJSON} from "package-json"
 declare global {
 	const isDev: boolean
 	
-	type Omit<T, K extends keyof any> = T extends any ? Pick<T, Exclude<keyof T, K>> : never;
+	//type Omit<T, K extends keyof any> = T extends any ? Pick<T, Exclude<keyof T, K>> : never;
 	type FilterTypes<T, U> = T extends U ? T : never;
 	
 	type Primitive = string | number | boolean | undefined | null;

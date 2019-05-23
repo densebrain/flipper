@@ -14,8 +14,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath("com.android.tools.build:gradle:3.5.0-alpha10")
-    classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4")
+    classpath("com.android.tools.build:gradle:${Plugins.Android}")
   }
 }
 
@@ -37,8 +36,10 @@ buildscript {
 
 val publishedProjects = mutableListOf<String>()
 
+tasks.create("publishReleaseArtifacts")
+
 subprojects {
-  group = GROUP
+  group = getProjectProperty("GROUP") ?: group
   //applyfrom: rootProject.file("gradle/buildscript.gradle")
 
   // repositories {
@@ -65,11 +66,11 @@ subprojects {
 //       }
 //     }
 
-// //    tasks.withType(BintrayUploadTask) { task ->
-// //      logger.quiet("Adding published project: ${project.name}")
-// //      publishedProjects.add(project.name)
-// //      bintrayUploadAll.dependsOn(task)
-// //    }
+//     tasks.withType(BintrayUploadTask) { task ->
+//       logger.quiet("Adding published project: ${project.name}")
+//       publishedProjects.add(project.name)
+//       bintrayUploadAll.dependsOn(task)
+//     }
 
 //   }
 }

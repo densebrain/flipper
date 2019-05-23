@@ -2,8 +2,8 @@
   "program": {
     "fileInfos": {
       "/projects/oss/flipper.v2/desktop/node_modules/typescript/lib/lib.es5.d.ts": {
-        "version": "c8665e66018917580e71792b91022bcaf53fb946fab4aaf8dfb0738ed564db88",
-        "signature": "c8665e66018917580e71792b91022bcaf53fb946fab4aaf8dfb0738ed564db88"
+        "version": "5a0f9857eb7ccb54cec370222b280ed72b7079a25458d8def51745deea0bcfb0",
+        "signature": "5a0f9857eb7ccb54cec370222b280ed72b7079a25458d8def51745deea0bcfb0"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/typescript/lib/lib.es2015.d.ts": {
         "version": "7994d44005046d1413ea31d046577cdda33b8b2470f30281fd9c8b3c99fe2d96",
@@ -22,20 +22,20 @@
         "signature": "2edd3ddf436ef8e12df876dcae4ecd6a8748577944c477bf4b20d5596e0c9843"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/typescript/lib/lib.es2019.d.ts": {
-        "version": "6549045e428b5f483bc82d6e8f6d01a72decd0cb7387f650f365f2210fe10808",
-        "signature": "6549045e428b5f483bc82d6e8f6d01a72decd0cb7387f650f365f2210fe10808"
+        "version": "0fc0f68d3f4d94aa65fab955592e4a9f2066e6f8ee2f66fcc45adf4037fc167b",
+        "signature": "0fc0f68d3f4d94aa65fab955592e4a9f2066e6f8ee2f66fcc45adf4037fc167b"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/typescript/lib/lib.esnext.d.ts": {
         "version": "1c05c805f62c1c06a60b7812cd8de2dff7a5bda2218ce5edda5d9d298b1c48e1",
         "signature": "1c05c805f62c1c06a60b7812cd8de2dff7a5bda2218ce5edda5d9d298b1c48e1"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/typescript/lib/lib.dom.d.ts": {
-        "version": "6994c583b66862deca24d7bbf77297d95b9d3da8160dbd9beef6b847cf7c1376",
-        "signature": "6994c583b66862deca24d7bbf77297d95b9d3da8160dbd9beef6b847cf7c1376"
+        "version": "1f65b14a74cfe6e5739199c1eff5612f1655943c7d0bb8c8ba6bdacdf3df396e",
+        "signature": "1f65b14a74cfe6e5739199c1eff5612f1655943c7d0bb8c8ba6bdacdf3df396e"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/typescript/lib/lib.es2015.core.d.ts": {
-        "version": "384f66a3422d80014c51de2682159bb26f1e35854029880ccd5f6d1f00e6a36d",
-        "signature": "384f66a3422d80014c51de2682159bb26f1e35854029880ccd5f6d1f00e6a36d"
+        "version": "2a0390a665763bcc90f0670e43c587928d8fefe2a94a11209c1e22cba7b09f52",
+        "signature": "2a0390a665763bcc90f0670e43c587928d8fefe2a94a11209c1e22cba7b09f52"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/typescript/lib/lib.es2015.collection.d.ts": {
         "version": "dd94d8ef48c562389eb58af8df3a3a34d11367f7c818192aa5f16470d469e3f0",
@@ -46,12 +46,12 @@
         "signature": "828413486bdcaa342558e8e4570b1b287b776cb61b4b70b0214bd10c5d9a94c3"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/typescript/lib/lib.es2015.iterable.d.ts": {
-        "version": "4d1f39313a169b8599b8817688f504b56ba8204c2ebafd03f66ff77ddb1899a4",
-        "signature": "4d1f39313a169b8599b8817688f504b56ba8204c2ebafd03f66ff77ddb1899a4"
+        "version": "6c9f73334f8bf47aea685ca5b46a8f7e992a223e96fbceb030f26a4d2324ba21",
+        "signature": "6c9f73334f8bf47aea685ca5b46a8f7e992a223e96fbceb030f26a4d2324ba21"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/typescript/lib/lib.es2015.promise.d.ts": {
-        "version": "7c07d934680d0e33275a44d22fb11a4ff31d46c8c26a8d056828a478753f1efe",
-        "signature": "7c07d934680d0e33275a44d22fb11a4ff31d46c8c26a8d056828a478753f1efe"
+        "version": "e6b8ff2798f8ebd7a1c7afd8671f2cb67ee1901c422f5964d74b0b34c6574ea2",
+        "signature": "e6b8ff2798f8ebd7a1c7afd8671f2cb67ee1901c422f5964d74b0b34c6574ea2"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/typescript/lib/lib.es2015.proxy.d.ts": {
         "version": "5e72f949a89717db444e3bd9433468890068bb21a5638d8ab15a1359e05e54fe",
@@ -112,6 +112,10 @@
       "/projects/oss/flipper.v2/desktop/node_modules/typescript/lib/lib.es2019.array.d.ts": {
         "version": "fc7c02b980e7dda0ed14d57ee71705c09efc51ec6286a10b971a25a3bb29262b",
         "signature": "fc7c02b980e7dda0ed14d57ee71705c09efc51ec6286a10b971a25a3bb29262b"
+      },
+      "/projects/oss/flipper.v2/desktop/node_modules/typescript/lib/lib.es2019.object.d.ts": {
+        "version": "989b95205f1189943fab0ce12a39c80570edf8f200aca60e0fdc500afc4d5859",
+        "signature": "989b95205f1189943fab0ce12a39c80570edf8f200aca60e0fdc500afc4d5859"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/typescript/lib/lib.es2019.string.d.ts": {
         "version": "669427ac10ef9f52b6a7a502a66670eaabba675e0a660eb971041bd73c9894e3",
@@ -246,16 +250,16 @@
         "signature": "bf95e242829ab93b8aabbe910ef2dfd7ad0a9476d60604a7207fc1e9ee18f53d"
       },
       "/projects/oss/flipper.v2/desktop/packages/common/src/Types.ts": {
-        "version": "1befb27bd91a0da4c8626c5c32c9741a94e73cf2647f0e19ee57d72e9a8d041a",
-        "signature": "1befb27bd91a0da4c8626c5c32c9741a94e73cf2647f0e19ee57d72e9a8d041a"
+        "version": "5a4748038a3757e5132ea06b37df88566e07b027a9a8c654c029f8daa256b2bd",
+        "signature": "5a4748038a3757e5132ea06b37df88566e07b027a9a8c654c029f8daa256b2bd"
       },
       "/projects/oss/flipper.v2/desktop/packages/common/src/async/Deferred.ts": {
         "version": "3774a01a4d3e34139566a45653b170d3bc734ee2ac04c99b672044684b9da2ab",
         "signature": "3774a01a4d3e34139566a45653b170d3bc734ee2ac04c99b672044684b9da2ab"
       },
       "/projects/oss/flipper.v2/desktop/packages/common/src/logging/Logger.ts": {
-        "version": "93586b96a10be1fb1ffac136bdb466274f2e97ded41da22d9d51a4a3d4adbc9f",
-        "signature": "93586b96a10be1fb1ffac136bdb466274f2e97ded41da22d9d51a4a3d4adbc9f"
+        "version": "5e19dee9bcf295b63c032015618ae02e65212079692968e5b99378a5ef9a6b0b",
+        "signature": "5e19dee9bcf295b63c032015618ae02e65212079692968e5b99378a5ef9a6b0b"
       },
       "/projects/oss/flipper.v2/desktop/packages/common/src/util/ObjectUtil.ts": {
         "version": "2d13fd7ef04671eec9a92d5530564dd71b032bfdb9a23d6a5b66f00a19b17199",
@@ -461,6 +465,10 @@
         "version": "79f07b75eb44794275b82b4d7f249cb0d5cd1d62f32d5264617d6c61e5f7a5fa",
         "signature": "79f07b75eb44794275b82b4d7f249cb0d5cd1d62f32d5264617d6c61e5f7a5fa"
       },
+      "/projects/oss/flipper.v2/desktop/packages/common/src/util/Identity.ts": {
+        "version": "9accaba42c6e1da2c251878b807d1cdbf3462a947f4f950c1452418c1c10017a",
+        "signature": "9accaba42c6e1da2c251878b807d1cdbf3462a947f4f950c1452418c1c10017a"
+      },
       "/projects/oss/flipper.v2/desktop/packages/common/src/events/Event.ts": {
         "version": "4351284af7d28955d8e6af4502dfef54e9f9ffe8927fb743340cbf2c9ffe7e23",
         "signature": "4351284af7d28955d8e6af4502dfef54e9f9ffe8927fb743340cbf2c9ffe7e23"
@@ -478,8 +486,8 @@
         "signature": "4a395595c0fc78b29482eeac7b15bde96d09e3e481e8b8c70d329a9467e56934"
       },
       "/projects/oss/flipper.v2/desktop/packages/common/src/index.ts": {
-        "version": "4d27d88a54f8903ff70308ba416fcd30ca88410392f575db9ec93729f5f7775d",
-        "signature": "4d27d88a54f8903ff70308ba416fcd30ca88410392f575db9ec93729f5f7775d"
+        "version": "2c574c23af5a75c5b71296258d515ff66da26cb1a87291a11d30f4ff02522799",
+        "signature": "2c574c23af5a75c5b71296258d515ff66da26cb1a87291a11d30f4ff02522799"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/immutable/dist/immutable-nonambient.d.ts": {
         "version": "407b11f5c8edb4fdb4871a666f15d2ea4a8ca30153f0f74ceee6c247dcc2cceb",
@@ -706,8 +714,8 @@
         "signature": "4e88b833be14c7f384e0dcd57bb30acd799e8e34d212635d693e41a75a71164b"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/express-serve-static-core/index.d.ts": {
-        "version": "d1e81dc16bb5a4c4ba7cfcf11df969a44a70d0a61c8a568ee5e88e1a042e1b9e",
-        "signature": "d1e81dc16bb5a4c4ba7cfcf11df969a44a70d0a61c8a568ee5e88e1a042e1b9e"
+        "version": "6baf9847c99b920115986f629ba37e7aadc1c8d7d6a14f91ce6a7ba48fbb2c7b",
+        "signature": "6baf9847c99b920115986f629ba37e7aadc1c8d7d6a14f91ce6a7ba48fbb2c7b"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/mime/index.d.ts": {
         "version": "be27a64e821a3e5af838650e4aa25805c60f057d0c37a9762c378d19d364b3e6",
@@ -742,8 +750,8 @@
         "signature": "5e632216dfe01f2ff76f1c312c28632fde75364c24d659b732f2ee59e9ccf1b2"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts": {
-        "version": "b6379223e63ba25067f4f1c4f281b442827f70c292edb16316d6dca34a8c6549",
-        "signature": "b6379223e63ba25067f4f1c4f281b442827f70c292edb16316d6dca34a8c6549"
+        "version": "ad3ef263d19ed9feace0f79f30eb006e0d8e974273f36223562e19d038d3bb1b",
+        "signature": "ad3ef263d19ed9feace0f79f30eb006e0d8e974273f36223562e19d038d3bb1b"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/hoist-non-react-statics/index.d.ts": {
         "version": "bfe1b52cf71aea9bf8815810cc5d9490fa9617313e3d3c2ee3809a28b80d0bb4",
@@ -770,8 +778,8 @@
         "signature": "c3175d4a7894de56cdc5e62f4269f1f57c2f08da88d3a91ad47bc0652ac8cb46"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack/index.d.ts": {
-        "version": "ce4ec2f508914034bb1f6dc45f2bc26f157549a65a045328fc50a743d05be0c9",
-        "signature": "ce4ec2f508914034bb1f6dc45f2bc26f157549a65a045328fc50a743d05be0c9"
+        "version": "aec23213f6b30c791207b99074a3e5e6e9a08bd212fa14e47c1a0ae131ce2423",
+        "signature": "aec23213f6b30c791207b99074a3e5e6e9a08bd212fa14e47c1a0ae131ce2423"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/html-webpack-plugin/index.d.ts": {
         "version": "d196b1899e9f892684d3bc0f9729cc82836d79ab4806180b1eaac938fadc425c",
@@ -834,8 +842,8 @@
         "signature": "b6d3763d7f9ce84118df4340505c24384267ccb48fa8772852260cb5ed4617c2"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/collection.d.ts": {
-        "version": "dfe341e9b1fbba9efd858aec6b2bce3ba27f1d572caf6a041b44eab94c88c864",
-        "signature": "dfe341e9b1fbba9efd858aec6b2bce3ba27f1d572caf6a041b44eab94c88c864"
+        "version": "91d35bdd42a75083c4cf6cddf9e6fc91b8a2cea7fe8272012996257b3f5fb051",
+        "signature": "91d35bdd42a75083c4cf6cddf9e6fc91b8a2cea7fe8272012996257b3f5fb051"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/date.d.ts": {
         "version": "187119ff4f9553676a884e296089e131e8cc01691c546273b1d0089c3533ce42",
@@ -858,8 +866,8 @@
         "signature": "00baffbe8a2f2e4875367479489b5d43b5fc1429ecb4a4cc98cfc3009095f52a"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/object.d.ts": {
-        "version": "d04c462c622fc52b3b75c8b7eeb9e6ec2123414893a1cf3668c592e22f185ed2",
-        "signature": "d04c462c622fc52b3b75c8b7eeb9e6ec2123414893a1cf3668c592e22f185ed2"
+        "version": "ed65661e4a5298414705d3f3bc8fac7ed5a6c13379406ceb3ce49e0af9bbdff9",
+        "signature": "ed65661e4a5298414705d3f3bc8fac7ed5a6c13379406ceb3ce49e0af9bbdff9"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/lodash/ts3.1/common/seq.d.ts": {
         "version": "3c92b6dfd43cc1c2485d9eba5ff0b74a19bb8725b692773ef1d66dac48cda4bd",
@@ -1107,7 +1115,7 @@
       "experimentalDecorators": true,
       "esModuleInterop": true,
       "sourceMap": true,
-      "target": 7,
+      "target": 8,
       "baseUrl": "/projects/oss/flipper.v2/desktop/packages/",
       "paths": {
         "*": [
@@ -1259,6 +1267,10 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
       "/projects/oss/flipper.v2/desktop/node_modules/typescript/lib/lib.es2019.array.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/typescript/lib/lib.es2019.object.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -1810,6 +1822,10 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "/projects/oss/flipper.v2/desktop/packages/common/src/util/Identity.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "/projects/oss/flipper.v2/desktop/packages/common/src/events/Event.ts": [
         "/projects/oss/flipper.v2/desktop/packages/common/lib/Types.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
@@ -1838,6 +1854,7 @@
         "/projects/oss/flipper.v2/desktop/packages/common/lib/util/FileUtil.d.ts",
         "/projects/oss/flipper.v2/desktop/packages/common/lib/util/Env.d.ts",
         "/projects/oss/flipper.v2/desktop/packages/common/lib/util/ElectronUtil.d.ts",
+        "/projects/oss/flipper.v2/desktop/packages/common/lib/util/Identity.d.ts",
         "/projects/oss/flipper.v2/desktop/packages/common/lib/events/Event.d.ts",
         "/projects/oss/flipper.v2/desktop/packages/common/lib/dev/DevIPC.d.ts",
         "/projects/oss/flipper.v2/desktop/packages/common/lib/webpack/webpack.types.d.ts",
@@ -2941,6 +2958,10 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "/projects/oss/flipper.v2/desktop/node_modules/typescript/lib/lib.es2019.object.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "/projects/oss/flipper.v2/desktop/node_modules/typescript/lib/lib.es2019.string.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
@@ -3484,6 +3505,10 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "/projects/oss/flipper.v2/desktop/packages/common/src/util/Identity.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "/projects/oss/flipper.v2/desktop/packages/common/src/events/Event.ts": [
         "/projects/oss/flipper.v2/desktop/packages/common/lib/Types.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
@@ -3512,6 +3537,7 @@
         "/projects/oss/flipper.v2/desktop/packages/common/lib/util/FileUtil.d.ts",
         "/projects/oss/flipper.v2/desktop/packages/common/lib/util/Env.d.ts",
         "/projects/oss/flipper.v2/desktop/packages/common/lib/util/ElectronUtil.d.ts",
+        "/projects/oss/flipper.v2/desktop/packages/common/lib/util/Identity.d.ts",
         "/projects/oss/flipper.v2/desktop/packages/common/lib/events/Event.d.ts",
         "/projects/oss/flipper.v2/desktop/packages/common/lib/dev/DevIPC.d.ts",
         "/projects/oss/flipper.v2/desktop/packages/common/lib/webpack/webpack.types.d.ts",
@@ -4519,6 +4545,7 @@
       "/projects/oss/flipper.v2/desktop/node_modules/typescript/lib/lib.es2018.promise.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/typescript/lib/lib.es2018.regexp.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/typescript/lib/lib.es2019.array.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/typescript/lib/lib.es2019.object.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/typescript/lib/lib.es2019.string.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/typescript/lib/lib.es2019.symbol.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/typescript/lib/lib.esnext.intl.d.ts",
@@ -4606,6 +4633,7 @@
       "/projects/oss/flipper.v2/desktop/packages/common/src/util/FileUtil.ts",
       "/projects/oss/flipper.v2/desktop/packages/common/src/util/Env.ts",
       "/projects/oss/flipper.v2/desktop/packages/common/src/util/ElectronUtil.ts",
+      "/projects/oss/flipper.v2/desktop/packages/common/src/util/Identity.ts",
       "/projects/oss/flipper.v2/desktop/packages/common/src/events/Event.ts",
       "/projects/oss/flipper.v2/desktop/packages/common/src/dev/DevIPC.ts",
       "/projects/oss/flipper.v2/desktop/packages/common/src/webpack/webpack.types.ts",
@@ -4764,5 +4792,5 @@
       "/projects/oss/flipper.v2/desktop/node_modules/@types/which/index.d.ts"
     ]
   },
-  "version": "3.4.5"
+  "version": "3.5.0-rc"
 }

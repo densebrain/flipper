@@ -5,117 +5,133 @@
  * @format
  */
 import * as React from "react"
-import {FlipperDevicePluginComponent, Device, FlipperPluginProps} from '@flipper/core'
+import {
+  FlipperDevicePluginComponent,
+  Device,
+  FlipperPluginProps,
+  PluginType,
+  PluginModuleExport,
+  FlexColumn,
+  FlexRow,
+  Button,
+  Toolbar,
+  Text,
+  ManagedTable,
+  lighten
+} from "@flipper/core"
 
+const adb = require("adbkit-fb")
 
+type ADBClient = any
 
-import { FlexColumn, FlexRow, Button, Toolbar, Text, ManagedTable, lighten } from '@flipper/core';
-const adb = require('adbkit-fb');
-type ADBClient = any;
 type AndroidDevice = {
-  adb: ADBClient;
-};
-type TableRows = any; // we keep vairable name with underline for to physical path mappings on device
+  adb: ADBClient
+}
+
+type TableRows = any // we keep vairable name with underline for to physical path mappings on device
 
 interface CPUFrequency {
-  cpu_id: number;
-  scaling_cur_freq: number;
-  scaling_min_freq: number;
-  scaling_max_freq: number;
-  cpuinfo_max_freq: number;
-  cpuinfo_min_freq: number;
-};
+  cpu_id: number
+  scaling_cur_freq: number
+  scaling_min_freq: number
+  scaling_max_freq: number
+  cpuinfo_max_freq: number
+  cpuinfo_min_freq: number
+}
+
 interface CPUState {
-  cpuFreq: Array<CPUFrequency>;
-  cpuCount: number;
-  monitoring: boolean;
-  hardwareInfo: string;
-};
-type ShellCallBack = (output: string) => void;
+  cpuFreq: Array<CPUFrequency>
+  cpuCount: number
+  monitoring: boolean
+  hardwareInfo: string
+}
+
+type ShellCallBack = (output: string) => void
+
 const ColumnSizes = {
-  cpu_id: '10%',
-  scaling_cur_freq: 'flex',
-  scaling_min_freq: 'flex',
-  scaling_max_freq: 'flex',
-  cpuinfo_min_freq: 'flex',
-  cpuinfo_max_freq: 'flex'
-};
+  cpu_id: "10%",
+  scaling_cur_freq: "flex",
+  scaling_min_freq: "flex",
+  scaling_max_freq: "flex",
+  cpuinfo_min_freq: "flex",
+  cpuinfo_max_freq: "flex"
+}
 const Columns = {
   cpu_id: {
-    value: 'CPU ID',
+    value: "CPU ID",
     resizable: true
   },
   scaling_cur_freq: {
-    value: 'Scaling Current',
+    value: "Scaling Current",
     resizable: true
   },
   scaling_min_freq: {
-    value: 'Scaling MIN',
+    value: "Scaling MIN",
     resizable: true
   },
   scaling_max_freq: {
-    value: 'Scaling MAX',
+    value: "Scaling MAX",
     resizable: true
   },
   cpuinfo_min_freq: {
-    value: 'MIN Frequency',
+    value: "MIN Frequency",
     resizable: true
   },
   cpuinfo_max_freq: {
-    value: 'MAX Frequency',
+    value: "MAX Frequency",
     resizable: true
   }
-}; // check if str is a number
+} // check if str is a number
 
 function isNormalInteger(str: string): boolean {
-  let n = Math.floor(Number(str));
-  return String(n) === str && n >= 0;
+  let n = Math.floor(Number(str))
+  return String(n) === str && n >= 0
 } // format frequency to MHz, GHz
 
-
-function formatFrequency(freq:number): string {
+function formatFrequency(freq: number): string {
   if (freq == -1) {
-    return 'N/A';
+    return "N/A"
   } else if (freq == -2) {
-    return 'off';
+    return "off"
   } else if (freq > 1000 * 1000) {
-    return (freq / 1000 / 1000).toFixed(2) + ' GHz';
+    return (freq / 1000 / 1000).toFixed(2) + " GHz"
   } else {
-    return freq / 1000 + ' MHz';
+    return freq / 1000 + " MHz"
   }
 }
 
 type Props = FlipperPluginProps<{}>
 
-export default class CPUFrequencyTable extends FlipperDevicePluginComponent<Props,CPUState> {
-  adbClient: ADBClient;
-  intervalID: number | null | undefined;
-  
+class CPUFrequencyTable extends FlipperDevicePluginComponent<Props, CPUState> {
+  static id = "@flipper/plugin-cpu"
+  static title = "CPU"
+
+  adbClient: ADBClient
+  intervalID: number | null | undefined
+
   constructor(props: Props) {
     super(props)
     this.state = {
       cpuFreq: [],
       cpuCount: 0,
       monitoring: false,
-      hardwareInfo: ''
-    };
+      hardwareInfo: ""
+    }
   }
-  
-  
 
   static supportsDevice(device: Device) {
-    return device.os === 'Android' && device.deviceType === 'physical';
+    return device.os === "Android" && device.deviceType === "physical"
   }
 
   init() {
-    let device = ((this.device as any) as AndroidDevice);
-    this.adbClient = device.adb;
-    this.updateHardwareInfo(); // check how many cores we have on this device
+    let device = (this.device as any) as AndroidDevice
+    this.adbClient = device.adb
+    this.updateHardwareInfo() // check how many cores we have on this device
 
     this.executeShell((output: string) => {
-      let idx = output.indexOf('-');
-      let cpuFreq = [];
-      let count = parseInt(output.substring(idx + 1), 10) + 1;
+      let idx = output.indexOf("-")
+      let cpuFreq = []
+      let count = parseInt(output.substring(idx + 1), 10) + 1
 
       for (let i = 0; i < count; ++i) {
         cpuFreq[i] = {
@@ -125,135 +141,140 @@ export default class CPUFrequencyTable extends FlipperDevicePluginComponent<Prop
           scaling_max_freq: -1,
           cpuinfo_min_freq: -1,
           cpuinfo_max_freq: -1
-        };
+        }
       }
 
       this.setState({
         cpuCount: count,
         cpuFreq: cpuFreq
-      });
-    }, 'cat /sys/devices/system/cpu/possible');
+      })
+    }, "cat /sys/devices/system/cpu/possible")
   }
 
   executeShell = (callback: ShellCallBack, command: string) => {
-    this.adbClient.shell(this.device.serial, command).then(adb.util.readAll).then(function (output: Buffer) {
-      return callback(output.toString().trim());
-    });
-  };
+    this.adbClient
+      .shell(this.device.serial, command)
+      .then(adb.util.readAll)
+      .then(function(output: Buffer) {
+        return callback(output.toString().trim())
+      })
+  }
   updateCoreFrequency = (core: number, type: keyof CPUFrequency) => {
     this.executeShell((output: string) => {
-      let {cpuFreq} = this.state;
-      let newFreq = isNormalInteger(output) ? parseInt(output, 10) : -1; // update table only if frequency changed
+      let { cpuFreq } = this.state
+      let newFreq = isNormalInteger(output) ? parseInt(output, 10) : -1 // update table only if frequency changed
 
       if (cpuFreq[core][type] != newFreq) {
-        cpuFreq[core][type] = newFreq;
+        cpuFreq[core][type] = newFreq
 
-        if (type == 'scaling_cur_freq' && cpuFreq[core][type] < 0) {
+        if (type == "scaling_cur_freq" && cpuFreq[core][type] < 0) {
           // cannot find current freq means offline
-          cpuFreq[core][type] = -2;
+          cpuFreq[core][type] = -2
         }
 
         this.setState({
           cpuFreq
-        });
+        })
       }
-    }, 'cat /sys/devices/system/cpu/cpu' + core + '/cpufreq/' + type);
-  };
+    }, "cat /sys/devices/system/cpu/cpu" + core + "/cpufreq/" + type)
+  }
   readCoreFrequency = (core: number) => {
-    let freq = this.state.cpuFreq[core];
+    let freq = this.state.cpuFreq[core]
 
     if (freq.cpuinfo_max_freq < 0) {
-      this.updateCoreFrequency(core, 'cpuinfo_max_freq');
+      this.updateCoreFrequency(core, "cpuinfo_max_freq")
     }
 
     if (freq.cpuinfo_min_freq < 0) {
-      this.updateCoreFrequency(core, 'cpuinfo_min_freq');
+      this.updateCoreFrequency(core, "cpuinfo_min_freq")
     }
 
-    this.updateCoreFrequency(core, 'scaling_cur_freq');
-    this.updateCoreFrequency(core, 'scaling_min_freq');
-    this.updateCoreFrequency(core, 'scaling_max_freq');
-  };
+    this.updateCoreFrequency(core, "scaling_cur_freq")
+    this.updateCoreFrequency(core, "scaling_min_freq")
+    this.updateCoreFrequency(core, "scaling_max_freq")
+  }
   updateHardwareInfo = () => {
     this.executeShell((output: string) => {
-      let hwInfo = '';
+      let hwInfo = ""
 
-      if (output.startsWith('msm') || output.startsWith('apq') || output.startsWith('sdm')) {
-        hwInfo = 'QUALCOMM ' + output.toUpperCase();
-      } else if (output.startsWith('exynos')) {
+      if (
+        output.startsWith("msm") ||
+        output.startsWith("apq") ||
+        output.startsWith("sdm")
+      ) {
+        hwInfo = "QUALCOMM " + output.toUpperCase()
+      } else if (output.startsWith("exynos")) {
         this.executeShell((output: string) => {
           if (output != null) {
             this.setState({
-              hardwareInfo: 'SAMSUMG ' + output.toUpperCase()
-            });
+              hardwareInfo: "SAMSUMG " + output.toUpperCase()
+            })
           }
-        }, 'getprop ro.chipname');
-        return;
-      } else if (output.startsWith('mt')) {
-        hwInfo = 'MEDIATEK ' + output.toUpperCase();
-      } else if (output.startsWith('sc')) {
-        hwInfo = 'SPREADTRUM ' + output.toUpperCase();
-      } else if (output.startsWith('hi') || output.startsWith('kirin')) {
-        hwInfo = 'HISILICON ' + output.toUpperCase();
-      } else if (output.startsWith('rk')) {
-        hwInfo = 'ROCKCHIP ' + output.toUpperCase();
-      } else if (output.startsWith('bcm')) {
-        hwInfo = 'BROADCOM ' + output.toUpperCase();
+        }, "getprop ro.chipname")
+        return
+      } else if (output.startsWith("mt")) {
+        hwInfo = "MEDIATEK " + output.toUpperCase()
+      } else if (output.startsWith("sc")) {
+        hwInfo = "SPREADTRUM " + output.toUpperCase()
+      } else if (output.startsWith("hi") || output.startsWith("kirin")) {
+        hwInfo = "HISILICON " + output.toUpperCase()
+      } else if (output.startsWith("rk")) {
+        hwInfo = "ROCKCHIP " + output.toUpperCase()
+      } else if (output.startsWith("bcm")) {
+        hwInfo = "BROADCOM " + output.toUpperCase()
       }
 
       this.setState({
         hardwareInfo: hwInfo
-      });
-    }, 'getprop ro.board.platform');
-  };
+      })
+    }, "getprop ro.board.platform")
+  }
   onStartMonitor = () => {
     if (this.intervalID) {
-      return;
+      return
     }
 
     this.intervalID = (setInterval as any)(() => {
       for (let i = 0; i < this.state.cpuCount; ++i) {
-        this.readCoreFrequency(i);
+        this.readCoreFrequency(i)
       }
-    }, 500);
+    }, 500)
     this.setState({
       monitoring: true
-    });
-  };
+    })
+  }
   onStopMonitor = () => {
     if (!this.intervalID) {
-      return;
+      return
     } else {
-      clearInterval(this.intervalID);
-      this.intervalID = null;
+      clearInterval(this.intervalID)
+      this.intervalID = null
       this.setState({
         monitoring: false
-      });
-      this.cleanup();
+      })
+      this.cleanup()
     }
-  };
+  }
   cleanup = () => {
-    let cpuFreq = this.state.cpuFreq;
+    let cpuFreq = this.state.cpuFreq
 
     for (let i = 0; i < this.state.cpuCount; ++i) {
-      cpuFreq[i].scaling_cur_freq = -1;
-      cpuFreq[i].scaling_min_freq = -1;
-      cpuFreq[i].scaling_max_freq = -1; // we don't cleanup cpuinfo_min_freq, cpuinfo_max_freq
+      cpuFreq[i].scaling_cur_freq = -1
+      cpuFreq[i].scaling_min_freq = -1
+      cpuFreq[i].scaling_max_freq = -1 // we don't cleanup cpuinfo_min_freq, cpuinfo_max_freq
       // because usually they are fixed (hardware)
     }
 
     this.setState({
       cpuFreq: cpuFreq
-    });
-  };
+    })
+  }
   teardown = () => {
-    this.cleanup();
-  };
+    this.cleanup()
+  }
   buildRow = (freq: CPUFrequency) => {
-    const {
-      colors
-    } = this.theme;
-    let style = {};
+    const { colors } = this.theme
+    let style = {}
 
     if (freq.scaling_cur_freq == -2) {
       style = {
@@ -262,23 +283,31 @@ export default class CPUFrequencyTable extends FlipperDevicePluginComponent<Prop
           color: colors.text,
           fontWeight: 700
         }
-      };
-    } else if (freq.scaling_min_freq != freq.cpuinfo_min_freq && freq.scaling_min_freq > 0 && freq.cpuinfo_min_freq > 0) {
+      }
+    } else if (
+      freq.scaling_min_freq != freq.cpuinfo_min_freq &&
+      freq.scaling_min_freq > 0 &&
+      freq.cpuinfo_min_freq > 0
+    ) {
       style = {
         style: {
           backgroundColor: colors.error,
           color: colors.errorText,
           fontWeight: 700
         }
-      };
-    } else if (freq.scaling_max_freq != freq.cpuinfo_max_freq && freq.scaling_max_freq > 0 && freq.cpuinfo_max_freq > 0) {
+      }
+    } else if (
+      freq.scaling_max_freq != freq.cpuinfo_max_freq &&
+      freq.scaling_max_freq > 0 &&
+      freq.cpuinfo_max_freq > 0
+    ) {
       style = {
         style: {
           backgroundColor: colors.warn,
           color: colors.warnText,
           fontWeight: 700
         }
-      };
+      }
     }
 
     return {
@@ -304,32 +333,60 @@ export default class CPUFrequencyTable extends FlipperDevicePluginComponent<Prop
       },
       key: freq.cpu_id,
       style
-    };
-  };
+    }
+  }
   frequencyRows = (cpuFreqs: Array<CPUFrequency>): TableRows => {
-    let rows = [];
+    let rows = []
 
     for (const cpuFreq of cpuFreqs) {
-      rows.push(this.buildRow(cpuFreq));
+      rows.push(this.buildRow(cpuFreq))
     }
 
-    return rows;
-  };
-
-  render() {
-    return <FlexRow>
-        <FlexColumn grow={true}>
-          <Toolbar position="top">
-            {this.state.monitoring ? <Button onClick={this.onStopMonitor} icon="pause">
-                Pause
-              </Button> : <Button onClick={this.onStartMonitor} icon="play">
-                Start
-              </Button>}
-            &nbsp; {this.state.hardwareInfo}
-          </Toolbar>
-          <ManagedTable multiline={true} columnSizes={ColumnSizes} columns={Columns} autoHeight={true} floating={false} zebra={true} items={this.frequencyRows(this.state.cpuFreq)} />
-        </FlexColumn>
-      </FlexRow>;
+    return rows
   }
 
+  render() {
+    return (
+      <FlexRow>
+        <FlexColumn grow={true}>
+          <Toolbar position="top">
+            {this.state.monitoring ? (
+              <Button onClick={this.onStopMonitor} icon="pause">
+                Pause
+              </Button>
+            ) : (
+              <Button onClick={this.onStartMonitor} icon="play">
+                Start
+              </Button>
+            )}
+            &nbsp; {this.state.hardwareInfo}
+          </Toolbar>
+          <ManagedTable
+            multiline={true}
+            columnSizes={ColumnSizes}
+            columns={Columns}
+            autoHeight={true}
+            floating={false}
+            zebra={true}
+            items={this.frequencyRows(this.state.cpuFreq)}
+          />
+        </FlexColumn>
+      </FlexRow>
+    )
+  }
 }
+
+const CPUPlugin = {
+  id: CPUFrequencyTable.id,
+  type: PluginType.Device,
+  componentClazz: CPUFrequencyTable
+} as PluginModuleExport<
+  typeof CPUFrequencyTable,
+  any,
+  any,
+  any,
+  any,
+  PluginType.Device
+>
+
+export default CPUPlugin

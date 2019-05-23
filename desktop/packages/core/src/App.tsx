@@ -6,7 +6,7 @@
  */
 import {hot} from "react-hot-loader/root"
 import * as React from 'react';
-import {Action as PluginAction, loadPlugins} from "./reducers/plugins"
+import {Action as PluginAction, loadPlugins} from "./reducers/PluginReducer"
 import { FlexColumn, FlexRow } from './ui';
 import { connect } from 'react-redux';
 import WelcomeScreen from './chrome/WelcomeScreen';
@@ -21,11 +21,11 @@ import PluginContainer from './PluginContainer';
 import Sheet from './chrome/Sheet';
 import { ipcRenderer, remote } from 'electron';
 import PluginDebugger from './chrome/PluginDebugger';
-import { ACTIVE_SHEET_BUG_REPORTER, ACTIVE_SHEET_PLUGIN_DEBUGGER, ACTIVE_SHEET_SHARE_DATA, ACTIVE_SHEET_SIGN_IN, ACTIVE_SHEET_SHARE_DATA_IN_FILE } from './reducers/application';
+import { ACTIVE_SHEET_BUG_REPORTER, ACTIVE_SHEET_PLUGIN_DEBUGGER, ACTIVE_SHEET_SHARE_DATA, ACTIVE_SHEET_SIGN_IN, ACTIVE_SHEET_SHARE_DATA_IN_FILE } from './reducers/ApplicationReducer';
 import { Logger } from './fb-interfaces/Logger';
 import BugReporter from './fb-stubs/BugReporter';
 import BaseDevice from './devices/BaseDevice';
-import { ActiveSheet } from './reducers/application';
+import { ActiveSheet } from './reducers/ApplicationReducer';
 import { Themes, ThemeContext } from './ui/themes';
 
 import styled from './ui/styled';

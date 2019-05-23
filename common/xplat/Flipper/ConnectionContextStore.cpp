@@ -14,6 +14,7 @@
 #include "Log.h"
 
 using namespace facebook::flipper;
+using namespace facebook::flipper::logger;
 
 static constexpr auto CSR_FILE_NAME = "app.csr";
 static constexpr auto FLIPPER_CA_FILE_NAME = "sonarCA.crt";
@@ -141,7 +142,7 @@ std::string loadStringFromFile(std::string fileName) {
   std::string s((std::istreambuf_iterator<char>(stream)), std::istreambuf_iterator<char>());
   //buffer << stream.rdbuf();
   //std::string s = buffer.str();
-  log("INFO: Flipper content: " + s);
+  debugStream() << "DEBUG: Flipper content: " << s;
   return s;
 }
 

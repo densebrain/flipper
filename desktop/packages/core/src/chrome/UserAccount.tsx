@@ -5,10 +5,10 @@
  * @format
  */
 import * as React from "react"
-import { User } from '../reducers/user';
-import { ActiveSheet } from '../reducers/application'
-import { logout } from '../reducers/user';
-import { setActiveSheet, ACTIVE_SHEET_SIGN_IN } from '../reducers/application';
+import { User } from '../reducers/UserReducer';
+import { ActiveSheet } from '../reducers/ApplicationReducer'
+import { logout } from '../reducers/UserReducer';
+import { setActiveSheet, ACTIVE_SHEET_SIGN_IN } from '../reducers/ApplicationReducer';
 import { connect } from 'react-redux';
 import * as Electron from 'electron';
 import { findDOMNode } from 'react-dom';

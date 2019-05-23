@@ -34,7 +34,9 @@ type Actions = {
   }
 }
 class SandboxView extends FlipperPluginComponent<Props,SandboxState, Actions> {
-  static id = "Sandbox"
+  
+  static id = "@flipper/plugin-sandbox"
+  
   static TextInput = styled("input")({
     border: `1px solid ${colors.light10}`,
     fontSize: "1em",
@@ -77,6 +79,7 @@ class SandboxView extends FlipperPluginComponent<Props,SandboxState, Actions> {
   }
 
   init() {
+    super.init()
     this.client.call("getSandbox", {}).then((results: Array<Sandbox>) => {
       this.dispatchAction("UpdateSandboxes",{
         results,

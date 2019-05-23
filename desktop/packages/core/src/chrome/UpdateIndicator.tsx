@@ -5,7 +5,7 @@
  * @format
  */
 import * as React from "react"
-import { LauncherMsg } from "../reducers/application"
+import { LauncherMsg } from "../reducers/ApplicationReducer"
 import styled from "../ui/styled"
 import FlexRow from "../ui/components/FlexRow"
 import {SimpleThemeProps, Theme, withTheme} from "../ui/themes"

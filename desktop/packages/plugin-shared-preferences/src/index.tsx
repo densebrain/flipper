@@ -96,7 +96,8 @@ type Props = FlipperPluginProps<{}>
 
 class SharedPreferencesPlugin extends FlipperPluginComponent<Props, SharedPreferencesState, Actions, {}> {
   
-  static id = "SharedPreferences"
+  static id = "@flipper/plugin-shared-preferences"
+  
   static title = SharedPreferencesPlugin.id
   
   constructor(props: Props) {
@@ -152,6 +153,7 @@ class SharedPreferencesPlugin extends FlipperPluginComponent<Props, SharedPrefer
   }
 
   init() {
+    super.init()
     this.client.call("getAllSharedPreferences").then((results: { [name: string]: SharedPreferences }) => {
       Object.entries(results).forEach(([name, prefs]) => {
         const update = {

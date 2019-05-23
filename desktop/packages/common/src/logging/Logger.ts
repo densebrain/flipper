@@ -34,6 +34,7 @@ export type Logger = {
 export type LoggerAction = keyof Logger
 
 export type LoggerFactory = (filename: string) => Logger
+
 //
 // export interface Logger {
 //
@@ -53,7 +54,7 @@ export interface LoggerBackend {
 export const DefaultLoggerBackend:LoggerBackend = {
   log: (_logger: Logger, category: string, level: LogLevelName, ...args:any[]) => {
   if (level) {
-    if (LogLevel[level] < getLoggerThreshold()) {
+    if (!isLoggingEnabled(category, level)) {
       return
     }
   
@@ -100,7 +101,42 @@ export function getLogger(filename: string): Logger {
   )
 }
 
+export type LoggingException = [string | RegExp, LogLevel]
 
+const loggingExceptions = Array<LoggingException>()
+
+export function addLoggingException(matcher: string | RegExp, level: LogLevel) {
+  loggingExceptions.push([matcher, level])
+}
+
+export function clearLoggingExceptions() {
+  loggingExceptions.length = 0
+}
+
+export function getLoggingExceptions():Array<LoggingException> {
+  return loggingExceptions
+}
+
+// noinspection JSUnusedGlobalSymbols
+Object.assign(global, {
+  addLoggingException,
+  clearLoggingExceptions,
+  getLoggingExceptions,
+  LogLevel
+})
+
+export function isLoggingEnabled(cat: string, levelName: LogLevelName) {
+  const level = LogLevel[levelName]
+  if (level >= getLoggerThreshold()) return true
+  
+  return loggingExceptions
+    .some(([matcher, threshold]) =>
+      level >= threshold &&
+      (isString(matcher) ?
+        matcher === cat.replace(/(\.js|\.tsx?)/,"") :
+        matcher.test(cat))
+    )
+}
 
 export function setLoggerThreshold(level: LogLevel) {
   threshold = level

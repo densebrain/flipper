@@ -8,7 +8,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import Sidebar from '../ui/components/Sidebar';
 import { connect } from 'react-redux';
-import { toggleRightSidebarAvailable } from '../reducers/application';
+import { toggleRightSidebarAvailable } from '../reducers/ApplicationReducer';
 import {RootState} from "../reducers"
 type OwnProps = {
   children: any;

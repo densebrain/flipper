@@ -19,7 +19,12 @@ declare global {
   
   const nodeRequire: NodeRequire
   
-  
+  namespace PQueue {
+    interface DefaultAddOptions {
+      priority?: number
+      [key: string]: unknown
+    }
+  }
 }
 
 Object.assign(global, {

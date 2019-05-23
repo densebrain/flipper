@@ -10,13 +10,13 @@ import {
   PluginNotification,
   updateCategoryBlacklist,
   updatePluginBlacklist
-} from './reducers/notifications'
+} from './reducers/NotificationsReducer'
 import {Logger} from './fb-interfaces/Logger'
 import * as _ from 'lodash'
 import {connect} from 'react-redux'
 import * as React from 'react'
 import {clipboard, MenuItemConstructorOptions} from 'electron'
-import {selectPlugin, SelectPluginPayload} from './reducers/connections'
+import {selectPlugin, SelectPluginPayload} from './reducers/ConnectionsReducer'
 import {textContent} from './utils/index'
 import createPaste from './fb-stubs/createPaste'
 import Device from "./devices/BaseDevice"

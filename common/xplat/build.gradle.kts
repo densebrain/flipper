@@ -6,9 +6,10 @@ android {
   defaultConfig {
     externalNativeBuild {
       cmake {
-        arguments.add("-DANDROID_TOOLCHAIN=clang")
+        arguments.addAll(arrayOf("-DANDROID_TOOLCHAIN=clang","-DCMAKE_CXX_FLAGS=-Wno-error","-DANDROID_DISABLE_FORMAT_STRING_CHECKS=ON"))
         targets.clear()
         targets.add("flippercpp")
+        cppFlags.addAll(arrayOf("-Wno-error"))
       }
     }
   }
@@ -19,13 +20,12 @@ android {
 
 }
 
-dependencies {
-  implementation(project(":common:third-party"))
-//  implementation(project(":folly"))
-//  implementation(project(":libevent"))
-//  implementation(project(":rsocket"))
-//  implementation(project(":glog"))
-//  implementation(project(":doubleconversion"))
+val prepareLibs = tasks.getByPath(":common:third-party:prepare")
+tasks.forEach { t ->
+  if (t.name.startsWith("externalNative"))
+    t.dependsOn(prepareLibs)
 }
 
-//preBuild.dependsOn(tasks.getByPath(":third-party:prepare"))
+tasks.getByName("preBuild").dependsOn(tasks.getByPath(":common:third-party:prepare"))
+
+setupAndroidThirdPartyProject(project)

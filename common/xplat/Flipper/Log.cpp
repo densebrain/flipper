@@ -22,7 +22,7 @@ namespace facebook {
     namespace logger {
 
       LogStream::LogStream(android_LogPriority priority) :
-        std::stringstream(),
+        buffer(NULL),
         priority(priority) {}
 
       LogStream::~LogStream() {

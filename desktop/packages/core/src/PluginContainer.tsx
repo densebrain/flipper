@@ -5,7 +5,9 @@
  * @format
  */
 
+//import * as ReactDOM from 'react-dom'
 import {getLogger} from "@flipper/common"
+import {guard} from "typeguard"
 import {Logger} from './fb-interfaces/Logger'
 import BaseDevice from './devices/BaseDevice'
 import {Plugin, PluginComponent, PluginComponentProps} from './PluginTypes'
@@ -18,8 +20,8 @@ import {RootState, Store} from "./reducers"
 import {connect} from "react-redux"
 import {getPluginKey} from "./utils/pluginUtils"
 import ArchivedDevice from "./devices/ArchivedDevice"
-import {setPluginState} from "./reducers/pluginStates"
-import {selectPlugin} from "./reducers/connections"
+import {setPluginState} from "./reducers/PluginStatesReducer"
+import {selectPlugin} from "./reducers/ConnectionsReducer"
 import { activateMenuItems } from './MenuBar';
 import styled from "./ui/styled"
 import {ThemeProps} from "./ui/themes"
@@ -85,19 +87,48 @@ const PluginContainer = withTheme()(
 class extends React.Component<Props,{}> {
   
   private pluginComponent: PluginComponent | null | undefined = null
-  private pluginComponentRef = React.createRef<PluginComponent>()
+  private pluginComponentRef: PluginComponent | null | undefined// = React.createRef<PluginComponent>()
+  //private pendingUpdateTimer: number | null = null
   
-  constructor(props:Props, context?:any) {
-    super(props, context)
+  private setPluginRef = (ref: PluginComponent | null) => {
+    this.pluginComponentRef = ref
     
-    if (this.props.activePlugin) {
-      this.makePluginComponent()
+    const {activePlugin} = this.props
+    if (ref && activePlugin) {
+      ref.init()
+      activateMenuItems(activePlugin, ref)
     }
   }
   
+  constructor(props:Props, context?:any) {
+    super(props, context)
+  }
   
+  //private initPlugin = () => guard(() => this.pluginComponent.init())
   
-  private makePluginComponent(): void {
+  private selectPlugin = (pluginID: string, deepLinkPayload: string | null | undefined) => {
+    const {
+      target
+    } = this.props; // check if plugin will be available
+  
+    if (target instanceof Client && target.plugins.some(p => p === pluginID)) {
+      this.props.selectPlugin({
+        selectedPlugin: pluginID,
+        deepLinkPayload
+      });
+      return true;
+    } else if (target instanceof BaseDevice) {
+      this.props.selectPlugin({
+        selectedPlugin: pluginID,
+        deepLinkPayload
+      });
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
+  private makePluginComponent(): PluginComponent | null | undefined {
     const {
       pluginState,
       setPluginState,
@@ -107,7 +138,8 @@ class extends React.Component<Props,{}> {
       isArchivedDevice,
       theme,
       logger,
-      store
+      store,
+      deepLinkPayload
     } = this.props;
   
     if (!activePlugin || !target) {
@@ -124,49 +156,46 @@ class extends React.Component<Props,{}> {
         key: pluginKey,
         theme,
         logger,
-        persistedState: componentClazz.defaultPersistedState ? { ...defaultPersistedState,
-          ...pluginState
-        } : pluginState,
+        persistedState: componentClazz.defaultPersistedState ?
+          {
+            ...defaultPersistedState,
+            ...pluginState
+          } :
+          pluginState,
         setPersistedState: state => setPluginState({
           pluginKey,
           state
         }),
         target,
-        deepLinkPayload: this.props.deepLinkPayload,
-        selectPlugin: (pluginID: string, deepLinkPayload: string | null | undefined) => {
-          const {
-            target
-          } = this.props; // check if plugin will be available
-        
-          if (target instanceof Client && target.plugins.some(p => p === pluginID)) {
-            this.props.selectPlugin({
-              selectedPlugin: pluginID,
-              deepLinkPayload
-            });
-            return true;
-          } else if (target instanceof BaseDevice) {
-            this.props.selectPlugin({
-              selectedPlugin: pluginID,
-              deepLinkPayload
-            });
-            return true;
-          } else {
-            return false;
-          }
-        },
-        ref: this.pluginComponentRef,
+        deepLinkPayload: deepLinkPayload,
+        selectPlugin: this.selectPlugin,
+        ref: this.setPluginRef,
         isArchivedDevice
       }
+  
+    return this.pluginComponent = activePlugin.component = React.createElement(componentClazz, pluginProps) as any
     
-    this.pluginComponent = React.createElement(componentClazz, pluginProps) as any
-    activateMenuItems(activePlugin, this.pluginComponent)
+    
   }
 
   componentWillReceiveProps(nextProps:Readonly<Props>, _nextContext:any):void {
     if (nextProps.activePlugin !== this.props.activePlugin) {
-      this.makePluginComponent()
+      const plugin = this.props.activePlugin
+      if (plugin) {
+        if (this.pluginComponent) {
+          guard(() => this.pluginComponentRef.teardown())
+    
+          this.pluginComponent = null
+          this.pluginComponentRef = null //React.createRef()
+        }
+  
+        plugin.component = null
+      }
+      
+      this.forceUpdate()
     }
   }
+  
   
   render(): React.ReactNode | null {
     const {
@@ -182,9 +211,9 @@ class extends React.Component<Props,{}> {
     
     return <>
         <Container key="plugin">
-          {activePlugin && this.pluginComponent &&
+          {activePlugin &&
             <ErrorBoundary heading={`Plugin "${activePlugin.title || 'Unknown'}" encountered an error during render`} logger={logger}>
-              {this.pluginComponent}
+              {this.makePluginComponent()}
             </ErrorBoundary>
           }
         </Container>

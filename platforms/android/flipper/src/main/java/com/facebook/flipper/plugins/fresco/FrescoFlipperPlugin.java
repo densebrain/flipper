@@ -105,7 +105,7 @@ public class FrescoFlipperPlugin extends BufferingFlipperPlugin implements Image
 
   @Override
   public String getId() {
-    return "Fresco";
+    return "@flipper/plugin-fresco";
   }
 
   @Override

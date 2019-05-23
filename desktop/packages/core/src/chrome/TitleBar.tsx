@@ -5,9 +5,9 @@
  * @format
  */
 import * as React from "react"
-import { ActiveSheet, LauncherMsg } from '../reducers/application';
+import { ActiveSheet, LauncherMsg } from '../reducers/ApplicationReducer';
 import { connect } from 'react-redux';
-import { setActiveSheet, toggleLeftSidebarVisible, toggleRightSidebarVisible, ACTIVE_SHEET_BUG_REPORTER } from '../reducers/application';
+import { setActiveSheet, toggleLeftSidebarVisible, toggleRightSidebarVisible, ACTIVE_SHEET_BUG_REPORTER } from '../reducers/ApplicationReducer';
 import DevicesButton from './DevicesButton';
 import ScreenCaptureButtons from './ScreenCaptureButtons';
 import AutoUpdateVersion from './AutoUpdateVersion';
@@ -76,7 +76,7 @@ const Importing = styled(FlexRow)(({
   color: theme.colors.textStatus,
   alignItems: 'center',
   marginLeft: 10
-}));
+}),{name: "Importing"});
 
 export class TitleBarNaked extends React.Component<Props> {
   
@@ -96,12 +96,12 @@ export class TitleBarNaked extends React.Component<Props> {
     return <AppTitleBar focused={windowIsFocused} className="toolbar">
         <DevicesButton />
         <ScreenCaptureButtons />
-        {downloadingImportData && <Importing>
+        {downloadingImportData && <Importing className="flipper-titlebar">
             <LoadingIndicator size={16} />
             &nbsp;Importing data...
           </Importing>}
-        <Spacer />
-        <VersionText>
+        <Spacer className="flipper-titlebar" />
+        <VersionText className="flipper-titlebar">
           {version}
           {isProduction() ? '' : '-dev'}
         </VersionText>

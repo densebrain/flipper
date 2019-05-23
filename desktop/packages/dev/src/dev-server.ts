@@ -78,6 +78,7 @@ function makeDevPluginModule(id: string): DevPluginModule {
 // This is the real meat of the example
 // ************************************
 export async function startDevServer() {
+  
   ipcServer = await getDevIPCServer()
   ipcServer.on("getPlugins", (_ipc, _type, _msg) => {
     ipcServer.emit<"getPlugins">("getPlugins", {
@@ -90,6 +91,22 @@ export async function startDevServer() {
       // }))
     })
   })
+  
+  
+  const fireChanged = _.debounce((name: string) => {
+    if (name === "app") {
+      log.info("Main process updated bundle")
+      updateElectron()
+    } else if (name.startsWith("plugin-")) {
+      if (ipcServer) {
+        const id = `@flipper/${name}`
+        ipcServer.emit("pluginUpdated", {
+          plugin: makeDevPluginModule(id)
+        })
+      }
+    }
+  },1000)
+  
   const app = express(),
     webpackConfig = await generateWebpackConfig(port, "development"),
     multiCompiler = webpack(webpackConfig),
@@ -176,16 +193,8 @@ export async function startDevServer() {
           if (isReady()) {
             if (!readyDeferred.isSettled()) {
               readyDeferred.resolve()
-            } else if (name === "app") {
-              log.info("Main process updated bundle")
-              updateElectron()
-            } else if (name.startsWith("plugin-")) {
-              if (ipcServer) {
-                const id = `@flipper/${name}`
-                ipcServer.emit("pluginUpdated", {
-                  plugin: makeDevPluginModule(id)
-                })
-              }
+            } else {
+              fireChanged(name)
             }
           }
           log.info(
@@ -200,7 +209,7 @@ export async function startDevServer() {
   log.info("Waiting for required packages...")
   await readyDeferred.promise
 
-  log.info(`All required packages are ready`, compiledPackages)
+  log.info(`All required packages are ready`, Object.keys(compiledPackages))
 
   app.use(Morgan("short"))
 

@@ -4,7 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import {default as reducer, registerPlugins} from "../plugins"
+import {default as reducer, registerPlugins} from "../PluginReducer"
 import {FlipperBasePluginComponent, FlipperDevicePluginComponent, FlipperPluginComponent} from "../../plugin"
 import {makeDevicePlugin, makeNormalPlugin} from "../../PluginTypes"
 import {Device} from "../../index"

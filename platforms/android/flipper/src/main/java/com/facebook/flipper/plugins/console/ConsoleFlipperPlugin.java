@@ -22,7 +22,7 @@ public class ConsoleFlipperPlugin implements FlipperPlugin {
 
   @Override
   public String getId() {
-    return "Console";
+    return "@flipper/plugin-console";
   }
 
   @Override

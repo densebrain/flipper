@@ -71,7 +71,6 @@ add_compile_options(
   -DFOLLY_HAVE_PREADV=0
   -frtti
   -fexceptions
-  -Wno-error
   -Wno-unused-local-typedefs
   -Wno-unused-variable
   -Wno-sign-compare
@@ -79,6 +78,9 @@ add_compile_options(
   -Wno-return-type
   -Wno-tautological-constant-compare
 )
+
+#-Wno-error
+#-Wno-error=format-security
 
 
 link_directories(

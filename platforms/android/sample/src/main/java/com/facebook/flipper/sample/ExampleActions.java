@@ -11,6 +11,7 @@ import okhttp3.FormBody;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public final class ExampleActions {
 
@@ -24,7 +25,8 @@ public final class ExampleActions {
             .post(formBody)
             .build();
 
-    FlipperSampleApplication.sOkHttpClient
+    //noinspection NullableProblems
+    FlipperSampleApplication.getHttpClient()
         .newCall(request)
         .enqueue(
             new Callback() {
@@ -37,7 +39,9 @@ public final class ExampleActions {
               @Override
               public void onResponse(final Call call, final Response response) throws IOException {
                 if (response.isSuccessful()) {
-                  Log.d("Flipper", response.body().string());
+                  ResponseBody body = response.body();
+                  if (body == null) throw new IllegalStateException("Body is null");
+                  Log.d("Flipper", body.string());
                 } else {
                   Log.d("Flipper", "not successful");
                 }
@@ -48,7 +52,9 @@ public final class ExampleActions {
   public static void sendGetRequest() {
     final Request request =
         new Request.Builder().url("https://api.github.com/repos/facebook/yoga").get().build();
-    FlipperSampleApplication.sOkHttpClient
+
+    //noinspection NullableProblems
+    FlipperSampleApplication.getHttpClient()
         .newCall(request)
         .enqueue(
             new Callback() {

@@ -22,7 +22,7 @@ import {
   TableHighlightedRows,
   TableRows
 } from "./ui/components/table/types"
-import {Plugin, PluginActionPayloadParam, PluginActions} from "./PluginTypes"
+import {Plugin, PluginActions, PluginClientMessage} from "./PluginTypes"
 import {Run} from "./utils/runtime"
 import {isDefined} from "typeguard"
 import {getLogger} from "./fb-interfaces/Logger"
@@ -50,7 +50,7 @@ export type TablePluginMetadata = {
   columnOrder?:Array<TableColumnOrderVal>;
   filterableColumns?:Set<string>;
 };
-type TablePluginProps<PersistedState extends TablePluginPersistedState<T>, Actions extends PluginActions, ExtraProps, T = any> = FlipperPluginProps<PersistedState> & {
+type TablePluginProps<PersistedState extends TablePluginPersistedState<T>, Actions extends PluginActions<any,any>, ExtraProps, T = any> = FlipperPluginProps<PersistedState> & {
   method:Actions["type"];
   resetMethod?:string;
   renderSidebar:(row:T) => any;
@@ -135,10 +135,19 @@ export function createTablePlugin<
     
     static persistedStateReducer<Type extends Actions["type"] = any>(
       persistedState: PersistedState,
-      method: Type,
-      payload: PluginActionPayloadParam<Actions, Type>
+      msg: PluginClientMessage<Type,Actions[Type]>
     ):Partial<PersistedState> {
-      if (method === props.method) {
+      
+      if (!msg)
+        return persistedState
+      
+      const {type, payload} = msg
+      
+      if (type === props.resetMethod) {
+        return {
+          ...persistedState, rows: [], data: {}
+        }
+      } else if (type) {
         const newRows = []
         const newData:TablePluginPersistedDataType<RowData> = {}
         const items = (Array.isArray(payload) ? payload : [payload]) as Array<RowData>
@@ -170,15 +179,9 @@ export function createTablePlugin<
           },
           rows: [...persistedState.rows, ...newRows]
         }
-      } else if (method === props.resetMethod) {
-        return {
-          ...persistedState,
-          rows: [],
-          data: {}
-        }
-      } else {
-        return {}
       }
+      
+      return persistedState
     };
     
     static exportPersistedState<PluginType extends Plugin = any>(

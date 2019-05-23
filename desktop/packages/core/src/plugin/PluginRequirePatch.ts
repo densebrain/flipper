@@ -24,7 +24,7 @@ export default async function patchRequire() {
       refs = await PluginModuleWhitelistRefs() as any
     
     NodeModule.prototype.require = function(id: string): any {
-      log.info(`require(${id})`)
+      //log.info(`require(${id})`)
       if (refs[id]) {
         return refs[id]
       } else if (webpackModules[id]) {

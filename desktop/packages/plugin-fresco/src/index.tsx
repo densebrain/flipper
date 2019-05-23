@@ -60,7 +60,7 @@ const surfaceDefaultText = "SELECT ALL SURFACES"
 type Props = FlipperPluginProps<PersistedState>
 
 class FrescoPlugin extends FlipperPluginComponent<Props, PluginState, {}, PersistedState> {
-  static id = "Fresco"
+  static id = "@flipper/plugin-fresco"
   
   static defaultPersistedState: PersistedState = {
     images: [],
@@ -86,11 +86,8 @@ class FrescoPlugin extends FlipperPluginComponent<Props, PluginState, {}, Persis
   
 
   init() {
-    if (DEBUG) {
-      // eslint-disable-next-line no-console
-      console.log("init()")
-    }
-
+    super.init()
+    
     this.updateCaches("init")
     this.client.subscribe("events", (event: ImageEvent) => {
       const { surfaceList } = this.props.persistedState

@@ -7,8 +7,8 @@
 import { Component } from "react"
 import { createPortal } from "react-dom"
 import { connect } from "react-redux"
-import { setActiveSheet } from "../../reducers/application"
-import { ActiveSheet } from "../../reducers/application"
+import { setActiveSheet } from "../../reducers/ApplicationReducer"
+import { ActiveSheet } from "../../reducers/ApplicationReducer"
 import {RootState} from "../../reducers"
 export const PLUGIN_SHEET_ELEMENT_ID = "pluginSheetContents"
 type StateProps = {

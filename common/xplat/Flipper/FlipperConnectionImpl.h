@@ -33,11 +33,11 @@ class FlipperConnectionImpl : public FlipperConnection {
     receivers_.at(method)(params, responder);
   }
 
-  void send(const std::string& method, const folly::dynamic& params) override {
+  void send(const std::string& method, const folly::dynamic& payload) override {
     folly::dynamic message = folly::dynamic::object("method", "execute")(
-        "params",
-        folly::dynamic::object("api", name_)("method", method)(
-            "params", params));
+        "payload",
+        folly::dynamic::object("api", name_)("type", method)("payload", payload));
+
     socket_->sendMessage(message);
   }
 

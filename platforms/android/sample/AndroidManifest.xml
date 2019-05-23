@@ -13,6 +13,7 @@
       android:allowBackup="false"
       android:theme="@style/NoTitleBarWhiteBG"
       android:debuggable="true">
+    <!--<service android:name="com.facebook.flipper.plugins.leakcanary.RecordLeakService" />-->
     <activity android:name=".MainActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>

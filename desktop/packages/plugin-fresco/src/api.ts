@@ -8,9 +8,9 @@ export type ImageId = string // Listing images
 
 export type CacheInfo = {
   cacheType: string,
-  clearKey?: null,
+  clearKey?: string | undefined,
   sizeBytes: number,
-  maxSizeBytes?: number,
+  maxSizeBytes?: number | undefined,
   imageIds: Array<ImageId>
 }
 export type ImagesList = Array<CacheInfo> // The iOS Flipper api does not support a top-level array, so we wrap it in an object

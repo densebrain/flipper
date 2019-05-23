@@ -87,17 +87,25 @@ function decompress(body: string): string {
 }
 
 export default class RequestDetails extends Component<RequestDetailsProps, RequestDetailsState> {
+  
   static Container = styled(FlexColumn)({
     height: "100%",
     overflow: "auto"
   })
+  
   static BodyOptions = {
     formatted: "formatted",
     parsed: "parsed"
   }
-  state: RequestDetailsState = {
-    bodyFormat: RequestDetails.BodyOptions.parsed
+  
+  constructor(props: RequestDetailsProps) {
+    super(props)
+    
+    this.state = {
+      bodyFormat: RequestDetails.BodyOptions.parsed
+    }
   }
+  
   urlColumns = (url: URL) => {
     return [
       {
@@ -163,7 +171,7 @@ export default class RequestDetails extends Component<RequestDetailsProps, Reque
     const formattedText = bodyFormat == RequestDetails.BodyOptions.formatted
     return (
       <RequestDetails.Container>
-        <Panel heading={"Request"} floating={false} padded={false}>
+        <Panel key="request" heading={"Request"} floating={false} padded={false}>
           <ManagedTable
             multiline={true}
             columnSizes={KeyValueColumnSizes}
@@ -176,35 +184,38 @@ export default class RequestDetails extends Component<RequestDetailsProps, Reque
         </Panel>
 
         {url.search ? (
-          <Panel heading={"Request Query Parameters"} floating={false} padded={false}>
+          <Panel key="request-query-params" heading={"Request Query Parameters"} floating={false} padded={false}>
             <QueryInspector queryParams={url.searchParams} />
           </Panel>
         ) : null}
 
         {request.headers.length > 0 ? (
-          <Panel heading={"Request Headers"} floating={false} padded={false}>
+          <Panel key="request-headers" heading={"Request Headers"} floating={false} padded={false}>
             <HeaderInspector headers={request.headers} />
           </Panel>
         ) : null}
 
         {request.data != null ? (
-          <Panel heading={"Request Body"} floating={false} padded={!formattedText}>
+          <Panel key="request-body" heading={"Request Body"} floating={false} padded={!formattedText}>
             <RequestBodyInspector formattedText={formattedText} request={request} />
           </Panel>
         ) : null}
+        
         {response
           ? [
-              response.headers.length > 0 ? (
-                <Panel heading={"Response Headers"} floating={false} padded={false}>
+            ...(response.headers.length > 0 ? [
+                <Panel key="response-headers" heading={"Response Headers"} floating={false} padded={false}>
                   <HeaderInspector headers={response.headers} />
                 </Panel>
-              ) : null,
-              <Panel heading={"Response Body"} floating={false} padded={!formattedText}>
+              ] : []),
+              <Panel key="response-body" heading={"Response Body"} floating={false} padded={!formattedText}>
                 <ResponseBodyInspector formattedText={formattedText} request={request} response={response} />
               </Panel>
             ]
-          : null}
-        <Panel heading={"Options"} floating={false} collapsed={true}>
+          : null
+        }
+        
+        <Panel key="options" heading={"Options"} floating={false} collapsed={true}>
           <Select
             grow
             label="Body"

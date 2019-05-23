@@ -16,7 +16,7 @@ import com.facebook.flipper.core.FlipperResponder;
 import java.util.Map;
 
 public class SandboxFlipperPlugin implements FlipperPlugin {
-  public static final String ID = "Sandbox";
+  public static final String ID = "@flipper/plugin-sandbox";
 
   private static final String SET_METHOD_NAME = "setSandbox";
   private static final String GET_METHOD_NAME = "getSandbox";

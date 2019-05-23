@@ -40,4 +40,5 @@ repositories {
 dependencies {
   "api"(gradleApi())
   "api"("com.android.tools.build:gradle:${Plugins.Android}")
+  "implementation"("com.jfrog.bintray.gradle:gradle-bintray-plugin:${Plugins.Bintray}")
 }

@@ -25,7 +25,7 @@ client.addPlugin(networkFlipperPlugin);
 If you are using the popular OkHttp library, you can use the Interceptors system to automatically hook into your existing stack.
 
 ```java
-import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor;
+import com.facebook.flipper.plugins.network.FlipperOkHttpInterceptor;
 
 new OkHttpClient.Builder()
     .addNetworkInterceptor(new FlipperOkhttpInterceptor(networkFlipperPlugin))

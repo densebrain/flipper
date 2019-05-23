@@ -8,6 +8,7 @@
  */
 
 
+
 import * as Electron from "electron"
 
 import * as Fs from "fs"
@@ -18,29 +19,27 @@ import * as url from "url"
 import {MainState} from "./types"
 import * as _ from 'lodash'
 
-const {app, session, BrowserWindow, ipcMain} = Electron
+const
+  {app, session, BrowserWindow, ipcMain} = Electron,
+  {env} = process as any
 
-const [s, ns] = process.hrtime()
 
-
-let launchStartTime = s * 1e3 + ns / 1e6
-
-console.info(`Started at: ${launchStartTime}`)
 
 if (!app) {
   console.error("This is not a single instance")
   process.exit(0)
-} // disable electron security warnings:
-  // https://github.com/electron/electron/blob/master/docs/tutorial/security.md#security-native-capabilities-and-your-responsibility
+}
 
-;(process.env as any).ELECTRON_DISABLE_SECURITY_WARNINGS = true
-
-
-
+// disable electron security warnings:
+// https://github.com/electron/electron/blob/master/docs/tutorial/security.md#security-native-capabilities-and-your-responsibility
+env.ELECTRON_DISABLE_SECURITY_WARNINGS = true
 
 async function onReady() {
-  await import("@flipper/common")
-  const {getLogger} = await import("@flipper/common"), {setup} = await import("@flipper/init"),
+  
+  const
+    FlipperCommon = await import("@flipper/common"),
+    {getLogger} = FlipperCommon,
+    {setup} = await import("@flipper/init"),
     
     checkMacAppName = (await import("./env-fixes/mac-app-name")).default,
     delegateToLauncher = (await import("./launcher")).default,
@@ -119,40 +118,7 @@ async function onReady() {
   })
   
   
-  ipcMain.on("getLaunchTime", (event:Electron.Event) => {
-    if (launchStartTime) {
-      event.sender.send("getLaunchTime", launchStartTime) // set launchTime to null to only report it once, to prevents
-                                                          // reporting wrong
-      // launch times for example after reloading the renderer process
-      
-      launchStartTime = null
-    }
-  })
-  
-  
-  ipcMain.on("sendNotification", (e:any, {payload, pluginNotification, closeAfter}:any) => {
-    // notifications can only be sent when app is ready
-    
-    const n = new Electron.Notification(payload) // Forwarding notification events to renderer process
-    // https://electronjs.org/docs/api/notification#instance-events
-    
-    const NotificationEvents = ["show", "click", "close", "reply", "action"]
-    type NotificationEvent = typeof NotificationEvents[number]
-    
-    NotificationEvents.forEach((eventName:NotificationEvent) => {
-      n.on(eventName as any, (_event:any, ...args:any) => {
-        e.sender.send("notificationEvent", eventName, pluginNotification, ...args)
-      })
-    })
-    n.show()
-    
-    if (closeAfter) {
-      setTimeout(() => {
-        n.close()
-      }, closeAfter)
-    }
-    
-  }) // Define custom protocol handler. Deep linking works on packaged versions of the application!
+  await import("./IPCHandlers")
   
   app.setAsDefaultProtocolClient("flipper")
   

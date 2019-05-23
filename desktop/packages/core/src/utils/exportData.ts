@@ -11,8 +11,8 @@ import {
   pluginKey,
   PluginStatesState as PluginStatesState,
   PluginStatesState as PluginStates
-} from "../reducers/pluginStates"
-import {PluginNotification} from "../reducers/notifications"
+} from "../reducers/PluginStatesReducer"
+import {PluginNotification} from "../reducers/NotificationsReducer"
 import {ClientExport, default as Client} from "../Client"
 import {default as ArchivedDevice} from "../devices/ArchivedDevice"
 import fs from "fs"

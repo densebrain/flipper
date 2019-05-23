@@ -15,7 +15,7 @@ import {
   FlipperPluginProps,
   Glyph,
   KeyboardActions,
-  Notification,
+  Notification, PluginClientMessage,
   PluginModuleExport,
   PluginType,
   PureComponent,
@@ -165,10 +165,15 @@ type Actions = {
   newResponse:{ type:"newResponse" } & Response
   newRequest:{ type:"newRequest" } & Request
 }
+
+type NetworkClientMessage =
+  PluginClientMessage<"newResponse", Response> |
+  PluginClientMessage<"newRequest", Request>
+
 type Props = FlipperPluginProps<PersistedState>
 
 class NetworkPluginComponent extends FlipperPluginComponent<Props, State, Actions, PersistedState> {
-  static id = "Network"
+  static id = "@flipper/plugin-network"
   static keyboardActions:KeyboardActions = ["clear"]
   //static subscribed = []
   static defaultPersistedState = {
@@ -178,13 +183,13 @@ class NetworkPluginComponent extends FlipperPluginComponent<Props, State, Action
   
   static persistedStateReducer = (
     persistedState:PersistedState,
-    method:keyof Actions,
-    data:Actions[typeof method]
+    msg: NetworkClientMessage
   ):PersistedState => {
-    switch (data.type) {
-      case "newRequest":
-        return {...persistedState, requests: {...persistedState["requests"], [data.id]: data}}
-      case "newResponse":
+    if (msg.type === "newRequest") {
+      const {payload: data} = msg
+      return {...persistedState, requests: {...persistedState["requests"], [data.id]: data}}
+    } else if (msg.type === "newResponse") {
+        const {payload:data} = msg
         return {...persistedState, responses: {...persistedState["responses"], [data.id]: data}}
     }
     return persistedState

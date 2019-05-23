@@ -7,7 +7,6 @@ plugins {
   id("com.github.dcendents.android-maven") version ("2.1")
 }
 
-apply(from = "native.gradle")
 
 setupAndroidProject(project)
 
@@ -17,27 +16,44 @@ android {
   }
 }
 
-
+apply(from = "native.gradle")
 
 tasks {
-  create("prepare") {
-    dependsOn(getByName("prepareAllLibs"))
+  val prepareAllLibs = getByName("prepareAllLibs")
+
+  // After preparation, assemble
+  prepareAllLibs.finalizedBy(
+    arrayOf("folly","double-conversion", "glog", "LibEvent", "RSocket")
+      .map { ":common:third-party:external:${it}:assemble" }
+  )
+
+  val prepare = create("prepare") {
+    dependsOn(prepareAllLibs)
   }
 
   getByName("build") {
-    dependsOn(getByName("prepare"))
+    dependsOn(prepare)
   }
 
   getByName("clean") {
     dependsOn(getByName("cleanNative"))
   }
+
+  getByName("preBuild") {
+    dependsOn(prepare)
+  }
 }
 
-dependencies {
-  "implementation"(project(":common:third-party:external:folly"))
-  "implementation"(project(":common:third-party:external:double-conversion"))
-  "implementation"(project(":common:third-party:external:glog"))
-  "implementation"(project(":common:third-party:external:LibEvent"))
-  "implementation"(project(":common:third-party:external:RSocket"))
-}
+
+
+
+
+
+//dependencies {
+//  "implementation"(project(":common:third-party:external:folly"))
+//  "implementation"(project(":common:third-party:external:double-conversion"))
+//  "implementation"(project(":common:third-party:external:glog"))
+//  "implementation"(project(":common:third-party:external:LibEvent"))
+//  "implementation"(project(":common:third-party:external:RSocket"))
+//}
 

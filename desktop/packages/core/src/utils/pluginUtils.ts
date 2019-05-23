@@ -5,7 +5,7 @@
  * @format
  */
 import BaseDevice from "../devices/BaseDevice"
-import { PluginStatesState as PluginStatesState } from "../reducers/pluginStates"
+import { PluginStatesState as PluginStatesState } from "../reducers/PluginStatesReducer"
 import {PluginModuleExport, PluginType} from "../PluginTypes"
 export function getPluginKey(
   selectedApp: string | null | undefined,

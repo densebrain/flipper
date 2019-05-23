@@ -6,7 +6,7 @@
  */
 import { Store } from "../reducers/index"
 import BaseDevice from "../devices/BaseDevice"
-import { setPluginState } from "../reducers/pluginStates"
+import { setPluginState } from "../reducers/PluginStatesReducer"
 import { getPersistedState } from "../utils/pluginUtils"
 import {DevicePlugin, Plugin} from "../PluginTypes"
 

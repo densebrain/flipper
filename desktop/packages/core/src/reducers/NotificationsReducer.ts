@@ -5,8 +5,11 @@
  * @format
  */
 import { Notification } from "../PluginTypes"
+import * as _ from 'lodash'
+
 export type PluginNotification = {
   notification: Notification,
+  read?: boolean
   pluginId: string,
   client: string | null | undefined
 }
@@ -17,26 +20,22 @@ export type State = {
   blacklistedCategories: Array<string>,
   clearedNotifications: Set<string>
 }
+
+type ActiveNotificationsPayload = Array<{
+  notifications: Array<Notification>,
+  client: string | null | undefined,
+  pluginId: string
+}>
+
 type ActiveNotificationsAction = {
-  type: "SET_ACTIVE_NOTIFICATIONS",
-  payload: {
-    notifications: Array<Notification>,
-    client: string | null | undefined,
-    pluginId: string
-  }
+  type: "SET_ACTIVE_NOTIFICATIONS"
+  payload: ActiveNotificationsPayload
 }
 export type Action =
   | {
       type: "CLEAR_ALL_NOTIFICATIONS"
     }
-  | {
-      type: "SET_ACTIVE_NOTIFICATIONS",
-      payload: {
-        notifications: Array<Notification>,
-        client: string | null | undefined,
-        pluginId: string
-      }
-    }
+  | ActiveNotificationsAction
   | {
       type: "UPDATE_PLUGIN_BLACKLIST",
       payload: Array<string>
@@ -79,43 +78,45 @@ export default function reducer(state: State = INITIAL_STATE, action: Action): S
 }
 
 function activeNotificationsReducer(state: State, action: ActiveNotificationsAction): State {
-  const { payload } = action
-  const newActiveNotifications = []
-  const newInactivatedNotifications = state.invalidatedNotifications
-  const newIDs = new Set(payload.notifications.map((n: Notification) => n.id))
-
-  for (const activeNotification of state.activeNotifications) {
-    if (activeNotification.pluginId !== payload.pluginId) {
-      newActiveNotifications.push(activeNotification)
-      continue
-    }
-
-    if (!newIDs.has(activeNotification.notification.id)) {
-      newInactivatedNotifications.push(activeNotification)
-    }
-  }
-
-  payload.notifications
-    .filter(({ id }: Notification) => !state.clearedNotifications.has(`${payload.pluginId}#${id}`))
-    .forEach((notification: Notification) => {
-      newActiveNotifications.push({
-        pluginId: payload.pluginId,
-        client: payload.client,
-        notification
-      })
-    })
+  const
+    {payload} = action,
+    allNotifications = _.flatten(payload
+      .map(({notifications, client, pluginId}) =>
+        notifications.map(notification => ({notification,client, pluginId}))
+      ))
+      
+  // const newActiveNotifications = []
+  // const newInactivatedNotifications = state.invalidatedNotifications
+  // const newIDs = new Set(payload.notifications.map((n: Notification) => n.id))
+  //
+  // for (const activeNotification of state.activeNotifications) {
+  //   if (activeNotification.pluginId !== payload.pluginId) {
+  //     newActiveNotifications.push(activeNotification)
+  //     continue
+  //   }
+  //
+  //   if (!newIDs.has(activeNotification.notification.id)) {
+  //     newInactivatedNotifications.push(activeNotification)
+  //   }
+  // }
+  //
+  // payload.notifications
+  //   .filter(({ id }: Notification) => !state.clearedNotifications.has(`${payload.pluginId}#${id}`))
+  //   .forEach((notification: Notification) => {
+  //     newActiveNotifications.push({
+  //       pluginId: payload.pluginId,
+  //       client: payload.client,
+  //       notification
+  //     })
+  //   })
   return {
     ...state,
-    activeNotifications: newActiveNotifications,
-    invalidatedNotifications: newInactivatedNotifications
+    activeNotifications: allNotifications,
+    invalidatedNotifications: []
   }
 }
 
-export function setActiveNotifications(payload: {
-  notifications: Array<Notification>,
-  client: string | null | undefined,
-  pluginId: string
-}): Action {
+export function setActiveNotifications(payload: ActiveNotificationsPayload): Action {
   return {
     type: "SET_ACTIVE_NOTIFICATIONS",
     payload

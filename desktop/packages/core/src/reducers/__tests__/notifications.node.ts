@@ -4,7 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import { State } from "../notifications"
+import { State } from "../NotificationsReducer"
 import {Notification} from "../../PluginTypes"
 import {
   default as reducer,
@@ -12,7 +12,7 @@ import {
   clearAllNotifications,
   updatePluginBlacklist,
   updateCategoryBlacklist
-} from "../notifications"
+} from "../NotificationsReducer"
 const notification = {
   id: "id",
   title: "title",
@@ -63,11 +63,11 @@ test("reduce setActiveNotifications", () => {
   const client = "client"
   const res = reducer(
     getInitialState(),
-    setActiveNotifications({
+    setActiveNotifications([{
       notifications: [notification],
       client,
       pluginId
-    })
+    }])
   )
   expect(res).toEqual({
     ...getInitialState(),

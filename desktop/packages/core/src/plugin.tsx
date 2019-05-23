@@ -13,13 +13,12 @@ import BaseDevice from "./devices/BaseDevice"
 import AndroidDevice from "./devices/AndroidDevice"
 import IOSDevice from "./devices/IOSDevice"
 import {Theme} from "./ui/themes"
-import {Notification, PluginActionPayloadParam, PluginActions, PluginReducers} from "./PluginTypes"
+import {Notification, PluginActions, PluginReducers} from "./PluginTypes"
 import {
   DevicePluginComponent,
   PluginClient,
   PluginComponent,
-  PluginComponentProps,
-  PluginTarget
+  PluginComponentProps
 } from "./PluginTypes"
 import {KeyboardActionHandler} from "./KeyboardTypes"
 
@@ -78,9 +77,9 @@ export class FlipperBasePluginComponent<Props extends FlipperPluginProps<Persist
   // }
   
   
-  getActiveNotifications(_persistedState:PersistedState):Array<Notification> {
-    return []
-  }
+  // getActiveNotifications(_persistedState:PersistedState):Array<Notification> {
+  //   return []
+  // }
   
   onRegisterDevice(
     _store:FlipperStore,
@@ -109,13 +108,7 @@ export class FlipperBasePluginComponent<Props extends FlipperPluginProps<Persist
     return []
   } // methods to be overridden by subclasses
   
-  _init():void {
-  }
-  
-  _teardown():void {
-  }
-  
-  dispatchAction<Type extends Actions["type"], Payload extends PluginActionPayloadParam<Actions, Type>>(type:Type, payload:Payload) {
+  dispatchAction<Type extends Actions["type"], Payload extends Actions[Type] = Actions[Type]>(type:Type, payload:Payload) {
     // $FlowFixMe
     const action = this.reducers[type]
     
@@ -132,11 +125,44 @@ export class FlipperBasePluginComponent<Props extends FlipperPluginProps<Persist
   }
   
   
+  getDevice(): BaseDevice | null {
+    throw new Error("getDevice() not implemented in base plugin")
+  }
+  
+  getAndroidDevice():AndroidDevice | null {
+    const device = this.getDevice()
+    if (device != null && !(device instanceof AndroidDevice))
+      throw new Error("expected android device")
+    
+    return device as any
+  }
+  
+  getIOSDevice():IOSDevice | null {
+    const device = this.getDevice()
+    if (device != null && !(device instanceof IOSDevice))
+      throw new Error("expected ios device")
+    
+    return device as any
+  }
   
 }
 
-export class FlipperPluginComponent<Props extends FlipperPluginProps<PersistedState> = any, State = any, Actions extends PluginActions = any, PersistedState = any>
-  extends FlipperBasePluginComponent<Props, State, Actions, PersistedState> implements DevicePluginComponent<Props, State, Actions, PersistedState> {
+export class FlipperPluginComponent<
+  Props extends FlipperPluginProps<PersistedState> = any,
+  State = any,
+  Actions extends PluginActions = any,
+  PersistedState = any
+> extends FlipperBasePluginComponent<
+  Props,
+  State,
+  Actions,
+  PersistedState
+> implements PluginComponent<
+  Props,
+  State,
+  Actions,
+  PersistedState
+> {
   
   subscriptions:Array<{
     method:string,
@@ -189,27 +215,27 @@ export class FlipperPluginComponent<Props extends FlipperPluginProps<PersistedSt
     return device as any
   }
   
-  _teardown() {
+  teardown() {
     // automatically unsubscribe subscriptions
     for (const {method, callback} of this.subscriptions) {
       this.realClient.unsubscribe(this.id, method, callback)
     }
     
-    this.teardown()
+    super.teardown()
     
     if (this.realClient.connected) {
       this.realClient.deinitPlugin(this.id)
     }
   }
   
-  _init() {
+  init() {
     this.realClient.initPlugin(this.id)
-    this.init()
+    super.init()
   }
 }
 
 export class FlipperDevicePluginComponent<Props extends FlipperPluginProps<PersistedState> = any, State = any, Actions extends PluginActions = any, PersistedState = any>
-  extends FlipperPluginComponent<
+  extends FlipperBasePluginComponent<
     Props,
     State,
     Actions,
@@ -221,19 +247,22 @@ export class FlipperDevicePluginComponent<Props extends FlipperPluginProps<Persi
     PersistedState
   > {
   
-  device:PluginTarget
+  static supportsDevice(_device:BaseDevice) {
+    throw new Error("supportsDevice is unimplemented in FlipperDevicePlugin class")
+  }
   
+  readonly device:BaseDevice
   
   constructor(props:Props) {
     super(props)
-    this.device = props.target
+    this.device = props.target as BaseDevice
   }
   
-  _init() {
-    this.init()
+  init() {
+    super.init()
   }
   
-  static supportsDevice(_device:BaseDevice) {
-    throw new Error("supportsDevice is unimplemented in FlipperDevicePlugin class")
+  getDevice():BaseDevice | null {
+    return this.device;
   }
 }

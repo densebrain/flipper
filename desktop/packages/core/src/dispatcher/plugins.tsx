@@ -27,7 +27,7 @@ import {
   addGatekeepedPlugins,
   registerPlugins,
   State
-} from "../reducers/plugins"
+} from "../reducers/PluginReducer"
 import isProduction from "../utils/isProduction"
 import { default as config } from "../utils/processConfig"
 //import * as React from "react"
@@ -106,15 +106,20 @@ export default async function(store: Store, _logger: Logger) {
 async function loadPlugin(store: Store, ...metadata: PluginMetadata[]) {
   const failedPlugins = Array<PluginError>(),
     requirePlugin = makeRequirePlugin(failedPlugins),
+    //state = store.getState(),
     plugins = (await Promise.all(
-      metadata.map(async md => {
-        try {
-          return await requirePlugin(md)
-        } catch (err) {
-          log.error(`Unable to load plugin`, md)
-          return null
-        }
-      })
+      metadata
+        // .filter(md =>
+        //   !state.plugins.devicePlugins.has(md.id) &&
+        //   !state.plugins.clientPlugins.has(md.id))
+        .map(async md => {
+          try {
+            return await requirePlugin(md)
+          } catch (err) {
+            log.error(`Unable to load plugin`, md)
+            return null
+          }
+        })
     )).filter(Boolean)
 
   if (failedPlugins.length) {
@@ -202,9 +207,17 @@ export const checkDisabled = (disabledPlugins: Array<Plugin>) => (
   return !disabledList.has(plugin.id)
 }
 
+/**
+ * Create a require function for a given
+ * point in the store state
+ *
+ * @param {Array<PluginError>} failedPlugins
+ * @returns {(pluginExport: Partial<Plugin>) => Promise<Plugin | null | undefined>}
+ */
 export const makeRequirePlugin = (failedPlugins: Array<PluginError>) => async (
   pluginExport: Partial<Plugin>
 ): Promise<Plugin | null | undefined> => {
+  
   const { id, pkg, path: pluginPath } = pluginExport
 
   let plugin: Plugin | null = null
@@ -212,30 +225,6 @@ export const makeRequirePlugin = (failedPlugins: Array<PluginError>) => async (
     const loader = await PluginLoader.load({ id, path: pluginPath }),
       { pkg, plugin } = loader
 
-    //
-    // const pluginFlow:Array<[() => (true | Error), (err?:Error | null | undefined) => string]> = [
-    //   [() => !!pkg.main ? true : new Error(`Main not specified`), err => `Main not defined in ${pluginPath}: ${err.message}`],
-    //   [() => Run(() => {
-    //     try {
-    //       plugin = reqFn(pkg.main)
-    //       if ((plugin as any).default) {
-    //         plugin = (plugin as any).default
-    //       }
-    //
-    //       return validatePlugin(plugin) ? true : new Error(`Unable to validate plugin`)
-    //     } catch (err) {
-    //       log.error(err)
-    //       return err
-    //     }
-    //   }), err => `Unable to load plugin: ${err.message}`]
-    // ]
-    //
-    // for (const [checkFn, errFn] of pluginFlow) {
-    //   const answer = checkFn()
-    //   if (answer !== true) {
-    //     throw new Error(errFn(answer))
-    //   }
-    // }
     PluginPropNamesCopied.forEach(key => {
       if (key === "name") {
         plugin.id = plugin.id || pkg.name

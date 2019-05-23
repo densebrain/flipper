@@ -7,6 +7,8 @@
  */
 package com.facebook.flipper.plugins.network;
 
+import androidx.annotation.NonNull;
+
 import com.facebook.flipper.plugins.network.NetworkReporter.RequestInfo;
 import com.facebook.flipper.plugins.network.NetworkReporter.ResponseInfo;
 import java.io.IOException;
@@ -18,25 +20,24 @@ import javax.annotation.Nullable;
 import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okio.Buffer;
 import okio.BufferedSource;
 
-public class FlipperOkhttpInterceptor implements Interceptor {
+public class FlipperOkHttpInterceptor implements Interceptor {
 
-  public @Nullable NetworkFlipperPlugin plugin;
+  private @NonNull NetworkFlipperPlugin plugin;
 
-  public FlipperOkhttpInterceptor() {
-    this.plugin = null;
-  }
-
-  public FlipperOkhttpInterceptor(NetworkFlipperPlugin plugin) {
+  public FlipperOkHttpInterceptor(
+    @NonNull NetworkFlipperPlugin plugin
+  ) {
     this.plugin = plugin;
   }
 
   @Override
-  public Response intercept(Interceptor.Chain chain) throws IOException {
+  public Response intercept(@NonNull Interceptor.Chain chain) throws IOException {
     Request request = chain.request();
     String identifier = UUID.randomUUID().toString();
     plugin.reportRequest(convertRequest(request, identifier));
@@ -47,13 +48,16 @@ public class FlipperOkhttpInterceptor implements Interceptor {
     return response;
   }
 
-  private static byte[] bodyToByteArray(final Request request) throws IOException {
+  private static byte[] bodyToByteArray(@NonNull final Request request) throws IOException {
     final Buffer buffer = new Buffer();
-    request.body().writeTo(buffer);
+    RequestBody body = request.body();
+    assert body != null;
+
+    body.writeTo(buffer);
     return buffer.readByteArray();
   }
 
-  private RequestInfo convertRequest(Request request, String identifier) throws IOException {
+  private RequestInfo convertRequest(@NonNull Request request, @NonNull String identifier) throws IOException {
     List<NetworkReporter.Header> headers = convertHeader(request.headers());
     RequestInfo info = new RequestInfo();
     info.requestId = identifier;

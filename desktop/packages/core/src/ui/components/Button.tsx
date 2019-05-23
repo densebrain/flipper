@@ -271,8 +271,8 @@ const Button = withTheme()(class Button extends React.Component<Props, State> {
       }
 
       menu.popup({
-        window: Electron.remote.getCurrentWindow(),
-        ...position
+        //window: Electron.remote.getCurrentWindow(),
+        //...position
       });
     }
 

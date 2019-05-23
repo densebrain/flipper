@@ -7,6 +7,7 @@
  */
 import {
   FlipperDevicePluginComponent,
+  DefaultPluginId,
   Device,
   View,
   styled,
@@ -31,7 +32,10 @@ import {
   OS,
   Notification,
   Plugin,
-  FlipperPluginProps, PluginType, PluginModuleExport
+  FlipperPluginProps,
+  PluginType,
+  PluginModuleExport,
+  PluginClientMessage
 } from "@flipper/core"
 
 //import unicodeSubstring from "unicode-substring"
@@ -177,7 +181,7 @@ export function getNewPersistedStateFromCrashLog(
   }
 
   const crash = parseCrashLog(content, os, logDate)
-  return persistedStateReducer(persistedState, "crash-report", crash)
+  return persistedStateReducer(persistedState, {type: "crash-report", payload: crash})
 }
 export function parseCrashLogAndUpdateState(
   store: Store,
@@ -479,6 +483,10 @@ type ActionPayload<Type extends ActionType> =
 
 type CrashReporterActions = {[type in ActionType]: ActionPayload<type>}
 
+type CrashReporterClientMessage =
+  PluginClientMessage<"crash-report", CrashLog> |
+  PluginClientMessage<"flipper-crash-report", CrashLog>
+
 class CrashReporterComponent extends FlipperDevicePluginComponent<FlipperPluginProps<CrashReporterPersistedState>,CrashReporterState, CrashReporterActions, CrashReporterPersistedState> {
   static id = "CrashReporter"
   
@@ -497,10 +505,10 @@ class CrashReporterComponent extends FlipperDevicePluginComponent<FlipperPluginP
 
   static persistedStateReducer = (
     persistedState: CrashReporterPersistedState,
-    method: ActionType,
-    payload: CrashReporterActions[typeof method]
+    msg: CrashReporterClientMessage
   ):Partial<CrashReporterPersistedState> => {
-    if (method === "crash-report" || method === "flipper-crash-report") {
+    const {type, payload} = msg
+    if (type === "crash-report" || type === "flipper-crash-report") {
       CrashReporterComponent.notificationID++
       const
         {callstack, name, reason, date} = payload,
@@ -595,7 +603,7 @@ class CrashReporterComponent extends FlipperDevicePluginComponent<FlipperPluginP
     }
   }
   openInLogs = (callstack: string) => {
-    this.props.selectPlugin("DeviceLogs", callstack)
+    this.props.selectPlugin(DefaultPluginId, callstack)
   }
 
   constructor(props: FlipperPluginProps<CrashReporterPersistedState>) {
@@ -719,6 +727,7 @@ class CrashReporterComponent extends FlipperDevicePluginComponent<FlipperPluginP
       selectedCrashID: null,
       onCrashChange: null
     } as CrashSelectorProps
+    
     
     return (
       <StyledFlexGrowColumn>

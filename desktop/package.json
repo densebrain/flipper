@@ -12,31 +12,7 @@
   "workspaces": [
     "packages/*"
   ],
-  "build": {
-    "appId": "flipper",
-    "productName": "Flipper",
-    "artifactName": "Flipper-${os}.${ext}",
-    "mac": {
-      "category": "public.app-category.developer-tools",
-      "extendInfo": {
-        "NSUserNotificationAlertStyle": "alert"
-      }
-    },
-    "win": {
-      "publisherName": "Facebook, Inc."
-    },
-    "asar": false,
-    "fileAssociations": [
-      {
-        "ext": [
-          ".flipper"
-        ],
-        "name": "Flipper Data",
-        "role": "Viewer",
-        "icon": "document-icons/document.icns"
-      }
-    ]
-  },
+  
   "resolutions": {
     "@jest-runner/electron/electron": "4.0.8"
   },
@@ -52,7 +28,7 @@
   
   },
   "dependencies": {
-    "typescript": "^3.4.5"
+    "typescript": "^3.5.0-rc"
   },
   "scripts": {
     "bootstrap": "lerna bootstrap",

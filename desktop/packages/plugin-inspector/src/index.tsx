@@ -49,7 +49,7 @@ const BetaBar = styled(Toolbar)({
 type Props = FlipperPluginProps<PersistedState>
 class LayoutPlugin extends FlipperPluginComponent<Props, State, {}, PersistedState> {
   
-  static id = "Inspector"
+  static id = "@flipper/plugin-inspector"
   static type = PluginType.Normal
   static exportPersistedState = (
     callClient: (a: string, b?: Plugin | null ) => Promise<PersistedState>,
@@ -87,6 +87,8 @@ class LayoutPlugin extends FlipperPluginComponent<Props, State, {}, PersistedSta
   
 
   init() {
+    super.init()
+    
     if (!this.props.persistedState) {
       // If the selected plugin from the previous session was layout, then while importing the flipper trace, the redux store doesn't get updated in the first render, due to which the plugin crashes, as it has no persisted state
       this.props.setPersistedState(LayoutPlugin.defaultPersistedState)

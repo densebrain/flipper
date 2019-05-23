@@ -162,7 +162,7 @@ export default class Sidebar extends Component<Props, State> {
 
     if (GK.get("sonar_show_console_plugin") && this.state.isConsoleEnabled) {
       sections.push(
-        <Panel heading="JS Console" floating={false} grow={false}>
+        <Panel key="js-console" heading="JS Console" floating={false} grow={false}>
           <Console client={this.props.client} getContext={() => element.id} />
         </Panel>
       )

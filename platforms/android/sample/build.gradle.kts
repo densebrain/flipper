@@ -23,6 +23,8 @@ android {
 
 
 dependencies {
+    implementation(deps.leakcanary)
+
     // Android Support Library
     implementation(deps.supportAppCompat)
 
@@ -44,4 +46,6 @@ dependencies {
     androidTestImplementation(deps.testRules)
 
     implementation(project(":platforms:android:android-flipper"))
+    implementation(project(":platforms:android:fbjni"))
+    implementation(project(":common:xplat"))
 }

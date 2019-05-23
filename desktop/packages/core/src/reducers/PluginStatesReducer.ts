@@ -54,17 +54,20 @@ const ActionHandlers:   {
   [Type in ActionType]:((pluginStatesState:PluginStatesState, payload:ActionPayload<Type>) => PluginStatesState)
 }
 = {
-  SET_PLUGIN_STATE: (pluginStatesState, payload) => {
-    const newPluginState = payload.state
+  SET_PLUGIN_STATE: (pluginStatesState, {state, pluginKey}) => {
+    if (!pluginKey || !state) return pluginStatesState
+    
+    const
+      oldPluginState = pluginStatesState[pluginKey],
+      newPluginState = {...state}
   
-    if (newPluginState && newPluginState !== pluginStatesState) {
-      return {
-        ...pluginStatesState,
-        [payload.pluginKey]: {...pluginStatesState[payload.pluginKey], ...newPluginState}
-      }
+    if (oldPluginState === state) return pluginStatesState
+    
+    return {
+      ...pluginStatesState,
+      [pluginKey]: {...(oldPluginState || {}), ...newPluginState}
     }
-  
-    return {...pluginStatesState}
+    
   },
   CLEAR_PLUGIN_STATE: (pluginStatesState, payload) => {
   

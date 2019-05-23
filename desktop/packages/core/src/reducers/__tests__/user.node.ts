@@ -4,7 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import {default as reducer, login, logout, User} from "../user"
+import {default as reducer, login, logout, User} from "../UserReducer"
 test("login", () => {
   const userData:User = {
     name: "Jane Doe"

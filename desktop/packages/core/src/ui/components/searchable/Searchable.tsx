@@ -151,9 +151,13 @@ type State = SavedState & {
 const Searchable = <C extends React.ComponentType<any> = any>(Component:C):React.ComponentType<Partial<PropsOf<C>> & Partial<OwnProps>> => {
   const AnyComponent = Component as any
   return withTheme()(class extends PureComponent<Props, State> {
+    
     static defaultProps = {
+      defaultFilters: [],
       placeholder: "Search..."
-    }
+    } as Partial<Props>
+  
+    private inputRef: HTMLInputElement | null | undefined = null
     
     constructor(props:Props) {
       super(props)
@@ -166,7 +170,7 @@ const Searchable = <C extends React.ComponentType<any> = any>(Component:C):React
     }
     
     
-    _inputRef:HTMLInputElement | null | undefined
+    
     
     componentDidMount() {
       window.document.addEventListener("keydown", this.onKeyDown)
@@ -296,14 +300,14 @@ const Searchable = <C extends React.ComponentType<any> = any>(Component:C):React
     onKeyDown = (e:KeyboardEvent) => {
       const ctrlOrCmd = (e.metaKey && process.platform === "darwin") || (e.ctrlKey && process.platform !== "darwin")
       
-      if (e.key === "f" && ctrlOrCmd && this._inputRef) {
+      if (e.key === "f" && ctrlOrCmd && this.inputRef) {
         e.preventDefault()
         
-        if (this._inputRef) {
-          this._inputRef.focus()
+        if (this.inputRef) {
+          this.inputRef.focus()
         }
-      } else if (e.key === "Escape" && this._inputRef) {
-        this._inputRef.blur()
+      } else if (e.key === "Escape" && this.inputRef) {
+        this.inputRef.blur()
         
         this.setState({
           searchTerm: ""
@@ -312,10 +316,10 @@ const Searchable = <C extends React.ComponentType<any> = any>(Component:C):React
         if (
           this.state.focusedToken === -1 &&
           this.state.searchTerm === "" &&
-          this._inputRef &&
+          this.inputRef &&
           !isFilterPersistent(this.state.filters[this.state.filters.length - 1])
         ) {
-          this._inputRef.blur()
+          this.inputRef.blur()
           
           this.setState({
             focusedToken: this.state.filters.length - 1
@@ -325,8 +329,8 @@ const Searchable = <C extends React.ComponentType<any> = any>(Component:C):React
         }
       } else if (e.key === "Delete" && this.hasFocus() && this.state.focusedToken > -1) {
         this.removeFilter(this.state.focusedToken)
-      } else if (e.key === "Enter" && this.hasFocus() && this._inputRef) {
-        this.matchTags(this._inputRef.value, true)
+      } else if (e.key === "Enter" && this.hasFocus() && this.inputRef) {
+        this.matchTags(this.inputRef.value, true)
       }
     }
     onChangeSearchTerm = (e:React.ChangeEvent<HTMLInputElement>) => this.matchTags(e.target.value, false)
@@ -366,7 +370,7 @@ const Searchable = <C extends React.ComponentType<any> = any>(Component:C):React
       })
     }
     setInputRef = (ref:HTMLInputElement | null | undefined) => {
-      this._inputRef = ref
+      this.inputRef = ref
     }
     addFilter = (filter:Filter<any>) => {
       const filterIndex = this.state.filters.findIndex(f => f.key === filter.key)
@@ -409,8 +413,8 @@ const Searchable = <C extends React.ComponentType<any> = any>(Component:C):React
           hasFocus: true
         },
         () => {
-          if (this._inputRef) {
-            this._inputRef.focus()
+          if (this.inputRef) {
+            this.inputRef.focus()
           }
         }
       )

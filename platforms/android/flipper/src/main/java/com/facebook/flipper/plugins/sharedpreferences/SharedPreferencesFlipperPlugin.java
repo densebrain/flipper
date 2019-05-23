@@ -27,7 +27,7 @@ import java.util.Map;
 
 public class SharedPreferencesFlipperPlugin implements FlipperPlugin {
 
-  private static final String SHARED_PREFS_DIR = "shared_prefs";
+  private static final String SHARED_PREFS_DIR = "@flipper/plugin-shared-preferences";
   private static final String XML_SUFFIX = ".xml";
   private FlipperConnection mConnection;
   private final Map<SharedPreferences, SharedPreferencesDescriptor> mSharedPreferences;

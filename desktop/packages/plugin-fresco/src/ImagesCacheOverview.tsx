@@ -67,13 +67,16 @@ const StyledCheckbox = styled(Checkbox)({
   height: "100%"
 })
 export default class ImagesCacheOverview extends PureComponent<ImagesCacheOverviewProps, ImagesCacheOverviewState> {
+  
   static Container = styled(FlexColumn)({
     backgroundColor: colors.white
   })
+  
   static Content = styled(FlexColumn)({
     flex: 1,
     overflow: "auto"
   })
+  
   static Empty = styled(FlexBox)({
     alignItems: "center",
     height: "100%",
@@ -83,6 +86,7 @@ export default class ImagesCacheOverview extends PureComponent<ImagesCacheOvervi
   
   constructor(props: ImagesCacheOverviewProps) {
     super(props)
+    
     this.state = {
       selectedImage: undefined,
       size: 150
@@ -90,13 +94,13 @@ export default class ImagesCacheOverview extends PureComponent<ImagesCacheOvervi
   }
   
   
-  onImageSelected = (selectedImage: ImageId) => {
+  private onImageSelected = (selectedImage: ImageId) => {
     this.setState({
       selectedImage
-    })
-    this.props.onImageSelected(selectedImage)
+    }, () => this.props.onImageSelected(selectedImage))
+    
   }
-  onKeyDown = (e: React.KeyboardEvent<any>) => {
+  private onKeyDown = (e: React.KeyboardEvent<any>) => {
     const selectedImage = this.state.selectedImage
     const imagesMap = this.props.imagesMap
 
@@ -107,13 +111,13 @@ export default class ImagesCacheOverview extends PureComponent<ImagesCacheOvervi
       }
     }
   }
-  onEnableDebugOverlayToggled = () => {
+  private onEnableDebugOverlayToggled = () => {
     this.props.onEnableDebugOverlay(!this.props.isDebugOverlayEnabled)
   }
-  onEnableAutoRefreshToggled = () => {
+  private onEnableAutoRefreshToggled = () => {
     this.props.onEnableAutoRefresh(!this.props.isAutoRefreshEnabled)
   }
-  onChangeSize = (e: React.ChangeEvent<HTMLInputElement>) =>
+  private onChangeSize = (e: React.ChangeEvent<HTMLInputElement>) =>
     this.setState({
       size: parseInt(e.target.value, 10)
     })
@@ -149,12 +153,13 @@ export default class ImagesCacheOverview extends PureComponent<ImagesCacheOvervi
           </ImagesCacheOverview.Empty>
         ) : (
           <ImagesCacheOverview.Content>
-            {this.props.images.map(data => {
+            {this.props.images.map((data, index) => {
               const maxSize = data.maxSizeBytes
               const subtitle = maxSize ? formatMB(data.sizeBytes) + " / " + formatMB(maxSize) : formatMB(data.sizeBytes)
               const onClear = data.clearKey ? () => this.props.onClear(data.clearKey) : null
               return (
                 <ImageGrid
+                  key={data.clearKey || index}
                   title={data.cacheType}
                   subtitle={subtitle}
                   images={data.imageIds}

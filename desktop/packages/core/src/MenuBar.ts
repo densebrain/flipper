@@ -5,7 +5,7 @@
  * @format
  */
 import { showOpenDialog } from "./utils/exportData"
-import { setExportDataToFileActiveSheet, setActiveSheet, ACTIVE_SHEET_SHARE_DATA } from "./reducers/application"
+import { setExportDataToFileActiveSheet, setActiveSheet, ACTIVE_SHEET_SHARE_DATA } from "./reducers/ApplicationReducer"
 import { Store } from "./reducers/"
 import * as Electron from "electron"
 import {MenuItemConstructorOptions, BrowserWindow} from 'electron'

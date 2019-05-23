@@ -4,7 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import { default as reducer, setPluginState } from "../pluginStates"
+import { default as reducer, setPluginState } from "../PluginStatesReducer"
 test("reduce setPluginState", () => {
   const res = reducer(
     {},

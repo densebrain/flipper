@@ -8,11 +8,11 @@ import * as Electron from 'electron';
 import { remote, ipcRenderer } from 'electron';
 import { Store } from '../reducers/index';
 import {getLogger, Logger} from '../fb-interfaces/Logger'
-import { toggleAction } from '../reducers/application';
+import { toggleAction } from '../reducers/ApplicationReducer';
 import { parseFlipperPorts } from '../utils/environmentVariables';
 import { importDataToStore, importFileToStore, IMPORT_FLIPPER_TRACE_EVENT } from '../utils/exportData';
 import { tryCatchReportPlatformFailures } from '../utils/metrics';
-import { selectPlugin } from '../reducers/connections';
+import { selectPlugin } from '../reducers/ConnectionsReducer';
 import qs from 'query-string';
 import {oc} from "ts-optchain"
 

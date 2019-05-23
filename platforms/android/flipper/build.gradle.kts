@@ -29,10 +29,7 @@ android {
 
 
   sourceSets["test"].apply {
-
-
     java.exclude("com/facebook/flipper/plugins/facebook/**")
-
   }
 
 
@@ -42,17 +39,11 @@ android {
     }
   }
 
-  buildTypes {
-
-  }
-
-//    repositories {
-//        maven { url "https://jitpack.io" }
-//    }
 }
 
 dependencies {
   compileOnly(deps.lithoAnnotations)
+
   compileOnly(project(":common:xplat"))
   implementation(project(":platforms:android:fbjni"))
 
@@ -86,9 +77,9 @@ dependencies {
   testImplementation(deps.junit)
 }
 
-setupAndroidPublishProject(project)
+setupAndroidPublishProject(project, true)
 
-//preBuild.dependsOn(tasks.getByPath(":third-party:prepare"))
+setupAndroidThirdPartyProject(project)
 
 // apply from: rootProject.file("gradle/release.gradle")
 

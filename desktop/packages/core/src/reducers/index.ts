@@ -5,20 +5,20 @@
  * @format
  */
 import { combineReducers } from 'redux';
-import application from './application';
-import connections from './connections';
-import pluginStates from './pluginStates';
-import notifications from './notifications';
-import plugins from './plugins';
-import user from './user';
+import application from './ApplicationReducer';
+import connections from './ConnectionsReducer';
+import pluginStates from './PluginStatesReducer';
+import notifications from './NotificationsReducer';
+import plugins from './PluginReducer';
+import user from './UserReducer';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import { State as ApplicationState, Action as ApplicationAction } from './application';
-import { State as DevicesState, Action as DevicesAction } from './connections';
-import { PluginStatesState as PluginStatesState, Action as PluginStatesAction } from './pluginStates';
-import { State as NotificationsState, Action as NotificationsAction } from './notifications';
-import { State as PluginsState, Action as PluginsAction } from './plugins';
-import { State as UserState, Action as UserAction } from './user';
+import { State as ApplicationState, Action as ApplicationAction } from './ApplicationReducer';
+import { State as DevicesState, Action as DevicesAction } from './ConnectionsReducer';
+import { PluginStatesState as PluginStatesState, Action as PluginStatesAction } from './PluginStatesReducer';
+import { State as NotificationsState, Action as NotificationsAction } from './NotificationsReducer';
+import { State as PluginsState, Action as PluginsAction } from './PluginReducer';
+import { State as UserState, Action as UserAction } from './UserReducer';
 import { Store as ReduxStore, MiddlewareAPI as ReduxMiddlewareAPI } from 'redux';
 export type AllActions = ApplicationAction | DevicesAction | PluginStatesAction | NotificationsAction | PluginsAction | UserAction | {
   type: "INIT";

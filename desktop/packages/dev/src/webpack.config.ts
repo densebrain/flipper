@@ -1,4 +1,4 @@
-import {getLogger} from "@flipper/common"
+import {getLogger, Identity} from "@flipper/common"
 import * as Path from "path"
 import * as Fs from "fs"
 import {coreDir, packageDir, appDir, rootDir} from "./dirs"
@@ -25,7 +25,8 @@ type PluginConfig = {
 }
 
 const
-  log = getLogger(__filename)
+  log = getLogger(__filename),
+  browserTarget = "node" // "electron-renderer"
   
 
 let mode: Mode = "development"
@@ -39,15 +40,13 @@ const devTools: { [mode in Mode]: webpack.Options.Devtool } = {
 const nodeConfig = {
   global: true,
   process: true,
-  //console: true,
   __filename: true
-  //setImmediate: true
 }
 
 const resolveConfig = {
   extensions: [".ts", ".tsx", ".js", ".jsx"],
   alias: {
-    "@flipper/common": Path.resolve(packageDir, "common","src","index.ts"),
+    
     //"@flipper/core": Path.resolve(packageDir, "core","src","index.ts"),
     "react-dom": "@hot-loader/react-dom",
     jss: Path.resolve(rootDir, "node_modules", "jss"),
@@ -79,9 +78,10 @@ function makeDefaultConfig(
   entry: string[],
   target: "node" | "electron-renderer",
   externals: ExternalsElement | ExternalsElement[],
-  plugins: webpack.Plugin[]
+  plugins: webpack.Plugin[],
+  customizer: (config: webpack.Configuration) => webpack.Configuration | undefined = Identity
 ) {
-  return applyMode(name, {
+  return customizer(applyMode(name, {
     name,
     mode,
     cache: true,
@@ -102,6 +102,9 @@ function makeDefaultConfig(
       namedModules: true,
       noEmitOnErrors: true
     },
+    watchOptions: {
+      ignored: [/node_modules.*(src|flipper)/]
+    },
     node: nodeConfig,
 
     plugins: [
@@ -113,7 +116,7 @@ function makeDefaultConfig(
       new ForkTsCheckerPlugin(),
       ...plugins
     ]
-  })
+  }))
 }
 
 function createAppConfig(): webpack.Configuration {
@@ -156,7 +159,7 @@ async function createCoreConfig(): Promise<webpack.Configuration> {
     name,
     coreDir,
     ["react-hot-loader/patch", "./src/init"],
-    "electron-renderer",
+    browserTarget,
     [
       // /^\@flipper/,
       /electron/,
@@ -168,7 +171,17 @@ async function createCoreConfig(): Promise<webpack.Configuration> {
         inject: false,
         template: "./assets/index.pug"
       })
-    ]
+    ], config => ({
+      ...config,
+      resolve: {
+        ...config.resolve,
+        alias: {
+          ...config.resolve.alias,
+          "@flipper/common": Path.resolve(packageDir, "common","src","index.ts"),
+        }
+      }
+    })
+    
   )
 }
 
@@ -185,7 +198,8 @@ function applyMode(
   return {
     ...config,
     entry: [
-      `webpack-hot-middleware/client?reload=true,name=${name}&path=${encodeURIComponent(
+      //reload=true
+      `webpack-hot-middleware/client?name=${name}&path=${encodeURIComponent(
         `http://localhost:${port}/__webpack_hmr`
       )}&timeout=2000`,
       ...entry
@@ -193,7 +207,6 @@ function applyMode(
     output: {
       ...config.output,
       publicPath: Path.resolve(packageDir, name, "dist") + Path.sep
-      //filename: 'bundle.[name].js'
     },
     resolve: {
       ...config.resolve,
@@ -215,13 +228,15 @@ async function createPluginConfig({
     name,
     dir,
     ["./src/index"],
-    "electron-renderer",
+    browserTarget,
+    
+    // Externals
     [
       (context, request, callback) => {
         if (request.includes("plugin-")) {
-          log.info("Flipper plugin request, ignoring", request, context)
+          log.debug("Flipper plugin request, ignoring", request, context)
         } else if (/flipper/.test(request) || whitelistIds.includes(request)) {
-          log.info(`Flipper resource`, request, context)
+          log.debug(`Flipper resource`, request, context)
           return callback(null, "commonjs " + request)
         } else {
           log.debug(`Checking external`, context, request)
@@ -231,9 +246,10 @@ async function createPluginConfig({
       /electron/,
       "lodash",
       ...ReactExternals,
-      ...makeCommonExternals(dir, [/webpack-hot/])
+      ...makeCommonExternals(dir, [/webpack-hot/])///react-hot/]
     ],
     []
+    
   )
 }
 

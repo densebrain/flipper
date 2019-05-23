@@ -18,7 +18,7 @@ import com.facebook.flipper.core.FlipperResponder;
 
 public class ExampleFlipperPlugin implements FlipperPlugin {
 
-  public static final String ID = "Example";
+  public static final String ID = "@flipper/plugin-example";
 
   @Nullable private Activity mActivity;
 

@@ -533,6 +533,7 @@ class JFlipperClient : public jni::HybridClass<JFlipperClient> {
     }
   }
 
+
   static void init(
       jni::alias_ref<jclass>,
       JEventBase* callbackWorker,

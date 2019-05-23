@@ -7,11 +7,13 @@
  */
 package com.facebook.flipper.sample;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import com.facebook.flipper.android.AndroidFlipperClient;
 import com.facebook.flipper.core.FlipperClient;
 import com.facebook.flipper.plugins.example.ExampleFlipperPlugin;
+import com.facebook.flipper.plugins.leakcanary.RecordLeakService;
 import com.facebook.litho.ComponentContext;
 import com.facebook.litho.LithoView;
 
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     if (client != null) {
       final ExampleFlipperPlugin samplePlugin = client.getPluginByClass(ExampleFlipperPlugin.class);
       samplePlugin.setActivity(this);
+      startService(new Intent(this, RecordLeakService.class));
     }
   }
 }

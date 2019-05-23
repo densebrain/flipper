@@ -10,6 +10,7 @@
   "dependencies": {
     "bluebird": "^3.5.4",
     "lodash": "^4.17.5",
+    "p-queue": "https://github.com/jglanz/p-queue/releases/download/v5.0.0-new-ts-type/p-queue-v5.0.0-ts-3.5-2.tgz",
     "shelljs": "^0.8.3",
     "sugar": "^2.0.6",
     "typeguard": "^0.0.13"

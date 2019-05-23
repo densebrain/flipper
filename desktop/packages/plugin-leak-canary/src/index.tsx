@@ -54,7 +54,7 @@ const ToolbarItem = styled(FlexRow)({
 })
 type Props = FlipperPluginProps<{}>
 class LeakCanary extends FlipperPluginComponent<Props,State> {
-  static id = "LeakCanary"
+  static id = "@flipper/plugin-leak-canary"
   constructor(props: Props) {
     super(props)
     this.state = {
@@ -68,6 +68,7 @@ class LeakCanary extends FlipperPluginComponent<Props,State> {
   
   
   init() {
+    super.init()
     this.client.subscribe("reportLeak", (results: LeakReport) => {
       // We only process new leaks instead of replacing the whole list in order
       // to both avoid redundant processing and to preserve the expanded/

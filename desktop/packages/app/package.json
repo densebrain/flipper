@@ -4,11 +4,35 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "license": "MIT",
+  "build": {
+    "appId": "flipper",
+    "productName": "Flipper",
+    "artifactName": "Flipper-${os}.${ext}",
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "extendInfo": {
+        "NSUserNotificationAlertStyle": "alert"
+      }
+    },
+    "win": {
+      "publisherName": "Facebook, Inc."
+    },
+    "fileAssociations": [
+      {
+        "ext": [
+          ".flipper"
+        ],
+        "name": "Flipper Data",
+        "role": "Viewer",
+        "icon": "document-icons/document.icns"
+      }
+    ]
+  },
   "dependencies": {
+    "@flipper/common": "^1.0.0",
     "mz": "^2.7.0",
     "ts-optchain": "^0.1.6",
-    "typeguard": "^0.0.13",
-    "@flipper/common": "^1.0.0"
+    "typeguard": "^0.0.13"
   },
   "devDependencies": {
     "@flipper/dev": "^1.0.0",

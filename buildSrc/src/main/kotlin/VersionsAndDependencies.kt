@@ -54,7 +54,7 @@ val      hamcrest               = "org.hamcrest:hamcrest-library:1.3"
 val      mockito                = "org.mockito:mockito-core:1.9.5"
 val      stetho                 = "com.facebook.stetho:stetho:1.5.0"
 val      okhttp3                = "com.squareup.okhttp3:okhttp:3.10.0"
-val      leakcanary             = "com.squareup.leakcanary:leakcanary-android:1.6.1"
+val      leakcanary             = "com.squareup.leakcanary:leakcanary-android:1.6.3"
 val      testCore               = "androidx.test:core:1.0.0"
 val      testRules              = "androidx.test:rules:1.1.0"
       // Plugin dependencies

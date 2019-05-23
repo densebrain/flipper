@@ -10,12 +10,11 @@ import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.flipper.android.AndroidFlipperClient;
-import com.facebook.flipper.core.FlipperClient;
-import com.facebook.flipper.plugins.console.ConsoleFlipperPlugin;
 import com.facebook.flipper.plugins.console.JavascriptEnvironment;
 import com.facebook.flipper.plugins.crashreporter.CrashReporterPlugin;
 import com.facebook.flipper.plugins.example.ExampleFlipperPlugin;
@@ -24,12 +23,13 @@ import com.facebook.flipper.plugins.inspector.DescriptorMapping;
 import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin;
 import com.facebook.flipper.plugins.leakcanary.LeakCanaryFlipperPlugin;
 import com.facebook.flipper.plugins.litho.LithoFlipperDescriptors;
-import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor;
+import com.facebook.flipper.plugins.network.FlipperOkHttpInterceptor;
 import com.facebook.flipper.plugins.network.NetworkFlipperPlugin;
 import com.facebook.flipper.plugins.sharedpreferences.SharedPreferencesFlipperPlugin;
 import com.facebook.flipper.plugins.sharedpreferences.SharedPreferencesFlipperPlugin.SharedPreferencesDescriptor;
 import com.facebook.litho.config.ComponentsConfiguration;
 import com.facebook.soloader.SoLoader;
+import com.squareup.leakcanary.LeakCanary;
 
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
@@ -39,11 +39,25 @@ import okhttp3.OkHttpClient;
 public class FlipperSampleApplication extends Application {
 
   @Nullable
-  public static OkHttpClient sOkHttpClient = null;
+  private static OkHttpClient sOkHttpClient = null;
+
+  @NonNull
+  public static OkHttpClient getHttpClient() {
+    if (sOkHttpClient == null)
+      throw new IllegalStateException("OkHttpClient has not been initialized yet");
+    return sOkHttpClient;
+  }
 
   @Override
   public void onCreate() {
     super.onCreate();
+    if (LeakCanary.isInAnalyzerProcess(this)) {
+      // This process is dedicated to LeakCanary for heap analysis.
+      // You should not init your app in this process.
+      return;
+    }
+    LeakCanary.install(this);
+
     SoLoader.init(this, false);
     Fresco.initialize(this);
 
@@ -53,7 +67,7 @@ public class FlipperSampleApplication extends Application {
       final DescriptorMapping descriptorMapping = DescriptorMapping.withDefaults();
 
       final NetworkFlipperPlugin networkPlugin = new NetworkFlipperPlugin();
-      final FlipperOkhttpInterceptor interceptor = new FlipperOkhttpInterceptor(networkPlugin);
+      final FlipperOkHttpInterceptor interceptor = new FlipperOkHttpInterceptor(networkPlugin);
 
       sOkHttpClient =
         new OkHttpClient.Builder()
@@ -67,20 +81,22 @@ public class FlipperSampleApplication extends Application {
       // for this demo application we can safely assume that you always want to debug.
       ComponentsConfiguration.isDebugModeEnabled = true;
       LithoFlipperDescriptors.add(descriptorMapping);
-      clientBuilder.withPlugins(
-        //new ConsoleFlipperPlugin(new JavascriptEnvironment()),
-        new InspectorFlipperPlugin(this, descriptorMapping,new JavascriptEnvironment()),
-        networkPlugin,
-        new SharedPreferencesFlipperPlugin(
-          this,
-          Arrays.asList(
-            new SharedPreferencesDescriptor("sample", Context.MODE_PRIVATE),
-            new SharedPreferencesDescriptor("other_sample", Context.MODE_PRIVATE))),
-        new LeakCanaryFlipperPlugin(),
-        new FrescoFlipperPlugin(),
-        new ExampleFlipperPlugin(),
-        CrashReporterPlugin.getInstance()
-      ).start();
+      clientBuilder
+        .withDefaultAddress()
+        .withPlugins(
+          //new ConsoleFlipperPlugin(new JavascriptEnvironment()),
+          new InspectorFlipperPlugin(this, descriptorMapping,new JavascriptEnvironment()),
+          networkPlugin,
+          new SharedPreferencesFlipperPlugin(
+            this,
+            Arrays.asList(
+              new SharedPreferencesDescriptor("sample", Context.MODE_PRIVATE),
+              new SharedPreferencesDescriptor("other_sample", Context.MODE_PRIVATE))),
+          new LeakCanaryFlipperPlugin(),
+          new FrescoFlipperPlugin(),
+          new ExampleFlipperPlugin(),
+          CrashReporterPlugin.getInstance()
+        ).start();
 
     } catch (Exception ex) {
       Log.e(getClass().getName(), "Unable to configure flipper", ex);

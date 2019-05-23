@@ -16,7 +16,7 @@ import com.facebook.flipper.plugins.common.BufferingFlipperPlugin;
 import java.util.List;
 
 public class NetworkFlipperPlugin extends BufferingFlipperPlugin implements NetworkReporter {
-  public static final String ID = "Network";
+  public static final String ID = "@flipper/plugin-network";
 
   private final List<NetworkResponseFormatter> mFormatters;
 

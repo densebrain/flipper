@@ -4,9 +4,9 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import reducer from "../connections"
+import reducer from "../ConnectionsReducer"
 import BaseDevice from "../../devices/BaseDevice"
-import { State } from "../connections"
+import { State } from "../ConnectionsReducer"
 test("REGISTER_DEVICE doesnt remove error", () => {
   const initialState: State = reducer(undefined, {
     type: "SERVER_ERROR",

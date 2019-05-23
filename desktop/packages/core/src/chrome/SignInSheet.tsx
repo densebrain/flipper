@@ -6,7 +6,7 @@
  */
 import * as React from "react"
 import { writeKeychain, getUser } from '../fb-stubs/user';
-import {login, User} from '../reducers/user'
+import {login, User} from '../reducers/UserReducer'
 import { connect } from 'react-redux';
 import styled from "../ui/styled"
 import FlexColumn from "../ui/components/FlexColumn"

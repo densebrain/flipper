@@ -34,7 +34,7 @@ public class LeakCanaryFlipperPlugin implements FlipperPlugin {
 
   @Override
   public String getId() {
-    return "LeakCanary";
+    return "@flipper/plugin-leak-canary";
   }
 
   @Override
@@ -77,5 +77,6 @@ public class LeakCanaryFlipperPlugin implements FlipperPlugin {
   public void reportLeak(String leakInfo) {
     leakList.add(leakInfo);
     sendLeakList();
+
   }
 }

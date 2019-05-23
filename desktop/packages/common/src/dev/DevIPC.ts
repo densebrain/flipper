@@ -169,7 +169,8 @@ if (isDev) {
 
         Object.assign(config, {
           id: serverId,
-          retry: 500
+          retry: 500,
+          silent: true
         })
 
         Object.assign(this, {
@@ -200,16 +201,18 @@ if (isDev) {
         throw err
       }
     }
+    
     emit<Type extends DevIPCMessageType>(
       type: Type,
       payload: DevIPCMessagePayloadParam<Type>
     ): void {
-      ;(this.server as any).broadcast(type, {
+      (this.server as any).broadcast(type, {
         id: this.config.id,
         type,
         payload
       })
     }
+    
   }
   
   type NodeIPC = Unwrap<typeof ipcImport>["IPC"]
@@ -239,7 +242,8 @@ if (isDev) {
         
         Object.assign(config, {
           id: `flipper-dev-ipc-client-${process.pid}`,
-          retry: 500
+          retry: 500,
+          silent: true
         })
         
         Object.assign(this, {

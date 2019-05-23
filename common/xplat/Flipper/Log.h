@@ -56,7 +56,7 @@ namespace facebook {
       private:
         void ensureBuffer();
 
-        std::ostringstream *buffer;
+        std::ostringstream *buffer {NULL};
 
 #ifdef __ANDROID__
         android_LogPriority priority;

@@ -7,12 +7,12 @@
 import * as React from 'react'
 import { Component } from 'react';
 import { Transition } from 'react-transition-group';
-import { setActiveSheet } from '../reducers/application';
+import { setActiveSheet } from '../reducers/ApplicationReducer';
 import { connect } from 'react-redux';
 
 import { PLUGIN_SHEET_ELEMENT_ID } from '../ui/components/Sheet';
-import { ACTIVE_SHEET_PLUGIN_SHEET } from '../reducers/application';
-import { ActiveSheet } from '../reducers/application';
+import { ACTIVE_SHEET_PLUGIN_SHEET } from '../reducers/ApplicationReducer';
+import { ActiveSheet } from '../reducers/ApplicationReducer';
 import {RootState} from "../reducers"
 import styled from "../ui/styled"
 import {withTheme} from "../ui/themes"

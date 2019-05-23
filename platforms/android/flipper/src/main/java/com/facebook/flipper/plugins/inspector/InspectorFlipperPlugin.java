@@ -114,7 +114,7 @@ public class InspectorFlipperPlugin implements FlipperPlugin {
 
   @Override
   public String getId() {
-    return "Inspector";
+    return "@flipper/plugin-inspector";
   }
 
   @Override

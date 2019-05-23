@@ -35,7 +35,7 @@ export class PluginLoader extends EventEmitter {
 
   private path?: string | null = null
   private watcher: Watch.FSWatcher | null = null
-  private watchedFiles = Array<string>()
+  //private watchedFiles = Array<string>()
 
   private loadQueue = new PQueue({ concurrency: 1 })
   
@@ -63,16 +63,16 @@ export class PluginLoader extends EventEmitter {
   }
 
   private reset() {
-    if (this.watchedFiles.isEmpty()) {
-      log.info(`Plugin ${this.id} clearing watched files and cache`)
-      const files = [...this.watchedFiles]
-      this.watchedFiles = []
-
-      files.forEach(file => {
-        delete (NodeModule as any)._cache[file]
-      })
-    }
-
+    // if (this.watchedFiles.isEmpty()) {
+    //   log.info(`Plugin ${this.id} clearing watched files and cache`)
+    //   const files = [...this.watchedFiles]
+    //   this.watchedFiles = []
+    //
+    //   files.forEach(file => {
+    //     delete (NodeModule as any)._cache[file]
+    //   })
+    // }
+    log.info("Cleaning Plugin Loader", this.id)
     if (this.watcher) {
       this.watcher.close()
       this.watcher = null
@@ -84,6 +84,8 @@ export class PluginLoader extends EventEmitter {
    * @param metadata
    */
   private async load(metadata: PluginMetadata): Promise<this> {
+    //if (this.loadQueue.size) return this
+    
     return await this.loadQueue.add(async () => {
       this.reset()
       this.setMetadata(metadata)
@@ -94,6 +96,7 @@ export class PluginLoader extends EventEmitter {
         () => `Plugin path can not be null: ${JSON.stringify(metadata)}`
       )
 
+      log.info(`Loading package info ${this.id}`)
       const pkgFile = Path.resolve(path, "package.json")
       assert(
         fileExists(pkgFile),
@@ -113,7 +116,8 @@ export class PluginLoader extends EventEmitter {
       const modExport = pluginRequire(mainFile),
         pluginExport: PluginModuleExport = (this.pluginExport =
           modExport.default || modExport)
-
+  
+      log.info(`Loaded package ${this.id}`)
       this.plugin = {
         pkg,
         name: pkg.name || this.id,

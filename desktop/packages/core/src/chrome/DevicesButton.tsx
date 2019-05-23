@@ -9,7 +9,7 @@ import ArchivedDevice from '../devices/ArchivedDevice';
 import { connect } from 'react-redux';
 import { spawn } from 'child_process';
 import { dirname } from 'path';
-import { selectDevice, preferDevice } from '../reducers/connections';
+import { selectDevice, preferDevice } from '../reducers/ConnectionsReducer';
 import { default as which } from 'which';
 import { promisify } from 'util';
 import { showOpenDialog } from '../utils/exportData';

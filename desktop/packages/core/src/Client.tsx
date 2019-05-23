@@ -9,15 +9,16 @@ import BaseDevice, {OS} from './devices/BaseDevice'
 
 import {getLogger, Logger} from './fb-interfaces/Logger'
 import {Store} from './reducers/index'
-import {setPluginState} from './reducers/pluginStates'
+import {setPluginState} from './reducers/PluginStatesReducer'
 import {PartialResponder, Payload, ReactiveSocket} from 'rsocket-types' // $FlowFixMe perf_hooks is a new API in node
 import {performance} from 'perf_hooks'
 import {reportPluginFailures} from './utils/metrics'
 import {default as isProduction} from './utils/isProduction'
-import {registerPlugins} from './reducers/plugins'
-import {getValue, isDefined} from "typeguard"
+import {registerPlugins} from './reducers/PluginReducer'
+import {getValue, guard, isDefined, isString} from "typeguard"
 import {KnownNativePlugin, NativePluginFactories} from "./NativePluginTypes"
-import {isDevicePlugin, Plugin} from "./PluginTypes"
+import {isDevicePlugin, Plugin, PluginClientMessage, Plugins} from "./PluginTypes"
+import {Run} from "./utils/runtime"
 
 const EventEmitter = (require('events') as any)
 
@@ -25,7 +26,7 @@ const invariant = require('invariant')
 
 const log = getLogger(__filename)
 
-type Plugins = Array<string>;
+
 export type ClientQuery = {
   app:string;
   os:OS;
@@ -45,7 +46,7 @@ type ErrorType = {
 type RequestMetadata<P = any> = {
   method:string;
   id:number;
-  params:P | null | undefined;
+  payload:P | null | undefined;
 };
 
 type RequestResponse<T = any, E extends ErrorType = any> = {
@@ -53,7 +54,7 @@ type RequestResponse<T = any, E extends ErrorType = any> = {
   error?:E;
 };
 
-export type PluginID = string
+
 
 
 const handleError = (store:Store, deviceSerial:string | null | undefined, error:ErrorType) => {
@@ -67,24 +68,25 @@ const handleError = (store:Store, deviceSerial:string | null | undefined, error:
     return
   }
   
-  const pluginKey = `${deviceSerial || ''}#CrashReporter`
-  const persistedState = {
-    ...getValue(() => crashReporterPlugin.componentClazz.defaultPersistedState,{}),
-    ...store.getState().pluginStates[pluginKey]
-  }
-  const isCrashReport:boolean = Boolean(error.name || error.message)
-  const payload = isCrashReport ? {
-    name: error.name,
-    reason: error.message,
-    callstack: error.stacktrace
-  } : {
-    name: 'Plugin Error',
-    reason: JSON.stringify(error)
-  }
+  const
+    pluginKey = `${deviceSerial || ''}#CrashReporter`,
+    persistedState = {
+      ...getValue(() => crashReporterPlugin.componentClazz.defaultPersistedState,{}),
+      ...store.getState().pluginStates[pluginKey]
+    },
+    isCrashReport:boolean = Boolean(error.name || error.message),
+    payload = isCrashReport ? {
+      name: error.name,
+      reason: error.message,
+      stacktrace: error.stacktrace
+    } : {
+      name: 'Plugin Error',
+      reason: JSON.stringify(error)
+    }
   
   const reducer = crashReporterPlugin.componentClazz.persistedStateReducer
   if (reducer) {
-    const newPluginState = reducer!!(persistedState, 'flipper-crash-report', payload)
+    const newPluginState = reducer!!(persistedState, {type: 'flipper-crash-report', payload} as any)
   
     if (persistedState !== newPluginState) {
       store.dispatch(setPluginState({
@@ -96,42 +98,66 @@ const handleError = (store:Store, deviceSerial:string | null | undefined, error:
   
 }
 
-interface MessageData<Method extends string = string, Params extends object = any, Success extends any = any, E extends ErrorType = any> {
+export type DeviceMessageMethod =  "refreshPlugins" | "execute" | string
+
+export type DeviceMessageData<Method extends DeviceMessageMethod> =
+  Method extends "refreshPlugins" ?
+    null :
+    Method extends "execute" ?
+      PluginClientMessage<any, any>  :
+      Method extends string ? any : never
+
+export interface DeviceMessage<Method extends DeviceMessageMethod = any, Payload extends DeviceMessageData<Method> = DeviceMessageData<Method>, Success = any, Err extends ErrorType = any> {
   id?:number;
   method?:Method;
-  params?:Params;
+  payload?:Payload;
   success?:Success;
-  error?:E;
+  error?:Err;
 }
 
 
 export default class Client extends EventEmitter {
-  constructor(id:string, query:ClientQuery, conn:ReactiveSocket<string, string> | null, logger:Logger, store:Store, plugins?:Plugins | null | undefined) {
-    super()
-    this.connected = true
-    this.plugins = plugins ? plugins : []
-    this.connection = conn
-    this.id = id
-    this.query = query
-    this.sdkVersion = query.sdk_version || 0
-    this.messageIdCounter = 0
-    this.logger = logger
-    this.store = store
-    this.broadcastCallbacks = new Map()
-    this.requestCallbacks = new Map()
-    this.activePlugins = new Set()
-    const client = this
-    this.responder = {
-      fireAndForget: (payload:Payload<string, string>) => {
-        client.onMessage(payload.data!!)
-      }
+  
+  //app:App
+  connected:boolean = true
+  
+  private readonly sdkVersion:number
+  private messageIdCounter:number = 0
+  
+  private activePlugins = new Set<string>()
+  private broadcastCallbacks = new Map<string | null | undefined, Map<string, Set<Function>>>()
+  private requestCallbacks = new Map<number, {
+    resolve:(data:any) => void;
+    reject:(err:Error) => void;
+    metadata:RequestMetadata;
+  }>()
+  
+  responder:PartialResponder<string, string> = {
+    fireAndForget: (payload:Payload<string, string>) => {
+      this.onMessage(payload.data!!)
     }
+  }
+  
+  constructor(
+    public id:string,
+    public query:ClientQuery,
+    private connection:ReactiveSocket<string, string> | null,
+    private logger:Logger,
+    private store:Store,
+    public plugins:Plugins = []) {
+    super()
     
-    if (conn) {
-      conn.connectionStatus().subscribe({
+    
+    this.sdkVersion = query.sdk_version || 0
+    
+    
+    
+    if (connection) {
+      connection.connectionStatus().subscribe({
+        
         onNext(payload) {
           if (payload.kind == 'ERROR' || payload.kind == 'CLOSED') {
-            client.connected = false
+            this.connected = false
           }
         },
         
@@ -155,23 +181,7 @@ export default class Client extends EventEmitter {
     super.on(event, callback)
   };
   
-  //app:App
-  connected:boolean
-  id:string
-  query:ClientQuery
-  sdkVersion:number
-  messageIdCounter:number
-  plugins:Plugins
-  connection:ReactiveSocket<string, string> | null | undefined
-  responder:PartialResponder<string, string>
-  store:Store
-  activePlugins:Set<string>
-  broadcastCallbacks:Map<string | null | undefined, Map<string, Set<Function>>>
-  requestCallbacks:Map<number, {
-    resolve:(data:any) => void;
-    reject:(err:Error) => void;
-    metadata:RequestMetadata;
-  }>
+  
   
   supportsPlugin(plugin:FlipperPluginComponent<any, any, any>):boolean {
     return this.plugins.includes(plugin.id)
@@ -206,92 +216,89 @@ export default class Client extends EventEmitter {
   }
   
   
-  onMessage(msg:string):any {
-    // noinspection SuspiciousTypeOfGuard
-    if (typeof msg !== 'string') {
+  private messageHandlers:{[id in DeviceMessageMethod]: (msg:DeviceMessage<id>) => void} = {
+    refreshPlugins: () => this.refreshPlugins(),
+    execute: (msg) => {
+      invariant(msg, 'expected params')
+      
+      const
+        {payload} = msg,
+        {api, type} = payload,
+        state = this.store.getState(),
+        persistingPlugin:Plugin | null | undefined = state.plugins.clientPlugins.get(api) || state.plugins.devicePlugins.get(payload.api),
+        persistingComponentClazz = getValue(() => persistingPlugin!!.componentClazz)
+  
+      if (persistingComponentClazz.persistedStateReducer) {
+        let pluginKey = `${this.id}#${api}` //$FlowFixMe
+  
+        // For device plugins, we are just using the device id instead of client id as the prefix.
+        if (isDevicePlugin(persistingPlugin)) {
+          pluginKey = `${getValue(() => this.getDevice()!!.serial) || ''}#${api}`
+        }
+    
+        const
+          persistedState = {
+            ...(persistingComponentClazz.defaultPersistedState || {}),
+            ...this.store.getState().pluginStates[pluginKey]
+          },
+          newPluginState = persistingComponentClazz.persistedStateReducer(persistedState, payload)
+    
+        log.debug(`Executing ${pluginKey}`, payload, persistedState, newPluginState)
+        
+        if (persistedState !== newPluginState) {
+          this.store.dispatch(setPluginState({
+            pluginKey,
+            state: newPluginState
+          }))
+        }
+      } else {
+        const
+          apiCallbacks = this.broadcastCallbacks.get(api),
+          methodCallbacks:Set<Function> | null | undefined = getValue(() => apiCallbacks.get(type),new Set())
+  
+        methodCallbacks.forEach(fn => fn(payload))
+      }
+    }
+  }
+  
+  private onMessage(msg:any):any {
+    if (!isString(msg)) {
       return
     }
     
-    let data:MessageData | null = null
-    try {
-      data = JSON.parse(msg) as MessageData
-    } catch (err) {
-      log.error(`Invalid JSON: ${msg}`, 'clientMessage', err)
-      return null
-    }
+    const data = Run(() => {
+      try {
+        return JSON.parse(msg) as DeviceMessage
+      } catch (err) {
+        log.error(`Invalid JSON: ${msg}`, 'clientMessage', err)
+        return null
+      }
+    })
     
     log.debug(data, 'message:receive')
-    if (!data) return
+    if (!data)
+      return
     
-    const {
-      id,
-      method
-    } = data
-    
-    if (!id) {
-      const {
-        error
+    const
+      {
+        id,
+        error,
+        method
       } = data
       
+      
+    
+    if (!id) {
       if (!!error) {
         log.error(`Error received from device ${method ? `when calling ${method}` : ''}: ${error.message} + \nDevice Stack Trace: ${error.stacktrace}`, 'deviceError', error)
         handleError(this.store, getValue(() => (this.getDevice()!!.serial)), error)
-      } else if (method === 'refreshPlugins') {
-        this.refreshPlugins()
-      } else if (method === 'execute') {
-        const params = data.params as any
-        invariant(params, 'expected params')
-        const
-          state = this.store.getState(),
-          persistingPlugin:Plugin | null | undefined = state.plugins.clientPlugins.get(params.api) || state.plugins.devicePlugins.get(params.api),
-          persistingComponentClazz = getValue(() => persistingPlugin!!.componentClazz),
-          persistingComponent = getValue(() => persistingPlugin!!.component)
-        
-        if (persistingComponent && persistingComponentClazz.persistedStateReducer) {
-          let pluginKey = `${this.id}#${params.api}` //$FlowFixMe
-          
-          if (isDevicePlugin(persistingPlugin)) {
-            // For device plugins, we are just using the device id instead of client id as the prefix.
-            pluginKey = `${getValue(() => this.getDevice()!!.serial) || ''}#${params.api}`
-          }
-          
-          const persistedState = {
-            ...(persistingComponentClazz.defaultPersistedState || {}),
-            ...this.store.getState().pluginStates[pluginKey]
-          }
-          
-          const newPluginState = persistingComponentClazz.persistedStateReducer(persistedState, params.method, params.params)
-          
-          if (persistedState !== newPluginState) {
-            this.store.dispatch(setPluginState({
-              pluginKey,
-              state: newPluginState
-            }))
-          }
-        } else {
-          const apiCallbacks = this.broadcastCallbacks.get(params.api)
-          
-          if (!apiCallbacks) {
-            return
-          }
-          
-          const methodCallbacks:Set<Function> | null | undefined = apiCallbacks.get(params.method)
-          
-          if (methodCallbacks) {
-            for (const callback of methodCallbacks) {
-              callback(params.params)
-            }
-          }
-        }
+      } else  {
+        guard(() => this.messageHandlers[method](data))
       }
       
-      return
-    }
-    
-    
-    if (this.sdkVersion < 1) {
-      const callbacks = this.requestCallbacks.get(id)
       
+    } else if (this.sdkVersion < 1) {
+      const callbacks = this.requestCallbacks.get(id)
       if (!callbacks) {
         return
       }
@@ -358,13 +365,13 @@ export default class Client extends EventEmitter {
     methodCallbacks.delete(callback)
   }
   
-  rawCall<T = any>(method:string, fromPlugin:boolean, params?:any):Promise<T> {
+  rawCall<T = any>(method:string, fromPlugin:boolean, payload?:any):Promise<T> {
     return new Promise((resolve, reject) => {
       const id = this.messageIdCounter++
       const metadata:RequestMetadata = {
         method,
         id,
-        params
+        payload
       }
       
       if (this.sdkVersion < 1) {
@@ -378,16 +385,16 @@ export default class Client extends EventEmitter {
       const data = {
         id,
         method,
-        params
+        payload
       }
-      const plugin = params && params.api
+      const plugin = payload && payload.api
       console.debug(data, 'message:call')
       
       if (this.sdkVersion < 1) {
         this.startTimingRequestResponse({
           method,
           id,
-          params
+          payload
         })
         
         if (this.connection) {
@@ -450,9 +457,9 @@ export default class Client extends EventEmitter {
   getLogEventName(data:RequestMetadata):string {
     const {
       method,
-      params
+      payload
     } = data as any
-    return params && params.api && params.method ? `request_response_${method}_${params.api}_${params.method}` : `request_response_${method}`
+    return payload && payload.api && payload.type ? `request_response_${method}_${payload.api}_${payload.type}` : `request_response_${method}`
   }
   
   initPlugin(pluginId:string) {
@@ -469,10 +476,10 @@ export default class Client extends EventEmitter {
     })
   }
   
-  rawSend<P = any>(method:string, params?:P):void {
+  rawSend<P = any>(method:string, payload?:P):void {
     const data = {
       method,
-      params
+      payload
     }
     console.debug(data, 'message:send')
     
@@ -483,23 +490,23 @@ export default class Client extends EventEmitter {
     }
   }
   
-  call<T = any, P = any>(api:string, method:string, fromPlugin:boolean, params?:P):Promise<T> {
+  call<T = any, P = any>(api:string, type:string, fromPlugin:boolean, payload?:P):Promise<T> {
     return reportPluginFailures(this.rawCall('execute', fromPlugin, {
       api,
-      method,
-      params
-    }), `Call-${method}`, api)
+      type,
+      payload
+    }), `Call-${type}`, api)
   }
   
-  send<P = any>(api:string, method:string, params?:P):void {
+  send<P = any>(api:string, type:string, payload?:P):void {
     if (!isProduction()) {
-      console.warn(`${api}:${method || ''} client.send() is deprecated. Please use call() instead so you can handle errors.`)
+      console.warn(`${api}:${type || ''} client.send() is deprecated. Please use call() instead so you can handle errors.`)
     }
     
     this.rawSend('execute', {
       api,
-      method,
-      params
+      type,
+      payload
     })
   }
   

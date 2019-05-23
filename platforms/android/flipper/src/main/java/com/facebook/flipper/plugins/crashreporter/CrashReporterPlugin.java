@@ -13,7 +13,7 @@ import com.facebook.flipper.core.FlipperObject;
 import com.facebook.flipper.core.FlipperPlugin;
 
 public class CrashReporterPlugin implements FlipperPlugin {
-  public static final String ID = "CrashReporter";
+  public static final String ID = "@flipper/plugin-crash-reporter";
 
   @Nullable private Activity mActivity;
 

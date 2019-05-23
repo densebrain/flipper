@@ -170,7 +170,7 @@ void FlipperClient::onMessageReceived(
   try {
     std::lock_guard<std::mutex> lock(mutex_);
     const auto& method = message["method"];
-    const auto& params = message.getDefault("params");
+    const auto& payload = message.getDefault("payload");
 
     if (method == "getPlugins") {
       dynamic identifiers = dynamic::array();
@@ -183,7 +183,7 @@ void FlipperClient::onMessageReceived(
     }
 
     if (method == "init") {
-      const auto identifier = params["plugin"].getString();
+      const auto identifier = payload["plugin"].getString();
       if (plugins_.find(identifier) == plugins_.end()) {
         std::string errorMessage = "Plugin " + identifier +
             " not found for method " + method.getString();
@@ -203,7 +203,7 @@ void FlipperClient::onMessageReceived(
     }
 
     if (method == "deinit") {
-      const auto identifier = params["plugin"].getString();
+      const auto identifier = payload["plugin"].getString();
       if (plugins_.find(identifier) == plugins_.end()) {
         std::string errorMessage = "Plugin " + identifier +
             " not found for method " + method.getString();
@@ -220,7 +220,7 @@ void FlipperClient::onMessageReceived(
     }
 
     if (method == "execute") {
-      const auto identifier = params["api"].getString();
+      const auto identifier = payload["api"].getString();
       if (connections_.find(identifier) == connections_.end()) {
         std::string errorMessage = "Connection " + identifier +
             " not found for method " + method.getString();
@@ -229,16 +229,16 @@ void FlipperClient::onMessageReceived(
             "name", "ConnectionNotFound"));
         return;
       }
-      const auto& conn = connections_.at(params["api"].getString());
+      const auto& conn = connections_.at(payload["api"].getString());
       conn->call(
-          params["method"].getString(),
-          params.getDefault("params"),
+          payload["type"].getString(),
+          payload.getDefault("payload"),
           responder);
       return;
     }
 
     if (method == "isMethodSupported") {
-      const auto identifier = params["api"].getString();
+      const auto identifier = payload["api"].getString();
       if (connections_.find(identifier) == connections_.end()) {
         std::string errorMessage = "Connection " + identifier +
             " not found for method " + method.getString();
@@ -247,8 +247,8 @@ void FlipperClient::onMessageReceived(
             "name", "ConnectionNotFound"));
         return;
       }
-      const auto& conn = connections_.at(params["api"].getString());
-      bool isSupported = conn->hasReceiver(params["method"].getString());
+      const auto& conn = connections_.at(payload["api"].getString());
+      bool isSupported = conn->hasReceiver(payload["method"].getString());
       responder->success(dynamic::object("isSupported", isSupported));
       return;
     }
