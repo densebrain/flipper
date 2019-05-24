@@ -6,6 +6,9 @@
  */
 import {MarkerTimeline_getDerivedStateFromProps} from "../MarkerTimeline"
 import {Themes} from "../../themes"
+
+require('electron').remote.getCurrentWindow().show();
+
 const styleProps = {
   classes: {},
   theme: Themes["dark"]

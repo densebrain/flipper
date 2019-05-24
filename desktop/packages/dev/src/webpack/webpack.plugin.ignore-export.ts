@@ -35,11 +35,7 @@ export default class IgnoreNotFoundExportPlugin {
         ),
       )
     }
-    
-    if (compiler.hooks) {
-      compiler.hooks.done.tap('IgnoreNotFoundExportPlugin', doneHook)
-    } else {
-      compiler.plugin('done', doneHook)
-    }
+  
+    compiler.hooks.done.tap('IgnoreNotFoundExportPlugin', doneHook)
   }
 }

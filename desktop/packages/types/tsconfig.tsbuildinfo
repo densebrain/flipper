@@ -337,6 +337,10 @@
         "version": "e7ef01fb3213b1be13321648ac2612d60e9e2742e28fc2fcf68d27fb965a8d5c",
         "signature": "e7ef01fb3213b1be13321648ac2612d60e9e2742e28fc2fcf68d27fb965a8d5c"
       },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/bluebird/index.d.ts": {
+        "version": "3b68d84083b030735621d09b37cf55914651770b9a0fadfbe856c97f3d925189",
+        "signature": "3b68d84083b030735621d09b37cf55914651770b9a0fadfbe856c97f3d925189"
+      },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/node/globals.d.ts": {
         "version": "3af134c0480536f901a30692d216bd29712a3869fe38a7be066ea1eef34a8561",
         "signature": "3af134c0480536f901a30692d216bd29712a3869fe38a7be066ea1eef34a8561"
@@ -1401,6 +1405,10 @@
       ],
       "/projects/oss/flipper.v2/desktop/node_modules/@types/babylon/index.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/babel-types/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/bluebird/index.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -2791,6 +2799,10 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/bluebird/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "/projects/oss/flipper.v2/desktop/node_modules/@types/node/globals.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
@@ -3865,6 +3877,7 @@
       "/projects/oss/flipper.v2/desktop/node_modules/@types/babel__template/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/babel__core/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/babylon/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/bluebird/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/node/globals.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/node/assert.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/node/async_hooks.d.ts",

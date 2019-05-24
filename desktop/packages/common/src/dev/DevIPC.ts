@@ -1,4 +1,5 @@
 
+import "../Types"
 import {WebpackAssetInfo} from "@flipper/common"
 import { Deferred } from "../async/Deferred"
 import { getLogger } from "../logging/Logger"
@@ -63,7 +64,8 @@ export interface DevIPCConstructor {
 let devIPCServer: DevIPCConstructor | null = null,
   devIPCClient: DevIPCConstructor | null = null
 
-if (isDev) {
+
+if (isDev === true) {
   const
     ipcImport = import("node-ipc"),
     log = getLogger(__filename),

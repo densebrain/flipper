@@ -4,6 +4,10 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
+
+test("dummy", () => {
+  expect(1).toEqual(1)
+})
 // import { createTablePlugin } from "../createTablePlugin"
 // import { FlipperPlugin } from "../plugin"
 // const KNOWN_METADATA_PROPS = {

@@ -1,42 +1,18 @@
 {
   "name": "@flipper/app",
   "version": "1.0.0",
-  "main": "lib/index.js",
+  "main": "dist/bundle.js",
   "types": "lib/index.d.ts",
   "license": "MIT",
-  "build": {
-    "appId": "flipper",
-    "productName": "Flipper",
-    "artifactName": "Flipper-${os}.${ext}",
-    "mac": {
-      "category": "public.app-category.developer-tools",
-      "extendInfo": {
-        "NSUserNotificationAlertStyle": "alert"
-      }
-    },
-    "win": {
-      "publisherName": "Facebook, Inc."
-    },
-    "fileAssociations": [
-      {
-        "ext": [
-          ".flipper"
-        ],
-        "name": "Flipper Data",
-        "role": "Viewer",
-        "icon": "document-icons/document.icns"
-      }
-    ]
-  },
   "dependencies": {
-    "@flipper/common": "^1.0.0",
     "mz": "^2.7.0",
     "ts-optchain": "^0.1.6",
     "typeguard": "^0.0.13"
   },
   "devDependencies": {
+    "@flipper/common": "^1.0.0",
     "@flipper/dev": "^1.0.0",
-    "electron": "^5.0.1"
+    "electron": "5.0.2"
   },
   "resolutions": {
     "metro/temp": "0.9.0"

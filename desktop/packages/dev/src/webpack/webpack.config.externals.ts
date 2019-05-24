@@ -1,5 +1,5 @@
 import * as Path from "path"
-import {rootDir} from "./dirs"
+import {rootDir} from "../dirs"
 import createNodeExternals from 'webpack-node-externals'
 
 export const
@@ -7,13 +7,9 @@ export const
     'react',
     'react-dom',
     'react-hot-loader',
-    '@hot-loader/react-dom',
-    // /material-ui/,
-    // /jss/,
+    '@hot-loader/react-dom'
   ],
   WebpackHotWhitelist = [
-    ///material-ui/,
-    //'jss',
     /hot-loader/,
     /react-hot/,
     /webpack/,

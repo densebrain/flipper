@@ -215,7 +215,7 @@ test("test makeObjectSerializable and deserializeObject function for custom Obje
       __flipper_object_type__: "Map",
       data: [["k1", "v1"], ["k2", "v2"]]
     },
-    set: null as Set<any> | null | undefined
+    //set: null as Set<any> | null | undefined
   }
   expect(nestedObjWithMapOutput).toEqual(expectedNestedObjWithMapOutput)
   expect(deserializeObject(nestedObjWithMapOutput)).toEqual(nestedObjWithMap)

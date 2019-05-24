@@ -41,7 +41,7 @@ import {
 import * as _ from "lodash"
 
 import * as React from "react"
-import {getValue} from "typeguard"
+import {getValue, guard} from "typeguard"
 import {LogRecordsPage} from "./LogRecordsPage"
 import {
   COLUMNS, INITIAL_COLUMN_ORDER, LogLevelConfigs, LogPluginClasses, LogRecord, LogRecords, MaxPageCount
@@ -90,7 +90,7 @@ type State = {
   records: LogRecords
   highlightedRows: Set<string>
   counters: Array<Counter>
-  sheet: { classes: { [name in LogPluginClasses]: string } } & any
+  sheet?: { classes: { [name in LogPluginClasses]: string } } & any
 }
 type Actions = {}
 type PersistedState = {}
@@ -178,7 +178,7 @@ const baseStyles = (theme: Theme) => {
 }
 
 type Props = FlipperPluginProps<PersistedState> & SimpleThemeProps
-class LogTable extends FlipperDevicePluginComponent<
+export class LogTable extends FlipperDevicePluginComponent<
   Props,
   State,
   Actions,
@@ -215,7 +215,7 @@ class LogTable extends FlipperDevicePluginComponent<
       this.createPaste()
     }
   }
-  restoreSavedCounters = (): Array<Counter> => {
+  static restoreSavedCounters = (): Array<Counter> => {
     const savedCounters =
       window.localStorage.getItem(LOG_WATCHER_LOCAL_STORAGE_KEY) || "[]"
     return JSON.parse(savedCounters).map((counter: Counter) => ({
@@ -228,7 +228,7 @@ class LogTable extends FlipperDevicePluginComponent<
     deepLinkPayload: string | null | undefined,
     pages: Array<LogRecordsPage>
   ): Set<string> => {
-    const highlightedRows = new Set()
+    const highlightedRows = new Set<string>()
 
     if (!deepLinkPayload) {
       return highlightedRows
@@ -293,13 +293,17 @@ class LogTable extends FlipperDevicePluginComponent<
   batch: LogRecords = []
   counter: number = 0
 
-  addEntriesToState(
+  /*
+   = this.state ||
+   ({
+   pages: [],
+   records: []
+   } as State)
+   */
+  static addEntriesToState(
     items: LogRecords,
-    state: Partial<State> = this.state ||
-      ({
-        pages: [],
-        records: []
-      } as State)
+    state: Partial<State>,
+    table?: LogTable | null | undefined
   ): Partial<State> {
     let pages = [...state.pages]
     let records = [...state.records]
@@ -319,7 +323,7 @@ class LogTable extends FlipperDevicePluginComponent<
         entry
       }
 
-      if (this.addRowIfNeeded(pages, newRecord, previousEntry)) {
+      if (LogTable.addRowIfNeeded(pages, newRecord, previousEntry)) {
         records.push(newRecord)
       }
 
@@ -344,15 +348,19 @@ class LogTable extends FlipperDevicePluginComponent<
       records = records.filter(({ row }) => !removedRows.includes(row))
       resetTableCacheIndex = 0 //console.info(`Removed ${removedRows.length} rows`);
     }
-
-    this.resetTableCacheIndex = resetTableCacheIndex
+  
+    
+    guard(() => {
+      table.resetTableCacheIndex = resetTableCacheIndex
+    })
+    
     return {
       records,
       pages
     }
   }
 
-  addRowIfNeeded(
+  static addRowIfNeeded(
     pages: Array<LogRecordsPage>,
     record: LogRecord,
     previousEntry: DeviceLogEntry | null | undefined
@@ -383,7 +391,7 @@ class LogTable extends FlipperDevicePluginComponent<
     }
   }
 
-  processEntry(entry: DeviceLogEntry, key: string): LogRecord {
+  static processEntry(state: State, entry: DeviceLogEntry, key: string): LogRecord {
     const config = LogLevelConfigs[entry.type as LogLevel] //const {icon, style} = LOG_TYPES(theme)[(entry.type: string)] || LOG_TYPES(theme).debug;
     // build the item, it will either be batched or added straight away
 
@@ -445,7 +453,7 @@ class LogTable extends FlipperDevicePluginComponent<
             isFilterable: true
           }
         },
-        className: this.state.sheet.classes[config.classNameAlias],
+        className: getValue(() => state.sheet.classes[config.classNameAlias], null),
         height: getLogEntryHeight(entry.message),
         // 15px per line height + 8px padding
         type: entry.type,
@@ -470,8 +478,14 @@ class LogTable extends FlipperDevicePluginComponent<
       const logCount = logs.length
       logs =
         logCount <= MaxPageCount ? logs : logs.slice(logCount - MaxPageCount)
-      const initialState = this.addEntriesToState(
-        logs.map(log => this.processEntry(log, String(this.counter++)))
+      const initialState = LogTable.addEntriesToState(
+        logs.map(log => LogTable.processEntry(
+          this.state,
+          log,
+          String(this.counter++)
+        )),
+        this.state,
+        this
       )
       return {
         ...initialState
@@ -491,21 +505,27 @@ class LogTable extends FlipperDevicePluginComponent<
   addLogListener() {
     this.clearLogListener()
     this.logListener = this.device.addLogListener((entry: DeviceLogEntry) => {
-      const processedEntry = this.processEntry(entry, String(this.counter++))
+      const processedEntry = LogTable.processEntry(this.state,entry, String(this.counter++))
       this.incrementCounterIfNeeded(processedEntry.entry)
       this.scheduleEntryForBatch(processedEntry)
     })
+  }
+  
+  static createState():State {
+    return {
+      counters: LogTable.restoreSavedCounters(),
+      highlightedRows: new Set(),
+      records: [],
+      pages: []
+    }
   }
 
   constructor(props: Props) {
     super(props)
     this.state = {
-      sheet: this.makeStyleSheet(props),
-      counters: this.restoreSavedCounters(),
-      highlightedRows: new Set(),
-      records: [],
-      pages: []
-    }
+      ...LogTable.createState(),
+      sheet: this.makeStyleSheet(props)
+    } as State
   }
 
   incrementCounterIfNeeded = (entry: DeviceLogEntry) => {
@@ -549,7 +569,7 @@ class LogTable extends FlipperDevicePluginComponent<
         this.batchTimer = null
         const thisBatch = this.batch
         this.batch = []
-        const newState = this.addEntriesToState(thisBatch, this.state)
+        const newState = LogTable.addEntriesToState(thisBatch, this.state, this)
         this.setState(state => ({ ...state, ...newState }))
       }, 200)
     }

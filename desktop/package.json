@@ -14,28 +14,21 @@
   ],
   
   "resolutions": {
-    "@jest-runner/electron/electron": "4.0.8"
+    "@jest-runner/electron/electron": "5.0.2"
   },
-  "jest": {
-    "transform": {
-      "\\.(js)$": "<rootDir>/static/transforms/index.js"
-    },
-    "setupFiles": [
-      "<rootDir>/static/globalTestSetup.js"
-    ]
-  },
-  "devDependencies": {
   
-  },
-  "dependencies": {
+  "devDependencies": {
     "typescript": "^3.5.0-rc"
   },
+  
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "preinstall": "yarn config set ignore-engines",
-    "build": "tsc --build packages/tsconfig.json",
-    "build:watch": "tsc --build --watch packages/tsconfig.json",
-    "fix": "eslint . --fix",
+    "start": "cd packages/dev && yarn run start",
+    "test": "cd packages/dev && yarn run test",
+    "package": "cd packages/dev && yarn run package",
+    
+    "old:fix": "eslint . --fix",
     "old:postinstall": "node scripts/yarn-install.js",
     "old:rm-dist": "rm -rf dist",
     "old:rm-modules": "rm -rf node_modules statics/node_modules",

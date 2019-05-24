@@ -4,11 +4,13 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
+import * as Path from "path"
+
 const babylon = require("@babel/parser")
 
 const fs = require("fs")
 
-const electronStubs = babylon.parseExpression(fs.readFileSync("static/electron-stubs.notjs").toString())
+const electronStubs = babylon.parseExpression(fs.readFileSync(Path.resolve(__dirname,"..","..","static", "electron-stubs.notjs").toString()))
 
 export default function() {
   return {

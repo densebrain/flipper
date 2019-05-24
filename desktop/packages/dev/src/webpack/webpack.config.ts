@@ -1,7 +1,7 @@
 import {getLogger, Identity} from "@flipper/common"
 import * as Path from "path"
-import * as Fs from "fs"
-import {coreDir, packageDir, appDir, rootDir} from "./dirs"
+import {isDefined} from "typeguard"
+import {coreDir, packageDir, appDir, rootDir, pluginDirs, pluginNames} from "../dirs"
 import webpack, { ExternalsElement } from "webpack"
 import ForkTsCheckerPlugin from "fork-ts-checker-webpack-plugin"
 
@@ -15,7 +15,6 @@ import {
 import moduleConfig from "./webpack.config.module"
 import IgnoreNotFoundExportPlugin from "./webpack.plugin.ignore-export"
 
-//const LabeledModulesPlugin = require("webpack/lib/NamedModulesPlugin")
 
 type Mode = "development" | "production"
 
@@ -30,35 +29,33 @@ const
   
 
 let mode: Mode = "development"
-let port = 3000
+let port: number | undefined = 3000
 
-const devTools: { [mode in Mode]: webpack.Options.Devtool } = {
-  development: "inline-source-map",
-  production: "#source-map"
-}
-
-const nodeConfig = {
-  global: true,
-  process: true,
-  __filename: true
-}
-
-const resolveConfig = {
-  extensions: [".ts", ".tsx", ".js", ".jsx"],
-  alias: {
-    
-    //"@flipper/core": Path.resolve(packageDir, "core","src","index.ts"),
-    "react-dom": "@hot-loader/react-dom",
-    jss: Path.resolve(rootDir, "node_modules", "jss"),
-    assets: Path.resolve(coreDir, "assets")
+const
+  devTools: { [mode in Mode]: webpack.Options.Devtool } = {
+    development: "inline-source-map",
+    production: "#source-map"
+  },
+  nodeConfig = {
+    global: true,
+    process: true,
+    __filename: true
+  },
+  resolveConfig = {
+    extensions: [".ts", ".tsx", ".js", ".jsx"],
+    alias: {
+      //"@flipper/core": Path.resolve(packageDir, "core","src","index.ts"),
+      "react-dom": "@hot-loader/react-dom",
+      jss: Path.resolve(rootDir, "node_modules", "jss"),
+      assets: Path.resolve(coreDir, "assets")
+    }
   }
-}
 
-const plugins = Fs.readdirSync(packageDir)
-  .filter(name => name.startsWith("plugin-"))
+// Build the plugin name map
+const pluginNameMap = pluginDirs
   .reduce(
-    (acc, name) => {
-      const dir = Path.resolve(packageDir, name)
+    (acc, dir) => {
+      const name = Path.basename(dir)
       acc[name] = {
         name,
         dir
@@ -68,8 +65,13 @@ const plugins = Fs.readdirSync(packageDir)
     {} as { [key: string]: PluginConfig }
   )
 
+/**
+ * Generate all plugin configs
+ *
+ * @returns {Promise<webpack.Configuration[]>}
+ */
 async function generatePluginConfigs() {
-  return Promise.all(Object.values(plugins).map(plugin => createPluginConfig(plugin)))
+  return Promise.all(Object.values(pluginNameMap).map(plugin => createPluginConfig(plugin)))
 }
 
 function makeDefaultConfig(
@@ -110,7 +112,10 @@ function makeDefaultConfig(
     plugins: [
       new webpack.DefinePlugin({
         "process.env.PluginModuleWhitelist": JSON.stringify(getWhitelistIds()),
-        isDev: JSON.stringify(mode === "development")
+        isDev: JSON.stringify(mode === "development"),
+        ...(mode !== "production" ? {} : {
+          "process.env.BundledPluginNames": JSON.stringify(pluginNames)
+        })
       }),
       new IgnoreNotFoundExportPlugin(),
       new ForkTsCheckerPlugin(),
@@ -254,9 +259,13 @@ async function createPluginConfig({
 }
 
 export default async function generate(
-  usePort: number,
-  useMode: Mode = "development"
+  useMode: Mode = "development",
+  usePort?: number | undefined
+  
 ): Promise<Array<webpack.Configuration>> {
+  if (!isDefined(usePort) && useMode === "development")
+    throw new Error("Port must be set in 'development' mode")
+  
   port = usePort
   mode = useMode
   return [createAppConfig(), await createCoreConfig(), ...(await generatePluginConfigs())]

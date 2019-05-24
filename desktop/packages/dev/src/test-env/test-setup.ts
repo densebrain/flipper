@@ -11,4 +11,8 @@ console.error = function(_message: string) {
   defaultConsoleError.apply(console, arguments)
 }
 
-Object.assign(global, {fetch: require("jest-fetch-mock")})
+Object.assign(global, {
+  fetch: require("jest-fetch-mock"),
+  isDev: false,
+  __non_webpack_require__: require
+})

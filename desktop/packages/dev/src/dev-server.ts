@@ -21,47 +21,37 @@ import {
 import { appDir, packageDir } from "./dirs"
 import { startElectron } from "./ElectronLauncher"
 import { getLogger } from "@flipper/common"
-import { makeProjectCompiler, ProjectCompiler } from "./project-compiler"
+import {addShutdownHook} from "./process"
+import {compileBasePackages, PackageName} from "./package-compiler"
 import {
   WebpackAssetInfo,
   WebpackOutputMap,
   WebpackStatsAsset
 } from "@flipper/common"
 import * as _ from "lodash"
-import generateWebpackConfig from "./webpack.config"
+import generateWebpackConfig from "./webpack/webpack.config"
 
-type PackageName = "init" | "common" | "core" | "types"
 
-const StatsErrorsAndWarnings = { errors: true, warnings: true },
+
+const
+  StatsErrorsAndWarnings = {
+    errors: true,
+    warnings: true
+  },
   port = isString(process.env.PORT) ? parseInt(process.env.PORT, 10) : 1616,
   log = getLogger(__filename)
 
 let ipcServer: DevIPC | null = null
 
-ConsoleStamp(console, { pattern: "HH:MM:ss.l" })
+ConsoleStamp(console, {
+  pattern: "HH:MM:ss.l"
+})
 
-const compilers: { [name in PackageName]: ProjectCompiler | null } = {
-    types: null,
-    init: null,
-    common: null,
-    core: null
+addShutdownHook(() => {
+  if (ipcServer) {
+    ipcServer.stop()
   }
-
-  //"SIGABRT","SIGQUIT", "SIGINT", "SIGKILL"
-;["beforeExit", "exit"].forEach(event =>
-  process.on(event as any, () => {
-    if (ipcServer) {
-      ipcServer.stop()
-    }
-
-    Object.entries(compilers).forEach(([name, compiler]) => {
-      if (compiler) {
-        compiler.kill()
-        delete compilers[name as PackageName]
-      }
-    })
-  })
-)
+})
 
 const compiledPackages = {} as WebpackOutputMap
 
@@ -70,7 +60,6 @@ function makeDevPluginModule(id: string): DevPluginModule {
     id,
     name: id,
     path: Path.resolve(packageDir, id)
-    //assets
   }
 }
 
@@ -79,39 +68,45 @@ function makeDevPluginModule(id: string): DevPluginModule {
 // ************************************
 export async function startDevServer() {
   
+  // Start the Dev Server for firing updates to app
   ipcServer = await getDevIPCServer()
+  
+  // Add server event/request listeners
   ipcServer.on("getPlugins", (_ipc, _type, _msg) => {
     ipcServer.emit<"getPlugins">("getPlugins", {
       plugins: Object.keys(compiledPackages)
         .filter(name => isString(name) && name.startsWith("plugin-"))
         .map(name => makeDevPluginModule(name))
-      //              .reduce((acc, [key,val]) => ({
-      //   ...acc,
-      //   [key]: val
-      // }))
     })
   })
   
-  
-  const fireChanged = _.debounce((name: string) => {
-    if (name === "app") {
-      log.info("Main process updated bundle")
-      updateElectron()
-    } else if (name.startsWith("plugin-")) {
-      if (ipcServer) {
-        const id = `@flipper/${name}`
-        ipcServer.emit("pluginUpdated", {
-          plugin: makeDevPluginModule(id)
-        })
-      }
+  // Package change listeners
+  const
+    changeEmitters: {[name: string]: (name: string) => void} = {},
+    fireChanged = (name: string) => {
+      const emitter = changeEmitters[name] = changeEmitters[name] ||
+        _.debounce((name: string) => {
+          if (name === "app") {
+            log.info("Main process updated bundle")
+            updateElectron()
+          } else if (name.startsWith("plugin-")) {
+            if (ipcServer) {
+              const id = `@flipper/${name}`
+              ipcServer.emit("pluginUpdated", {
+                plugin: makeDevPluginModule(id)
+              })
+            }
+          }
+        }, 500)
+      emitter(name)
     }
-  },1000)
   
-  const app = express(),
-    webpackConfig = await generateWebpackConfig(port, "development"),
+  const
+    devServer = express(),
+    webpackConfig = await generateWebpackConfig("development",port),
     multiCompiler = webpack(webpackConfig),
     { compilers } = multiCompiler,
-    requiredPackages = ["core", "app"],
+    requiredPackages: Array<PackageName> = ["core", "app"],
     isReady = () =>
       requiredPackages.every(name => oc(compiledPackages[name]).length(0) > 0),
     readyDeferred = new Deferred<void>()
@@ -211,10 +206,10 @@ export async function startDevServer() {
 
   log.info(`All required packages are ready`, Object.keys(compiledPackages))
 
-  app.use(Morgan("short"))
+  devServer.use(Morgan("short"))
 
   // Step 3: Attach the hot middleware to the compiler & the server
-  app.use(
+  devServer.use(
     hotMiddleware(multiCompiler, {
       log: console.log,
       path: "/__webpack_hmr",
@@ -222,12 +217,12 @@ export async function startDevServer() {
     })
   )
 
-  app.get("/", (_req, res) => {
+  devServer.get("/", (_req, res) => {
     res.sendFile(appDir + "/index.html")
   })
 
   await new Promise(resolve => {
-    const server = http.createServer(app)
+    const server = http.createServer(devServer)
     server.listen(port, () => {
       log.info("Listening on %j", server.address())
       resolve()
@@ -245,57 +240,67 @@ function updateElectron() {
 if (require.main === module) {
   log.info("Compiling common")
 
-  function compileCore() {
-    compilers["core"] = makeProjectCompiler("core")
-      .on("first_success", () => {
-        log.info("Compiled core, Starting dev server")
-        startDevServer()
-          .then(() => {
-            started = true
-            updateElectron()
-          })
-          .catch(err => log.error("Unable to start dev server", err))
-      })
-      .on("subsequent_success", () => {
-        log.info("Compiled core")
-      })
-      .on("compile_errors", () => {
-        log.error("Compiled errors")
-      })
-      .start()
-  }
-  
-  function compileTypes() {
-    compilers["types"] = makeProjectCompiler("types")
-      .on("first_success", () => {
-        log.info("Compiled type")
-        log.info("Compiling common")
-        compileCommon()
-      })
-      .start()
-  }
-  
-  function compileInit() {
-    compilers["init"] = makeProjectCompiler("init")
-      .on("first_success", () => {
-        log.info("Compiled init")
-        log.info("Compiling core")
-        compileCore()
-      })
-      .start()
-  }
-
-  function compileCommon() {
-    compilers["common"] = makeProjectCompiler("common")
-      .on("first_success", () => {
-        log.info("Compiled common")
-        log.info("Compiling init")
-        compileInit()
-      })
-      .start()
-  }
-
-  compileTypes()
+  compileBasePackages()
+    .then(() => {
+      log.info("Compiled core, Starting dev server")
+      startDevServer()
+        .then(() => {
+          started = true
+          updateElectron()
+        })
+        .catch(err => log.error("Unable to start dev server", err))
+    })
+  // function compileCore() {
+  //   compilers["core"] = makePackageCompiler("core")
+  //     .on("first_success", () => {
+  //       log.info("Compiled core, Starting dev server")
+  //       startDevServer()
+  //         .then(() => {
+  //           started = true
+  //           updateElectron()
+  //         })
+  //         .catch(err => log.error("Unable to start dev server", err))
+  //     })
+  //     .on("subsequent_success", () => {
+  //       log.info("Compiled core")
+  //     })
+  //     .on("compile_errors", () => {
+  //       log.error("Compiled errors")
+  //     })
+  //     .start()
+  // }
+  //
+  // function compileTypes() {
+  //   compilers["types"] = makePackageCompiler("types")
+  //     .on("first_success", () => {
+  //       log.info("Compiled type")
+  //       log.info("Compiling common")
+  //       compileCommon()
+  //     })
+  //     .start()
+  // }
+  //
+  // function compileInit() {
+  //   compilers["init"] = makePackageCompiler("init")
+  //     .on("first_success", () => {
+  //       log.info("Compiled init")
+  //       log.info("Compiling core")
+  //       compileCore()
+  //     })
+  //     .start()
+  // }
+  //
+  // function compileCommon() {
+  //   compilers["common"] = makePackageCompiler("common")
+  //     .on("first_success", () => {
+  //       log.info("Compiled common")
+  //       log.info("Compiling init")
+  //       compileInit()
+  //     })
+  //     .start()
+  // }
+  //
+  // compileTypes()
 }
 
 // Do anything you like with the rest of your express application.

@@ -250,8 +250,8 @@
         "signature": "bf95e242829ab93b8aabbe910ef2dfd7ad0a9476d60604a7207fc1e9ee18f53d"
       },
       "/projects/oss/flipper.v2/desktop/packages/common/src/Types.ts": {
-        "version": "5a4748038a3757e5132ea06b37df88566e07b027a9a8c654c029f8daa256b2bd",
-        "signature": "5a4748038a3757e5132ea06b37df88566e07b027a9a8c654c029f8daa256b2bd"
+        "version": "9b2f606c7deaf63ae1ee4010a3d8282b96a302535e4cf7dc1c93ae1ccd9f694c",
+        "signature": "9b2f606c7deaf63ae1ee4010a3d8282b96a302535e4cf7dc1c93ae1ccd9f694c"
       },
       "/projects/oss/flipper.v2/desktop/packages/common/src/async/Deferred.ts": {
         "version": "3774a01a4d3e34139566a45653b170d3bc734ee2ac04c99b672044684b9da2ab",
@@ -446,8 +446,8 @@
         "signature": "765fc34423b93c2ab763670d8d11d99e5f47387c13c161d6f1640dd6d91b7d1c"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/electron/electron.d.ts": {
-        "version": "38a68afa48ddf5d38a7ab70ed415e19fdf58a66792b1cf558c2f7cdde34a0cb6",
-        "signature": "38a68afa48ddf5d38a7ab70ed415e19fdf58a66792b1cf558c2f7cdde34a0cb6"
+        "version": "52209bbb0097bbfffb99585aa38510b681e140795c7c8fb97d98683a54e76a6f",
+        "signature": "52209bbb0097bbfffb99585aa38510b681e140795c7c8fb97d98683a54e76a6f"
       },
       "/projects/oss/flipper.v2/desktop/packages/common/src/util/Process.ts": {
         "version": "79ba5df2f48d2115b85849144bef7acb8352edab29e245e26963ca1c5a2cd18d",
@@ -474,8 +474,8 @@
         "signature": "4351284af7d28955d8e6af4502dfef54e9f9ffe8927fb743340cbf2c9ffe7e23"
       },
       "/projects/oss/flipper.v2/desktop/packages/common/src/dev/DevIPC.ts": {
-        "version": "1324652a567d2163c08268e0510ba7159074e593f171dd57969367856616cf16",
-        "signature": "1324652a567d2163c08268e0510ba7159074e593f171dd57969367856616cf16"
+        "version": "4ec208c0f64567e2f5179324017200d127d6deefa4cc668912cb5beae1c2db7b",
+        "signature": "4ec208c0f64567e2f5179324017200d127d6deefa4cc668912cb5beae1c2db7b"
       },
       "/projects/oss/flipper.v2/desktop/packages/common/src/webpack/webpack.types.ts": {
         "version": "73a271fe905bb6725a2efbeb34310d78983a0ed31c930febbf80c35fd82975b1",
@@ -680,6 +680,10 @@
       "/projects/oss/flipper.v2/desktop/node_modules/@types/babylon/index.d.ts": {
         "version": "e7ef01fb3213b1be13321648ac2612d60e9e2742e28fc2fcf68d27fb965a8d5c",
         "signature": "e7ef01fb3213b1be13321648ac2612d60e9e2742e28fc2fcf68d27fb965a8d5c"
+      },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/bluebird/index.d.ts": {
+        "version": "3b68d84083b030735621d09b37cf55914651770b9a0fadfbe856c97f3d925189",
+        "signature": "3b68d84083b030735621d09b37cf55914651770b9a0fadfbe856c97f3d925189"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/connect/index.d.ts": {
         "version": "c3be42b83b5f57ae2f65280fa395f6d31f61304ac1a29b7b406b6a0e71da8c82",
@@ -1832,6 +1836,7 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
       "/projects/oss/flipper.v2/desktop/packages/common/src/dev/DevIPC.ts": [
+        "/projects/oss/flipper.v2/desktop/packages/common/lib/Types.d.ts",
         "/projects/oss/flipper.v2/desktop/packages/common/lib/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
@@ -2127,6 +2132,10 @@
       ],
       "/projects/oss/flipper.v2/desktop/node_modules/@types/babylon/index.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/babel-types/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/bluebird/index.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -3515,6 +3524,7 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
       "/projects/oss/flipper.v2/desktop/packages/common/src/dev/DevIPC.ts": [
+        "/projects/oss/flipper.v2/desktop/packages/common/lib/Types.d.ts",
         "/projects/oss/flipper.v2/desktop/packages/common/lib/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
@@ -3798,6 +3808,10 @@
       ],
       "/projects/oss/flipper.v2/desktop/node_modules/@types/babylon/index.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/babel-types/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/bluebird/index.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -4687,6 +4701,7 @@
       "/projects/oss/flipper.v2/desktop/node_modules/@types/babel__template/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/babel__core/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/babylon/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/bluebird/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/connect/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/body-parser/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/classnames/index.d.ts",

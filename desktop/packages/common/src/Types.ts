@@ -78,6 +78,11 @@ export type NotificationEvent = typeof NotificationEvents[number]
 
 import {IPackageJSON} from "package-json"
 
+if (typeof isDev === 'undefined') {
+	Object.assign(global, {
+		isDev: false
+	})
+}
 
 
 
@@ -85,6 +90,11 @@ import {IPackageJSON} from "package-json"
 declare global {
 	const isDev: boolean
 	
+	namespace NodeJS {
+		interface Global {
+			isDev:boolean
+		}
+	}
 	//type Omit<T, K extends keyof any> = T extends any ? Pick<T, Exclude<keyof T, K>> : never;
 	type FilterTypes<T, U> = T extends U ? T : never;
 	
