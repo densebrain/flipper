@@ -18,6 +18,7 @@ import com.facebook.drawee.backends.pipeline.info.ImageLoadStatus;
 import com.facebook.drawee.backends.pipeline.info.ImageOriginUtils;
 import com.facebook.drawee.backends.pipeline.info.ImagePerfData;
 import com.facebook.drawee.backends.pipeline.info.ImagePerfDataListener;
+import com.facebook.imagepipeline.debug.FlipperImageTracker;
 import com.facebook.states.core.StatesArray;
 import com.facebook.states.core.StatesConnection;
 import com.facebook.states.core.StatesObject;
@@ -32,7 +33,6 @@ import com.facebook.imagepipeline.cache.CountingMemoryCacheInspector;
 import com.facebook.imagepipeline.cache.CountingMemoryCacheInspector.DumpInfoEntry;
 import com.facebook.imagepipeline.core.ImagePipelineFactory;
 import com.facebook.imagepipeline.debug.DebugImageTracker;
-import com.facebook.imagepipeline.debug.StatesImageTracker;
 import com.facebook.imagepipeline.image.CloseableBitmap;
 import com.facebook.imagepipeline.image.CloseableImage;
 import java.io.ByteArrayOutputStream;
@@ -64,7 +64,7 @@ public class FrescoStatesPlugin extends BufferingStatesPlugin implements ImagePe
         }
       };
 
-  private final StatesImageTracker mStatesImageTracker;
+  private final FlipperImageTracker mStatesImageTracker;
   private final PlatformBitmapFactory mPlatformBitmapFactory;
   @Nullable private final StatesObjectHelper mSonarObjectHelper;
   private final DebugMemoryManager mMemoryManager;
@@ -79,9 +79,9 @@ public class FrescoStatesPlugin extends BufferingStatesPlugin implements ImagePe
       StatesPerfLogger perfLogger,
       @Nullable FrescoStatesDebugPrefHelper debugPrefHelper) {
     mStatesImageTracker =
-        imageTracker instanceof StatesImageTracker
-            ? (StatesImageTracker) imageTracker
-            : new StatesImageTracker();
+        imageTracker instanceof FlipperImageTracker
+            ? (FlipperImageTracker) imageTracker
+            : new FlipperImageTracker();
     mPlatformBitmapFactory = bitmapFactory;
     mSonarObjectHelper = statesObjectHelper;
     mMemoryManager = memoryManager;
@@ -91,7 +91,7 @@ public class FrescoStatesPlugin extends BufferingStatesPlugin implements ImagePe
 
   public FrescoStatesPlugin() {
     this(
-        new StatesImageTracker(),
+        new FlipperImageTracker(),
         Fresco.getImagePipelineFactory().getPlatformBitmapFactory(),
         null,
         new NoOpDebugMemoryManager(),
@@ -99,7 +99,7 @@ public class FrescoStatesPlugin extends BufferingStatesPlugin implements ImagePe
         null);
   }
 
-  public StatesImageTracker getStatesImageTracker() {
+  public FlipperImageTracker getStatesImageTracker() {
     return mStatesImageTracker;
   }
 
@@ -283,7 +283,7 @@ public class FrescoStatesPlugin extends BufferingStatesPlugin implements ImagePe
 
     StatesArray.Builder builder = new StatesArray.Builder();
     for (DumpInfoEntry<CacheKey, CloseableImage> entry : images) {
-      final StatesImageTracker.ImageDebugData imageDebugData =
+      final FlipperImageTracker.ImageDebugData imageDebugData =
           mStatesImageTracker.getImageDebugData(entry.key);
 
       if (imageDebugData == null) {
@@ -358,7 +358,7 @@ public class FrescoStatesPlugin extends BufferingStatesPlugin implements ImagePe
       return;
     }
 
-    StatesImageTracker.ImageDebugData data = mStatesImageTracker.getDebugDataForRequestId(requestId);
+    FlipperImageTracker.ImageDebugData data = mStatesImageTracker.getDebugDataForRequestId(requestId);
     if (data == null) {
       return;
     }
@@ -367,7 +367,7 @@ public class FrescoStatesPlugin extends BufferingStatesPlugin implements ImagePe
     Set<CacheKey> cks = data.getCacheKeys();
     if (cks != null) {
       for (CacheKey ck : cks) {
-        StatesImageTracker.ImageDebugData d = mStatesImageTracker.getImageDebugData(ck);
+        FlipperImageTracker.ImageDebugData d = mStatesImageTracker.getImageDebugData(ck);
         if (d != null) {
           imageIdsBuilder.put(d.getUniqueId());
         }

@@ -2,9 +2,10 @@
 import * as Os from "os"
 import * as Path from 'path'
 import * as Fs from 'fs'
+import * as FsAsync from "mz/fs"
 import {getLogger} from "../logging/Logger"
 import {isWindows} from "./ElectronUtil"
-import * as shx from 'shelljs'
+import * as Sh from 'shelljs'
 import * as _ from 'lodash'
 
 const log = getLogger(__filename)
@@ -35,13 +36,17 @@ export function mkdirs(dir:string):boolean {
 
 
 
+export async function writeFile(file: string, content: string) {
+  await FsAsync.writeFile(file, content)
+}
+
 /**
  * File exists
  *
  * @param filename
  * @returns {Promise<boolean>}
  */
-export function fileExists(filename: string): boolean {
+export async function fileExists(filename: string): Promise<boolean> {
   try {
     return Fs.existsSync(filename)
   } catch (err) {
@@ -66,8 +71,7 @@ export function isDirectory(dirname: string): boolean {
 export function createDirectory(dirname: string): boolean {
   try {
     if (!Fs.existsSync(dirname)) {
-      //fs.mkdirSync(dirname)
-      shx.mkdir('-p', dirname)
+      Sh.mkdir('-p', dirname)
     }
     return true
   } catch (err) {
@@ -90,3 +94,5 @@ export const statesDir = Path.join(Os.homedir(), ".states")
 export function getUserDataDir():string {
   return statesDir
 }
+
+

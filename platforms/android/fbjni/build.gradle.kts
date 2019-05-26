@@ -13,6 +13,8 @@ android {
   defaultConfig {
     buildConfigField("boolean", "IS_INTERNAL_BUILD", "true")
 
+    multiDexEnabled = true
+
     externalNativeBuild {
       cmake {
         arguments.addAll(listOf("-DANDROID_TOOLCHAIN=clang", "-DANDROID_STL=c++_static"))
@@ -40,12 +42,13 @@ android {
     }
   }
 
+
 }
 
 
 dependencies {
   implementation(project(":common:xplat"))
-
+  implementation(deps.supportMultidex)
   compileOnly(deps.jsr305)
   compileOnly(deps.inferAnnotations)
   compileOnly(deps.lithoAnnotations)

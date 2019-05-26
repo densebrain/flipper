@@ -4,7 +4,6 @@
   "references": [
     {"path": "./packages/types"},
     {"path": "./packages/common"},
-    {"path": "./packages/sdk"},
     {"path": "./packages/init"},
     {"path": "./packages/dev"},
     {"path": "./packages/core"},

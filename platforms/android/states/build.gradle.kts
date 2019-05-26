@@ -14,6 +14,8 @@ android {
   defaultConfig {
     buildConfigField("boolean", "IS_INTERNAL_BUILD", "true")
 
+    multiDexEnabled = true
+
     externalNativeBuild {
       cmake {
         arguments.addAll(listOf("-DANDROID_TOOLCHAIN=clang", "-DANDROID_STL=c++_static"))
@@ -23,9 +25,9 @@ android {
     }
   }
 
-    lintOptions {
-        isAbortOnError = false
-    }
+  lintOptions {
+    isAbortOnError = false
+  }
 
 
   sourceSets["test"].apply {
@@ -39,14 +41,18 @@ android {
     }
   }
 
+  dexOptions {
+    javaMaxHeapSize = "4g"
+  }
 }
 
 dependencies {
   compileOnly(deps.lithoAnnotations)
 
-  compileOnly(project(":common:xplat"))
+  //compileOnly(project(":common:xplat"))
   implementation(project(":platforms:android:fbjni"))
 
+  implementation(deps.supportMultidex)
   implementation(deps.soloader)
   implementation(deps.jsr305)
   implementation(deps.mdns)
@@ -62,9 +68,7 @@ dependencies {
   implementation(deps.frescoStates)
   implementation(deps.frescoStetho)
   listOf(
-    "io.reactivex.rxjava2:rxandroid:2.1.1",
-    "io.reactivex.rxjava2:rxjava:2.2.8",
-    "org.reactivestreams:reactive-streams:1.0.2"
+    *deps.reactive
   ).forEach { implementation(it) }
 
 
@@ -74,7 +78,14 @@ dependencies {
   testImplementation(deps.robolectric)
   testImplementation(deps.hamcrest)
   testImplementation(deps.junit)
-  testImplementation(deps.junit)
+}
+
+tasks {
+  val xplatBuild = getByPath(":common:xplat:assembleRelease")
+
+  getByName("build") {
+    dependsOn(xplatBuild)
+  }
 }
 
 setupAndroidPublishProject(project, true)

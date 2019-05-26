@@ -1,8 +1,7 @@
 {
-  "name": "@states/project",
+  "name": "@states/desktop",
   "private": true,
   "version": "1.0.0",
-  "versionDate": "2018-4-12",
   "description": "Development Platform",
   "productName": "States",
   "author": "Facebook Inc",
@@ -29,7 +28,7 @@
     "preinstall": "yarn config set ignore-engines",
     "start": "cd packages/dev && yarn run start",
     "test": "cd packages/dev && yarn run test",
-    "package": "cd packages/dev && yarn run package",
+    "package": "yarn run clean:all && cd packages/dev && yarn run package",
     "start:clean": "yarn run clean && yarn run start",
     
     "old:fix": "eslint . --fix",

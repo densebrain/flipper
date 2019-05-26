@@ -13,7 +13,7 @@ set(RSOCKET_VERSION 0.10.3)
 
 set(LIBJNIHACK_DIR ${ROOT_DIR}/platforms/android/jni-hack)
 set(LIBFBJNI_DIR ${ROOT_DIR}/platforms/android/fbjni)
-set(LIBFLIPPER_DIR ${ROOT_DIR}/common/xplat)
+set(LIBSTATES_DIR ${ROOT_DIR}/common/xplat)
 
 set(NATIVE_BUILD_DIR ${ROOT_DIR}/build/native)
 set(EXTERNAL_DIR ${ROOT_DIR}/common/third-party/external)
@@ -48,7 +48,7 @@ set(RSOCKET_ROOT_DIR ${EXTERNAL_DIR}/RSocket/rsocket-cpp-${RSOCKET_VERSION})
 set(RSOCKET_DIR ${RSOCKET_ROOT_DIR}/rsocket)
 
 
-set(NATIVE_LIBS flipperfb flippercpp fbjni folly rsocket glog event event_extra event_core doubleconversion)
+set(NATIVE_LIBS statesfb statescpp fbjni folly rsocket glog event event_extra event_core doubleconversion)
 
 foreach (NATIVE_LIB ${NATIVE_LIBS})
   list(APPEND NATIVE_BUILD_DIRS ${NATIVE_BUILD_DIR}/${NATIVE_LIB}/${ANDROID_ABI})
@@ -60,7 +60,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_EXTENSIONS OFF)
 #set(CMAKE_VERBOSE_MAKEFILE on)
 add_compile_options(
-  -DFLIPPER_OSS=1
+  -DSTATES_OSS=1
   -DFOLLY_NO_CONFIG
   -DSONAR_JNI_EXTERNAL=1
   -DFB_SONARKIT_ENABLED=1
@@ -109,7 +109,7 @@ include_directories(
   ${GLOG_DIR}
   ${GLOG_DIR}/glog-0.3.5/src
   ${DOUBLECONVERSION_DIR}
-  ${LIBFLIPPER_DIR}
+  ${LIBSTATES_DIR}
   ${LIBJNIHACK_DIR}
   ${LIBFBJNI_DIR}/cxx/
   ${LIBFBJNI_DIR}/cxx/fbjni

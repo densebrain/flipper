@@ -99,7 +99,7 @@ export class PluginLoader extends EventEmitter {
       log.info(`Loading package info ${this.id}`)
       const pkgFile = Path.resolve(path, "package.json")
       assert(
-        fileExists(pkgFile),
+        await fileExists(pkgFile),
         () => `Plugin ${this.id} package.json does not exist: ${pkgFile}`
       )
 
@@ -110,7 +110,7 @@ export class PluginLoader extends EventEmitter {
         pluginRequire = NodeModule.Module.createRequireFromPath(path) as NodeRequire,
         mainFile = pluginRequire.resolve(main)//this.appRequire.resolve(main)
       
-      assert(fileExists(mainFile), () => `Main file does not exist ${mainFile}`)
+      assert(await fileExists(mainFile), () => `Main file does not exist ${mainFile}`)
   
       delete nodeRequire.cache[mainFile]
       const modExport = pluginRequire(mainFile),

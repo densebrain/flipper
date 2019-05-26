@@ -1,4 +1,4 @@
-import {getLogger} from "@states/common"
+import {fromJSON, getLogger, toJSON} from "@states/common"
 import Bluebird from "bluebird"
 
 import * as Path from 'path'
@@ -9,6 +9,7 @@ import {packageDir, rootDir} from "./dirs"
 import {addCompileEventHandler, CompilerEvent, PackageName} from "./package-compiler"
 
 const
+  {ShellString} = Sh,
   log = getLogger(__filename),
   assembleQueue = new PQueue({
     concurrency: 1
@@ -30,12 +31,12 @@ async function prepareDeclarationPackage(name: "common" | "sdk") {
     }
   
     Sh.mkdir("-p", outLibDir)
-    const pkgJson = JSON.parse(Sh.cat(Path.join(pkgDir, "package.json")))
+    const pkgJson = fromJSON(Sh.cat(Path.join(pkgDir, "package.json")))
   
-    Sh.echo(JSON.stringify({
+    new ShellString(toJSON({
       ...pkgJson,
       main: "index.js"
-    }, null, 2)).to(Path.join(outDir, "package.json"))
+    })).to(Path.join(outDir, "package.json"))
   
   
     const dtsFiles = Sh.find(srcLibDir).filter(file => file.endsWith(".d.ts"))
@@ -48,7 +49,7 @@ async function prepareDeclarationPackage(name: "common" | "sdk") {
       Sh.cp(file, destFile)
     })
   
-    Sh.echo("module.exports = {}").to(Path.join(outDir, "index.js"))
+    new ShellString("module.exports = {}").to(Path.join(outDir, "index.js"))
   } catch (err) {
     log.error(`Unable to prepare provided package ${name}`, err)
   }
@@ -63,9 +64,17 @@ async function assembleCommon() {
   await prepareDeclarationPackage("common")
 }
 
-let buildCount = 0
+let
+  buildCount = 0,
+  commonComplete = false
 
 export function assembleProvidedPackages(name: PackageName, event: CompilerEvent) {
+  if (name === "common" && !commonComplete)
+    commonComplete = true
+  
+  if (!commonComplete)
+    return
+  
   assembleQueue.add(async () => {
     buildCount++
     

@@ -16,6 +16,8 @@ object Versions {
   val androidXLegacyCoreUI = "1.0.0"
   val androidXRecyclerView = "1.1.0-alpha04"
 
+  val litho = "0.25.0"
+
 }
 
 object deps {
@@ -29,6 +31,15 @@ object deps {
   val supportDesign = "com.google.android.material:material:1.1.0-alpha05"
   val supportEspressoIntents = "androidx.test.espresso:espresso-intents:3.1.0"
   val supportTestRunner = "androidx.test:runner:1.1.0"
+  val supportMultidex = "com.android.support:multidex:1.0.3"
+
+  // Reactive
+  val reactive = arrayOf(
+    "io.reactivex.rxjava2:rxandroid:2.1.1",
+    "io.reactivex.rxjava2:rxjava:2.2.8",
+    "org.reactivestreams:reactive-streams:1.0.2"
+  )
+
 
   // Arch
   val archPaging = "android.arch.paging:runtime:1.0.0"
@@ -41,15 +52,17 @@ object deps {
   val jsr305 = "com.google.code.findbugs:jsr305:3.0.1"
   val inferAnnotations = "com.facebook.infer.annotation:infer-annotation:0.11.2"
 
-  // Litho
-  val lithoAnnotations = "com.facebook.litho:litho-annotations:$LITHO_VERSION"
-  val lithoCore = "com.facebook.litho:litho-core:$LITHO_VERSION"
-  val lithoSectionsDebug = "com.facebook.litho:litho-sections-debug:$LITHO_VERSION"
-  val lithoSectionsCore = "com.facebook.litho:litho-sections-core:$LITHO_VERSION"
-  val lithoWidget = "com.facebook.litho:litho-widget:$LITHO_VERSION"
-  val lithoProcessor = "com.facebook.litho:litho-processor:$LITHO_VERSION"
-  val lithoFresco = "com.facebook.litho:litho-fresco:$LITHO_VERSION"
-  val lithoTesting = "com.facebook.litho:litho-testing:$LITHO_VERSION"
+  // Litho + annotationProcessor
+  val lithoAnnotationSectionsProcessor = "com.facebook.litho:litho-sections-processor:${Versions.litho}"
+  val lithoAnnotationsProcessor = "com.facebook.litho:litho-processor:${Versions.litho}"
+  val lithoAnnotations = "com.facebook.litho:litho-annotations:${Versions.litho}"
+  val lithoCore = "com.facebook.litho:litho-core:${Versions.litho}"
+  val lithoSectionsDebug = "com.facebook.litho:litho-sections-debug:${Versions.litho}"
+  val lithoSectionsCore = "com.facebook.litho:litho-sections-core:${Versions.litho}"
+  val lithoWidget = "com.facebook.litho:litho-widget:${Versions.litho}"
+
+  val lithoFresco = "com.facebook.litho:litho-fresco:${Versions.litho}"
+  val lithoTesting = "com.facebook.litho:litho-testing:${Versions.litho}"
 
   // Debugging and testing
   val guava = "com.google.guava:guava:20.0"

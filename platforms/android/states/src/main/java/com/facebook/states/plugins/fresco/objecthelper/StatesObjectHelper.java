@@ -19,7 +19,7 @@ import com.facebook.states.plugins.inspector.InspectorValue;
 import com.facebook.imagepipeline.common.ImageDecodeOptions;
 import com.facebook.imagepipeline.common.ResizeOptions;
 import com.facebook.imagepipeline.common.RotationOptions;
-import com.facebook.imagepipeline.debug.StatesImageTracker;
+import com.facebook.imagepipeline.debug.FlipperImageTracker;
 import com.facebook.imagepipeline.image.ImageInfo;
 import com.facebook.imagepipeline.image.QualityInfo;
 import com.facebook.imagepipeline.request.ImageRequest;
@@ -55,7 +55,7 @@ public abstract class StatesObjectHelper {
   }
 
   @Nullable
-  public StatesObject toStatesObject(@Nullable StatesImageTracker.ImageDebugData imageDebugData) {
+  public StatesObject toStatesObject(@Nullable FlipperImageTracker.ImageDebugData imageDebugData) {
     if (imageDebugData == null) {
       return null;
     }

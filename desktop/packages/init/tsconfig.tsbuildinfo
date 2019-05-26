@@ -261,6 +261,14 @@
         "version": "5e19dee9bcf295b63c032015618ae02e65212079692968e5b99378a5ef9a6b0b",
         "signature": "5e19dee9bcf295b63c032015618ae02e65212079692968e5b99378a5ef9a6b0b"
       },
+      "/projects/oss/flipper.v2/desktop/packages/common/src/util/JSONUtil.ts": {
+        "version": "8e7477205107f679c8599a06309960ee14cbdfa0f83c57b004ca5c6857bc8580",
+        "signature": "8e7477205107f679c8599a06309960ee14cbdfa0f83c57b004ca5c6857bc8580"
+      },
+      "/projects/oss/flipper.v2/desktop/packages/common/src/util/StringExt.ts": {
+        "version": "4b35397971c21a819b864e5d6a02170f88b85b9d3fe61d6b48bb01c64230229f",
+        "signature": "4b35397971c21a819b864e5d6a02170f88b85b9d3fe61d6b48bb01c64230229f"
+      },
       "/projects/oss/flipper.v2/desktop/packages/common/src/util/ObjectUtil.ts": {
         "version": "2d13fd7ef04671eec9a92d5530564dd71b032bfdb9a23d6a5b66f00a19b17199",
         "signature": "2d13fd7ef04671eec9a92d5530564dd71b032bfdb9a23d6a5b66f00a19b17199"
@@ -454,10 +462,10 @@
         "signature": "79ba5df2f48d2115b85849144bef7acb8352edab29e245e26963ca1c5a2cd18d"
       },
       "/projects/oss/flipper.v2/desktop/packages/common/src/util/FileUtil.ts": {
-        "version": "40930ba2e6d71e04137af6768d23eb1d8ea6ca075846bf8dd0dfca89cc13e69c",
-        "signature": "40930ba2e6d71e04137af6768d23eb1d8ea6ca075846bf8dd0dfca89cc13e69c"
+        "version": "925d539d746bb57bb5167fd04e825a800e99f7be0f886f75d6755ea3ce69fd25",
+        "signature": "925d539d746bb57bb5167fd04e825a800e99f7be0f886f75d6755ea3ce69fd25"
       },
-      "/projects/oss/flipper.v2/desktop/packages/common/src/util/Env.ts": {
+      "/projects/oss/flipper.v2/desktop/packages/common/src/util/EnvUtil.ts": {
         "version": "f608248825f173d7378d364dca11ba296b949e3a07e835a997129bab69cafae0",
         "signature": "f608248825f173d7378d364dca11ba296b949e3a07e835a997129bab69cafae0"
       },
@@ -486,8 +494,8 @@
         "signature": "4a395595c0fc78b29482eeac7b15bde96d09e3e481e8b8c70d329a9467e56934"
       },
       "/projects/oss/flipper.v2/desktop/packages/common/src/index.ts": {
-        "version": "3d6d83c733e21937ee195ae37735fb8aa0b5daa6ceabaf8d4ab8ef8991214b86",
-        "signature": "3d6d83c733e21937ee195ae37735fb8aa0b5daa6ceabaf8d4ab8ef8991214b86"
+        "version": "bf63caedb42e599811e17a2a91b85e783de70147f51a4eaa18d3a1d23527bd51",
+        "signature": "bf63caedb42e599811e17a2a91b85e783de70147f51a4eaa18d3a1d23527bd51"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/immutable/dist/immutable-nonambient.d.ts": {
         "version": "407b11f5c8edb4fdb4871a666f15d2ea4a8ca30153f0f74ceee6c247dcc2cceb",
@@ -1531,6 +1539,14 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "/projects/oss/flipper.v2/desktop/packages/common/src/util/JSONUtil.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/packages/common/src/util/StringExt.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "/projects/oss/flipper.v2/desktop/packages/common/src/util/ObjectUtil.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
@@ -1821,7 +1837,7 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/packages/common/src/util/Env.ts": [
+      "/projects/oss/flipper.v2/desktop/packages/common/src/util/EnvUtil.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -1858,10 +1874,12 @@
         "/projects/oss/flipper.v2/desktop/packages/common/lib/Types.d.ts",
         "/projects/oss/flipper.v2/desktop/packages/common/lib/async/Deferred.d.ts",
         "/projects/oss/flipper.v2/desktop/packages/common/lib/logging/Logger.d.ts",
+        "/projects/oss/flipper.v2/desktop/packages/common/lib/util/JSONUtil.d.ts",
+        "/projects/oss/flipper.v2/desktop/packages/common/lib/util/StringExt.d.ts",
         "/projects/oss/flipper.v2/desktop/packages/common/lib/util/ObjectUtil.d.ts",
         "/projects/oss/flipper.v2/desktop/packages/common/lib/util/Process.d.ts",
         "/projects/oss/flipper.v2/desktop/packages/common/lib/util/FileUtil.d.ts",
-        "/projects/oss/flipper.v2/desktop/packages/common/lib/util/Env.d.ts",
+        "/projects/oss/flipper.v2/desktop/packages/common/lib/util/EnvUtil.d.ts",
         "/projects/oss/flipper.v2/desktop/packages/common/lib/util/ElectronUtil.d.ts",
         "/projects/oss/flipper.v2/desktop/packages/common/lib/util/Identity.d.ts",
         "/projects/oss/flipper.v2/desktop/packages/common/lib/events/Event.d.ts",
@@ -3223,6 +3241,14 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "/projects/oss/flipper.v2/desktop/packages/common/src/util/JSONUtil.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/packages/common/src/util/StringExt.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "/projects/oss/flipper.v2/desktop/packages/common/src/util/ObjectUtil.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
@@ -3513,7 +3539,7 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/projects/oss/flipper.v2/desktop/packages/common/src/util/Env.ts": [
+      "/projects/oss/flipper.v2/desktop/packages/common/src/util/EnvUtil.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -3550,10 +3576,12 @@
         "/projects/oss/flipper.v2/desktop/packages/common/lib/Types.d.ts",
         "/projects/oss/flipper.v2/desktop/packages/common/lib/async/Deferred.d.ts",
         "/projects/oss/flipper.v2/desktop/packages/common/lib/logging/Logger.d.ts",
+        "/projects/oss/flipper.v2/desktop/packages/common/lib/util/JSONUtil.d.ts",
+        "/projects/oss/flipper.v2/desktop/packages/common/lib/util/StringExt.d.ts",
         "/projects/oss/flipper.v2/desktop/packages/common/lib/util/ObjectUtil.d.ts",
         "/projects/oss/flipper.v2/desktop/packages/common/lib/util/Process.d.ts",
         "/projects/oss/flipper.v2/desktop/packages/common/lib/util/FileUtil.d.ts",
-        "/projects/oss/flipper.v2/desktop/packages/common/lib/util/Env.d.ts",
+        "/projects/oss/flipper.v2/desktop/packages/common/lib/util/EnvUtil.d.ts",
         "/projects/oss/flipper.v2/desktop/packages/common/lib/util/ElectronUtil.d.ts",
         "/projects/oss/flipper.v2/desktop/packages/common/lib/util/Identity.d.ts",
         "/projects/oss/flipper.v2/desktop/packages/common/lib/events/Event.d.ts",
@@ -4608,6 +4636,8 @@
       "/projects/oss/flipper.v2/desktop/packages/common/src/Types.ts",
       "/projects/oss/flipper.v2/desktop/packages/common/src/async/Deferred.ts",
       "/projects/oss/flipper.v2/desktop/packages/common/src/logging/Logger.ts",
+      "/projects/oss/flipper.v2/desktop/packages/common/src/util/JSONUtil.ts",
+      "/projects/oss/flipper.v2/desktop/packages/common/src/util/StringExt.ts",
       "/projects/oss/flipper.v2/desktop/packages/common/src/util/ObjectUtil.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/node/globals.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/node/assert.d.ts",
@@ -4657,7 +4687,7 @@
       "/projects/oss/flipper.v2/desktop/node_modules/electron/electron.d.ts",
       "/projects/oss/flipper.v2/desktop/packages/common/src/util/Process.ts",
       "/projects/oss/flipper.v2/desktop/packages/common/src/util/FileUtil.ts",
-      "/projects/oss/flipper.v2/desktop/packages/common/src/util/Env.ts",
+      "/projects/oss/flipper.v2/desktop/packages/common/src/util/EnvUtil.ts",
       "/projects/oss/flipper.v2/desktop/packages/common/src/util/ElectronUtil.ts",
       "/projects/oss/flipper.v2/desktop/packages/common/src/util/Identity.ts",
       "/projects/oss/flipper.v2/desktop/packages/common/src/events/Event.ts",
