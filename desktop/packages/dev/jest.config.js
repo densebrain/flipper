@@ -30,7 +30,7 @@ module.exports = {
         `${devDir}/src/test-env/test-setup.ts`,
       ],
       "moduleNameMapper": {
-        "\\@flipper\\/(.*)": "<rootDir>/../$1/src/index"
+        "\\@states\\/(.*)": "<rootDir>/../$1/src/index"
       },
       globals: {
         "ts-jest": {
