@@ -9,7 +9,7 @@ test("dummy", () => {
   expect(1).toEqual(1)
 })
 // import { createTablePlugin } from "../createTablePlugin"
-// import { FlipperPlugin } from "../plugin"
+// import { StatesPlugin } from "../plugin"
 // const KNOWN_METADATA_PROPS = {
 //   method: "method",
 //   resetMethod: "resetMethod",
@@ -36,9 +36,9 @@ test("dummy", () => {
 //     }
 //   }
 // }
-// test("createTablePlugin returns FlipperPlugin", () => {
+// test("createTablePlugin returns StatesPlugin", () => {
 //   const tablePlugin = createTablePlugin({ ...KNOWN_METADATA_PROPS })
-//   expect(tablePlugin.prototype).toBeInstanceOf(FlipperPlugin)
+//   expect(tablePlugin.prototype).toBeInstanceOf(StatesPlugin)
 // })
 // test("persistedStateReducer is resetting data", () => {
 //   const resetMethod = "resetMethod"

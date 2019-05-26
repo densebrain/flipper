@@ -4,7 +4,7 @@ import * as Electron from 'electron'
 //import {getLogger} from "../logging/Logger"
 // import {isString} from "typeguard"
 // import {convertEnumValuesToString} from "../util/ObjectUtil"
-import {FlipperConfig, StringMap} from "../Types"
+import {StatesConfig, StringMap} from "../Types"
 
 const
 	ForwardEvent = "forward-event"
@@ -45,7 +45,7 @@ class EventHubEmitter {
 
 
 
-	on(event:"ConfigChanged", listener: (config:FlipperConfig) => void):() => void
+	on(event:"ConfigChanged", listener: (config:StatesConfig) => void):() => void
   	on(event:"WindowClosed", listener: () => void):() => void
 	on(event:"CommandsChanged", listener: () => void):() => void
   on(event:"AcceleratorsChanged", listener: () => void):() => void
@@ -58,7 +58,7 @@ class EventHubEmitter {
 		this.emitter.removeListener(event,listener)
 	}
 
-	emit(event:"ConfigChanged", config:FlipperConfig):void
+	emit(event:"ConfigChanged", config:StatesConfig):void
 	emit(event:"WindowClosed"):void
 	emit(event:"CommandsChanged"):void
   emit(event:"AcceleratorsChanged",accelerators:StringMap<string>):void

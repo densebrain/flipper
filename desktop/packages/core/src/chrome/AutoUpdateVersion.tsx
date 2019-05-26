@@ -4,7 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import { getLogger } from "@flipper/common"
+import { getLogger } from "@states/common"
 import * as React from "react"
 import { remote } from "electron"
 import isProduction from "../utils/isProduction"
@@ -62,7 +62,7 @@ export default withTheme()(
               updater: "update-downloaded"
             })
             const notification = new Notification("Update available", {
-              body: "Restart Flipper to update to the latest version.",
+              body: "Restart States to update to the latest version.",
               requireInteraction: true
             })
             notification.onclick = remote.autoUpdater.quitAndInstall
@@ -116,7 +116,7 @@ export default withTheme()(
             <span
               tabIndex={-1}
               role="button"
-              title="Update available. Restart Flipper."
+              title="Update available. Restart States."
               onClick={remote.autoUpdater.quitAndInstall}
             >
               <Glyph color={colors.warn} name="breaking-news" />

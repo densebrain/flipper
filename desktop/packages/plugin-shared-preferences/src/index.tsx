@@ -6,7 +6,7 @@
  */
 import * as React from 'react'
 import {
-  FlipperPluginComponent,
+  StatesPluginComponent,
   ManagedTable,
   Text,
   Heading,
@@ -16,8 +16,8 @@ import {
   ManagedDataInspector,
   styled,
   Select,
-  FlipperPluginProps, PluginType, PluginModuleExport
-} from "@flipper/core"
+  StatesPluginProps, PluginType, PluginModuleExport
+} from "@states/core"
 import { clone,mapKeys } from "lodash"
 
 type ActionType = "UpdateSharedPreferences" | "ChangeSharedPreferences" | "UpdateSelectedSharedPreferences"
@@ -92,11 +92,11 @@ const RootColumn = styled(FlexColumn)({
   paddingTop: "16px"
 })
 
-type Props = FlipperPluginProps<{}>
+type Props = StatesPluginProps<{}>
 
-class SharedPreferencesPlugin extends FlipperPluginComponent<Props, SharedPreferencesState, Actions, {}> {
+class SharedPreferencesPlugin extends StatesPluginComponent<Props, SharedPreferencesState, Actions, {}> {
   
-  static id = "@flipper/plugin-shared-preferences"
+  static id = "@states/plugin-shared-preferences"
   
   static title = SharedPreferencesPlugin.id
   

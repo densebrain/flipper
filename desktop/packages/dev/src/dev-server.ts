@@ -15,17 +15,17 @@ import {
   DevIPC,
   DevPluginModule,
   getDevIPCServer
-} from "@flipper/common"
+} from "@states/common"
 import { appDir, packageDir } from "./dirs"
 import { startElectron } from "./ElectronLauncher"
-import { getLogger } from "@flipper/common"
+import { getLogger } from "@states/common"
 import {addShutdownHook} from "./process"
 import {compileBasePackages, PackageName} from "./package-compiler"
 import {
   WebpackAssetInfo,
   WebpackOutputMap,
   WebpackStatsAsset
-} from "@flipper/common"
+} from "@states/common"
 import * as _ from "lodash"
 import {attachProvidedPackagesAssembler} from "./provided-package-assembler"
 import generateWebpackConfig from "./webpack/webpack.config"
@@ -90,7 +90,7 @@ export async function startDevServer() {
             updateElectron()
           } else if (name.startsWith("plugin-")) {
             if (ipcServer) {
-              const id = `@flipper/${name}`
+              const id = `@states/${name}`
               ipcServer.emit("pluginUpdated", {
                 plugin: makeDevPluginModule(id)
               })
@@ -114,7 +114,7 @@ export async function startDevServer() {
     const { name } = compiler
 
     compiler.hooks.done.tap(
-      `flipper-watcher-${name}`,
+      `states-watcher-${name}`,
       (stats: webpack.Stats) => {
         log.info(
           `>>> Compiled ${name}`,

@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 3.6.0)
-project(flippercpp CXX)
+project(statescpp CXX)
 #set(CMAKE_VERBOSE_MAKEFILE on)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_EXTENSIONS OFF)

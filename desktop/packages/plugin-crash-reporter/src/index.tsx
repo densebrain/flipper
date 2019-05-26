@@ -6,7 +6,7 @@
  * @flow
  */
 import {
-  FlipperDevicePluginComponent,
+  StatesDevicePluginComponent,
   DefaultPluginId,
   Device,
   View,
@@ -32,11 +32,11 @@ import {
   OS,
   Notification,
   Plugin,
-  FlipperPluginProps,
+  StatesPluginProps,
   PluginType,
   PluginModuleExport,
   PluginClientMessage
-} from "@flipper/core"
+} from "@states/core"
 
 //import unicodeSubstring from "unicode-substring"
 import * as Fs from "fs"
@@ -471,23 +471,23 @@ class HeaderRow extends Component<HeaderRowProps> {
 
 
 
-type ActionType = "crash-report" | "flipper-crash-report"
+type ActionType = "crash-report" | "states-crash-report"
 
 // interface CrashReporterActions extends PluginActions<ActionType> {
 //   "crash-report": { type: "crash-report"} & CrashLog
-//   "flipper-crash-report": { type: "flipper-crash-report"} & CrashLog
+//   "states-crash-report": { type: "states-crash-report"} & CrashLog
 // }
 
 type ActionPayload<Type extends ActionType> =
-  Type extends "crash-report" ? CrashLog : Type extends "flipper-crash-report" ? CrashLog : never
+  Type extends "crash-report" ? CrashLog : Type extends "states-crash-report" ? CrashLog : never
 
 type CrashReporterActions = {[type in ActionType]: ActionPayload<type>}
 
 type CrashReporterClientMessage =
   PluginClientMessage<"crash-report", CrashLog> |
-  PluginClientMessage<"flipper-crash-report", CrashLog>
+  PluginClientMessage<"states-crash-report", CrashLog>
 
-class CrashReporterComponent extends FlipperDevicePluginComponent<FlipperPluginProps<CrashReporterPersistedState>,CrashReporterState, CrashReporterActions, CrashReporterPersistedState> {
+class CrashReporterComponent extends StatesDevicePluginComponent<StatesPluginProps<CrashReporterPersistedState>,CrashReporterState, CrashReporterActions, CrashReporterPersistedState> {
   static id = "CrashReporter"
   
   static defaultPersistedState = {
@@ -508,7 +508,7 @@ class CrashReporterComponent extends FlipperDevicePluginComponent<FlipperPluginP
     msg: CrashReporterClientMessage
   ):Partial<CrashReporterPersistedState> => {
     const {type, payload} = msg
-    if (type === "crash-report" || type === "flipper-crash-report") {
+    if (type === "crash-report" || type === "states-crash-report") {
       CrashReporterComponent.notificationID++
       const
         {callstack, name, reason, date} = payload,
@@ -606,7 +606,7 @@ class CrashReporterComponent extends FlipperDevicePluginComponent<FlipperPluginP
     this.props.selectPlugin(DefaultPluginId, callstack)
   }
 
-  constructor(props: FlipperPluginProps<CrashReporterPersistedState>) {
+  constructor(props: StatesPluginProps<CrashReporterPersistedState>) {
     // Required step: always call the parent class' constructor
     super(props)
     

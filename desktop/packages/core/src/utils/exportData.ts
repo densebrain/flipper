@@ -25,11 +25,11 @@ import {promisify} from "util"
 import promiseTimeout from "./promiseTimeout"
 import {callClient, DevicePlugin, Plugin} from "../PluginTypes"
 
-export const IMPORT_FLIPPER_TRACE_EVENT = "import-flipper-trace"
-export const EXPORT_FLIPPER_TRACE_EVENT = "export-flipper-trace"
+export const IMPORT_STATES_TRACE_EVENT = "import-states-trace"
+export const EXPORT_STATES_TRACE_EVENT = "export-states-trace"
 export type ExportType = {
   fileVersion: string,
-  flipperReleaseRevision: string | null | undefined,
+  statesReleaseRevision: string | null | undefined,
   clients: Array<ClientExport>,
   device: DeviceExport | null | undefined,
   store: {
@@ -112,7 +112,7 @@ const addSaltToDeviceSerial = async (
   const revision: string | null | undefined = await readCurrentRevision()
   return {
     fileVersion: remote.app.getVersion(),
-    flipperReleaseRevision: revision,
+    statesReleaseRevision: revision,
     clients: updatedClients,
     device: newDevice.toJSON(),
     store: {
@@ -141,14 +141,14 @@ export const processStore = async (
       devicePlugins
     ) // Adding salt to the device id, so that the device_id in the device list is unique.
 
-    const exportFlipperData = await addSaltToDeviceSerial(
+    const exportStatesData = await addSaltToDeviceSerial(
       salt,
       device,
       processedClients,
       processedPluginStates,
       processedActiveNotifications
     )
-    return exportFlipperData
+    return exportStatesData
   }
 
   return null
@@ -224,7 +224,7 @@ export function exportStore(
   serializedString: string,
   errorArray: Array<Error>
 }> {
-  getLogger().track("usage", EXPORT_FLIPPER_TRACE_EVENT)
+  getLogger().track("usage", EXPORT_STATES_TRACE_EVENT)
   return new Promise(async (resolve, reject) => {
     const { exportData, errorArray } = await getStoreExport(store)
 
@@ -260,7 +260,7 @@ export const exportStoreToFile = (
   })
 }
 export function importDataToStore(data: string, store: Store) {
-  getLogger().track("usage", IMPORT_FLIPPER_TRACE_EVENT)
+  getLogger().track("usage", IMPORT_STATES_TRACE_EVENT)
   
   // TODO: Type all of this
   const json = deserialize(data) as any
@@ -331,7 +331,7 @@ export function showOpenDialog(store: Store) {
       if (files !== undefined && files.length > 0) {
         tryCatchReportPlatformFailures(() => {
           importFileToStore(files[0], store)
-        }, `${IMPORT_FLIPPER_TRACE_EVENT}:UI`)
+        }, `${IMPORT_STATES_TRACE_EVENT}:UI`)
       }
     }
   )

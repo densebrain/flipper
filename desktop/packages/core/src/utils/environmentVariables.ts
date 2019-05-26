@@ -5,16 +5,16 @@
  * @format
  */
 
-export type FlipperServerPorts = {
+export type StatesServerPorts = {
     insecure: number,
     secure: number
   }
   | null
   | undefined
 
-export function parseFlipperPorts(
+export function parseStatesPorts(
   envVar: string
-): FlipperServerPorts {
+): StatesServerPorts {
   const components = envVar.split(",")
   const ports = components.map(x => parseInt(x, 10)) // Malformed numbers will get parsed to NaN which is not > 0
 

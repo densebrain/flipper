@@ -1,4 +1,4 @@
-import {getLogger, LogLevel, setLoggerThreshold} from "@flipper/common"
+import {getLogger, LogLevel, setLoggerThreshold} from "@states/common"
 import {Arch, Packager, Platform} from "app-builder-lib"
 import * as Fs from "fs"
 import * as _ from 'lodash'
@@ -172,7 +172,7 @@ async function run() {
         ],
         ([name]) => name
       ).filter(([name]) =>
-        !name.startsWith("@flipper"))
+        !name.startsWith("@states"))
         .reduce((acc, [name, version]) => {
           acc[name] = version as any
           return acc

@@ -4,7 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import {FlipperPluginComponent} from './plugin'
+import {StatesPluginComponent} from './plugin'
 import BaseDevice, {OS} from './devices/BaseDevice'
 
 import {getLogger, Logger} from './fb-interfaces/Logger'
@@ -86,7 +86,7 @@ const handleError = (store:Store, deviceSerial:string | null | undefined, error:
   
   const reducer = crashReporterPlugin.componentClazz.persistedStateReducer
   if (reducer) {
-    const newPluginState = reducer!!(persistedState, {type: 'flipper-crash-report', payload} as any)
+    const newPluginState = reducer!!(persistedState, {type: 'states-crash-report', payload} as any)
   
     if (persistedState !== newPluginState) {
       store.dispatch(setPluginState({
@@ -183,7 +183,7 @@ export default class Client extends EventEmitter {
   
   
   
-  supportsPlugin(plugin:FlipperPluginComponent<any, any, any>):boolean {
+  supportsPlugin(plugin:StatesPluginComponent<any, any, any>):boolean {
     return this.plugins.includes(plugin.id)
   }
   

@@ -4,7 +4,7 @@ import * as Fs from 'fs'
 
 import {Either} from "prelude-ts"
 
-import {getLogger, getUserDataDir, EventHub, isMain, FlipperConfig} from "@flipper/common"
+import {getLogger, getUserDataDir, EventHub, isMain, StatesConfig} from "@states/common"
 import  * as Electron from 'electron'
 import {guard, isString} from "typeguard"
 
@@ -16,7 +16,7 @@ const log = getLogger(__filename)
 
 let loaded = false
 
-const config:FlipperConfig = {
+const config:StatesConfig = {
   pluginPaths: [],
   disabledPlugins: [],
   lastWindowPosition: {}
@@ -31,7 +31,7 @@ function patchFromDisk():void {
   if (Fs.existsSync(filename)) {
     Either.try_(() => Fs.readFileSync(filename,'utf-8').toString(),{} as Error)
           .ifLeft(err => log.error("Unable to load config", err))
-          .ifRight(json => updateConfig(JSON.parse(json) as FlipperConfig,false))
+          .ifRight(json => updateConfig(JSON.parse(json) as StatesConfig,false))
   }
   
   EventHub.emit("ConfigChanged", config)
@@ -54,7 +54,7 @@ function save():void {
   guard(() => Fs.writeFileSync(filename, JSON.stringify(config, null, 2)))
 }
 
-export function updateConfig(patch:Partial<FlipperConfig>, persist:boolean = true):FlipperConfig {
+export function updateConfig(patch:Partial<StatesConfig>, persist:boolean = true):StatesConfig {
   if (isString(Electron)) return {...config,...patch}
   
   if (isMain()) {
@@ -67,7 +67,7 @@ export function updateConfig(patch:Partial<FlipperConfig>, persist:boolean = tru
   }
 }
 
-export function getConfig():FlipperConfig {
+export function getConfig():StatesConfig {
   if (isString(Electron)) return config
   
   if (isMain()) {
@@ -86,7 +86,7 @@ if (!isString(Electron) && isMain()) {
     event.returnValue = getConfig()
   })
   
-  Electron.ipcMain.on("updateConfig",(event:Electron.Event, patch:Partial<FlipperConfig>) => {
+  Electron.ipcMain.on("updateConfig",(event:Electron.Event, patch:Partial<StatesConfig>) => {
     event.returnValue = updateConfig(patch)
   })
 }

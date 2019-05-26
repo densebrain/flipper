@@ -5,7 +5,7 @@
  * @format
  */
 import * as React from "react"
-import { Glyph, styled, colors } from "@flipper/core"
+import { Glyph, styled, colors } from "@states/core"
 type Props = {
   title: string,
   icon: string,

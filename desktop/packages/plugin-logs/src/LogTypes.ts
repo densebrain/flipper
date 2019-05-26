@@ -1,4 +1,4 @@
-import {LogLevel,DeviceLogEntry, TableBodyRow} from "@flipper/core"
+import {LogLevel,DeviceLogEntry, TableBodyRow} from "@states/core"
 import * as _ from "lodash"
 
 export const LogLevelConfigs: { [level in LogLevel]: LogLevelConfig } = Array<

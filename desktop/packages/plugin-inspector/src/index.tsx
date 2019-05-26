@@ -12,9 +12,9 @@ import {
   PluginClient,
   PluginType,
   Plugin,
-  PluginModuleExport, FlipperPluginProps, Store
-} from "@flipper/core"
-import { FlexColumn, FlexRow, FlipperPluginComponent, Toolbar, Sidebar, Link, Glyph, DetailSidebar, styled } from "@flipper/core"
+  PluginModuleExport, StatesPluginProps, Store
+} from "@states/core"
+import { FlexColumn, FlexRow, StatesPluginComponent, Toolbar, Sidebar, Link, Glyph, DetailSidebar, styled } from "@states/core"
 import Inspector from "./Inspector"
 import ToolbarIcon from "./ToolbarIcon"
 import InspectorSidebar from "./InspectorSidebar"
@@ -46,10 +46,10 @@ const BetaBar = styled(Toolbar)({
   textOverflow: "ellipsis"
 })
 
-type Props = FlipperPluginProps<PersistedState>
-class LayoutPlugin extends FlipperPluginComponent<Props, State, {}, PersistedState> {
+type Props = StatesPluginProps<PersistedState>
+class LayoutPlugin extends StatesPluginComponent<Props, State, {}, PersistedState> {
   
-  static id = "@flipper/plugin-inspector"
+  static id = "@states/plugin-inspector"
   static type = PluginType.Normal
   static exportPersistedState = (
     callClient: (a: string, b?: Plugin | null ) => Promise<PersistedState>,
@@ -90,7 +90,7 @@ class LayoutPlugin extends FlipperPluginComponent<Props, State, {}, PersistedSta
     super.init()
     
     if (!this.props.persistedState) {
-      // If the selected plugin from the previous session was layout, then while importing the flipper trace, the redux store doesn't get updated in the first render, due to which the plugin crashes, as it has no persisted state
+      // If the selected plugin from the previous session was layout, then while importing the states trace, the redux store doesn't get updated in the first render, due to which the plugin crashes, as it has no persisted state
       this.props.setPersistedState(LayoutPlugin.defaultPersistedState)
     } // persist searchActive state when moving between plugins to prevent multiple
     // TouchOverlayViews since we can't edit the view heirarchy in onDisconnect

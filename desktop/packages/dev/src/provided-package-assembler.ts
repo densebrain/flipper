@@ -1,4 +1,4 @@
-import {getLogger} from "@flipper/common"
+import {getLogger} from "@states/common"
 import Bluebird from "bluebird"
 
 import * as Path from 'path'

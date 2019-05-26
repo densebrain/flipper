@@ -1,13 +1,13 @@
 import * as yargs from "yargs"
 
-const FlipperArgsGlobal = yargs
+const StatesArgsGlobal = yargs
   .usage("$0 [args]")
   .option("file", {
     describe: "Define a file to open on startup.",
     type: "string"
   })
   .option("url", {
-    describe: "Define a flipper:// URL to open on startup.",
+    describe: "Define a states:// URL to open on startup.",
     type: "string"
   })
   .option("updater", {
@@ -29,10 +29,10 @@ const FlipperArgsGlobal = yargs
   .parse(process.argv.slice(1))
 
 declare global {
-  type FlipperOptions = typeof FlipperArgsGlobal
-  const FlipperArgs: FlipperOptions
+  type StatesOptions = typeof StatesArgsGlobal
+  const StatesArgs: StatesOptions
 }
 Object.assign(global, {
-  FlipperArgs: FlipperArgsGlobal
+  StatesArgs: StatesArgsGlobal
 })
 export {}

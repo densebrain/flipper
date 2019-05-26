@@ -13,13 +13,13 @@ import {
   Sidebar,
   Toolbar,
   Checkbox,
-  FlipperPluginComponent,
+  StatesPluginComponent,
   Button,
   styled,
-  PluginModuleExport, FlipperPluginProps, PluginType
-} from "@flipper/core"
+  PluginModuleExport, StatesPluginProps, PluginType
+} from "@states/core"
 import * as React from "react"
-import { ElementID, Element } from "@flipper/core"
+import { ElementID, Element } from "@states/core"
 import { processLeaks } from "./processLeakString"
 type State = {
   leaks: Leak[],
@@ -52,9 +52,9 @@ const ToolbarItem = styled(FlexRow)({
   alignItems: "center",
   marginLeft: "8px"
 })
-type Props = FlipperPluginProps<{}>
-class LeakCanary extends FlipperPluginComponent<Props,State> {
-  static id = "@flipper/plugin-leak-canary"
+type Props = StatesPluginProps<{}>
+class LeakCanary extends StatesPluginComponent<Props,State> {
+  static id = "@states/plugin-leak-canary"
   constructor(props: Props) {
     super(props)
     this.state = {

@@ -4,7 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import { getDevIPCClient } from "@flipper/common"
+import { getDevIPCClient } from "@states/common"
 import { remote } from "electron"
 import * as Path from "path"
 import { getLogger, Logger } from "../fb-interfaces/Logger"
@@ -19,7 +19,7 @@ import {
   PluginPropNamesCopied
 } from "../PluginTypes"
 import { Store } from "../reducers/index"
-//import { FlipperPlugin, FlipperDevicePlugin } from "../plugin"
+//import { StatesPlugin, StatesDevicePlugin } from "../plugin"
 import {
   addDisabledPlugins,
   addFailedPlugins,
@@ -35,12 +35,12 @@ import { default as config } from "../utils/processConfig"
 const log = getLogger(__filename)
 
 export default async function(store: Store, _logger: Logger) {
-  // expose Flipper and exact globally for dynamically loaded plugins
+  // expose States and exact globally for dynamically loaded plugins
   //const globalObject = typeof window === "undefined" ? global : window
 
   // globalObject.React = React
   // globalObject.ReactDOM = ReactDOM
-  // globalObject.Flipper = require("../index")
+  // globalObject.States = require("../index")
   const gatekeepedPlugins: Array<Plugin> = []
   const disabledPlugins: Array<Plugin> = []
   const failedPlugins: Array<PluginError> = []
@@ -87,7 +87,7 @@ export default async function(store: Store, _logger: Logger) {
           }
         }
       ) => {
-        path = path.replace(/\@flipper\//,'')
+        path = path.replace(/\@states\//,'')
         
         log.info("Plugin loading", id, path, assets)
         loadPlugin(store, { id, path })
@@ -142,7 +142,7 @@ function getBundledPlugins(): Array<PluginMetadata> {
     pluginsDir = Path.join(process.resourcesPath, "app.asar", "plugins")
   
   return pluginNames.map(name => ({
-    id: `@flipper/${name}`,
+    id: `@states/${name}`,
     path: Path.join(pluginsDir, name)
   }))
   // //process.env.BUNDLED_PLUGIN_PATH || path.join(__dirname, "defaultPlugins")

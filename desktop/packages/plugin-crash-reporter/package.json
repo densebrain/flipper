@@ -1,10 +1,10 @@
 {
-  "name": "@flipper/plugin-crash-reporter",
+  "name": "@states/plugin-crash-reporter",
   "version": "0.1.0",
   "description": "A plugin which will display a crash",
   "main": "dist/bundle.js",
   "types": "lib/index.d.ts",
-  "repository": "https://github.com/facebook/flipper",
+  "repository": "https://github.com/facebook/states",
   "license": "MIT",
   "title": "Crash Reporter",
   "bugs": {
@@ -12,10 +12,10 @@
     "url": "https://fb.workplace.com/groups/220760072184928/"
   },
   "devDependencies": {
-    "@flipper/dev": "^1.0.0"
+    "@states/dev": "^1.0.0"
   },
   "dependencies": {
-    "@flipper/core": "^1.0.0",
+    "@states/core": "^1.0.0",
     "@material-ui/core": "^3.9.3",
     "@material-ui/styles": "^3.0.0-alpha.10",
     "mz": "^2.7.0",

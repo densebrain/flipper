@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.facebook.states.android.diagnostics">
+    <application>
+        <activity android:name="com.facebook.states.android.diagnostics.StatesDiagnosticActivity"
+                 android:exported="true" />
+    </application>
+</manifest>

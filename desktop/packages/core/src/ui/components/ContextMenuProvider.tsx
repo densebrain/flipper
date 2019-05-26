@@ -20,7 +20,7 @@ interface Props {
   children: React.ReactNode
 }
 /**
- * Flipper's root is already wrapped with this component, so plugins should not
+ * States's root is already wrapped with this component, so plugins should not
  * need to use this. ContextMenu is what you probably want to use.
  */
 

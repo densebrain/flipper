@@ -8,7 +8,7 @@ android {
       cmake {
         arguments.addAll(arrayOf("-DANDROID_TOOLCHAIN=clang","-DCMAKE_CXX_FLAGS=-Wno-error","-DANDROID_DISABLE_FORMAT_STRING_CHECKS=ON"))
         targets.clear()
-        targets.add("flippercpp")
+        targets.add("statescpp")
         cppFlags.addAll(arrayOf("-Wno-error"))
       }
     }

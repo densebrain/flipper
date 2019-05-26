@@ -4,7 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import {Element, ElementID, PluginClient} from "@flipper/core"
+import {Element, ElementID, PluginClient} from "@states/core"
 import { PersistedState } from "./index"
 import { SearchResultTree } from "./Search" // $FlowFixMe
 

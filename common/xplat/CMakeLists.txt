@@ -1,12 +1,12 @@
 cmake_minimum_required (VERSION 3.6.0)
-project(flippercpp CXX)
-set(PACKAGE_NAME      flippercpp)
+project(statescpp CXX)
+set(PACKAGE_NAME      statescpp)
 
 # LIB SETUP DEFAULTS
 set(ROOT_DIR ${CMAKE_CURRENT_LIST_DIR}/../..)
 include(${ROOT_DIR}/cmake/setup.cmake)
 
-file(GLOB SOURCES Flipper/*.cpp)
+file(GLOB SOURCES States/*.cpp)
 add_library(${PACKAGE_NAME} STATIC ${SOURCES})
 
 

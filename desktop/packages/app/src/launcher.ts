@@ -5,7 +5,7 @@
  * @format
  */
 
-import {isMac} from "@flipper/common"
+import {isMac} from "@states/common"
 
 import * as fs from "fs"
 
@@ -25,15 +25,15 @@ const isProduction = () => !/node_modules[\\/]electron[\\/]/.test(process.execPa
 
 const isLauncherInstalled = () => {
   if (isMac()) {
-    const receipt = "com.facebook.flipper.launcher"
-    const plistLocation = "/Applications/Flipper.app/Contents/Info.plist"
+    const receipt = "com.facebook.states.launcher"
+    const plistLocation = "/Applications/States.app/Contents/Info.plist"
     return fs.existsSync(plistLocation) && fs.readFileSync(plistLocation).indexOf(receipt) > 0
   }
 
   return false
 }
 
-const startLauncher = (argv: FlipperOptions) => {
+const startLauncher = (argv: StatesOptions) => {
   const args = []
 
   if (argv.file) {
@@ -45,12 +45,12 @@ const startLauncher = (argv: FlipperOptions) => {
   }
 
   if (isMac()) {
-    spawn("open", ["/Applications/Flipper.app", "--args"].concat(args))
+    spawn("open", ["/Applications/States.app", "--args"].concat(args))
   }
 }
 
 const checkIsCycle = async () => {
-  const dir = path.join(xdg.cache, "flipper")
+  const dir = path.join(xdg.cache, "states")
   const filePath = path.join(dir, "last-launcher-run") // This isn't monotonically increasing, so there's a change we get time drift
   // between the checks, but the worst case here is that we do two roundtrips
   // before this check works.
@@ -75,14 +75,14 @@ const checkIsCycle = async () => {
  * it has. You should shut down this instance of the app in that case.
  */
 
-export default async function delegateToLauncher(argv: FlipperOptions) {
+export default async function delegateToLauncher(argv: StatesOptions) {
   if (argv.launcher && isProduction() && isLauncherInstalled()) {
     if (await checkIsCycle()) {
       console.error("Launcher cycle detected. Not delegating even though I usually would.")
       return false
     }
 
-    console.warn("Delegating to Flipper Launcher ...")
+    console.warn("Delegating to States Launcher ...")
     console.warn(`You can disable this behavior by passing '--no-launcher' at startup.`)
     startLauncher(argv)
     return true

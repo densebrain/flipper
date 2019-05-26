@@ -5,7 +5,7 @@
  *  file in the root directory of this source tree.
  *
  */
-package com.facebook.flipper.sample;
+package com.facebook.states.sample;
 
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;

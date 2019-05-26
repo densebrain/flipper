@@ -1,9 +1,9 @@
-package com.facebook.flipper.sample;
+package com.facebook.states.sample;
 
 import android.util.Log;
-import com.facebook.flipper.android.AndroidFlipperClient;
-import com.facebook.flipper.core.FlipperClient;
-import com.facebook.flipper.plugins.example.ExampleFlipperPlugin;
+import com.facebook.states.android.AndroidStatesClient;
+import com.facebook.states.core.StatesClient;
+import com.facebook.states.plugins.example.ExampleStatesPlugin;
 import java.io.IOException;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -17,7 +17,7 @@ public final class ExampleActions {
 
   public static void sendPostRequest() {
     final RequestBody formBody =
-        new FormBody.Builder().add("app", "Flipper").add("remarks", "Its awesome").build();
+        new FormBody.Builder().add("app", "States").add("remarks", "Its awesome").build();
 
     final Request request =
         new Request.Builder()
@@ -26,14 +26,14 @@ public final class ExampleActions {
             .build();
 
     //noinspection NullableProblems
-    FlipperSampleApplication.getHttpClient()
+    StatesSampleApplication.getHttpClient()
         .newCall(request)
         .enqueue(
             new Callback() {
               @Override
               public void onFailure(final Call call, final IOException e) {
                 e.printStackTrace();
-                Log.d("Flipper", e.getMessage());
+                Log.d("States", e.getMessage());
               }
 
               @Override
@@ -41,9 +41,9 @@ public final class ExampleActions {
                 if (response.isSuccessful()) {
                   ResponseBody body = response.body();
                   if (body == null) throw new IllegalStateException("Body is null");
-                  Log.d("Flipper", body.string());
+                  Log.d("States", body.string());
                 } else {
-                  Log.d("Flipper", "not successful");
+                  Log.d("States", "not successful");
                 }
               }
             });
@@ -54,31 +54,31 @@ public final class ExampleActions {
         new Request.Builder().url("https://api.github.com/repos/facebook/yoga").get().build();
 
     //noinspection NullableProblems
-    FlipperSampleApplication.getHttpClient()
+    StatesSampleApplication.getHttpClient()
         .newCall(request)
         .enqueue(
             new Callback() {
               @Override
               public void onFailure(final Call call, final IOException e) {
                 e.printStackTrace();
-                Log.d("Flipper", e.getMessage());
+                Log.d("States", e.getMessage());
               }
 
               @Override
               public void onResponse(final Call call, final Response response) throws IOException {
                 if (response.isSuccessful()) {
-                  Log.d("Flipper", response.body().string());
+                  Log.d("States", response.body().string());
                 } else {
-                  Log.d("Flipper", "not successful");
+                  Log.d("States", "not successful");
                 }
               }
             });
   }
 
   public static void sendNotification() {
-    final FlipperClient client = AndroidFlipperClient.getInstanceIfInitialized();
+    final StatesClient client = AndroidStatesClient.getInstanceIfInitialized();
     if (client != null) {
-      final ExampleFlipperPlugin plugin = client.getPluginByClass(ExampleFlipperPlugin.class);
+      final ExampleStatesPlugin plugin = client.getPluginByClass(ExampleStatesPlugin.class);
       plugin.triggerNotification();
     }
   }

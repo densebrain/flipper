@@ -8,7 +8,7 @@
 import dispatcher, { getDynamicPlugins, checkDisabled, makeRequirePlugin } from "../plugins"
 import path from "path"
 import { remote } from "electron"
-import { FlipperPluginComponent } from "../../plugin"
+import { StatesPluginComponent } from "../../plugin"
 import reducers from "../../reducers/index"
 import { init as initLogger } from "../../fb-stubs/Logger"
 import TestPlugin from "./TestPlugin"
@@ -116,7 +116,7 @@ test("makeRequirePlugin loads plugin", async () => {
     path: path.join(__dirname, "TestPlugin")
   }) // $FlowFixMe
 
-  expect(plugin.componentClazz.prototype).toBeInstanceOf(FlipperPluginComponent) // $FlowFixMe
+  expect(plugin.componentClazz.prototype).toBeInstanceOf(StatesPluginComponent) // $FlowFixMe
 
   expect(plugin.url).toBe(url) // $FlowFixMe
 

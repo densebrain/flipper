@@ -346,7 +346,7 @@
 					"\"${PODS_ROOT}/Headers/Public/DoubleConversion\"",
 					"\"${PODS_ROOT}/Headers/Public/Folly\"",
 					"\"${PODS_ROOT}/Headers/Public/PeerTalk\"",
-					"\"${PODS_ROOT}/Headers/Public/Flipper\"",
+					"\"${PODS_ROOT}/Headers/Public/States\"",
 					"\"${PODS_ROOT}/Headers/Public/SonarKit\"",
 					"\"${PODS_ROOT}/Headers/Public/Yoga\"",
 					"\"${PODS_ROOT}/Headers/Public/boost-for-react-native\"",
@@ -360,7 +360,7 @@
 				);
 				OTHER_CFLAGS = (
 					"$(inherited)",
-					"-fmodule-map-file=\"${PODS_ROOT}/Headers/Public/FlipperKit/FlipperKit.modulemap\"",
+					"-fmodule-map-file=\"${PODS_ROOT}/Headers/Public/StatesKit/StatesKit.modulemap\"",
 					"-fmodule-map-file=\"${PODS_ROOT}/Headers/Public/yoga/Yoga.modulemap\"",
 					"-fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/YogaKit/YogaKit.modulemap\"",
 					"-isystem",
@@ -374,9 +374,9 @@
 					"-isystem",
 					"\"${PODS_ROOT}/Headers/Public/DoubleConversion\"",
 					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/Flipper\"",
+					"\"${PODS_ROOT}/Headers/Public/States\"",
 					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/FlipperKit\"",
+					"\"${PODS_ROOT}/Headers/Public/StatesKit\"",
 					"-isystem",
 					"\"${PODS_ROOT}/Headers/Public/Folly\"",
 					"-isystem",
@@ -413,7 +413,7 @@
 					"-framework",
 					"\"UIKit\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.facebook.flipper;
+				PRODUCT_BUNDLE_IDENTIFIER = com.facebook.states;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -435,7 +435,7 @@
 					"\"${PODS_ROOT}/Headers/Public/DoubleConversion\"",
 					"\"${PODS_ROOT}/Headers/Public/Folly\"",
 					"\"${PODS_ROOT}/Headers/Public/PeerTalk\"",
-					"\"${PODS_ROOT}/Headers/Public/Flipper\"",
+					"\"${PODS_ROOT}/Headers/Public/States\"",
 					"\"${PODS_ROOT}/Headers/Public/SonarKit\"",
 					"\"${PODS_ROOT}/Headers/Public/Yoga\"",
 					"\"${PODS_ROOT}/Headers/Public/boost-for-react-native\"",
@@ -449,7 +449,7 @@
 				);
 				OTHER_CFLAGS = (
 					"$(inherited)",
-					"-fmodule-map-file=\"${PODS_ROOT}/Headers/Public/FlipperKit/FlipperKit.modulemap\"",
+					"-fmodule-map-file=\"${PODS_ROOT}/Headers/Public/StatesKit/StatesKit.modulemap\"",
 					"-fmodule-map-file=\"${PODS_ROOT}/Headers/Public/yoga/Yoga.modulemap\"",
 					"-fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/YogaKit/YogaKit.modulemap\"",
 					"-isystem",
@@ -463,9 +463,9 @@
 					"-isystem",
 					"\"${PODS_ROOT}/Headers/Public/DoubleConversion\"",
 					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/Flipper\"",
+					"\"${PODS_ROOT}/Headers/Public/States\"",
 					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/FlipperKit\"",
+					"\"${PODS_ROOT}/Headers/Public/StatesKit\"",
 					"-isystem",
 					"\"${PODS_ROOT}/Headers/Public/Folly\"",
 					"-isystem",
@@ -502,7 +502,7 @@
 					"-framework",
 					"\"UIKit\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.facebook.flipper;
+				PRODUCT_BUNDLE_IDENTIFIER = com.facebook.states;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

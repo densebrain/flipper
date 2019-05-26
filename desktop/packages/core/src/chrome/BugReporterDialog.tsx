@@ -196,7 +196,7 @@ const BugReporterDialog = withTheme()(class BugReporterDialog extends React.Comp
               <br />
               <Title>Bug Report created</Title>
               The bug report <Link href={`https://our.intern.facebook.com/intern/bug/${success}`}>{success}</Link> was
-              successfully created. Thank you for your help making Flipper better!
+              successfully created. Thank you for your help making States better!
             </Center>
             <CloseDoneButton onClick={this.onCancel} compact type="primary">
               Close

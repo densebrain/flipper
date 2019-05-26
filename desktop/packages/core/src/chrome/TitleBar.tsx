@@ -96,12 +96,12 @@ export class TitleBarNaked extends React.Component<Props> {
     return <AppTitleBar focused={windowIsFocused} className="toolbar">
         <DevicesButton />
         <ScreenCaptureButtons />
-        {downloadingImportData && <Importing className="flipper-titlebar">
+        {downloadingImportData && <Importing className="states-titlebar">
             <LoadingIndicator size={16} />
             &nbsp;Importing data...
           </Importing>}
-        <Spacer className="flipper-titlebar" />
-        <VersionText className="flipper-titlebar">
+        <Spacer className="states-titlebar" />
+        <VersionText className="states-titlebar">
           {version}
           {isProduction() ? '' : '-dev'}
         </VersionText>

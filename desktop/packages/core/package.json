@@ -1,12 +1,12 @@
 {
-  "name": "@flipper/core",
+  "name": "@states/core",
   "version": "1.0.0",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "license": "MIT",
   "devDependencies": {
-    "@flipper/dev": "^1.0.0",
-    "@flipper/common": "^1.0.0"
+    "@states/dev": "^1.0.0",
+    "@states/common": "^1.0.0"
   },
   "dependencies": {
     "@emotion/core": "^10.0.10",

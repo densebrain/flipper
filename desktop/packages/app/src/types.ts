@@ -8,5 +8,5 @@ export interface DeepLink {
 export interface MainState {
   win: Electron.BrowserWindow | null
   link: DeepLink | null
-  options: FlipperOptions
+  options: StatesOptions
 }

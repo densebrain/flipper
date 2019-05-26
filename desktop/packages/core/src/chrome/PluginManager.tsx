@@ -25,7 +25,7 @@ import Text from "../ui/components/Text"
 import {IPackageJSON} from "package-json"
 
 const {app, shell} = remote
-const FLIPPER_PLUGIN_PATH = path.join(app.getPath("home"), ".flipper")
+const STATES_PLUGIN_PATH = path.join(app.getPath("home"), ".states")
 const DYNAMIC_PLUGINS = JSON.parse(process.env.PLUGINS || "[]")
 type NPMModule = IPackageJSON & {
   error?: any
@@ -109,7 +109,7 @@ const getLatestVersion = (name: string): Promise<NPMModule> => {
 }
 
 const getPluginList = (): Promise<Array<NPMModule>> => {
-  return fetch("http://registry.npmjs.org/-/v1/search?text=keywords:flipper&size=250")
+  return fetch("http://registry.npmjs.org/-/v1/search?text=keywords:states&size=250")
     .then(res => res.json())
     .then(res => res.objects.map((o: any) => o.package))
 }
@@ -144,7 +144,7 @@ const PluginItem = withTheme()(class PluginItem extends React.PureComponent<
       working: true
     })
     const npm = spawn("npm", [action, name], {
-      cwd: FLIPPER_PLUGIN_PATH
+      cwd: STATES_PLUGIN_PATH
     })
     npm.stderr.on("data", e => {
       console.error(e.toString())
@@ -175,7 +175,7 @@ const PluginItem = withTheme()(class PluginItem extends React.PureComponent<
         <FlexRow>
           {managed ? (
             <Text size="0.9em" color={colors.text}>
-              This plugin is not managed by Flipper, but loaded from{" "}
+              This plugin is not managed by States, but loaded from{" "}
               <Text size="1em" code={true}>
                 {rootDir}
               </Text>
@@ -220,7 +220,7 @@ const PluginManager = withTheme()(class PluginManager extends React.PureComponen
       plugins: DYNAMIC_PLUGINS.reduce((acc: any, plugin: PluginT) => {
         acc[plugin.name] = {
           ...plugin,
-          managed: !(plugin.entry || "").startsWith(FLIPPER_PLUGIN_PATH),
+          managed: !(plugin.entry || "").startsWith(STATES_PLUGIN_PATH),
           status: "installed"
         }
         return acc

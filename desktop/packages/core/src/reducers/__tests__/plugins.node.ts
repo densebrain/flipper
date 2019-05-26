@@ -5,18 +5,18 @@
  * @format
  */
 import {default as reducer, registerPlugins} from "../PluginReducer"
-import {FlipperBasePluginComponent, FlipperDevicePluginComponent, FlipperPluginComponent} from "../../plugin"
+import {StatesBasePluginComponent, StatesDevicePluginComponent, StatesPluginComponent} from "../../plugin"
 import {makeDevicePlugin, makeNormalPlugin} from "../../PluginTypes"
 import {Device} from "../../index"
 
-const testBasePlugin = makeNormalPlugin(class extends FlipperBasePluginComponent {
+const testBasePlugin = makeNormalPlugin(class extends StatesBasePluginComponent {
   static id = "TestPlugin"
 })
 
-const testPlugin = makeNormalPlugin(class extends FlipperPluginComponent {
+const testPlugin = makeNormalPlugin(class extends StatesPluginComponent {
   static id = "TestPlugin"
 })
-const testDevicePlugin = makeDevicePlugin(class extends FlipperDevicePluginComponent {
+const testDevicePlugin = makeDevicePlugin(class extends StatesDevicePluginComponent {
   static id = "TestDevicePlugin"
   static supportsDevice(_device: Device): boolean {
     return true

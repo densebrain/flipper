@@ -4,9 +4,9 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import { FlipperPluginComponent } from "../../plugin"
+import { StatesPluginComponent } from "../../plugin"
 import {PluginModuleExport} from "../../PluginTypes"
-class TestPluginComponent extends FlipperPluginComponent {
+class TestPluginComponent extends StatesPluginComponent {
   static id = "Static ID"
 }
 export default {

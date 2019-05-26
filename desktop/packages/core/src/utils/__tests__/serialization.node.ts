@@ -85,7 +85,7 @@ test("test makeObjectSerializable and deserializeObject function for Map and Set
   const map = new Map([["k1", "v1"], ["k2", "v2"]])
   const output = makeObjectSerializable(map)
   const expected = {
-    __flipper_object_type__: "Map",
+    __states_object_type__: "Map",
     data: [["k1", "v1"], ["k2", "v2"]]
   }
   expect(output).toEqual(expected)
@@ -93,7 +93,7 @@ test("test makeObjectSerializable and deserializeObject function for Map and Set
   const set = new Set([1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1])
   const outputSet = makeObjectSerializable(set)
   const expectedSet = {
-    __flipper_object_type__: "Set",
+    __states_object_type__: "Set",
     data: [1, 2, 3, 4, 5, 6]
   }
   expect(outputSet).toEqual(expectedSet)
@@ -120,7 +120,7 @@ test("test makeObjectSerializable and deserializeObject function for Map and Set
   ])
   const output = makeObjectSerializable(map)
   const expected = {
-    __flipper_object_type__: "Map",
+    __states_object_type__: "Map",
     data: [
       [
         {
@@ -164,7 +164,7 @@ test("test makeObjectSerializable and deserializeObject function for Map and Set
   ])
   const outputSet = makeObjectSerializable(set)
   const expectedSet = {
-    __flipper_object_type__: "Set",
+    __states_object_type__: "Set",
     data: [
       {
         title: "1"
@@ -212,7 +212,7 @@ test("test makeObjectSerializable and deserializeObject function for custom Obje
       title: "nestedTitle"
     },
     map: {
-      __flipper_object_type__: "Map",
+      __states_object_type__: "Map",
       data: [["k1", "v1"], ["k2", "v2"]]
     },
     //set: null as Set<any> | null | undefined
@@ -251,11 +251,11 @@ test("test makeObjectSerializable and deserializeObject function for custom Obje
       title: "nestedTitle"
     },
     map: {
-      __flipper_object_type__: "Map",
+      __states_object_type__: "Map",
       data: [["k1", "v1"], ["k2", "v2"]]
     },
     set: {
-      __flipper_object_type__: "Set",
+      __states_object_type__: "Set",
       data: [
         {
           title: "1"
@@ -294,19 +294,19 @@ test("test makeObjectSerializable and deserializeObject function for Array as in
   ]
   let expectedArr = [
     {
-      __flipper_object_type__: "Map",
+      __states_object_type__: "Map",
       data: [["a1", "v1"], ["a2", "v2"]]
     },
     {
-      __flipper_object_type__: "Map",
+      __states_object_type__: "Map",
       data: [["b1", "v1"], ["b2", "v2"]]
     },
     {
-      __flipper_object_type__: "Map",
+      __states_object_type__: "Map",
       data: [["c1", "v1"], ["c2", "v2"]]
     },
     {
-      __flipper_object_type__: "Map",
+      __states_object_type__: "Map",
       data: [["d1", "v1"], ["d2", "v2"]]
     }
   ]
@@ -327,7 +327,7 @@ test("test serialize and deserializeObject function for non Object input", () =>
 test("test makeObjectSerializable and deserializeObject function for Date input", () => {
   const date = new Date("2019-02-15")
   const expectedDate = {
-    __flipper_object_type__: "Date",
+    __states_object_type__: "Date",
     data: date.toString()
   }
   expect(makeObjectSerializable(date)).toEqual(expectedDate)
@@ -336,22 +336,22 @@ test("test makeObjectSerializable and deserializeObject function for Date input"
 test("test makeObjectSerializable and deserializeObject function for Map of Sets", () => {
   const map = new Map<string | Set<number>, Set<number> | Map<string,string>>([["k1", new Set([1, 2, 3, 4, 5, 6])], [new Set([1, 2]), new Map([["k3", "v3"]])]])
   const expectedOutput = {
-    __flipper_object_type__: "Map",
+    __states_object_type__: "Map",
     data: [
       [
         "k1",
         {
-          __flipper_object_type__: "Set",
+          __states_object_type__: "Set",
           data: [1, 2, 3, 4, 5, 6]
         }
       ],
       [
         {
-          __flipper_object_type__: "Set",
+          __states_object_type__: "Set",
           data: [1, 2]
         },
         {
-          __flipper_object_type__: "Map",
+          __states_object_type__: "Map",
           data: [["k3", "v3"]]
         }
       ]
@@ -365,22 +365,22 @@ test("test makeObjectSerializable and deserializeObject function for Map, Dates 
   const date2 = new Date("2019-02-16")
   const map = new Map<string, Date | Set<Date>>([["k1", date1], ["k2", new Set<Date>([date2])]])
   const expectedOutput = {
-    __flipper_object_type__: "Map",
+    __states_object_type__: "Map",
     data: [
       [
         "k1",
         {
-          __flipper_object_type__: "Date",
+          __states_object_type__: "Date",
           data: date1.toString()
         }
       ],
       [
         "k2",
         {
-          __flipper_object_type__: "Set",
+          __states_object_type__: "Set",
           data: [
             {
-              __flipper_object_type__: "Date",
+              __states_object_type__: "Date",
               data: date2.toString()
             }
           ]

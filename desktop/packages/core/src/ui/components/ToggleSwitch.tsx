@@ -38,7 +38,7 @@ type Props = SimpleThemeProps & {
  * **Usage**
  *
  * ```jsx
- * import {ToggleButton} from "@flipper/core";
+ * import {ToggleButton} from "@states/core";
  * <ToggleButton onClick={handler} toggled={boolean}/>
  * ```
  */

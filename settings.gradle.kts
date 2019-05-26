@@ -9,11 +9,11 @@ include(":common:xplat")
 
 //include(":platforms")
 include(":platforms:android:fbjni")
-include(":platforms:android:flipper")
+include(":platforms:android:states")
 include(":platforms:android:sample")
 
-project(":platforms:android:flipper").apply {
-  name = "android-flipper"
+project(":platforms:android:states").apply {
+  name = "android-states"
 }
 
 project(":platforms:android:sample").apply {
@@ -21,7 +21,7 @@ project(":platforms:android:sample").apply {
 }
 
 pluginManagement {
-  addFlipperRepositories()
+  addStatesRepositories()
 
   resolutionStrategy {
     eachPlugin {

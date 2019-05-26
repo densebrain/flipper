@@ -1,10 +1,10 @@
 {
-  "name": "flipper",
+  "name": "@states/project",
   "private": true,
   "version": "1.0.0",
   "versionDate": "2018-4-12",
   "description": "Development Platform",
-  "productName": "Flipper",
+  "productName": "States",
   "author": "Facebook Inc",
   "icon": "icon.png",
   "category": "facebook-intern",
@@ -33,14 +33,6 @@
     "start:clean": "yarn run clean && yarn run start",
     
     "old:fix": "eslint . --fix",
-    "old:postinstall": "node scripts/yarn-install.js",
-    "old:rm-dist": "rm -rf dist",
-    "old:rm-modules": "rm -rf node_modules statics/node_modules",
-    "old:rm-temp": "rm -rf $TMPDIR/jest* $TMPDIR/react-native-packager*",
-    "old:reset": "yarn cache clean && yarn rm-dist && yarn rm-modules && yarn rm-temp",
-    "old:start": "cross-env NODE_ENV=development node scripts/start-dev-server.js",
-    "old:build": "yarn rm-dist && cross-env NODE_ENV=production node scripts/build-release.js $@",
-    "old:build:headless": "yarn rm-dist && mkdir dist && cross-env NODE_ENV=production node scripts/build-headless.js $@",
     
     "old:test": "jest --testPathPattern=node\\.js$ --no-cache",
     "old:test:debug": "node --inspect node_modules/.bin/jest --runInBand",

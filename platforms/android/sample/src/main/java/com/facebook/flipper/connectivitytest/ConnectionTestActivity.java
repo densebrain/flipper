@@ -1,12 +1,12 @@
-package com.facebook.flipper.connectivitytest;
+package com.facebook.states.connectivitytest;
 
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import com.facebook.flipper.android.AndroidFlipperClient;
-import com.facebook.flipper.core.FlipperClient;
-import com.facebook.flipper.plugins.example.ExampleFlipperPlugin;
-import com.facebook.flipper.sample.RootComponent;
+import com.facebook.states.android.AndroidStatesClient;
+import com.facebook.states.core.StatesClient;
+import com.facebook.states.plugins.example.ExampleStatesPlugin;
+import com.facebook.states.sample.RootComponent;
 import com.facebook.litho.ComponentContext;
 import com.facebook.litho.LithoView;
 
@@ -23,12 +23,12 @@ public class ConnectionTestActivity extends AppCompatActivity {
     final ComponentContext c = new ComponentContext(this);
     setContentView(LithoView.create(c, RootComponent.create(c).build()));
 
-    final FlipperClient client = AndroidFlipperClient.getInstanceIfInitialized();
+    final StatesClient client = AndroidStatesClient.getInstanceIfInitialized();
     if (client != null) {
       // As we're re-using the identifier, get rid of the default plugin first.
-      final ExampleFlipperPlugin exampleFlipperPlugin =
-          client.getPluginByClass(ExampleFlipperPlugin.class);
-      client.removePlugin(exampleFlipperPlugin);
+      final ExampleStatesPlugin exampleStatesPlugin =
+          client.getPluginByClass(ExampleStatesPlugin.class);
+      client.removePlugin(exampleStatesPlugin);
 
       final ConnectionTestPlugin connectionTestPlugin = new ConnectionTestPlugin(this);
       client.addPlugin(connectionTestPlugin);

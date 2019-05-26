@@ -5,9 +5,9 @@
  * @format
  */
 import * as React from "react"
-import { PluginClient, ElementSearchResultSet, Element } from "@flipper/core"
+import { PluginClient, ElementSearchResultSet, Element } from "@states/core"
 import { PersistedState, ElementMap } from "./"
-import { SearchInput, SearchBox, SearchIcon, LoadingIndicator, styled, colors } from "@flipper/core"
+import { SearchInput, SearchBox, SearchIcon, LoadingIndicator, styled, colors } from "@states/core"
 import { Component } from "react"
 export type SearchResultTree = {
   id: string,

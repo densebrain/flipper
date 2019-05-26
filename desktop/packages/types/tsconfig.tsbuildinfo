@@ -338,8 +338,8 @@
         "signature": "e7ef01fb3213b1be13321648ac2612d60e9e2742e28fc2fcf68d27fb965a8d5c"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/bluebird/index.d.ts": {
-        "version": "3b68d84083b030735621d09b37cf55914651770b9a0fadfbe856c97f3d925189",
-        "signature": "3b68d84083b030735621d09b37cf55914651770b9a0fadfbe856c97f3d925189"
+        "version": "3c10804e3bd90aa404eefbc300c362b0ebbd23b34eb03ae592717ac111889f34",
+        "signature": "3c10804e3bd90aa404eefbc300c362b0ebbd23b34eb03ae592717ac111889f34"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/node/globals.d.ts": {
         "version": "3af134c0480536f901a30692d216bd29712a3869fe38a7be066ea1eef34a8561",
@@ -558,8 +558,8 @@
         "signature": "4e88b833be14c7f384e0dcd57bb30acd799e8e34d212635d693e41a75a71164b"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/express-serve-static-core/index.d.ts": {
-        "version": "6baf9847c99b920115986f629ba37e7aadc1c8d7d6a14f91ce6a7ba48fbb2c7b",
-        "signature": "6baf9847c99b920115986f629ba37e7aadc1c8d7d6a14f91ce6a7ba48fbb2c7b"
+        "version": "0aedf3934f853fe2434909d11098b93255ef60a757f18425d2755f0531beee5b",
+        "signature": "0aedf3934f853fe2434909d11098b93255ef60a757f18425d2755f0531beee5b"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/mime/index.d.ts": {
         "version": "be27a64e821a3e5af838650e4aa25805c60f057d0c37a9762c378d19d364b3e6",
@@ -969,7 +969,7 @@
         "*": [
           "*"
         ],
-        "@flipper/*": [
+        "@states/*": [
           "./*/src"
         ],
         "sugar": [

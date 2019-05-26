@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "A plugin which will display a crash",
   "main": "index.js",
-  "repository": "https://github.com/facebook/flipper",
+  "repository": "https://github.com/densebrain/states",
   "license": "MIT",
   "title": "Crash Reporter",
   "bugs": {

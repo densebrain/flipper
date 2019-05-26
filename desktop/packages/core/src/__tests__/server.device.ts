@@ -20,10 +20,10 @@ let server: Server | null = null
 const store = createStore(reducers) as Store
 beforeAll(() => {
   // create config directory, which is usually created by static/index.js
-  const flipperDir = path.join(os.homedir(), ".flipper")
+  const statesDir = path.join(os.homedir(), ".states")
 
-  if (!fs.existsSync(flipperDir)) {
-    fs.mkdirSync(flipperDir)
+  if (!fs.existsSync(statesDir)) {
+    fs.mkdirSync(statesDir)
   }
 
   const logger = initLogger(store)

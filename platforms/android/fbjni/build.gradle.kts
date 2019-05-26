@@ -17,7 +17,7 @@ android {
       cmake {
         arguments.addAll(listOf("-DANDROID_TOOLCHAIN=clang", "-DANDROID_STL=c++_static"))
         targets.clear()
-        targets.add("flipperfb")
+        targets.add("statesfb")
       }
     }
   }
@@ -28,7 +28,7 @@ android {
     }
 
     getByName("test").apply {
-      java.exclude("com/facebook/flipper/plugins/facebook/**")
+      java.exclude("com/facebook/states/plugins/facebook/**")
     }
   }
 

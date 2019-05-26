@@ -18,7 +18,7 @@ import {
   styled,
   Select,
   Checkbox
-} from "@flipper/core"
+} from "@states/core"
 import { ImagesMap } from "./ImagePool"
 import { clipboard } from "electron"
 import * as React from "react"

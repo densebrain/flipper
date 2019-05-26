@@ -11,8 +11,8 @@ import {
   ContextMenuComponent,
   DetailSidebar,
   FlexColumn,
-  FlipperPluginComponent,
-  FlipperPluginProps,
+  StatesPluginComponent,
+  StatesPluginProps,
   Glyph,
   KeyboardActions,
   Notification, PluginClientMessage,
@@ -25,7 +25,7 @@ import {
   TableHighlightedRows,
   TableRows,
   Text
-} from "@flipper/core"
+} from "@states/core"
 import {padStart} from "lodash"
 import RequestDetails from "./RequestDetails"
 import {URL} from "url"
@@ -170,10 +170,10 @@ type NetworkClientMessage =
   PluginClientMessage<"newResponse", Response> |
   PluginClientMessage<"newRequest", Request>
 
-type Props = FlipperPluginProps<PersistedState>
+type Props = StatesPluginProps<PersistedState>
 
-class NetworkPluginComponent extends FlipperPluginComponent<Props, State, Actions, PersistedState> {
-  static id = "@flipper/plugin-network"
+class NetworkPluginComponent extends StatesPluginComponent<Props, State, Actions, PersistedState> {
+  static id = "@states/plugin-network"
   static keyboardActions:KeyboardActions = ["clear"]
   //static subscribed = []
   static defaultPersistedState = {

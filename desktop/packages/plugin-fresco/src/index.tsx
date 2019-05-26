@@ -17,16 +17,16 @@ import { ImagesMap } from "./ImagePool"
 import * as React from "react"
 import ImagesCacheOverview from "./ImagesCacheOverview"
 import {
-  FlipperPluginComponent,
+  StatesPluginComponent,
   FlexRow,
   Text,
   DetailSidebar,
   colors,
   styled,
-  FlipperPluginProps,
+  StatesPluginProps,
   PluginType,
   PluginModuleExport
-} from "@flipper/core"
+} from "@states/core"
 import ImagesSidebar from "./ImagesSidebar"
 import ImagePool from "./ImagePool"
 export type ImageEventWithId = ImageEvent & {
@@ -57,10 +57,10 @@ const DEBUG = false
 const surfaceDefaultText = "SELECT ALL SURFACES"
 
 
-type Props = FlipperPluginProps<PersistedState>
+type Props = StatesPluginProps<PersistedState>
 
-class FrescoPlugin extends FlipperPluginComponent<Props, PluginState, {}, PersistedState> {
-  static id = "@flipper/plugin-fresco"
+class FrescoPlugin extends StatesPluginComponent<Props, PluginState, {}, PersistedState> {
+  static id = "@states/plugin-fresco"
   
   static defaultPersistedState: PersistedState = {
     images: [],

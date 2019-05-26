@@ -1,7 +1,7 @@
 // Copyright 2004-present Facebook. All Rights Reserved.
 
 import UIKit
-import FlipperKit
+import StatesKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -12,14 +12,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     window = UIWindow()
 
-    let client = FlipperClient.shared()
+    let client = StatesClient.shared()
     let layoutDescriptorMapper = SKDescriptorMapper(defaults: ())
     // If you want to debug componentkit view in swift, otherwise you can ignore the next line
-    FlipperKitLayoutComponentKitSupport.setUpWith(layoutDescriptorMapper)
-    client?.add(FlipperKitLayoutPlugin(rootNode: application, with: layoutDescriptorMapper!))
+    StatesKitLayoutComponentKitSupport.setUpWith(layoutDescriptorMapper)
+    client?.add(StatesKitLayoutPlugin(rootNode: application, with: layoutDescriptorMapper!))
 
-    client?.add(FlipperKitNetworkPlugin(networkAdapter: SKIOSNetworkAdapter()))
-    client?.add(FlipperKitExamplePlugin.sharedInstance());
+    client?.add(StatesKitNetworkPlugin(networkAdapter: SKIOSNetworkAdapter()))
+    client?.add(StatesKitExamplePlugin.sharedInstance());
     client?.add(FKUserDefaultsPlugin.init(suiteName: nil))
     client?.start()
 
@@ -27,14 +27,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let mainViewController = storyboard.instantiateViewController(withIdentifier: "MainViewController")
     let navigationController = UINavigationController(rootViewController: mainViewController)
 
-    navigationController.navigationBar.topItem?.title = "SampleFlipper"
+    navigationController.navigationBar.topItem?.title = "SampleStates"
     navigationController.navigationBar.isTranslucent = false
 
     window?.rootViewController = navigationController
     window?.makeKeyAndVisible()
 
     // Use NSLog since Flipepr doesn't capture print() by default
-    NSLog("Hello from Flipper in a Swift app!")
+    NSLog("Hello from States in a Swift app!")
 
     return true
   }

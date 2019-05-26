@@ -65,7 +65,7 @@ export function updateDataSet<T = any>(newData:Array<T>, oldDataSet:IDataSet<T> 
 
 export type PromiseResolver<T = any,TResult1 = T> = ((value: T) => TResult1 | PromiseLike<TResult1>)
 
-export type FlipperConfig = {
+export type StatesConfig = {
 	pluginPaths: Array<string>
 	disabledPlugins: Array<string>
 	lastWindowPosition?: any

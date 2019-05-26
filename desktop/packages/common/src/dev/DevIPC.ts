@@ -1,6 +1,6 @@
 
 import "../Types"
-import {WebpackAssetInfo} from "@flipper/common"
+import {WebpackAssetInfo} from "@states/common"
 import { Deferred } from "../async/Deferred"
 import { getLogger } from "../logging/Logger"
 
@@ -69,7 +69,7 @@ if (isDev === true) {
   const
     ipcImport = import("node-ipc"),
     log = getLogger(__filename),
-    serverId = "flipper-dev-ipc"
+    serverId = "states-dev-ipc"
 
   abstract class AbstractDevIPC implements DevIPC {
     
@@ -243,7 +243,7 @@ if (isDev === true) {
           { config } = ipc
         
         Object.assign(config, {
-          id: `flipper-dev-ipc-client-${process.pid}`,
+          id: `states-dev-ipc-client-${process.pid}`,
           retry: 500,
           silent: true
         })

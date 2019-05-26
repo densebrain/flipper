@@ -6,7 +6,7 @@
  */
 import * as React from "react"
 import { reportPlatformFailures } from "../utils/metrics"
-import { exportStoreToFile, EXPORT_FLIPPER_TRACE_EVENT } from "../utils/exportData"
+import { exportStoreToFile, EXPORT_STATES_TRACE_EVENT } from "../utils/exportData"
 import PropTypes from "prop-types"
 import {getValue} from "typeguard"
 import styled from "../ui/styled"
@@ -78,7 +78,7 @@ export default withTheme()(class ShareSheetExportFile extends React.Component<Pr
     try {
       const { errorArray } = await reportPlatformFailures(
         exportStoreToFile(this.props.file, this.context.store),
-        `${EXPORT_FLIPPER_TRACE_EVENT}:UI`
+        `${EXPORT_STATES_TRACE_EVENT}:UI`
       )
       this.setState({
         errorArray,
@@ -112,7 +112,7 @@ export default withTheme()(class ShareSheetExportFile extends React.Component<Pr
             <FlexColumn>
               <Title bold>Data Exported Successfully</Title>
               <InfoText>
-                When sharing your Flipper data, consider that the captured data might contain sensitive information like
+                When sharing your States data, consider that the captured data might contain sensitive information like
                 access tokens used in network requests.
               </InfoText>
               {this.state.errorArray.length > 0 && (
@@ -158,7 +158,7 @@ export default withTheme()(class ShareSheetExportFile extends React.Component<Pr
           <Center>
             <LoadingIndicator size={30} />
             <Uploading bold color={colors.accentText}>
-              Exporting Flipper trace...
+              Exporting States trace...
             </Uploading>
           </Center>
         </Container>

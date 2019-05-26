@@ -5,19 +5,19 @@
  *  file in the root directory of this source tree.
  *
  */
-package com.facebook.flipper.connectivitytest;
+package com.facebook.states.connectivitytest;
 
 import android.app.Activity;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
-import com.facebook.flipper.core.FlipperConnection;
-import com.facebook.flipper.core.FlipperObject;
-import com.facebook.flipper.core.FlipperPlugin;
-import com.facebook.flipper.core.FlipperReceiver;
-import com.facebook.flipper.core.FlipperResponder;
-import com.facebook.flipper.sample.ExampleActions;
+import com.facebook.states.core.StatesConnection;
+import com.facebook.states.core.StatesObject;
+import com.facebook.states.core.StatesPlugin;
+import com.facebook.states.core.StatesReceiver;
+import com.facebook.states.core.StatesResponder;
+import com.facebook.states.sample.ExampleActions;
 
-public class ConnectionTestPlugin implements FlipperPlugin {
+public class ConnectionTestPlugin implements StatesPlugin {
 
   // We are reusing the existing "Example" logic here. That's generally a pretty bad idea,
   // but in war and in testing everything is fair.
@@ -25,7 +25,7 @@ public class ConnectionTestPlugin implements FlipperPlugin {
 
   private final Activity mActivity;
 
-  @Nullable private FlipperConnection mConnection;
+  @Nullable private StatesConnection mConnection;
 
   public ConnectionTestPlugin(Activity activity) {
     mActivity = activity;
@@ -37,13 +37,13 @@ public class ConnectionTestPlugin implements FlipperPlugin {
   }
 
   @Override
-  public void onConnect(FlipperConnection connection) {
+  public void onConnect(StatesConnection connection) {
     mConnection = connection;
     connection.receive(
         "displayMessage",
-        new FlipperReceiver() {
+        new StatesReceiver() {
           @Override
-          public void onReceive(final FlipperObject params, FlipperResponder responder) {
+          public void onReceive(final StatesObject params, StatesResponder responder) {
             if (mActivity != null) {
               mActivity.runOnUiThread(
                   new Runnable() {
@@ -55,7 +55,7 @@ public class ConnectionTestPlugin implements FlipperPlugin {
                   });
             }
 
-            responder.success(new FlipperObject.Builder().put("greeting", "Hello").build());
+            responder.success(new StatesObject.Builder().put("greeting", "Hello").build());
           }
         });
 
@@ -65,7 +65,7 @@ public class ConnectionTestPlugin implements FlipperPlugin {
           public void run() {
             ExampleActions.sendGetRequest();
             ExampleActions.sendPostRequest();
-            // We want Flipper to properly disconnect at this point and actually shut down the app.
+            // We want States to properly disconnect at this point and actually shut down the app.
             mActivity.finish();
             android.os.Process.sendSignal(android.os.Process.myPid(), 15);
           }

@@ -1,4 +1,4 @@
-import {getLogger} from "@flipper/common"
+import {getLogger} from "@states/common"
 import TscWatch from "tsc-watch/client"
 import * as Path from "path"
 import { packageDir } from "./dirs"

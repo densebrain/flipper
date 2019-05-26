@@ -151,7 +151,7 @@ class ScreenCaptureButtons extends React.Component<Props, State> {
     this.videoPath = videoPath;
 
     if (selectedDevice instanceof AndroidDevice) {
-      const devicePath = '/sdcard/flipper_recorder';
+      const devicePath = '/sdcard/states_recorder';
       this.setState({
         recording: true
       });

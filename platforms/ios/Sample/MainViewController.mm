@@ -12,7 +12,7 @@
 #import "RootViewController.h"
 #import "UserDefaultsViewController.h"
 #import "CommunicationDemoViewController.h"
-#import <FlipperKit/FlipperDiagnosticsViewController.h>
+#import <StatesKit/StatesDiagnosticsViewController.h>
 
 @interface MainViewController ()
 
@@ -25,7 +25,7 @@
     // Do any additional setup after loading the view.
 }
 - (IBAction)tappedDiagnosticScreen:(UIButton *)sender {
-    FlipperDiagnosticsViewController *controller = [[FlipperDiagnosticsViewController alloc] init];
+    StatesDiagnosticsViewController *controller = [[StatesDiagnosticsViewController alloc] init];
     [self.navigationController pushViewController:controller animated:true];
 }
 

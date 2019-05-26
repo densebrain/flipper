@@ -19,7 +19,7 @@ import {
   styled,
   colors,
   TableBodyRow
-} from "@flipper/core"
+} from "@states/core"
 import { getHeaderValue } from "./index"
 import querystring from "querystring"
 import {isString} from "typeguard" // $FlowFixMe

@@ -7,9 +7,9 @@
  */
 
 #import "CommunicationDemoViewController.h"
-#import <FlipperKitExamplePlugin/FlipperKitExamplePlugin.h>
+#import <StatesKitExamplePlugin/StatesKitExamplePlugin.h>
 
-@interface CommunicationDemoViewController()<FlipperKitExampleCommunicationResponderDelegate>
+@interface CommunicationDemoViewController()<StatesKitExampleCommunicationResponderDelegate>
 @property (strong, nonatomic) NSMutableArray<NSString *> *messagesToDisplay;
 @property (weak, nonatomic) IBOutlet UITextField *messageTextField;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -19,16 +19,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [FlipperKitExamplePlugin sharedInstance].delegate = self;
+    [StatesKitExamplePlugin sharedInstance].delegate = self;
 }
 
 - (IBAction)tappedTriggerNotification:(UIButton *)sender {
-    [[FlipperKitExamplePlugin sharedInstance] triggerNotification];
+    [[StatesKitExamplePlugin sharedInstance] triggerNotification];
 }
 
 - (IBAction)tappedSendMessage:(UIButton *)sender {
     if (self.messageTextField.text.length > 0) {
-        [[FlipperKitExamplePlugin sharedInstance] sendMessage:self.messageTextField.text];
+        [[StatesKitExamplePlugin sharedInstance] sendMessage:self.messageTextField.text];
     }
 }
 

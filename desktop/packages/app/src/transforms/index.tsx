@@ -88,7 +88,7 @@ function transform({ filename, options, src }: any) {
   }
 
   if (isPlugin) {
-    plugins.push(require("./flipper-requires.js"))
+    plugins.push(require("./states-requires.js"))
   } else {
     plugins.push(require("./import-react.js"))
   }

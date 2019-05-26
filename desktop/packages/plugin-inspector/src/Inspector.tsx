@@ -5,8 +5,8 @@
  * @format
  */
 import * as React from "react"
-import { ElementID, Element, PluginClient, ElementSearchResultSet } from "@flipper/core"
-import { ElementsInspector } from "@flipper/core"
+import { ElementID, Element, PluginClient, ElementSearchResultSet } from "@states/core"
+import { ElementsInspector } from "@states/core"
 import {debounce} from "lodash"
 import { PersistedState } from "./index"
 import {oc} from "ts-optchain"

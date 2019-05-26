@@ -4,7 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import {getLogger} from "@flipper/common"
+import {getLogger} from "@states/common"
 import {
   BaseDevice,
   Button,
@@ -16,8 +16,8 @@ import {
   DeviceLogEntry,
   Filter,
   FlexColumn,
-  FlipperDevicePluginComponent,
-  FlipperPluginProps,
+  StatesDevicePluginComponent,
+  StatesPluginProps,
   Glyph,
   IManagedTable,
   jss,
@@ -36,7 +36,7 @@ import {
   Text,
   textContent,
   Theme
-} from "@flipper/core"
+} from "@states/core"
 
 import * as _ from "lodash"
 
@@ -149,7 +149,7 @@ function pad(chunk: {}, len: number): string {
   }
   
   return str
-} //type LogProps = ThemedClassesProps<FlipperPluginProps<PersistedState>, Classes>;
+} //type LogProps = ThemedClassesProps<StatesPluginProps<PersistedState>, Classes>;
 
 const baseStyles = (theme: Theme) => {
   const { colors, logs, getContrastText } = theme
@@ -177,14 +177,14 @@ const baseStyles = (theme: Theme) => {
   } as any
 }
 
-type Props = FlipperPluginProps<PersistedState> & SimpleThemeProps
-export class LogTable extends FlipperDevicePluginComponent<
+type Props = StatesPluginProps<PersistedState> & SimpleThemeProps
+export class LogTable extends StatesDevicePluginComponent<
   Props,
   State,
   Actions,
   PersistedState
 > {
-  static id = "@flipper/plugin-logs"
+  static id = "@states/plugin-logs"
 
   static keyboardActions: KeyboardActions = [
     "clear",
@@ -579,7 +579,7 @@ export class LogTable extends FlipperDevicePluginComponent<
     return jss.createStyleSheet(baseStyles(props.theme)).attach()
   }
 
-  updateTheme(props: FlipperPluginProps<PersistedState, {}> = this.props) {
+  updateTheme(props: StatesPluginProps<PersistedState, {}> = this.props) {
     if (this.state && this.state.sheet) {
       this.state.sheet.detach()
     }
@@ -588,7 +588,7 @@ export class LogTable extends FlipperDevicePluginComponent<
   }
 
   componentWillReceiveProps(
-    nextProps: FlipperPluginProps<PersistedState, {}>,
+    nextProps: StatesPluginProps<PersistedState, {}>,
     _nextContext: any
   ) {
     const patch: Partial<State> = {}

@@ -8,15 +8,15 @@ import org.gradle.plugin.management.PluginManagementSpec
 
 fun addRepositories(scriptHandler: ScriptHandler) = addRepositories(scriptHandler.repositories)
 
-fun ScriptHandler.addFlipperRepositories() = addRepositories(this.repositories)
+fun ScriptHandler.addStatesRepositories() = addRepositories(this.repositories)
 
 fun addRepositories(pluginManagementSpec: PluginManagementSpec) = addRepositories(pluginManagementSpec.repositories)
 
-fun PluginManagementSpec.addFlipperRepositories() = addRepositories(this.repositories)
+fun PluginManagementSpec.addStatesRepositories() = addRepositories(this.repositories)
 
 fun addRepositories(project: Project) = addRepositories(project.repositories)
 
-fun Project.addFlipperRepositories() = addRepositories(this.repositories)
+fun Project.addStatesRepositories() = addRepositories(this.repositories)
 
 /**
  * Add default repositories

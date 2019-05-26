@@ -6,9 +6,9 @@
  */
 import * as React from "react"
 import {
-  FlipperDevicePluginComponent,
+  StatesDevicePluginComponent,
   Device,
-  FlipperPluginProps,
+  StatesPluginProps,
   PluginType,
   PluginModuleExport,
   FlexColumn,
@@ -18,7 +18,7 @@ import {
   Text,
   ManagedTable,
   lighten
-} from "@flipper/core"
+} from "@states/core"
 
 const adb = require("adbkit-fb")
 
@@ -100,10 +100,10 @@ function formatFrequency(freq: number): string {
   }
 }
 
-type Props = FlipperPluginProps<{}>
+type Props = StatesPluginProps<{}>
 
-class CPUFrequencyTable extends FlipperDevicePluginComponent<Props, CPUState> {
-  static id = "@flipper/plugin-cpu"
+class CPUFrequencyTable extends StatesDevicePluginComponent<Props, CPUState> {
+  static id = "@states/plugin-cpu"
   static title = "CPU"
 
   adbClient: ADBClient

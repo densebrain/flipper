@@ -27,9 +27,9 @@ import {KeyboardActionHandler} from "./KeyboardTypes"
 // If you want to `call` from the plugin use, this.client.call
 
 
-export type FlipperPluginProps<PersistedState, ExtraProps = {}> = PluginComponentProps<PersistedState> & ExtraProps
+export type StatesPluginProps<PersistedState, ExtraProps = {}> = PluginComponentProps<PersistedState> & ExtraProps
 
-export class FlipperBasePluginComponent<Props extends FlipperPluginProps<PersistedState> = any, State = any, Actions extends PluginActions = any, PersistedState = any>
+export class StatesBasePluginComponent<Props extends StatesPluginProps<PersistedState> = any, State = any, Actions extends PluginActions = any, PersistedState = any>
   extends React.Component<Props,
     State> implements PluginComponent<Props, State, Actions, PersistedState> {
   
@@ -82,7 +82,7 @@ export class FlipperBasePluginComponent<Props extends FlipperPluginProps<Persist
   // }
   
   onRegisterDevice(
-    _store:FlipperStore,
+    _store:StatesStore,
     _baseDevice:BaseDevice,
     _setPersistedState:(pluginKey:string, newPluginState:PersistedState | null | undefined) => void
   ):void {
@@ -147,12 +147,12 @@ export class FlipperBasePluginComponent<Props extends FlipperPluginProps<Persist
   
 }
 
-export class FlipperPluginComponent<
-  Props extends FlipperPluginProps<PersistedState> = any,
+export class StatesPluginComponent<
+  Props extends StatesPluginProps<PersistedState> = any,
   State = any,
   Actions extends PluginActions = any,
   PersistedState = any
-> extends FlipperBasePluginComponent<
+> extends StatesBasePluginComponent<
   Props,
   State,
   Actions,
@@ -234,8 +234,8 @@ export class FlipperPluginComponent<
   }
 }
 
-export class FlipperDevicePluginComponent<Props extends FlipperPluginProps<PersistedState> = any, State = any, Actions extends PluginActions = any, PersistedState = any>
-  extends FlipperBasePluginComponent<
+export class StatesDevicePluginComponent<Props extends StatesPluginProps<PersistedState> = any, State = any, Actions extends PluginActions = any, PersistedState = any>
+  extends StatesBasePluginComponent<
     Props,
     State,
     Actions,
@@ -248,7 +248,7 @@ export class FlipperDevicePluginComponent<Props extends FlipperPluginProps<Persi
   > {
   
   static supportsDevice(_device:BaseDevice) {
-    throw new Error("supportsDevice is unimplemented in FlipperDevicePlugin class")
+    throw new Error("supportsDevice is unimplemented in StatesDevicePlugin class")
   }
   
   readonly device:BaseDevice

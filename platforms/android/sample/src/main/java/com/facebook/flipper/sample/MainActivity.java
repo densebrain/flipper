@@ -5,15 +5,15 @@
  *  file in the root directory of this source tree.
  *
  */
-package com.facebook.flipper.sample;
+package com.facebook.states.sample;
 
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
-import com.facebook.flipper.android.AndroidFlipperClient;
-import com.facebook.flipper.core.FlipperClient;
-import com.facebook.flipper.plugins.example.ExampleFlipperPlugin;
-import com.facebook.flipper.plugins.leakcanary.RecordLeakService;
+import com.facebook.states.android.AndroidStatesClient;
+import com.facebook.states.core.StatesClient;
+import com.facebook.states.plugins.example.ExampleStatesPlugin;
+import com.facebook.states.plugins.leakcanary.RecordLeakService;
 import com.facebook.litho.ComponentContext;
 import com.facebook.litho.LithoView;
 
@@ -25,9 +25,9 @@ public class MainActivity extends AppCompatActivity {
     final ComponentContext c = new ComponentContext(this);
     setContentView(LithoView.create(c, RootComponent.create(c).build()));
 
-    final FlipperClient client = AndroidFlipperClient.getInstanceIfInitialized();
+    final StatesClient client = AndroidStatesClient.getInstanceIfInitialized();
     if (client != null) {
-      final ExampleFlipperPlugin samplePlugin = client.getPluginByClass(ExampleFlipperPlugin.class);
+      final ExampleStatesPlugin samplePlugin = client.getPluginByClass(ExampleStatesPlugin.class);
       samplePlugin.setActivity(this);
       startService(new Intent(this, RecordLeakService.class));
     }

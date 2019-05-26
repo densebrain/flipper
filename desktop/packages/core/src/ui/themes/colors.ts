@@ -484,5 +484,5 @@ export const brandColors = {
   Facebook: "#4267B2",
   Messenger: "#0088FA",
   Instagram: "#E61E68",
-  Flipper: "#8155cb"
+  States: "#8155cb"
 }

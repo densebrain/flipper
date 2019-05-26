@@ -9,8 +9,8 @@ import { remote, ipcRenderer } from 'electron';
 import { Store } from '../reducers/index';
 import {getLogger, Logger} from '../fb-interfaces/Logger'
 import { toggleAction } from '../reducers/ApplicationReducer';
-import { parseFlipperPorts } from '../utils/environmentVariables';
-import { importDataToStore, importFileToStore, IMPORT_FLIPPER_TRACE_EVENT } from '../utils/exportData';
+import { parseStatesPorts } from '../utils/environmentVariables';
+import { importDataToStore, importFileToStore, IMPORT_STATES_TRACE_EVENT } from '../utils/exportData';
 import { tryCatchReportPlatformFailures } from '../utils/metrics';
 import { selectPlugin } from '../reducers/ConnectionsReducer';
 import qs from 'query-string';
@@ -23,7 +23,7 @@ export const uriComponents = (url: string) => {
     return [];
   }
 
-  const match: Array<string> | null | undefined = url.match(/^flipper:\/\/([^\/]*)\/([^\/]*)\/?(.*)$/);
+  const match: Array<string> | null | undefined = url.match(/^states:\/\/([^\/]*)\/([^\/]*)\/?(.*)$/);
 
   if (match) {
     return (match.map(decodeURIComponent).slice(1).filter(Boolean) as Array<string>);
@@ -45,8 +45,8 @@ export default async function(store: Store, _logger: Logger) {
       payload: false
     });
   });
-  ipcRenderer.on('flipper-protocol-handler', async (_event:Electron.Event, url:string) => {
-    if (url.startsWith('flipper://import')) {
+  ipcRenderer.on('states-protocol-handler', async (_event:Electron.Event, url:string) => {
+    if (url.startsWith('states://import')) {
       const {
         search
       } = new URL(url);
@@ -73,7 +73,7 @@ export default async function(store: Store, _logger: Logger) {
     const match = uriComponents(url);
 
     if (match.length > 1) {
-      // flipper://<client>/<pluginId>/<payload>
+      // states://<client>/<pluginId>/<payload>
       return store.dispatch(selectPlugin({
         selectedApp: match[0],
         selectedPlugin: match[1],
@@ -81,14 +81,14 @@ export default async function(store: Store, _logger: Logger) {
       }));
     }
   });
-  ipcRenderer.on('open-flipper-file', (_event: Electron.Event, url: string) => {
+  ipcRenderer.on('open-states-file', (_event: Electron.Event, url: string) => {
     tryCatchReportPlatformFailures(() => {
       return importFileToStore(url, store);
-    }, `${IMPORT_FLIPPER_TRACE_EVENT}:Deeplink`);
+    }, `${IMPORT_STATES_TRACE_EVENT}:Deeplink`);
   });
 
-  if (process.env.FLIPPER_PORTS) {
-    const portOverrides = parseFlipperPorts(process.env.FLIPPER_PORTS);
+  if (process.env.STATES_PORTS) {
+    const portOverrides = parseStatesPorts(process.env.STATES_PORTS);
 
     if (portOverrides) {
       store.dispatch({
@@ -96,8 +96,8 @@ export default async function(store: Store, _logger: Logger) {
         payload: portOverrides
       });
     } else {
-      console.error(`Ignoring malformed FLIPPER_PORTS env variable:
-        "${process.env.FLIPPER_PORTS || ''}".
+      console.error(`Ignoring malformed STATES_PORTS env variable:
+        "${process.env.STATES_PORTS || ''}".
         Example expected format: "1111,2222".`);
     }
   }

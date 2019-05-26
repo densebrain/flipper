@@ -1,25 +1,25 @@
 // Copyright 2004-present Facebook. All Rights Reserved.
 
 import UIKit
-import FlipperKit
+import StatesKit
 
-class CommunicationDemoViewController: UIViewController, UITableViewDataSource, FlipperKitExampleCommunicationResponderDelegate {
+class CommunicationDemoViewController: UIViewController, UITableViewDataSource, StatesKitExampleCommunicationResponderDelegate {
   @IBOutlet weak var messageField: UITextField!
   @IBOutlet weak var tableView: UITableView!
   var messageArray: [String] = []
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    FlipperKitExamplePlugin.sharedInstance()?.delegate = self
+    StatesKitExamplePlugin.sharedInstance()?.delegate = self
   }
 
   @IBAction func tappedTriggerNotification(_ sender: UIButton) {
-  FlipperKitExamplePlugin.sharedInstance()?.triggerNotification();
+  StatesKitExamplePlugin.sharedInstance()?.triggerNotification();
   }
 
   @IBAction func tappedSendMessage(_ sender: UIButton) {
     if let message = self.messageField.text {
-      FlipperKitExamplePlugin.sharedInstance()?.sendMessage(message);
+      StatesKitExamplePlugin.sharedInstance()?.sendMessage(message);
     }
   }
 

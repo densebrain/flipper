@@ -4,8 +4,8 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import {DeviceLogEntry} from "@flipper/core"
-import {LogTable} from "@flipper/plugin-logs"
+import {DeviceLogEntry} from "@states/core"
+import {LogTable} from "@states/plugin-logs"
 
 require('electron').remote.getCurrentWindow().show();
 

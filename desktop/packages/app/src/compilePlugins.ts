@@ -7,7 +7,7 @@
  * @format
  * @flow strict-local
  */
-import "@flipper/common"
+import "@states/common"
 import * as Path from "path"
 
 import * as Fs from "fs"
@@ -17,7 +17,7 @@ import * as Util from "util"
 import * as recursiveReaddir from "recursive-readdir"
 
 import * as Os from 'os'
-import {getLogger} from "@flipper/common"
+import {getLogger} from "@states/common"
 import {isString} from "typeguard"
 import {IPackageJSON} from "package-json"
 
@@ -128,7 +128,7 @@ const createModuleIdFactory = () => (filePath: string) => {
 }
 
 function pluginEntryPoints(additionalPaths:string[] | string = []) {
-  const defaultPluginPath = Path.join(HOME_DIR, ".flipper", "node_modules")
+  const defaultPluginPath = Path.join(HOME_DIR, ".states", "node_modules")
   const entryPoints = entryPointForPluginFolder(defaultPluginPath)
 
   if (isString(additionalPaths)) {
@@ -154,7 +154,7 @@ function entryPointForPluginFolder(pluginPath: string): any {
   return Fs
     .readdirSync(pluginPath)
     .filter(name =>
-      /*name.startsWith('flipper-plugin') && */
+      /*name.startsWith('states-plugin') && */
       Fs.lstatSync(Path.join(pluginPath, name)).isDirectory()
     )
     .filter(Boolean)
@@ -238,7 +238,7 @@ async function compilePlugin(
             babelTransformerPath: Path.join(__dirname, "transforms", "index.js")
           },
           resolver: {
-            blacklistRE: /\/(sonar|flipper-public)\/dist\//
+            blacklistRE: /\/(sonar|states-public)\/dist\//
           }
         },
         {

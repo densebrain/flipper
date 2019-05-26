@@ -33,12 +33,12 @@ export type State = {
 };
 
 declare global {
-  type FlipperStore = ReduxStore<RootState, AllActions>
+  type StatesStore = ReduxStore<RootState, AllActions>
 }
 
 export type LeafStates = ApplicationState | DevicesState | PluginsState | PluginStatesState | NotificationsState | UserState
 export type RootState = State;
-export type Store = FlipperStore
+export type Store = StatesStore
 export type MiddlewareAPI = ReduxMiddlewareAPI<any, AllActions>;
 export default combineReducers<any>({
   application,

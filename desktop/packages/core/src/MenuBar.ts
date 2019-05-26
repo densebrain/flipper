@@ -163,8 +163,8 @@ function getTemplate(app: Electron.App, shell: Electron.Shell, store: Store): Me
         dialog.showSaveDialog(
           null,
           {
-            title: "FlipperExport",
-            defaultPath: path.join(os.homedir(), "FlipperExport.flipper")
+            title: "StatesExport",
+            defaultPath: path.join(os.homedir(), "StatesExport.states")
           },
           async file => {
             if (!file) {
@@ -313,19 +313,19 @@ function getTemplate(app: Electron.App, shell: Electron.Shell, store: Store): Me
         {
           label: "Getting started",
           click: function() {
-            shell.openExternal("https://fbflipper.com/docs/getting-started.html")
+            shell.openExternal("https://states.dev/docs/getting-started.html")
           }
         },
         {
           label: "Create plugins",
           click: function() {
-            shell.openExternal("https://fbflipper.com/docs/create-plugin.html")
+            shell.openExternal("https://states.dev/docs/create-plugin.html")
           }
         },
         {
           label: "Report problems",
           click: function() {
-            shell.openExternal("https://github.com/facebook/flipper/issues")
+            shell.openExternal("https://github.com/facebook/states/issues")
           }
         }
       ]

@@ -17,17 +17,17 @@ export function makeObjectSerializable(obj: any): any {
 
   if (obj instanceof Map) {
     return {
-      __flipper_object_type__: "Map",
+      __states_object_type__: "Map",
       data: [...obj].map(makeObjectSerializable)
     }
   } else if (obj instanceof Set) {
     return {
-      __flipper_object_type__: "Set",
+      __states_object_type__: "Set",
       data: [...obj].map(makeObjectSerializable)
     }
   } else if (obj instanceof Date) {
     return {
-      __flipper_object_type__: "Date",
+      __states_object_type__: "Date",
       data: obj.toString()
     }
   } else if (obj instanceof Array) {
@@ -43,8 +43,8 @@ export function deserializeObject(obj: any): any {
 
   if (Array.isArray(obj)) {
     return obj.map(deserializeObject)
-  } else if (obj["__flipper_object_type__"]) {
-    const type = obj["__flipper_object_type__"]
+  } else if (obj["__states_object_type__"]) {
+    const type = obj["__states_object_type__"]
 
     switch (type) {
       case "Map": {

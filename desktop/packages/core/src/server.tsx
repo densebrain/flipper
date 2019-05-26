@@ -29,7 +29,7 @@ const invariant = require('invariant');
 
 const tls = require('tls');
 
-const MDNS_NAME = 'fbflipper._fbflipper._tcp.local';
+const MDNS_NAME = 'fbstates._fbstates._tcp.local';
 
 type ClientInfo = {
   connection: ReactiveSocket<string,string> | null | undefined;
@@ -99,7 +99,7 @@ export default class Server extends EventEmitter {
 
       const question = query.questions.find(function (q: any) {
         return q.type === 'PTR' && q.class.includes('UNKNOWN') || // eslint-disable-next-line prettier/prettier
-        q.name.includes('fbflipper');
+        q.name.includes('fbstates');
       });
 
       if (question) {
@@ -136,11 +136,11 @@ export default class Server extends EventEmitter {
           }, [] as any)],
           answers: [{
             class: 'IN',
-            data: `fbflipper._fbflipper._tcp.local`,
+            data: `fbstates._fbstates._tcp.local`,
             type: 'PTR',
             flush: true,
             ttl: 30,
-            name: '_fbflipper._tcp.local'
+            name: '_fbstates._tcp.local'
           }]
         });
       }
@@ -323,7 +323,7 @@ export default class Server extends EventEmitter {
     client.init().then(() => {
       console.debug(`Device client initialised: ${id}. Supported plugins: ${client.plugins.join(', ')}`, 'server');
       /* If a device gets disconnected without being cleaned up properly,
-       * Flipper won't be aware until it attempts to reconnect.
+       * States won't be aware until it attempts to reconnect.
        * When it does we need to terminate the zombie connection.
        */
 

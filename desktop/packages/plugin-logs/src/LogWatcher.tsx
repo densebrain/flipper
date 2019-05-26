@@ -5,8 +5,8 @@
  * @format
  */
 import * as React from "react"
-import { TableBodyRow } from "@flipper/core"
-import { PureComponent, FlexColumn, Panel, Input, Toolbar, Text, ManagedTable, Button, styled } from "@flipper/core"
+import { TableBodyRow } from "@states/core"
+import { PureComponent, FlexColumn, Panel, Input, Toolbar, Text, ManagedTable, Button, styled } from "@states/core"
 export type Counter = {
   expression: RegExp,
   count: number,

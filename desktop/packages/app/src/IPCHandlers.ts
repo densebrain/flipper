@@ -1,4 +1,4 @@
-import {getLogger, NotificationEvent, NotificationEvents} from "@flipper/common"
+import {getLogger, NotificationEvent, NotificationEvents} from "@states/common"
 import * as Electron from "electron"
 
 const

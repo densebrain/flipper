@@ -1,2 +1,2 @@
 
-export const DefaultPluginId = "@flipper/plugin-logs"
+export const DefaultPluginId = "@states/plugin-logs"

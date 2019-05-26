@@ -8,17 +8,17 @@
 import * as React from 'react'
 import {
   PluginModuleExport,
-  FlipperPluginProps,
+  StatesPluginProps,
   Notification,
   Button,
   Input,
-  FlipperPluginComponent,
+  StatesPluginComponent,
   FlexColumn,
   styled,
   Text,
   PluginType,
   PluginClientMessage
-} from "@flipper/core"
+} from "@states/core"
 
 
 type Actions = {
@@ -68,10 +68,10 @@ const Container = styled(FlexColumn)({
   padding: 20
 })
 
-type Props = FlipperPluginProps<PersistedState>
+type Props = StatesPluginProps<PersistedState>
 
-class ExamplePlugin extends FlipperPluginComponent<Props, State, Actions, PersistedState> {
-  static id = "@flipper/plugin-example"
+class ExamplePlugin extends StatesPluginComponent<Props, State, Actions, PersistedState> {
+  static id = "@states/plugin-example"
   static title = "Example"
   
   static defaultPersistedState = {

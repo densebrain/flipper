@@ -1,4 +1,4 @@
-import {getLogger, Identity} from "@flipper/common"
+import {getLogger, Identity} from "@states/common"
 import * as Path from "path"
 import {isDefined} from "typeguard"
 import {coreDir, packageDir, appDir, rootDir, pluginNames, pluginNameMap, PluginConfig} from "../dirs"
@@ -91,7 +91,7 @@ function makeDefaultConfig(
       noEmitOnErrors: true
     },
     watchOptions: {
-      ignored: [/node_modules.*(src|flipper)/]
+      ignored: [/node_modules.*(src|states)/]
     },
     node: nodeConfig,
 
@@ -118,11 +118,11 @@ function createAppConfig(): webpack.Configuration {
     ["./src/index"],
     "node",
     [
-      // /^\@flipper/,
+      // /^\@states/,
       ...ReactExternals,
       /electron/,
       /source-map-support/,
-      ...makeCommonExternals(appDir, [...WebpackHotWhitelist, /flipper/])
+      ...makeCommonExternals(appDir, [...WebpackHotWhitelist, /states/])
     ],
     [],
     config => ({
@@ -155,13 +155,13 @@ async function createCoreConfig(): Promise<webpack.Configuration> {
     ["react-hot-loader/patch", "./src/init"],
     browserTarget,
     [
-      // /^\@flipper/,
+      // /^\@states/,
       /electron/,
-      ...makeCommonExternals(coreDir, [...WebpackHotWhitelist, ...(getWhitelistIds()),/flipper/])
+      ...makeCommonExternals(coreDir, [...WebpackHotWhitelist, ...(getWhitelistIds()),/states/])
     ],
     [
       new HtmlWebpackPlugin({
-        title: "Flipper",
+        title: "States",
         inject: false,
         template: "./assets/index.pug"
       })
@@ -171,7 +171,7 @@ async function createCoreConfig(): Promise<webpack.Configuration> {
         ...config.resolve,
         alias: {
           ...config.resolve.alias,
-          "@flipper/common": Path.resolve(packageDir, "common","src","index.ts"),
+          "@states/common": Path.resolve(packageDir, "common","src","index.ts"),
         }
       }
     })
@@ -238,9 +238,9 @@ async function createPluginConfig(pluginConfig: PluginConfig): Promise<webpack.C
     [
       (context, request, callback) => {
         if (request.includes("plugin-")) {
-          log.debug("Flipper plugin request, ignoring", request, context)
-        } else if (/flipper/.test(request) || whitelistIds.includes(request)) {
-          log.debug(`Flipper resource`, request, context)
+          log.debug("States plugin request, ignoring", request, context)
+        } else if (/states/.test(request) || whitelistIds.includes(request)) {
+          log.debug(`States resource`, request, context)
           return callback(null, "commonjs " + request)
         } else {
           log.debug(`Checking external`, context, request)

@@ -82,11 +82,11 @@ if (!process.env.ANDROID_HOME) {
 } // emulator/emulator is more reliable than tools/emulator, so prefer it if
 // it exists
 
-process.env.PATH = `${process.env.ANDROID_HOME}/emulator:${process.env.ANDROID_HOME}/tools:${process.env.PATH}` // ensure .flipper folder and config exist
+process.env.PATH = `${process.env.ANDROID_HOME}/emulator:${process.env.ANDROID_HOME}/tools:${process.env.PATH}` // ensure .states folder and config exist
 
-export const flipperDir = Path.join(Os.homedir(), ".flipper")
+export const statesDir = Path.join(Os.homedir(), ".states")
 
 
 export function getUserDataDir():string {
-  return flipperDir
+  return statesDir
 }

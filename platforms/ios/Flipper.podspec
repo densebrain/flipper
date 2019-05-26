@@ -1,1 +1,0 @@
-xplat/Flipper/Flipper.podspec

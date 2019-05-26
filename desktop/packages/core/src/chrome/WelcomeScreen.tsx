@@ -95,7 +95,7 @@ export default withTheme()(class WelcomeScreen extends PureComponent<Props, Stat
   timer:number | null | undefined
   
   componentDidMount() {
-    // waiting sometime before showing the welcome screen to allow Flipper to
+    // waiting sometime before showing the welcome screen to allow States to
     // connect to devices, if there are any
     this.timer = (setTimeout as any)(() => {
       this.setState({
@@ -122,13 +122,13 @@ export default withTheme()(class WelcomeScreen extends PureComponent<Props, Stat
       <Welcome isMounted={this.state.isMounted}>
         <Logo src={require("!!file-loader!assets/icon.png")}/>
         
-        <Title>Welcome to Flipper</Title>
+        <Title>Welcome to States</Title>
         <Version>
           {isProduction() ? `Version ${remote.app.getVersion()}` : 'Development Mode'}
         </Version>
         <Item
           iconColor={colors.accent}
-          onClick={() => shell.openExternal('https://fbflipper.com/docs/understand.html')}>
+          onClick={() => shell.openExternal('https://fbstates.com/docs/understand.html')}>
           <Icon
             size={20}
             name="rocket"
@@ -136,14 +136,14 @@ export default withTheme()(class WelcomeScreen extends PureComponent<Props, Stat
             color={colors.accent}
           />
           <FlexColumn>
-            <ItemTitle>Using Flipper</ItemTitle>
+            <ItemTitle>Using States</ItemTitle>
             <ItemSubTitle>
-              Learn how Flipper can help you debug your App
+              Learn how States can help you debug your App
             </ItemSubTitle>
           </FlexColumn>
         </Item>
         <Item iconColor={colors.accent}
-              onClick={() => shell.openExternal('https://fbflipper.com/docs/create-plugin.html')}>
+              onClick={() => shell.openExternal('https://fbstates.com/docs/create-plugin.html')}>
           <Icon size={20} name="magic-wand" className="icon" color={colors.accent}/>
           <FlexColumn>
             <ItemTitle>Create your own plugin</ItemTitle>
@@ -151,20 +151,20 @@ export default withTheme()(class WelcomeScreen extends PureComponent<Props, Stat
           </FlexColumn>
         </Item>
         <Item iconColor={colors.accent}
-              onClick={() => shell.openExternal('https://fbflipper.com/docs/getting-started.html')}>
+              onClick={() => shell.openExternal('https://fbstates.com/docs/getting-started.html')}>
           <Icon size={20} name="tools" className="icon" color={colors.accent}/>
           <FlexColumn>
-            <ItemTitle>Add Flipper support to your app</ItemTitle>
+            <ItemTitle>Add States support to your app</ItemTitle>
             <ItemSubTitle>Get started with these pointers</ItemSubTitle>
           </FlexColumn>
         </Item>
         <Item iconColor={colors.accent}
-              onClick={() => shell.openExternal('https://github.com/facebook/flipper/issues')}>
+              onClick={() => shell.openExternal('https://github.com/facebook/states/issues')}>
           <Icon size={20} name="posts" className="icon" color={colors.accent}/>
           <FlexColumn>
             <ItemTitle>Contributing and Feedback</ItemTitle>
             <ItemSubTitle>
-              Report issues and help us improve Flipper
+              Report issues and help us improve States
             </ItemSubTitle>
           </FlexColumn>
         </Item>

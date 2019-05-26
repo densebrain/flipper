@@ -5,9 +5,9 @@
  * @format
  */
 import * as React from "react"
-import {FlipperPluginComponent, FlipperPluginProps, PluginModuleExport, PluginReducers, PluginType} from "@flipper/core"
-import { FlexColumn } from "@flipper/core"
-import { ButtonGroup, Button, styled, colors } from "@flipper/core"
+import {StatesPluginComponent, StatesPluginProps, PluginModuleExport, PluginReducers, PluginType} from "@states/core"
+import { FlexColumn } from "@states/core"
+import { ButtonGroup, Button, styled, colors } from "@states/core"
 export type Sandbox = {
   name: string,
   value: string
@@ -26,16 +26,16 @@ const ButtonContainer = styled(FlexColumn)({
   alignItems: "center",
   padding: 20
 })
-type Props = FlipperPluginProps<{}>
+type Props = StatesPluginProps<{}>
 type Actions = {
   UpdateSandboxes: {
     type: "UpdateSandboxes"
     sandboxes: Array<Sandbox>
   }
 }
-class SandboxView extends FlipperPluginComponent<Props,SandboxState, Actions> {
+class SandboxView extends StatesPluginComponent<Props,SandboxState, Actions> {
   
-  static id = "@flipper/plugin-sandbox"
+  static id = "@states/plugin-sandbox"
   
   static TextInput = styled("input")({
     border: `1px solid ${colors.light10}`,

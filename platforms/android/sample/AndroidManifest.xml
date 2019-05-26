@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.facebook.flipper.sample">
+          package="com.facebook.states.sample">
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
   <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
   <application
-      android:name=".FlipperSampleApplication"
+      android:name=".StatesSampleApplication"
       android:label="@string/app_name"
       android:icon="@drawable/ic_launcher"
       android:allowBackup="false"
       android:theme="@style/NoTitleBarWhiteBG"
       android:debuggable="true">
-    <!--<service android:name="com.facebook.flipper.plugins.leakcanary.RecordLeakService" />-->
+    <!--<service android:name="com.facebook.states.plugins.leakcanary.RecordLeakService" />-->
     <activity android:name=".MainActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
-    <activity android:name="com.facebook.flipper.android.diagnostics.FlipperDiagnosticActivity"
+    <activity android:name="com.facebook.states.android.diagnostics.StatesDiagnosticActivity"
         android:exported="true"/>
-    <activity android:name="com.facebook.flipper.connectivitytest.ConnectionTestActivity"
+    <activity android:name="com.facebook.states.connectivitytest.ConnectionTestActivity"
         android:exported="true"/>
   </application>
 

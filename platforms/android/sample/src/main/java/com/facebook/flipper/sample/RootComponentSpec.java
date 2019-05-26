@@ -5,12 +5,12 @@
  *  file in the root directory of this source tree.
  *
  */
-package com.facebook.flipper.sample;
+package com.facebook.states.sample;
 
 import android.content.Intent;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.interfaces.DraweeController;
-import com.facebook.flipper.android.diagnostics.FlipperDiagnosticActivity;
+import com.facebook.states.android.diagnostics.StatesDiagnosticActivity;
 import com.facebook.litho.ClickEvent;
 import com.facebook.litho.Column;
 import com.facebook.litho.Component;
@@ -30,7 +30,7 @@ public class RootComponentSpec {
   @OnCreateLayout
   static Component onCreateLayout(final ComponentContext c, @State boolean displayImage) {
     final DraweeController controller =
-        Fresco.newDraweeControllerBuilder().setUri("https://fbflipper.com/img/icon.png").build();
+        Fresco.newDraweeControllerBuilder().setUri("https://fbstates.com/img/icon.png").build();
     return Column.create(c)
         .child(
             Text.create(c)
@@ -83,7 +83,7 @@ public class RootComponentSpec {
 
   @OnEvent(ClickEvent.class)
   static void openDiagnostics(final ComponentContext c) {
-    Intent intent = new Intent(c.getAndroidContext(), FlipperDiagnosticActivity.class);
+    Intent intent = new Intent(c.getAndroidContext(), StatesDiagnosticActivity.class);
     c.getAndroidContext().startActivity(intent);
   }
 

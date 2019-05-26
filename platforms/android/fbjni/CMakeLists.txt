@@ -6,7 +6,7 @@
 #
 
 cmake_minimum_required(VERSION 3.6.0)
-set(PACKAGE_NAME "flipperfb")
+set(PACKAGE_NAME "statesfb")
 project(${PACKAGE_NAME} CXX)
 
 set(ROOT_DIR ${CMAKE_CURRENT_LIST_DIR}/../../..)

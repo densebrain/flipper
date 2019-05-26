@@ -54,9 +54,9 @@ if (isTestPkg) {
 async function onReady() {
   
   const
-    FlipperCommon = await import("@flipper/common"),
-    {getLogger} = FlipperCommon,
-    {setup} = await import("@flipper/init"),
+    StatesCommon = await import("@states/common"),
+    {getLogger} = StatesCommon,
+    {setup} = await import("@states/init"),
     
     checkMacAppName = (await import("./env-fixes/mac-app-name")).default,
     delegateToLauncher = (await import("./launcher")).default,
@@ -65,7 +65,7 @@ async function onReady() {
   
   const
     log = getLogger(__filename),
-    options = FlipperArgs,
+    options = StatesArgs,
     state: MainState = {
       win: null,
       link: _.pick(options, 'url', 'file'),
@@ -99,20 +99,20 @@ async function onReady() {
       
       const win = getWindow()
       if (win) {
-        win.webContents.send("flipper-protocol-handler", url)
+        win.webContents.send("states-protocol-handler", url)
       }
     })
     app.on("open-file", (event, file) => {
-      // When flipper app is running, and someone double clicks the import file, `componentDidMount` will not be called
+      // When states app is running, and someone double clicks the import file, `componentDidMount` will not be called
       // again and windows object will exist in that case. That's why calling
-      // `win.webContents.send('open-flipper-file', filePath);` again.
+      // `win.webContents.send('open-states-file', filePath);` again.
       event.preventDefault()
   
       state.link.file = file
   
       const win = getWindow()
       if (win) {
-        win.webContents.send("open-flipper-file", file)
+        win.webContents.send("open-states-file", file)
       }
     })
   })
@@ -122,14 +122,14 @@ async function onReady() {
     const {url, file} = state.link
     const win = getWindow()
     if (url) {
-      win.webContents.send("flipper-protocol-handler", url)
+      win.webContents.send("states-protocol-handler", url)
       state.link = {}
     }
     
     if (file) {
-      // When flipper app is not running, the windows object might not exist in the callback of `open-file`, but after
+      // When states app is not running, the windows object might not exist in the callback of `open-file`, but after
       // ``componentDidMount` it will definitely exist.
-      win.webContents.send("open-flipper-file", file)
+      win.webContents.send("open-states-file", file)
       state.link = {}
     }
   })
@@ -137,14 +137,14 @@ async function onReady() {
   
   await import("./IPCHandlers")
   
-  app.setAsDefaultProtocolClient("flipper")
+  app.setAsDefaultProtocolClient("states")
   
   function tryCreateWindow() {
     log.info(`Creating window`, __dirname,__filename, process.cwd())
     
     const win = state.win = new BrowserWindow({
       show: false,
-      title: "Flipper",
+      title: "States",
       width: config.lastWindowPosition.width || 1400,
       height: config.lastWindowPosition.height || 1000,
       minWidth: 800,
@@ -167,7 +167,7 @@ async function onReady() {
         // Removes as a default protocol for debug builds. Because even when the
         // production application is installed, and one tries to deeplink through
         // browser, it still looks for the debug one and tries to open electron
-        app.removeAsDefaultProtocolClient("flipper")
+        app.removeAsDefaultProtocolClient("states")
       }
       
       

@@ -5,11 +5,11 @@
  * @format
  */
 import * as React from "react"
-import { Client,Logger,Tooltips,Element } from "@flipper/core"
-import { PluginClient } from "@flipper/core"
+import { Client,Logger,Tooltips,Element } from "@states/core"
+import { PluginClient } from "@states/core"
 
 
-import { GK, ManagedDataInspector, Console, Panel, FlexCenter, styled, colors, SidebarExtensions } from "@flipper/core"
+import { GK, ManagedDataInspector, Console, Panel, FlexCenter, styled, colors, SidebarExtensions } from "@states/core"
 import { Component } from "react"
 
 

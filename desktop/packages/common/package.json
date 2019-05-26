@@ -1,11 +1,11 @@
 {
-  "name": "@flipper/common",
+  "name": "@states/common",
   "version": "1.0.0",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "license": "MIT",
   "devDependencies": {
-    "@flipper/dev": "^1.0.0"
+    "@states/dev": "^1.0.0"
   },
   "dependencies": {
     "bluebird": "^3.5.4",

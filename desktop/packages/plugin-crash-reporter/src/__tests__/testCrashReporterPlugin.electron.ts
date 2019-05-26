@@ -12,7 +12,7 @@ import CrashReporterPlugin, {
   parsePath,
   shouldShowCrashNotification
 } from "../index"
-import {BaseDevice, getPersistedState, getPluginKey} from "@flipper/core"
+import {BaseDevice, getPersistedState, getPluginKey} from "@states/core"
 
 function setDefaultPersistedState(defaultState: CrashReporterPersistedState) {
   CrashReporterPlugin.componentClazz.defaultPersistedState = defaultState
@@ -104,7 +104,7 @@ test("test the parsing of the reason for crash when log is empty", () => {
 })
 test("test the parsing of the Android crash log for the proper android crash format", () => {
   const log =
-    "FATAL EXCEPTION: main\nProcess: com.facebook.flipper.sample, PID: 27026\njava.lang.IndexOutOfBoundsException: Index: 190, Size: 0\n\tat java.util.ArrayList.get(ArrayList.java:437)\n\tat com.facebook.flipper.sample.RootComponentSpec.hitGetRequest(RootComponentSpec.java:72)\n\tat com.facebook.flipper.sample.RootComponent.hitGetRequest(RootComponent.java:46)\n"
+    "FATAL EXCEPTION: main\nProcess: com.facebook.states.sample, PID: 27026\njava.lang.IndexOutOfBoundsException: Index: 190, Size: 0\n\tat java.util.ArrayList.get(ArrayList.java:437)\n\tat com.facebook.states.sample.RootComponentSpec.hitGetRequest(RootComponentSpec.java:72)\n\tat com.facebook.states.sample.RootComponent.hitGetRequest(RootComponent.java:46)\n"
   const date = new Date()
   const crash = parseCrashLog(log, "Android", date)
   expect(crash.callstack).toEqual(log)
@@ -129,7 +129,7 @@ test("test the parsing of the Android crash log for the partial format matching 
 })
 test("test the parsing of the Android crash log with os being iOS", () => {
   const log =
-    "FATAL EXCEPTION: main\nProcess: com.facebook.flipper.sample, PID: 27026\njava.lang.IndexOutOfBoundsException: Index: 190, Size: 0\n\tat java.util.ArrayList.get(ArrayList.java:437)\n\tat com.facebook.flipper.sample.RootComponentSpec.hitGetRequest(RootComponentSpec.java:72)\n\tat com.facebook.flipper.sample.RootComponent.hitGetRequest(RootComponent.java:46)\n"
+    "FATAL EXCEPTION: main\nProcess: com.facebook.states.sample, PID: 27026\njava.lang.IndexOutOfBoundsException: Index: 190, Size: 0\n\tat java.util.ArrayList.get(ArrayList.java:437)\n\tat com.facebook.states.sample.RootComponentSpec.hitGetRequest(RootComponentSpec.java:72)\n\tat com.facebook.states.sample.RootComponent.hitGetRequest(RootComponent.java:46)\n"
   const crash = parseCrashLog(log, "iOS")
   expect(crash.callstack).toEqual(log)
   expect(crash.reason).toEqual("Cannot figure out the cause")

@@ -6,7 +6,7 @@
  */
 
 //import * as ReactDOM from 'react-dom'
-import {getLogger} from "@flipper/common"
+import {getLogger} from "@states/common"
 import {guard} from "typeguard"
 import {Logger} from './fb-interfaces/Logger'
 import BaseDevice from './devices/BaseDevice'

@@ -17,7 +17,7 @@ export function logoutUser(): Promise<void> {
 }
 
 
-export async function shareFlipperData(
+export async function shareStatesData(
   // @ts-ignore
   trace: string
 ): Promise<
@@ -27,7 +27,7 @@ export async function shareFlipperData(
       deviceType: string,
       plugins: string[],
       fileUrl: string,
-      flipperUrl: string
+      statesUrl: string
     }
 > {
   new Notification("Feature not implemented")

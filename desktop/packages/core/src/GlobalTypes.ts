@@ -1,17 +1,17 @@
-import "@flipper/common"
+import "@states/common"
 import {Store} from "./reducers"
 
 declare global {
   interface Window {
     __REDUX_DEVTOOLS_EXTENSION__:any
     electronRequire: NodeRequire
-    flipperStore: Store
+    statesStore: Store
   }
   
   namespace NodeJS {
     interface Global {
       electronRequire: NodeRequire
-      flipperStore: Store
+      statesStore: Store
       __VERSION__:string
       __REVISION__:string | undefined
     }

@@ -1,9 +1,9 @@
-import "@flipper/types"
+import "@states/types"
 import {
   assert,
   fileExists,
   getLogger
-} from "@flipper/common"
+} from "@states/common"
 import { Plugin, PluginMetadata, PluginModuleExport } from "../PluginTypes"
 //import * as assert from "assert"
 import Watch from "chokidar"
@@ -57,7 +57,7 @@ export class PluginLoader extends EventEmitter {
       this,
       metadata,
       {
-        path: path.replace(/\@flipper\//,'')
+        path: path.replace(/\@states\//,'')
       }
     )
   }

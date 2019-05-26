@@ -6,14 +6,14 @@
  *
  */
 #import "AppDelegate.h"
-#import <FlipperKit/FlipperClient.h>
-#import <FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h>
-#import <FlipperKitNetworkPlugin/FlipperKitNetworkPlugin.h>
-#import <FlipperKitUserDefaultsPlugin/FKUserDefaultsPlugin.h>
-#import <FlipperKitLayoutComponentKitSupport/FlipperKitLayoutComponentKitSupport.h>
-#import <FlipperKitExamplePlugin/FlipperKitExamplePlugin.h>
+#import <StatesKit/StatesClient.h>
+#import <StatesKitLayoutPlugin/StatesKitLayoutPlugin.h>
+#import <StatesKitNetworkPlugin/StatesKitNetworkPlugin.h>
+#import <StatesKitUserDefaultsPlugin/FKUserDefaultsPlugin.h>
+#import <StatesKitLayoutComponentKitSupport/StatesKitLayoutComponentKitSupport.h>
+#import <StatesKitExamplePlugin/StatesKitExamplePlugin.h>
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
-#import <FlipperKitUserDefaultsPlugin/FKUserDefaultsPlugin.h>
+#import <StatesKitUserDefaultsPlugin/FKUserDefaultsPlugin.h>
 
 #import "MainViewController.h"
 #import "RootViewController.h"
@@ -29,17 +29,17 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   _window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-  FlipperClient *client = [FlipperClient sharedClient];
+  StatesClient *client = [StatesClient sharedClient];
 
   SKDescriptorMapper *layoutDescriptorMapper = [[SKDescriptorMapper alloc] initWithDefaults];
-  [FlipperKitLayoutComponentKitSupport setUpWithDescriptorMapper: layoutDescriptorMapper];
-  [client addPlugin: [[FlipperKitLayoutPlugin alloc] initWithRootNode: application
+  [StatesKitLayoutComponentKitSupport setUpWithDescriptorMapper: layoutDescriptorMapper];
+  [client addPlugin: [[StatesKitLayoutPlugin alloc] initWithRootNode: application
                                                withDescriptorMapper: layoutDescriptorMapper]];
 
   [client addPlugin:[[FKUserDefaultsPlugin alloc] initWithSuiteName:nil]];
 
-  [[FlipperClient sharedClient] addPlugin: [[FlipperKitNetworkPlugin alloc] initWithNetworkAdapter:[SKIOSNetworkAdapter new]]];
-  [client addPlugin:[FlipperKitExamplePlugin sharedInstance]];
+  [[StatesClient sharedClient] addPlugin: [[StatesKitNetworkPlugin alloc] initWithNetworkAdapter:[SKIOSNetworkAdapter new]]];
+  [client addPlugin:[StatesKitExamplePlugin sharedInstance]];
   [client start];
 
   UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryBoard" bundle:nil];
@@ -52,7 +52,7 @@
   [_window setRootViewController: [[UINavigationController alloc] initWithRootViewController: mainViewController]];
   [_window makeKeyAndVisible];
 
-  NSLog(@"Hello from Flipper in an Objc app!");
+  NSLog(@"Hello from States in an Objc app!");
   return YES;
 }
 

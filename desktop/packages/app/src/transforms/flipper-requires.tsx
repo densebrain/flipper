@@ -30,8 +30,8 @@ export default ({ types: t }: any) => ({
       const args = node.arguments || []
 
       if (node.callee.name === "require" && args.length === 1 && t.isStringLiteral(args[0])) {
-        if (args[0].value === "flipper") {
-          path.replaceWith(t.identifier("global.Flipper"))
+        if (args[0].value === "states") {
+          path.replaceWith(t.identifier("global.States"))
         } else if (args[0].value === "react") {
           path.replaceWith(t.identifier("global.React"))
         } else if (args[0].value === "react-dom") {

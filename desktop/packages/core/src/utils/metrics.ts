@@ -10,7 +10,7 @@ import { getInstance } from "../fb-stubs/Logger"
  failure state of it, with a given name, based on whether it's fulfilled or
  rejected.
 
- Use this variant to report failures in core platform (Flipper) code.
+ Use this variant to report failures in core platform (States) code.
  */
 
 export function reportPlatformFailures<T = any>(promise: Promise<T>, name: string): Promise<T> {

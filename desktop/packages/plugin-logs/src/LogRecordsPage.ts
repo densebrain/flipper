@@ -1,4 +1,4 @@
-import {ManagedTableDataPage} from "@flipper/core"
+import {ManagedTableDataPage} from "@states/core"
 import {LogRecord, PageSize} from "./LogTypes"
 
 export class LogRecordsPage extends ManagedTableDataPage<LogRecord> {

@@ -13,12 +13,12 @@ test("dummy", () => {
 //
 //
 // test("test parsing of deeplink URL", () => {
-//   const url = "flipper://app/plugin/meta/data"
+//   const url = "states://app/plugin/meta/data"
 //   let components = uriComponents(url)
 //   expect(components).toEqual(["app", "plugin", "meta/data"])
 // })
 // test("test parsing of deeplink URL when arguments are less", () => {
-//   const url = "flipper://app/"
+//   const url = "states://app/"
 //   let components = uriComponents(url)
 //   expect(components).toEqual(["app"])
 // })

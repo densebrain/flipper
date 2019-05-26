@@ -9,18 +9,18 @@ import "./Args"
 import * as Path from "path"
 
 import * as Fs from "fs"
-import {FlipperConfig, flipperDir} from "@flipper/common"
+import {StatesConfig, statesDir} from "@states/common"
 
 
 
-export default function(argv: Partial<FlipperOptions>) {
+export default function(argv: Partial<StatesOptions>) {
   
-  if (!Fs.existsSync(flipperDir)) {
-    Fs.mkdirSync(flipperDir)
+  if (!Fs.existsSync(statesDir)) {
+    Fs.mkdirSync(statesDir)
   }
 
-  const configPath = Path.join(flipperDir, "config.json")
-  let config: FlipperConfig = {
+  const configPath = Path.join(statesDir, "config.json")
+  let config: StatesConfig = {
     pluginPaths: [],
     disabledPlugins: [],
     lastWindowPosition: {}
@@ -37,6 +37,6 @@ export default function(argv: Partial<FlipperOptions>) {
   return {
     config,
     configPath,
-    flipperDir
+    statesDir
   }
 }

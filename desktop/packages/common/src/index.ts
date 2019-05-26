@@ -1,4 +1,4 @@
-import "@flipper/types"
+import "@states/types"
 import "./Types"
 
 export * from "./Types"

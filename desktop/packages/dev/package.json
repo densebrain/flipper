@@ -1,5 +1,5 @@
 {
-  "name": "@flipper/dev",
+  "name": "@states/dev",
   "private": true,
   "version": "1.0.0",
   "versionDate": "2018-4-12",
@@ -26,7 +26,7 @@
     "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
-    "@flipper/common": "^1.0.0",
+    "@states/common": "^1.0.0",
     "@hot-loader/react-dom": "^16.8.6",
     "@jest-runner/electron": "^1.0.3",
     "@types/bluebird": "^3.5.26",

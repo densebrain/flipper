@@ -6,7 +6,7 @@
  */
 import * as React from 'react'
 
-import { shareFlipperData } from "../fb-stubs/user"
+import { shareStatesData } from "../fb-stubs/user"
 import { exportStore } from "../utils/exportData"
 import PropTypes from "prop-types"
 import { clipboard } from "electron"
@@ -65,7 +65,7 @@ type State = {
             error_class?: string,
             error?: string
           } & {
-        flipperUrl?: string
+        statesUrl?: string
       }) | null
 }
 export default withTheme()(class ShareSheet extends React.Component<Props, State> {
@@ -81,15 +81,15 @@ export default withTheme()(class ShareSheet extends React.Component<Props, State
   async componentDidMount() {
     try {
       const { serializedString, errorArray } = await exportStore((this as any).context.store)
-      const result = await shareFlipperData(serializedString)
+      const result = await shareStatesData(serializedString)
       this.setState({
         errorArray,
         result
       })
 
-      if (result.flipperUrl) {
-        clipboard.writeText(String(result.flipperUrl))
-        new Notification("Sharable Flipper trace created", {
+      if (result.statesUrl) {
+        clipboard.writeText(String(result.statesUrl))
+        new Notification("Sharable States trace created", {
           body: "URL copied to clipboard",
           requireInteraction: true
         })
@@ -112,16 +112,16 @@ export default withTheme()(class ShareSheet extends React.Component<Props, State
         {this.state.result ? (
           <>
             <FlexColumn>
-              {getValue(() => this.state.result!!.flipperUrl) ? (
+              {getValue(() => this.state.result!!.statesUrl) ? (
                 <>
                   <Title bold>Data Upload Successful</Title>
                   <InfoText>
-                    Flipper's data was successfully uploaded. This URL can be used to share with other Flipper users.
+                    States's data was successfully uploaded. This URL can be used to share with other States users.
                     Opening it will import the data from your trace.
                   </InfoText>
-                  <Copy value={this.state.result.flipperUrl} />
+                  <Copy value={this.state.result.statesUrl} />
                   <InfoText>
-                    When sharing your Flipper link, consider that the captured data might contain sensitve information
+                    When sharing your States link, consider that the captured data might contain sensitve information
                     like access tokens used in network requests.
                   </InfoText>
                   {this.state.errorArray.length > 0 && (
@@ -153,7 +153,7 @@ export default withTheme()(class ShareSheet extends React.Component<Props, State
           <Center>
             <LoadingIndicator size={30} />
             <Uploading bold color={colors.text}>
-              Uploading Flipper trace...
+              Uploading States trace...
             </Uploading>
           </Center>
         )}

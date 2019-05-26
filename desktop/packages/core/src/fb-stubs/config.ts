@@ -5,7 +5,7 @@
  * @format
  */
 export default {
-  updateServer: "https://www.facebook.com/fbflipper/public/latest.json",
+  updateServer: "https://www.facebook.com/fbstates/public/latest.json",
   bugReportButtonVisible: false,
   showLogin: false
 }
