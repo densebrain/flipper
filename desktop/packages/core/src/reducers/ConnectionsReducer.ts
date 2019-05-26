@@ -160,13 +160,13 @@ const reducer = (state: State = INITAL_STATE, action: Action): State => {
         selection = {} as any
       }
 
-      return {
+      return checkSupportedDevice({
         ...state,
         devices,
         // select device if none was selected before
         selectedDevice,
         ...selection
-      }
+      })
     }
 
     case "UNREGISTER_DEVICES": {
@@ -195,7 +195,7 @@ const reducer = (state: State = INITAL_STATE, action: Action): State => {
         }
       }
 
-      return { ...state, devices, ...selection }
+      return checkSupportedDevice({ ...state, devices, ...selection })
     }
 
     case "SELECT_PLUGIN": {
@@ -331,28 +331,54 @@ const reducer = (state: State = INITAL_STATE, action: Action): State => {
   }
 }
 
-export default (state: State = INITAL_STATE, action: Action): State => {
-  const nextState = reducer(state, action)
-
-  if (nextState.selectedDevice) {
-    const { selectedDevice } = nextState
-    const error =
-      selectedDevice.os === "iOS" && selectedDevice.deviceType === "physical" && !iosUtil.isAvailable()
+function checkSupportedDevice(state: State) {
+  if (state.selectedDevice) {
+    const { selectedDevice } = state
+    
+    
+    return {
+      ...state,
+      error: selectedDevice.os === "iOS" && selectedDevice.deviceType === "physical" && !iosUtil.isAvailable()
         ? "iOS Devices are not yet supported"
         : null
-    nextState.error = error || nextState.error
+    }
   }
-
-  return nextState
+  
+  return state
 }
+
+export default (state: State = INITAL_STATE, action: Action): State => {
+  return checkSupportedDevice(reducer(state, action))
+}
+
+/**
+ * Select device action
+ *
+ * @param {BaseDevice} payload
+ * @returns {Action}
+ */
 export const selectDevice = (payload: BaseDevice): Action => ({
   type: "SELECT_DEVICE",
   payload
 })
+
+/**
+ * Prefer device action
+ *
+ * @param {string} payload
+ * @returns {Action}
+ */
 export const preferDevice = (payload: string): Action => ({
   type: "PREFER_DEVICE",
   payload
 })
+
+/**
+ * Select plugin action
+ *
+ * @param {{selectedPlugin:string | null; selectedApp?:string | null; deepLinkPayload:string | null}} payload
+ * @returns {Action}
+ */
 export const selectPlugin = (payload: {
   selectedPlugin: string | null
   selectedApp?: string | null
@@ -361,6 +387,13 @@ export const selectPlugin = (payload: {
   type: "SELECT_PLUGIN",
   payload
 })
+
+/**
+ * User preferred plugin
+ *
+ * @param {string} payload
+ * @returns {Action}
+ */
 export const userPreferredPlugin = (payload: string): Action => ({
   type: "SELECT_USER_PREFERRED_PLUGIN",
   payload

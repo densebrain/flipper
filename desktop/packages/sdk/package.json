@@ -1,5 +1,5 @@
 {
-  "name": "@types/flipper__sdk",
+  "name": "@flipper/sdk",
   "version": "1.0.0",
   "main": "index.js",
   "types": "lib/index.d.ts",

@@ -646,8 +646,8 @@
         "signature": "5ec8a50d122a620be0074809cf50e9e8c91ee91215172850759a503eb9dba9e7"
       },
       "/projects/oss/flipper.v2/desktop/packages/core/src/reducers/ConnectionsReducer.ts": {
-        "version": "506d00c04e06ad92f59b2256b1aafa7b4187545a36c7f50242acc2deea6ebab5",
-        "signature": "5ad1f6bbd24b723962d196764d90b2cf5195684b75f6354656c3071f434fdac3"
+        "version": "86f6ae1b9312bcf8d61ed7a7fc1a1717ec0eaa4fcf9c59af47a54f4036272f50",
+        "signature": "b69d6a27a25fe85743bd0599bbd8ef2df9575e9cfed64974312f803df42165f5"
       },
       "/projects/oss/flipper.v2/desktop/packages/core/src/reducers/PluginStatesReducer.ts": {
         "version": "8948bf1499d0137361a7d87632719295c7ad9be7b7fc6601ce57ec0a2dac84f2",
@@ -943,7 +943,7 @@
       },
       "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/DetailSidebar.tsx": {
         "version": "66d519f09f500de53290a3b120b58c73d4d1361c3169bb69134968c018f93626",
-        "signature": "a239a007dcb5d72e853229ebd03a38c2c11d4b31f7e7897aa65262487cd5d6da"
+        "signature": "d864acd53e82b8d7d1c15dfb32f0ee09a3a78094f1597411fd1ea2ba1e07f785"
       },
       "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/filter/types.ts": {
         "version": "5e1c75cb213a63cc9dbcfb582b81a8eee75b0ba927322666281e6c9d828093e6",
@@ -1031,7 +1031,7 @@
       },
       "/projects/oss/flipper.v2/desktop/packages/core/src/PluginTypes.ts": {
         "version": "88d201d45dc0e5e50ee0c4b61a6e8ed62284e1589c741d99b8aacff1fcdf5359",
-        "signature": "fb695c0ef11a2c4a60d403167e297706bd322f2f5dd186ebaf406de132b24ba5"
+        "signature": "34f4bcdfe6a61030a3de960af6fb8dee7b20aae56dda1c0ad5d602f46edbeb0c"
       },
       "/projects/oss/flipper.v2/desktop/packages/core/src/reducers/PluginReducer.ts": {
         "version": "ff3abea4e027e236cb61b0ae930c342433d11792aaa0ebe513669a45d645a8d7",
@@ -1275,7 +1275,7 @@
       },
       "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/TitleBar.tsx": {
         "version": "fe8b6a449490b049607ce49efaca961f9e06168384f05bff663cd7119699f5c8",
-        "signature": "8649845b0914f73a01c31f4d2f06b608190dafd32ef8b070c907a49d97cb3feb"
+        "signature": "749c9c9ec5a335aded048d7f49b5839a00a7b9c723ffe72fc1115a2a0fa288cc"
       },
       "/projects/oss/flipper.v2/desktop/packages/core/src/NotificationsHub.tsx": {
         "version": "b9eb649511e2f52961e6cfd3688047ff1a0c72ca256df27d86e0df82aeaa9e15",
@@ -1359,7 +1359,7 @@
       },
       "/projects/oss/flipper.v2/desktop/packages/core/src/App.tsx": {
         "version": "97cf09f1da63a00ed5e572721b2e65edcd42c5687b2e3a9563ef30527e969993",
-        "signature": "62eeb5b29f2d806c9de9fdd8d2ebcd04d42ea390464a757145507f7e7d134e75"
+        "signature": "1d5ac598a80b9ae6c1a48443f1a25a5cd8470e96a837ae5a30b33a59264abeb5"
       },
       "/projects/oss/flipper.v2/desktop/packages/core/src/GlobalStyles.ts": {
         "version": "64c0ea8e02e6240e815786ef2c96e0c8336486224dffbf1b81aba4e7b618e0d4",
@@ -1633,6 +1633,22 @@
         "version": "8f3237f03af87871a18d49ff52dec94d71eabecca464d5f2a81e34b55fb60bb5",
         "signature": "8f3237f03af87871a18d49ff52dec94d71eabecca464d5f2a81e34b55fb60bb5"
       },
+      "/projects/oss/flipper.v2/desktop/packages/init/src/Args.ts": {
+        "version": "97929e54874bfea185c7fa1607f525413a2f54f1bd07ef90f60e1d7fa417965e",
+        "signature": "97929e54874bfea185c7fa1607f525413a2f54f1bd07ef90f60e1d7fa417965e"
+      },
+      "/projects/oss/flipper.v2/desktop/packages/init/src/Setup.ts": {
+        "version": "2aa68afba9dae9e66ca92015ce8fc56bcb2ee497622014e9bfcc8dcd27155779",
+        "signature": "2aa68afba9dae9e66ca92015ce8fc56bcb2ee497622014e9bfcc8dcd27155779"
+      },
+      "/projects/oss/flipper.v2/desktop/packages/init/src/Config.ts": {
+        "version": "842b3ae4e7a01fd30fcd10bd6cd428988b5139c04fe8fe2964fe9ff7591cdadd",
+        "signature": "842b3ae4e7a01fd30fcd10bd6cd428988b5139c04fe8fe2964fe9ff7591cdadd"
+      },
+      "/projects/oss/flipper.v2/desktop/packages/init/src/index.ts": {
+        "version": "44f4910c1750024c43f9f191e03e0199bd44aa7232d057f30385c60ec72be9d3",
+        "signature": "44f4910c1750024c43f9f191e03e0199bd44aa7232d057f30385c60ec72be9d3"
+      },
       "/projects/oss/flipper.v2/desktop/packages/core/src/headless/index.ts": {
         "version": "5e6d69fed57484e31ec6d584e1c2db72de19272d61002c39f93739ab2ba73799",
         "signature": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
@@ -1790,8 +1806,8 @@
         "signature": "e7ef01fb3213b1be13321648ac2612d60e9e2742e28fc2fcf68d27fb965a8d5c"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/bluebird/index.d.ts": {
-        "version": "3b68d84083b030735621d09b37cf55914651770b9a0fadfbe856c97f3d925189",
-        "signature": "3b68d84083b030735621d09b37cf55914651770b9a0fadfbe856c97f3d925189"
+        "version": "3c10804e3bd90aa404eefbc300c362b0ebbd23b34eb03ae592717ac111889f34",
+        "signature": "3c10804e3bd90aa404eefbc300c362b0ebbd23b34eb03ae592717ac111889f34"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/connect/index.d.ts": {
         "version": "c3be42b83b5f57ae2f65280fa395f6d31f61304ac1a29b7b406b6a0e71da8c82",
@@ -1818,8 +1834,8 @@
         "signature": "4e88b833be14c7f384e0dcd57bb30acd799e8e34d212635d693e41a75a71164b"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/express-serve-static-core/index.d.ts": {
-        "version": "6baf9847c99b920115986f629ba37e7aadc1c8d7d6a14f91ce6a7ba48fbb2c7b",
-        "signature": "6baf9847c99b920115986f629ba37e7aadc1c8d7d6a14f91ce6a7ba48fbb2c7b"
+        "version": "0aedf3934f853fe2434909d11098b93255ef60a757f18425d2755f0531beee5b",
+        "signature": "0aedf3934f853fe2434909d11098b93255ef60a757f18425d2755f0531beee5b"
       },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/mime/index.d.ts": {
         "version": "be27a64e821a3e5af838650e4aa25805c60f057d0c37a9762c378d19d364b3e6",
@@ -5625,6 +5641,33 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/redux-persist/src/index.d.ts"
       ],
+      "/projects/oss/flipper.v2/desktop/packages/init/src/Args.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/yargs/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/redux-persist/src/index.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/packages/init/src/Setup.ts": [
+        "/projects/oss/flipper.v2/desktop/packages/init/lib/Args.d.ts",
+        "/projects/oss/flipper.v2/desktop/packages/common/lib/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/redux-persist/src/index.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/packages/init/src/Config.ts": [
+        "/projects/oss/flipper.v2/desktop/packages/common/lib/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/redux-persist/src/index.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/packages/init/src/index.ts": [
+        "/projects/oss/flipper.v2/desktop/packages/init/lib/Args.d.ts",
+        "/projects/oss/flipper.v2/desktop/packages/init/lib/Setup.d.ts",
+        "/projects/oss/flipper.v2/desktop/packages/init/lib/Config.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/redux-persist/src/index.d.ts"
+      ],
       "/projects/oss/flipper.v2/desktop/packages/core/src/headless/index.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/path.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/redux/index.d.ts",
@@ -5633,6 +5676,7 @@
         "/projects/oss/flipper.v2/desktop/packages/core/src/fb-stubs/Logger.ts",
         "/projects/oss/flipper.v2/desktop/packages/core/src/reducers/index.ts",
         "/projects/oss/flipper.v2/desktop/packages/core/src/utils/exportData.ts",
+        "/projects/oss/flipper.v2/desktop/packages/init/lib/index.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/redux-persist/src/index.d.ts"
@@ -8336,6 +8380,33 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/redux-persist/src/index.d.ts"
       ],
+      "/projects/oss/flipper.v2/desktop/packages/init/src/Args.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/yargs/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/redux-persist/src/index.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/packages/init/src/Setup.ts": [
+        "/projects/oss/flipper.v2/desktop/packages/init/lib/Args.d.ts",
+        "/projects/oss/flipper.v2/desktop/packages/common/lib/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/redux-persist/src/index.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/packages/init/src/Config.ts": [
+        "/projects/oss/flipper.v2/desktop/packages/common/lib/index.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/redux-persist/src/index.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/packages/init/src/index.ts": [
+        "/projects/oss/flipper.v2/desktop/packages/init/lib/Args.d.ts",
+        "/projects/oss/flipper.v2/desktop/packages/init/lib/Setup.d.ts",
+        "/projects/oss/flipper.v2/desktop/packages/init/lib/Config.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/redux-persist/src/index.d.ts"
+      ],
       "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/BaseView.tsx": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/react/index.d.ts"
       ],
@@ -8895,7 +8966,6 @@
       "/projects/oss/flipper.v2/desktop/packages/core/src/ui/themes/index.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/MenuTypes.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/KeyboardTypes.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/plugin.tsx",
       "/projects/oss/flipper.v2/desktop/packages/core/src/fb-interfaces/Logger.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/redux/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/uuid/interfaces.d.ts",
@@ -8904,12 +8974,9 @@
       "/projects/oss/flipper.v2/desktop/packages/core/src/Constants.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/UninitializedClient.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/fb-stubs/iOSContainerUtility.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/reducers/ConnectionsReducer.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/reducers/PluginStatesReducer.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/reducers/NotificationsReducer.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/reducers/UserReducer.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/redux-persist/src/index.d.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/reducers/index.ts",
       "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-flowable/build/Flowable.d.ts",
       "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-flowable/build/Single.d.ts",
       "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-flowable/build/FlowableProcessor.d.ts",
@@ -8921,8 +8988,6 @@
       "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/build/index.d.ts",
       "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-types/index.d.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/fb-stubs/ScribeLogger.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/fb-stubs/Logger.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/utils/metrics.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/utils/isProduction.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/RootView.tsx",
       "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/View.ts",
@@ -8972,13 +9037,11 @@
       "/projects/oss/flipper.v2/desktop/node_modules/@emotion/serialize/types/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@emotion/css/types/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@emotion/core/types/index.d.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/Button.tsx",
       "/projects/oss/flipper.v2/desktop/packages/core/src/utils/geometry.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/utils/LowPassFilter.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/utils/snap.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/Interactive.tsx",
       "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/Sidebar.tsx",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/DetailSidebar.tsx",
       "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/filter/types.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/table/types.tsx",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/react-virtualized-auto-sizer/index.d.ts",
@@ -8996,15 +9059,8 @@
       "/projects/oss/flipper.v2/desktop/node_modules/@types/deep-equal/index.d.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/searchable/SearchableTable.tsx",
       "/projects/oss/flipper.v2/desktop/packages/core/src/utils/runtime.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/createTablePlugin.tsx",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/TableNativePlugin.tsx",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/NativePluginTypes.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/Client.tsx",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/PluginTypes.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/reducers/PluginReducer.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/ToggleSwitch.tsx",
       "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/ButtonGroup.tsx",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/ButtonNavigationGroup.tsx",
       "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/LoadingIndicator.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/data-inspector/ManagedDataInspector.tsx",
       "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/Orderable.tsx",
@@ -9016,7 +9072,6 @@
       "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/CodeBlock.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/ErrorBlock.tsx",
       "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/Heading.tsx",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/ErrorBoundary.tsx",
       "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/VirtualList.tsx",
       "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/ContextMenuProvider.tsx",
       "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/FileList.tsx",
@@ -9030,7 +9085,6 @@
       "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/SidebarLabel.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/FlexCenter.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/TextParagraph.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/PathBreadcrumbs.tsx",
       "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/ModalOverlay.tsx",
       "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/ResizeSensor.tsx",
       "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/HorizontalRule.ts",
@@ -9040,11 +9094,7 @@
       "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/StackTrace.tsx",
       "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/elements-inspector/elements.tsx",
       "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/elements-inspector/ElementsInspector.tsx",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/Sheet.tsx",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/console.tsx",
       "/projects/oss/flipper.v2/desktop/packages/core/src/fb-stubs/GK.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/elements-inspector/sidebar.tsx",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/ui/index.tsx",
       "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/WelcomeScreen.tsx",
       "/projects/oss/flipper.v2/desktop/packages/core/src/devices/ArchivedDevice.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/which/index.d.ts",
@@ -9052,61 +9102,33 @@
       "/projects/oss/flipper.v2/desktop/packages/core/src/utils/serialization.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/utils/packageMetadata.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/utils/promiseTimeout.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/utils/exportData.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/DevicesButton.tsx",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/expand-tilde/index.d.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/utils/processConfig.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/ScreenCaptureButtons.tsx",
       "/projects/oss/flipper.v2/desktop/packages/core/src/fb-stubs/config.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/AutoUpdateVersion.tsx",
       "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/UpdateIndicator.tsx",
       "/projects/oss/flipper.v2/desktop/packages/core/src/utils/argvUtils.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/TitleBar.tsx",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/NotificationsHub.tsx",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/UserAccount.tsx",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/MainSidebar.tsx",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/fb-stubs/BugReporter.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/BugReporterDialog.tsx",
       "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/ErrorBar.tsx",
       "/projects/oss/flipper.v2/desktop/packages/core/src/fb-stubs/user.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/ShareSheet.tsx",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/SignInSheet.tsx",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/ShareSheetExportFile.tsx",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/utils/pluginUtils.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/fb-stubs/constants.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/MenuBar.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/PluginContainer.tsx",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/react-transition-group/Transition.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/react-transition-group/CSSTransition.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/react-transition-group/TransitionGroup.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/react-transition-group/index.d.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/Sheet.tsx",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/PluginDebugger.tsx",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/App.tsx",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/GlobalStyles.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/GlobalTypes.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/ReactTypes.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/fb-stubs/LayoutInspectorSidebarExtensions.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/utils/crashReporterUtility.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/index.tsx",
       "/projects/oss/flipper.v2/desktop/packages/core/src/react-hot-config.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/utils/onRegisterDevice.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/retry/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/promise-retry/index.d.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/utils/adbConfig.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/utils/adbClient.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/dispatcher/androidDevice.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/dispatcher/iOSDevice.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/devices/WindowsDevice.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/dispatcher/windowsDevice.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/utils/environmentVariables.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/query-string/index.d.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/dispatcher/application.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/dispatcher/tracking.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/mz/fs.d.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/utils/openssl-wrapper-with-promises.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/tmp/index.d.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/utils/CertificateProvider.ts",
       "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketSerialization.d.ts",
       "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketClient.d.ts",
       "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-core/build/RSocketServer.d.ts",
@@ -9121,9 +9143,6 @@
       "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-tcp-server/build/RSocketTCPServer.d.ts",
       "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-tcp-server/build/index.d.ts",
       "/projects/oss/flipper.v2/desktop/packages/types/src/rsocket-tcp-server/index.d.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/server.tsx",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/dispatcher/server.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/dispatcher/notifications.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/chokidar/types/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/eventemitter3/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/p-queue/dist/queue.d.ts",
@@ -9131,43 +9150,16 @@
       "/projects/oss/flipper.v2/desktop/node_modules/p-queue/dist/priority-queue.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/p-queue/dist/index.d.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/plugin/PluginRequirePatch.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/plugin/PluginLoader.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/dispatcher/plugins.tsx",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/dispatcher/user.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/dispatcher/index.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/utils/launcher.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/init.tsx",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/react-test-renderer/index.d.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/__tests__/App.electron.tsx",
       "/projects/oss/flipper.v2/desktop/packages/core/src/__tests__/createTablePlugin.node.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/__tests__/server.device.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/__tests__/server.electron.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/DevicesList.tsx",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/PluginManager.tsx",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/Popover.tsx",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/__tests__/TitleBar.electron.tsx",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/dispatcher/__tests__/TestPlugin.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/dispatcher/__tests__/deeplinkURLParsing.electron.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/dispatcher/__tests__/plugins.electron.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/fb-stubs/ErrorReporter.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/yargs/index.d.ts",
-      [
-        "/projects/oss/flipper.v2/desktop/packages/core/src/headless/index.ts",
-        [
-          {
-            "file": "/projects/oss/flipper.v2/desktop/packages/core/src/headless/index.ts",
-            "start": 578,
-            "length": 15,
-            "messageText": "Output file '/projects/oss/flipper.v2/desktop/packages/init/lib/index.d.ts' has not been built from source file '/projects/oss/flipper.v2/desktop/packages/init/src/index.ts'.",
-            "category": 1,
-            "code": 6305
-          }
-        ]
-      ],
-      "/projects/oss/flipper.v2/desktop/packages/core/src/reducers/__tests__/connections.node.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/reducers/__tests__/notifications.node.ts",
+      "/projects/oss/flipper.v2/desktop/packages/init/src/Args.ts",
+      "/projects/oss/flipper.v2/desktop/packages/init/src/Setup.ts",
+      "/projects/oss/flipper.v2/desktop/packages/init/src/Config.ts",
+      "/projects/oss/flipper.v2/desktop/packages/init/src/index.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/reducers/__tests__/pluginStates.node.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/reducers/__tests__/plugins.node.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/reducers/__tests__/user.node.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/BaseView.tsx",
       "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/__tests__/MarkerTimeline.electron.ts",
@@ -9180,7 +9172,6 @@
       "/projects/oss/flipper.v2/desktop/packages/core/src/utils/__tests__/adbConfig.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/utils/__tests__/crashReporterUtility.node.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/utils/__tests__/environmentVariables.node.ts",
-      "/projects/oss/flipper.v2/desktop/packages/core/src/utils/__tests__/exportData.electron.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/utils/__tests__/packageMetadata.node.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/utils/__tests__/processConfig.node.ts",
       "/projects/oss/flipper.v2/desktop/packages/core/src/utils/__tests__/promiseTimeout.node.ts",
@@ -9246,7 +9237,79 @@
       "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack-dev-middleware/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack-env/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack-hot-middleware/index.d.ts",
-      "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack-node-externals/index.d.ts"
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/webpack-node-externals/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/plugin.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/reducers/ConnectionsReducer.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/reducers/NotificationsReducer.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/reducers/index.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/fb-stubs/Logger.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/utils/metrics.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/Button.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/DetailSidebar.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/createTablePlugin.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/TableNativePlugin.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/NativePluginTypes.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/Client.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/PluginTypes.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/reducers/PluginReducer.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/ButtonNavigationGroup.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/ErrorBoundary.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/PathBreadcrumbs.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/Sheet.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/console.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/ui/components/elements-inspector/sidebar.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/ui/index.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/utils/exportData.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/DevicesButton.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/ScreenCaptureButtons.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/TitleBar.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/NotificationsHub.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/UserAccount.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/MainSidebar.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/fb-stubs/BugReporter.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/BugReporterDialog.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/ShareSheet.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/SignInSheet.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/ShareSheetExportFile.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/utils/pluginUtils.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/MenuBar.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/PluginContainer.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/Sheet.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/PluginDebugger.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/App.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/GlobalStyles.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/GlobalTypes.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/index.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/utils/onRegisterDevice.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/dispatcher/androidDevice.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/dispatcher/iOSDevice.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/dispatcher/windowsDevice.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/dispatcher/application.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/dispatcher/tracking.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/utils/CertificateProvider.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/server.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/dispatcher/server.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/dispatcher/notifications.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/plugin/PluginLoader.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/dispatcher/plugins.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/dispatcher/user.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/dispatcher/index.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/utils/launcher.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/init.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/__tests__/App.electron.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/__tests__/server.device.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/__tests__/server.electron.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/DevicesList.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/PluginManager.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/Popover.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/chrome/__tests__/TitleBar.electron.tsx",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/dispatcher/__tests__/TestPlugin.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/dispatcher/__tests__/plugins.electron.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/headless/index.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/reducers/__tests__/connections.node.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/reducers/__tests__/notifications.node.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/reducers/__tests__/plugins.node.ts",
+      "/projects/oss/flipper.v2/desktop/packages/core/src/utils/__tests__/exportData.electron.ts"
     ]
   },
   "version": "3.5.0-rc"

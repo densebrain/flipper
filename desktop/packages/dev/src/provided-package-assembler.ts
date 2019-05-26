@@ -4,6 +4,7 @@ import Bluebird from "bluebird"
 import * as Path from 'path'
 import * as Sh from 'shelljs'
 import PQueue from 'p-queue'
+import * as Fs from 'mz/fs'
 import {packageDir, rootDir} from "./dirs"
 import {addCompileEventHandler, CompilerEvent, PackageName} from "./package-compiler"
 
@@ -13,44 +14,53 @@ const
     concurrency: 1
   })
 
-function prepareDeclarationPackage(name: "common" | "sdk") {
-  const
-    srcName = name === "common" ? "common" : "core",
-    srcPkgDir = Path.join(packageDir, srcName),
-    srcLibDir = Path.join(srcPkgDir,"lib"),
-    pkgDir = Path.join(packageDir,name),
-    outDir = Path.join(rootDir, "dist", "package",name),
-    outLibDir = Path.join(outDir, "lib")
-  
-  Sh.mkdir("-p", outLibDir)
-  const pkgJson = JSON.parse(Sh.cat(Path.join(pkgDir, "package.json")))
-  
-  Sh.echo(JSON.stringify({
-    ...pkgJson,
-    main: "index.js"
-  }, null, 2)).to(Path.join(outDir, "package.json"))
-  
-  
-  const dtsFiles = Sh.find(srcLibDir).filter(file => file.endsWith(".d.ts"))
-  dtsFiles.forEach(file => {
+async function prepareDeclarationPackage(name: "common" | "sdk") {
+  try {
     const
-      destFile = file.replace(srcLibDir, outLibDir),
-      destDir = Path.dirname(destFile)
-    
-    Sh.mkdir("-p", destDir)
-    Sh.cp(file, destFile)
-  })
+      srcName = name === "common" ? "common" : "core",
+      srcPkgDir = Path.join(packageDir, srcName),
+      srcLibDir = Path.join(srcPkgDir, "lib"),
+      pkgDir = Path.join(packageDir, name),
+      outDir = Path.join(rootDir, "dist", "package", name),
+      outLibDir = Path.join(outDir, "lib")
   
-  Sh.echo("module.exports = {}").to(Path.join(outDir, "index.js"))
+    if (!(await Fs.exists(srcLibDir))) {
+      log.warn(`${name} lib folder does not exist: ${srcLibDir}`)
+      return
+    }
+  
+    Sh.mkdir("-p", outLibDir)
+    const pkgJson = JSON.parse(Sh.cat(Path.join(pkgDir, "package.json")))
+  
+    Sh.echo(JSON.stringify({
+      ...pkgJson,
+      main: "index.js"
+    }, null, 2)).to(Path.join(outDir, "package.json"))
+  
+  
+    const dtsFiles = Sh.find(srcLibDir).filter(file => file.endsWith(".d.ts"))
+    dtsFiles.forEach(file => {
+      const
+        destFile = file.replace(srcLibDir, outLibDir),
+        destDir = Path.dirname(destFile)
+    
+      Sh.mkdir("-p", destDir)
+      Sh.cp(file, destFile)
+    })
+  
+    Sh.echo("module.exports = {}").to(Path.join(outDir, "index.js"))
+  } catch (err) {
+    log.error(`Unable to prepare provided package ${name}`, err)
+  }
 }
 
 async function assembleSDK() {
-  prepareDeclarationPackage("sdk")
+  await prepareDeclarationPackage("sdk")
 }
 
 
 async function assembleCommon() {
-  prepareDeclarationPackage("common")
+  await prepareDeclarationPackage("common")
 }
 
 let buildCount = 0

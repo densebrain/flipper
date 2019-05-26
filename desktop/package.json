@@ -1,9 +1,9 @@
 {
   "name": "flipper",
   "private": true,
-  "version": "0.19.0",
+  "version": "1.0.0",
   "versionDate": "2018-4-12",
-  "description": "Mobile development tool",
+  "description": "Development Platform",
   "productName": "Flipper",
   "author": "Facebook Inc",
   "icon": "icon.png",
@@ -22,13 +22,16 @@
   },
   
   "scripts": {
-    "clean": "find . -name node_modules | xargs rm -Rf && find packages -name tsconfig.tsbuildinfo | xargs rm && find packages -name lib | xargs rm -Rf && find packages -name dist | xargs rm -Rf",
+    "clean": "find packages -name tsconfig.tsbuildinfo | xargs rm && find packages -name lib | grep -v node_modules | xargs rm -Rf && find packages -name dist | grep -v node_modules | xargs rm -Rf",
+    "clean:all": "find . -name node_modules | xargs rm -Rf && yarn run clean && yarn run bootstrap",
+    
     "bootstrap": "lerna bootstrap",
     "preinstall": "yarn config set ignore-engines",
     "start": "cd packages/dev && yarn run start",
     "test": "cd packages/dev && yarn run test",
     "package": "cd packages/dev && yarn run package",
     "start:clean": "yarn run clean && yarn run start",
+    
     "old:fix": "eslint . --fix",
     "old:postinstall": "node scripts/yarn-install.js",
     "old:rm-dist": "rm -rf dist",
