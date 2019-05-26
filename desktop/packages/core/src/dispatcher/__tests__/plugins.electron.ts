@@ -4,16 +4,19 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import dispatcher, { getDynamicPlugins, checkDisabled, checkGK, makeRequirePlugin } from "../plugins"
+//checkGK
+import dispatcher, { getDynamicPlugins, checkDisabled, makeRequirePlugin } from "../plugins"
 import path from "path"
 import { remote } from "electron"
 import { FlipperPluginComponent } from "../../plugin"
 import reducers from "../../reducers/index"
 import { init as initLogger } from "../../fb-stubs/Logger"
-const configureStore = require("redux-mock-store").default
-import { TEST_PASSING_GK, TEST_FAILING_GK } from "../../fb-stubs/GK"
 import TestPlugin from "./TestPlugin"
-import {Plugin} from "../../PluginTypes"
+
+const configureStore = require("redux-mock-store").default
+//import { TEST_PASSING_GK, TEST_FAILING_GK } from "../../fb-stubs/GK"
+
+//import {Plugin} from "../../PluginTypes"
 const mockStore = configureStore([])(
   reducers(undefined, {
     type: "INIT"
@@ -58,58 +61,58 @@ test("checkDisabled", () => {
   const disabled = checkDisabled([])
   expect(
     disabled({
-      name: "other Name",
+      id: "other Name",
       path: "./test/index"
     })
   ).toBeTruthy()
   expect(
     disabled({
-      name: disabledPlugin,
+      id: disabledPlugin,
       path: "./test/index"
     })
   ).toBeFalsy()
 })
-test("checkGK for plugin without GK", () => {
-  expect(
-    checkGK([])({
-      name: "pluginID",
-      path: "./test/index"
-    })
-  ).toBeTruthy()
-})
-test("checkGK for passing plugin", () => {
-  expect(
-    checkGK([])({
-      name: "pluginID",
-      gatekeeper: TEST_PASSING_GK,
-      path: "./test/index"
-    })
-  ).toBeTruthy()
-})
-test("checkGK for failing plugin", () => {
-  const gatekeepedPlugins:Array<Plugin> = []
-  const name = "pluginID"
-  const plugins = checkGK(gatekeepedPlugins)({
-    name,
-    gatekeeper: TEST_FAILING_GK,
-    path: "./test/index"
-  })
-  expect(plugins).toBeFalsy()
-  expect(gatekeepedPlugins[0].name).toEqual(name)
-})
+// test("checkGK for plugin without GK", () => {
+//   expect(
+//     checkGK([])({
+//       name: "pluginID",
+//       path: "./test/index"
+//     })
+//   ).toBeTruthy()
+// })
+// test("checkGK for passing plugin", () => {
+//   expect(
+//     checkGK([])({
+//       name: "pluginID",
+//       gatekeeper: TEST_PASSING_GK,
+//       path: "./test/index"
+//     })
+//   ).toBeTruthy()
+// })
+// test("checkGK for failing plugin", () => {
+//   const gatekeepedPlugins:Array<Plugin> = []
+//   const name = "pluginID"
+//   const plugins = checkGK(gatekeepedPlugins)({
+//     name,
+//     gatekeeper: TEST_FAILING_GK,
+//     path: "./test/index"
+//   })
+//   expect(plugins).toBeFalsy()
+//   expect(gatekeepedPlugins[0].name).toEqual(name)
+// })
 test("makeRequirePlugin returns null for invalid requires", () => {
   const plugin = makeRequirePlugin([])({
-    name: "pluginID",
-    entry: "this/path/does not/exist"
+    id: "pluginID",
+    path: "this/path/does not/exist"
   })
   expect(plugin).toBeNull()
 })
 test("makeRequirePlugin loads plugin", async () => {
-  const name = "pluginID"
+  const id = "pluginID"
   const url = "https://fb.workplace.com/groups/230455004101832/"
   const plugin = await makeRequirePlugin([])({
-    name,
-    url,
+    id,
+    //url,
     path: path.join(__dirname, "TestPlugin")
   }) // $FlowFixMe
 

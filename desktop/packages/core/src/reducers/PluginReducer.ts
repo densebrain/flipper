@@ -48,7 +48,9 @@ const INITIAL_STATE: State = {
 type ActionHandler<Type extends ActionType> = <Message extends ActionMessage<Type>>(state:State, action: Message) => State
 const actions: {[type in ActionType]: ActionHandler<type>} = {
   LOAD_PLUGINS: (state, _action) => {
-    getDevIPCClient().then(client => client.emit("getPlugins",{}))
+    if (isDev) {
+      getDevIPCClient().then(client => client.emit("getPlugins", {}))
+    }
     return state
   },
   REGISTER_PLUGINS: (state, action) => {

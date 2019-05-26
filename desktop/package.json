@@ -22,12 +22,13 @@
   },
   
   "scripts": {
+    "clean": "find . -name node_modules | xargs rm -Rf && find packages -name tsconfig.tsbuildinfo | xargs rm && find packages -name lib | xargs rm -Rf && find packages -name dist | xargs rm -Rf",
     "bootstrap": "lerna bootstrap",
     "preinstall": "yarn config set ignore-engines",
     "start": "cd packages/dev && yarn run start",
     "test": "cd packages/dev && yarn run test",
     "package": "cd packages/dev && yarn run package",
-    
+    "start:clean": "yarn run clean && yarn run start",
     "old:fix": "eslint . --fix",
     "old:postinstall": "node scripts/yarn-install.js",
     "old:rm-dist": "rm -rf dist",

@@ -8,7 +8,7 @@
   },
   "main": "./lib/index.js",
   "scripts": {
-    "compile": "tsc -p ../types/tsconfig.json && tsc -p ../common/tsconfig.json && tsc -p tsconfig.json",
+    "compile": "tsc -p ../types/tsconfig.json && tsc -p ../common/tsconfig.json && tsc -p ../init/tsconfig.json && tsc -p tsconfig.json",
     "start": "yarn run compile && node ./lib/dev-server.js",
     "package": "yarn run compile && node ./lib/package-app.js",
     "test": "yarn run compile && jest"

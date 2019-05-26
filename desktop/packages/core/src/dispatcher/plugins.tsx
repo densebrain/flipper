@@ -6,14 +6,13 @@
  */
 import { getDevIPCClient } from "@flipper/common"
 import { remote } from "electron"
-import path from "path"
+import * as Path from "path"
 import { getLogger, Logger } from "../fb-interfaces/Logger"
-import GK from "../fb-stubs/GK"
+//import GK from "../fb-stubs/GK"
 import "../GlobalTypes"
 import { setupMenuBar } from "../MenuBar"
 import { PluginLoader } from "../plugin/PluginLoader"
 import {
-  isPlugin,
   Plugin,
   PluginError,
   PluginMetadata,
@@ -48,7 +47,7 @@ export default async function(store: Store, _logger: Logger) {
   const initialPlugins: Array<Plugin> = (await Promise.all(
     [...getBundledPlugins(), ...getDynamicPlugins()]
       .filter(checkDisabled(disabledPlugins))
-      .filter(checkGK(gatekeepedPlugins))
+      //.filter(checkGK(gatekeepedPlugins))
       .map(makeRequirePlugin(failedPlugins))
   )).filter(Boolean)
 
@@ -131,31 +130,39 @@ async function loadPlugin(store: Store, ...metadata: PluginMetadata[]) {
   }
 }
 
-function getBundledPlugins(): Array<Plugin> {
+function getBundledPlugins(): Array<PluginMetadata> {
   if (!isProduction()) {
     // Plugins are only bundled in production builds
     return []
   } // DefaultPlugins that are included in the bundle.
   // List of defaultPlugins is written at build time
 
-  const pluginPath =
-    process.env.BUNDLED_PLUGIN_PATH || path.join(__dirname, "defaultPlugins")
-  let bundledPlugins: Array<Plugin> = []
-
-  try {
-    bundledPlugins = global.electronRequire(path.join(pluginPath, "index.json"))
-  } catch (e) {
-    console.error(e)
-  }
-
-  return bundledPlugins.map(plugin => ({
-    ...plugin,
-    out: path.join(pluginPath, plugin.entry)
+  const
+    pluginNames:Array<string> = process.env.BundledPluginNames as any,
+    pluginsDir = Path.join(process.resourcesPath, "app.asar", "plugins")
+  
+  return pluginNames.map(name => ({
+    id: `@flipper/${name}`,
+    path: Path.join(pluginsDir, name)
   }))
+  // //process.env.BUNDLED_PLUGIN_PATH || path.join(__dirname, "defaultPlugins")
+  //
+  // let bundledPlugins: Array<PluginMetadata> = []
+  //
+  // try {
+  //   bundledPlugins = global.electronRequire(path.join(pluginPath, "index.json"))
+  // } catch (e) {
+  //   console.error(e)
+  // }
+  //
+  // return bundledPlugins.map(plugin => ({
+  //   ...plugin,
+  //   out: path.join(pluginPath, plugin.entry)
+  // }))
 }
 
-export function getDynamicPlugins() {
-  let dynamicPlugins: Array<Plugin> = []
+export function getDynamicPlugins():Array<PluginMetadata> {
+  let dynamicPlugins: Array<PluginMetadata> = []
 
   try {
     dynamicPlugins = JSON.parse(
@@ -167,30 +174,31 @@ export function getDynamicPlugins() {
 
   return dynamicPlugins
 }
-export const checkGK = (gatekeepedPlugins: Array<Plugin>) => (
-  plugin: Partial<Plugin>
+
+// export const checkGK = (gatekeepedPlugins: Array<Plugin>) => (
+//   plugin: PluginMetadata
+// ): boolean => {
+//   if (!plugin.gatekeeper || !isPlugin(plugin)) {
+//     return true
+//   }
+//
+//   const result = GK.get(plugin.gatekeeper)
+//
+//   if (!result) {
+//     gatekeepedPlugins.push(plugin)
+//     console.warn(
+//       'Plugin %s will be ignored as user is not part of the gatekeeper "%s".',
+//       plugin.name,
+//       plugin.gatekeeper
+//     )
+//   }
+//
+//   return result
+// }
+export const checkDisabled = (disabledPlugins: Array<PluginMetadata>) => (
+  pluginMetadata: PluginMetadata
 ): boolean => {
-  if (!plugin.gatekeeper || !isPlugin(plugin)) {
-    return true
-  }
-
-  const result = GK.get(plugin.gatekeeper)
-
-  if (!result) {
-    gatekeepedPlugins.push(plugin)
-    console.warn(
-      'Plugin %s will be ignored as user is not part of the gatekeeper "%s".',
-      plugin.name,
-      plugin.gatekeeper
-    )
-  }
-
-  return result
-}
-export const checkDisabled = (disabledPlugins: Array<Plugin>) => (
-  plugin: Partial<Plugin>
-): boolean => {
-  if (!isPlugin(plugin)) return false
+  //if (!isPlugin(plugin)) return false
 
   let disabledList: Set<string> = new Set()
 
@@ -200,11 +208,11 @@ export const checkDisabled = (disabledPlugins: Array<Plugin>) => (
     console.error(e)
   }
 
-  if (disabledList.has(plugin.id)) {
-    disabledPlugins.push(plugin)
+  if (disabledList.has(pluginMetadata.id)) {
+    disabledPlugins.push(pluginMetadata)
   }
 
-  return !disabledList.has(plugin.id)
+  return !disabledList.has(pluginMetadata.id)
 }
 
 /**
@@ -215,10 +223,10 @@ export const checkDisabled = (disabledPlugins: Array<Plugin>) => (
  * @returns {(pluginExport: Partial<Plugin>) => Promise<Plugin | null | undefined>}
  */
 export const makeRequirePlugin = (failedPlugins: Array<PluginError>) => async (
-  pluginExport: Partial<Plugin>
+  pluginMetadata: PluginMetadata
 ): Promise<Plugin | null | undefined> => {
   
-  const { id, pkg, path: pluginPath } = pluginExport
+  const { id, pkg, path: pluginPath } = pluginMetadata
 
   let plugin: Plugin | null = null
   try {

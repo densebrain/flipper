@@ -4,6 +4,7 @@ import * as Path from "path"
 import { packageDir } from "./dirs"
 import { addShutdownHook } from "./process"
 import Bluebird from "bluebird"
+import * as _ from 'lodash'
 
 const log = getLogger(__filename)
 
@@ -19,8 +20,22 @@ export type PluginCompilerMap = {
 
 export type CompilerMap = CoreCompilerMap & PluginCompilerMap
 
+export const CompilerEvents = Array("first_success", "subsequent_success","compile_errors")
+export type CompilerEvent = typeof CompilerEvents[number]
+
+export type CompilerListenableEvent = CompilerEvent | "all"
+
+export type CompilerEventHandler = (name: CompilePackageName, event: CompilerEvent, compiler: PackageCompiler) => void
+
+export type CompilerEventHandlerMap = {[key in CompilerListenableEvent]: Array<CompilerEventHandler>}
+
+type CompilePackageName = (keyof CompilerMap) | "all"
+
 export const
   BasePackages = Array<PackageName>("types","common","init","core"),
+  packageHandlers:{[key in CompilePackageName]?: CompilerEventHandlerMap} = {
+  
+  },
   compilers: CompilerMap = {
     types: null,
     init: null,
@@ -28,6 +43,27 @@ export const
     core: null,
     app: null
   }
+  
+  
+  
+function getCompilerEventHandlers(name: CompilePackageName, event: CompilerListenableEvent): Array<CompilerEventHandler> {
+  const pkgHandlers = packageHandlers[name] = packageHandlers[name] || {} as CompilerEventHandlerMap
+  return pkgHandlers[event] = pkgHandlers[event] || Array<CompilerEventHandler>()
+
+}
+
+export function addCompileEventHandler(name: CompilePackageName, event: CompilerListenableEvent, handler: CompilerEventHandler) {
+  getCompilerEventHandlers(name, event).push(handler)
+}
+
+function triggerCompileEvent(name: CompilePackageName, event: CompilerEvent, compiler: PackageCompiler) {
+  _.uniq([
+    ...getCompilerEventHandlers(name, event),
+    ...getCompilerEventHandlers(name, "all"),
+    ...getCompilerEventHandlers("all", event),
+    ...getCompilerEventHandlers("all", "all")
+  ]).forEach(fn => fn(name,event, compiler))
+}
 
 export class PackageCompiler {
   watch = new TscWatch()
@@ -36,10 +72,15 @@ export class PackageCompiler {
     return compilers[name] = compilers[name] || new PackageCompiler(name)
   }
 
-  protected constructor(public name: string) {}
+  protected constructor(public name: string) {
+    CompilerEvents.forEach(event => {
+      this.watch.on(event,() => triggerCompileEvent(name, event, this))
+    })
+    
+  }
 
   on(
-    event: "first_success" | "subsequent_success" | "compile_errors",
+    event: CompilerEvent,
     fn: () => void
   ) {
     this.watch.on(event, fn)
@@ -70,31 +111,37 @@ export function makePackageCompiler(name: string): PackageCompiler {
  *
  * @returns {Promise<void>}
  */
-export async function compileBasePackages(once: boolean = false):Promise<CompilerMap> {
+export async function compileBasePackages(once: boolean = false, parallel: boolean = false):Promise<CompilerMap> {
   
   log.info(`Compiling base packages`)
   
-  await Bluebird.each(BasePackages, async (name) => {
+  const pkgBuilder = async (name: string) => {
     let compiler: PackageCompiler | null = null
     try {
       compiler = makePackageCompiler(name)
       await new Promise<void>((resolve, reject) => {
-        
+      
         compiler.on("first_success", () => {
           log.info(`Completed: ${name}`)
           resolve()
         })
-    
+      
         compiler.on("compile_errors", () => {
           reject(new Error(`Failed to compile: ${name}`))
         })
+        
         compiler.start()
       })
     } finally {
       if (compiler && once)
         compiler.kill()
     }
-  })
+  }
+  
+  if (parallel)
+    await Promise.all(BasePackages.map(pkgBuilder))
+  else
+    await Bluebird.each(BasePackages, pkgBuilder)
   
   return compilers
 }

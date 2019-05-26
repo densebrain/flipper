@@ -1,7 +1,7 @@
 import {getLogger, Identity} from "@flipper/common"
 import * as Path from "path"
 import {isDefined} from "typeguard"
-import {coreDir, packageDir, appDir, rootDir, pluginDirs, pluginNames} from "../dirs"
+import {coreDir, packageDir, appDir, rootDir, pluginNames, pluginNameMap, PluginConfig} from "../dirs"
 import webpack, { ExternalsElement } from "webpack"
 import ForkTsCheckerPlugin from "fork-ts-checker-webpack-plugin"
 
@@ -18,10 +18,7 @@ import IgnoreNotFoundExportPlugin from "./webpack.plugin.ignore-export"
 
 type Mode = "development" | "production"
 
-type PluginConfig = {
-  name: string
-  dir: string
-}
+
 
 const
   log = getLogger(__filename),
@@ -44,26 +41,12 @@ const
   resolveConfig = {
     extensions: [".ts", ".tsx", ".js", ".jsx"],
     alias: {
-      //"@flipper/core": Path.resolve(packageDir, "core","src","index.ts"),
       "react-dom": "@hot-loader/react-dom",
       jss: Path.resolve(rootDir, "node_modules", "jss"),
       assets: Path.resolve(coreDir, "assets")
     }
   }
 
-// Build the plugin name map
-const pluginNameMap = pluginDirs
-  .reduce(
-    (acc, dir) => {
-      const name = Path.basename(dir)
-      acc[name] = {
-        name,
-        dir
-      }
-      return acc
-    },
-    {} as { [key: string]: PluginConfig }
-  )
 
 /**
  * Generate all plugin configs
@@ -71,7 +54,10 @@ const pluginNameMap = pluginDirs
  * @returns {Promise<webpack.Configuration[]>}
  */
 async function generatePluginConfigs() {
-  return Promise.all(Object.values(pluginNameMap).map(plugin => createPluginConfig(plugin)))
+  return Promise.all(
+    Object.values(pluginNameMap)
+      .map(plugin => createPluginConfig(plugin))
+  )
 }
 
 function makeDefaultConfig(
@@ -95,7 +81,7 @@ function makeDefaultConfig(
     output: {
       libraryTarget: "commonjs2",
       path: Path.resolve(context, "dist"),
-      publicPath: "",
+      publicPath: "./",
       filename: "bundle.js"
     },
     devtool: devTools[mode],
@@ -138,7 +124,10 @@ function createAppConfig(): webpack.Configuration {
       /source-map-support/,
       ...makeCommonExternals(appDir, [...WebpackHotWhitelist, /flipper/])
     ],
-    []
+    [],
+    config => ({
+      ...config
+    })
   )
 }
 
@@ -224,11 +213,21 @@ function applyMode(
   }
 }
 
-async function createPluginConfig({
-  name,
-  dir
-}: PluginConfig): Promise<webpack.Configuration> {
-  const whitelistIds = getWhitelistIds()
+/**
+ * Create plugin config
+ *
+ *
+ * @returns {Promise<webpack.Configuration>}
+ * @param pluginConfig
+ */
+async function createPluginConfig(pluginConfig: PluginConfig): Promise<webpack.Configuration> {
+  const
+    {
+      name,
+      dir
+    } = pluginConfig,
+    whitelistIds = getWhitelistIds()
+  
   return makeDefaultConfig(
     name,
     dir,
@@ -246,7 +245,7 @@ async function createPluginConfig({
         } else {
           log.debug(`Checking external`, context, request)
         }
-        ;(callback as any)()
+        (callback as any)()
       },
       /electron/,
       "lodash",
@@ -260,8 +259,8 @@ async function createPluginConfig({
 
 export default async function generate(
   useMode: Mode = "development",
-  usePort?: number | undefined
-  
+  usePort: number | undefined = undefined,
+  configCustomizer: ((config: webpack.Configuration) => webpack.Configuration)  = (c) => c
 ): Promise<Array<webpack.Configuration>> {
   if (!isDefined(usePort) && useMode === "development")
     throw new Error("Port must be set in 'development' mode")
@@ -269,4 +268,5 @@ export default async function generate(
   port = usePort
   mode = useMode
   return [createAppConfig(), await createCoreConfig(), ...(await generatePluginConfigs())]
+    .map(configCustomizer)
 }

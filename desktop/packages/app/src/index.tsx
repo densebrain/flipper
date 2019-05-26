@@ -8,18 +8,16 @@
  */
 
 
-
 import * as Electron from "electron"
 
 import * as Fs from "fs"
-
-import * as Path from "path"
-
-import * as url from "url"
-import {MainState} from "./types"
 import * as _ from 'lodash'
 
+//import * as url from "url"
+import {MainState} from "./types"
+
 const
+  isTestPkg = !!process.env.TEST_PKG,
   {app, session, BrowserWindow, ipcMain} = Electron,
   {env} = process as any
 
@@ -33,6 +31,25 @@ if (!app) {
 // disable electron security warnings:
 // https://github.com/electron/electron/blob/master/docs/tutorial/security.md#security-native-capabilities-and-your-responsibility
 env.ELECTRON_DISABLE_SECURITY_WARNINGS = true
+
+
+function onException (err: Error):void {
+  console.error("Exception", err);
+}
+
+function onRejection (err: Error):void {
+  console.error("Rejection", err);
+}
+
+
+process.on('uncaughtException', onException)
+process.on('unhandledRejection', onRejection)
+
+// DISABLE WEB-SECURITY
+if (isTestPkg) {
+  app.commandLine.appendSwitch('remote-debugging-port', '9223')
+  app.commandLine.appendSwitch('disable-web-security')
+}
 
 async function onReady() {
   
@@ -123,12 +140,18 @@ async function onReady() {
   app.setAsDefaultProtocolClient("flipper")
   
   function tryCreateWindow() {
-    log.info(`Creating window`)
+    log.info(`Creating window`, __dirname,__filename, process.cwd())
     
     const win = state.win = new BrowserWindow({
-      show: false, title: "Flipper", width: config.lastWindowPosition.width || 1400,
-      height: config.lastWindowPosition.height || 1000, minWidth: 800, minHeight: 600, center: true,
-      titleBarStyle: "hiddenInset", vibrancy: "sidebar",
+      show: false,
+      title: "Flipper",
+      width: config.lastWindowPosition.width || 1400,
+      height: config.lastWindowPosition.height || 1000,
+      minWidth: 800,
+      minHeight: 600,
+      center: true,
+      titleBarStyle: "hiddenInset",
+      vibrancy: "sidebar",
       
       webPreferences: {
         nodeIntegration: true, webSecurity: false, scrollBounce: true, experimentalFeatures: true
@@ -148,8 +171,9 @@ async function onReady() {
       }
       
       
-      const [x, y] = win.getPosition()
-      const [width, height] = win.getSize() // save window position and size
+      const
+        [x, y] = win.getPosition(),
+        [width, height] = win.getSize() // save window position and size
       
       Fs.writeFileSync(configPath, JSON.stringify({
         ...config, lastWindowPosition: {
@@ -162,12 +186,13 @@ async function onReady() {
       win.setPosition(config.lastWindowPosition.x, config.lastWindowPosition.y)
     }
     
-    const entryUrl = process.env.CORE_URL || url.format({
-      pathname: Path.join(__dirname, "index.html"), protocol: "file:", slashes: true
-    })
+    const entryUrl = process.env.CORE_URL || `file://${process.resourcesPath}/app.asar/core/index.html`//Path.join("app", "index.html")
+    //   url.format({
+    //   pathname: Path.join("app", "index.html"), protocol: "file:", slashes: true
+    // })
     
-    console.info("Loading window with url", entryUrl, process.env.CORE_URL)
-    if (process.env.NODE_ENV === "development") {
+    log.info("Loading window with url", entryUrl, process.env.CORE_URL)
+    if (process.env.NODE_ENV === "development" || isTestPkg) {
       win.show()
       win.webContents.openDevTools()
     }

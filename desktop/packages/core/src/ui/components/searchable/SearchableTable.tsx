@@ -10,7 +10,7 @@ import { TableBodyRow } from "../table/types"
 import { Filter } from "../filter/types"
 import { PureComponent } from "react"
 import ManagedTable from "../table/ManagedTable"
-import { ManagedTableDebounced } from "../table/ManagedTable"
+//import { ManagedTableDebounced } from "../table/ManagedTable"
 import textContent from "../../../utils/textContent"
 import Searchable, { SearchableProps } from "./Searchable"
 import deepEqual from "deep-equal"
@@ -157,7 +157,8 @@ class SearchableManagedTable extends PureComponent<Props, State> {
       } = this.props,
       { filteredItems, filterRows } = this.state
     return (
-      <ManagedTableDebounced
+      //<ManagedTableDebounced
+      <ManagedTable
         {...props}
         filter={filterRows}
         items={filteredItems}

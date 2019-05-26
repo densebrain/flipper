@@ -541,6 +541,10 @@
         "version": "239230fbd9ac9ca733d1ba3ef5ce96a62e8405a436eaeab1aa0aa436e7920cf8",
         "signature": "239230fbd9ac9ca733d1ba3ef5ce96a62e8405a436eaeab1aa0aa436e7920cf8"
       },
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/debug/index.d.ts": {
+        "version": "5e36986c4fc3c242013026c0cffdf95f138c25edfd05e80c23d634e5dca4cfef",
+        "signature": "5e36986c4fc3c242013026c0cffdf95f138c25edfd05e80c23d634e5dca4cfef"
+      },
       "/projects/oss/flipper.v2/desktop/node_modules/@types/deep-equal/index.d.ts": {
         "version": "2e345cb6511f4c4c60c274df6626c94f3182939034f06cdf414bfbccc584f822",
         "signature": "2e345cb6511f4c4c60c274df6626c94f3182939034f06cdf414bfbccc584f822"
@@ -1707,6 +1711,10 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
       "/projects/oss/flipper.v2/desktop/node_modules/@types/console-stamp/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/debug/index.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -3101,6 +3109,10 @@
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/debug/index.d.ts": [
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
+        "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "/projects/oss/flipper.v2/desktop/node_modules/@types/deep-equal/index.d.ts": [
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/util.d.ts",
         "/projects/oss/flipper.v2/desktop/node_modules/@types/node/ts3.2/util.d.ts"
@@ -3928,6 +3940,7 @@
       "/projects/oss/flipper.v2/desktop/node_modules/@types/classnames/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/clean-css/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/console-stamp/index.d.ts",
+      "/projects/oss/flipper.v2/desktop/node_modules/@types/debug/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/deep-equal/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/expand-tilde/index.d.ts",
       "/projects/oss/flipper.v2/desktop/node_modules/@types/range-parser/index.d.ts",

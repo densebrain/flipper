@@ -6,11 +6,9 @@ import * as http from "http"
 
 import Morgan from "morgan"
 import * as Path from "path"
-//import {getValue} from "typeguard"
 import { oc } from "ts-optchain"
 import { isString } from "typeguard"
 import webpack from "webpack"
-//import devMiddleware from "webpack-dev-middleware"
 import hotMiddleware from "webpack-hot-middleware"
 import {
   Deferred,
@@ -29,6 +27,7 @@ import {
   WebpackStatsAsset
 } from "@flipper/common"
 import * as _ from "lodash"
+import {attachProvidedPackagesAssembler} from "./provided-package-assembler"
 import generateWebpackConfig from "./webpack/webpack.config"
 
 
@@ -238,8 +237,11 @@ function updateElectron() {
 }
 
 if (require.main === module) {
-  log.info("Compiling common")
-
+  log.info("Attaching provided package compiler")
+  attachProvidedPackagesAssembler()
+  
+  log.info("Compiling base packages")
+  
   compileBasePackages()
     .then(() => {
       log.info("Compiled core, Starting dev server")
@@ -250,57 +252,6 @@ if (require.main === module) {
         })
         .catch(err => log.error("Unable to start dev server", err))
     })
-  // function compileCore() {
-  //   compilers["core"] = makePackageCompiler("core")
-  //     .on("first_success", () => {
-  //       log.info("Compiled core, Starting dev server")
-  //       startDevServer()
-  //         .then(() => {
-  //           started = true
-  //           updateElectron()
-  //         })
-  //         .catch(err => log.error("Unable to start dev server", err))
-  //     })
-  //     .on("subsequent_success", () => {
-  //       log.info("Compiled core")
-  //     })
-  //     .on("compile_errors", () => {
-  //       log.error("Compiled errors")
-  //     })
-  //     .start()
-  // }
-  //
-  // function compileTypes() {
-  //   compilers["types"] = makePackageCompiler("types")
-  //     .on("first_success", () => {
-  //       log.info("Compiled type")
-  //       log.info("Compiling common")
-  //       compileCommon()
-  //     })
-  //     .start()
-  // }
-  //
-  // function compileInit() {
-  //   compilers["init"] = makePackageCompiler("init")
-  //     .on("first_success", () => {
-  //       log.info("Compiled init")
-  //       log.info("Compiling core")
-  //       compileCore()
-  //     })
-  //     .start()
-  // }
-  //
-  // function compileCommon() {
-  //   compilers["common"] = makePackageCompiler("common")
-  //     .on("first_success", () => {
-  //       log.info("Compiled common")
-  //       log.info("Compiling init")
-  //       compileInit()
-  //     })
-  //     .start()
-  // }
-  //
-  // compileTypes()
 }
 
 // Do anything you like with the rest of your express application.
