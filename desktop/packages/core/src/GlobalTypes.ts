@@ -1,17 +1,17 @@
-import "@states/common"
+import "@stato/common"
 import {Store} from "./reducers"
 
 declare global {
   interface Window {
     __REDUX_DEVTOOLS_EXTENSION__:any
     electronRequire: NodeRequire
-    statesStore: Store
+   statoStore: Store
   }
   
   namespace NodeJS {
     interface Global {
       electronRequire: NodeRequire
-      statesStore: Store
+     statoStore: Store
       __VERSION__:string
       __REVISION__:string | undefined
     }

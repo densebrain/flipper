@@ -3,6 +3,7 @@ node_modules
 dist
 website/build
 yarn-error.log
+*.tsbuildinfo
 
 # iOS / Xcode
 *.xcworkspace

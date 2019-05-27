@@ -6,7 +6,7 @@
  */
 import * as React from 'react'
 import {
-  StatesPluginComponent,
+ StatoPluginComponent,
   ManagedTable,
   Text,
   Heading,
@@ -16,8 +16,8 @@ import {
   ManagedDataInspector,
   styled,
   Select,
-  StatesPluginProps, PluginType, PluginModuleExport
-} from "@states/core"
+ StatoPluginProps, PluginType, PluginModuleExport
+} from "@stato/core"
 import { clone,mapKeys } from "lodash"
 
 type ActionType = "UpdateSharedPreferences" | "ChangeSharedPreferences" | "UpdateSelectedSharedPreferences"
@@ -92,11 +92,11 @@ const RootColumn = styled(FlexColumn)({
   paddingTop: "16px"
 })
 
-type Props = StatesPluginProps<{}>
+type Props =StatoPluginProps<{}>
 
-class SharedPreferencesPlugin extends StatesPluginComponent<Props, SharedPreferencesState, Actions, {}> {
+class SharedPreferencesPlugin extends StatoPluginComponent<Props, SharedPreferencesState, Actions, {}> {
   
-  static id = "@states/plugin-shared-preferences"
+  static id = "@stato/plugin-shared-preferences"
   
   static title = SharedPreferencesPlugin.id
   

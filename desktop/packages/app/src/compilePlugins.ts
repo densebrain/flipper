@@ -7,7 +7,7 @@
  * @format
  * @flow strict-local
  */
-import "@states/common"
+import "@stato/common"
 import * as Path from "path"
 
 import * as Fs from "fs"
@@ -17,7 +17,7 @@ import * as Util from "util"
 import * as recursiveReaddir from "recursive-readdir"
 
 import * as Os from 'os'
-import {getLogger} from "@states/common"
+import {getLogger} from "@stato/common"
 import {isString} from "typeguard"
 import {IPackageJSON} from "package-json"
 
@@ -154,7 +154,7 @@ function entryPointForPluginFolder(pluginPath: string): any {
   return Fs
     .readdirSync(pluginPath)
     .filter(name =>
-      /*name.startsWith('states-plugin') && */
+      /*name.startsWith(stato-plugin') && */
       Fs.lstatSync(Path.join(pluginPath, name)).isDirectory()
     )
     .filter(Boolean)

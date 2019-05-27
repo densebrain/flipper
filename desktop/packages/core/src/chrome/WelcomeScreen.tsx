@@ -95,7 +95,7 @@ export default withTheme()(class WelcomeScreen extends PureComponent<Props, Stat
   timer:number | null | undefined
   
   componentDidMount() {
-    // waiting sometime before showing the welcome screen to allow States to
+    // waiting sometime before showing the welcome screen to allow Stato to
     // connect to devices, if there are any
     this.timer = (setTimeout as any)(() => {
       this.setState({
@@ -122,7 +122,7 @@ export default withTheme()(class WelcomeScreen extends PureComponent<Props, Stat
       <Welcome isMounted={this.state.isMounted}>
         <Logo src={require("!!file-loader!assets/icon.png")}/>
         
-        <Title>Welcome to States</Title>
+        <Title>Welcome to Stato</Title>
         <Version>
           {isProduction() ? `Version ${remote.app.getVersion()}` : 'Development Mode'}
         </Version>
@@ -136,9 +136,9 @@ export default withTheme()(class WelcomeScreen extends PureComponent<Props, Stat
             color={colors.accent}
           />
           <FlexColumn>
-            <ItemTitle>Using States</ItemTitle>
+            <ItemTitle>Using Stato</ItemTitle>
             <ItemSubTitle>
-              Learn how States can help you debug your App
+              Learn how Stato can help you debug your App
             </ItemSubTitle>
           </FlexColumn>
         </Item>
@@ -154,7 +154,7 @@ export default withTheme()(class WelcomeScreen extends PureComponent<Props, Stat
               onClick={() => shell.openExternal('https://fbstates.com/docs/getting-started.html')}>
           <Icon size={20} name="tools" className="icon" color={colors.accent}/>
           <FlexColumn>
-            <ItemTitle>Add States support to your app</ItemTitle>
+            <ItemTitle>Add Stato support to your app</ItemTitle>
             <ItemSubTitle>Get started with these pointers</ItemSubTitle>
           </FlexColumn>
         </Item>
@@ -164,7 +164,7 @@ export default withTheme()(class WelcomeScreen extends PureComponent<Props, Stat
           <FlexColumn>
             <ItemTitle>Contributing and Feedback</ItemTitle>
             <ItemSubTitle>
-              Report issues and help us improve States
+              Report issues and help us improve Stato
             </ItemSubTitle>
           </FlexColumn>
         </Item>

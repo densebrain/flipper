@@ -37,7 +37,7 @@ function forwardPort(port: number, multiplexChannelPort: number) {
   return execFile(portforwardingClient, [`-portForward=${port}`, `-multiplexChannelPort=${multiplexChannelPort}`])
 } // start port forwarding server for real device connections
 
-const portForwarders: Array<ChildProcess> = GK.get("states_ios_device_support")
+const portForwarders: Array<ChildProcess> = GK.get("stato_ios_device_support")
   ? [forwardPort(8089, 8079), forwardPort(8088, 8078)]
   : []
 

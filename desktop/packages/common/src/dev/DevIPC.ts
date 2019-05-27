@@ -1,6 +1,6 @@
 
 import "../Types"
-import {WebpackAssetInfo} from "@states/common"
+import {WebpackAssetInfo} from "@stato/common"
 import { Deferred } from "../async/Deferred"
 import { getLogger } from "../logging/Logger"
 
@@ -65,11 +65,11 @@ let devIPCServer: DevIPCConstructor | null = null,
   devIPCClient: DevIPCConstructor | null = null
 
 
-if (isDev === true) {
+if (isDev) {
   const
     ipcImport = import("node-ipc"),
     log = getLogger(__filename),
-    serverId = "states-dev-ipc"
+    serverId = "stato-dev-ipc"
 
   abstract class AbstractDevIPC implements DevIPC {
     

@@ -12,7 +12,7 @@ import "./GlobalTypes"
 
 import * as ReactDOM from "react-dom"
 
-import {getLogger} from "@states/common"
+import {getLogger} from "@stato/common"
 import {Provider} from "react-redux"
 import * as React from "react"
 
@@ -41,7 +41,7 @@ Object.assign(global,{
   //webpackInitRequire: require,
   webpackRequire: __webpack_require__,
   webpackModules: __webpack_modules__,
-  statesStore: store,
+ statoStore: store,
   "isDev": isDev,
   "__non_webpack_require__": __non_webpack_require__
 })

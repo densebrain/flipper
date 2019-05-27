@@ -9,7 +9,7 @@ test("dummy", () => {
   expect(1).toEqual(1)
 })
 // import { createTablePlugin } from "../createTablePlugin"
-// import { StatesPlugin } from "../plugin"
+// import {StatoPlugin } from "../plugin"
 // const KNOWN_METADATA_PROPS = {
 //   method: "method",
 //   resetMethod: "resetMethod",
@@ -36,7 +36,7 @@ test("dummy", () => {
 //     }
 //   }
 // }
-// test("createTablePlugin returns StatesPlugin", () => {
+// test("createTablePlugin returns "StatoPlugin", () => {
 //   const tablePlugin = createTablePlugin({ ...KNOWN_METADATA_PROPS })
 //   expect(tablePlugin.prototype).toBeInstanceOf(StatesPlugin)
 // })

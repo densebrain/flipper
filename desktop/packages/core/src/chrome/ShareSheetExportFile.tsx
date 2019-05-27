@@ -112,7 +112,7 @@ export default withTheme()(class ShareSheetExportFile extends React.Component<Pr
             <FlexColumn>
               <Title bold>Data Exported Successfully</Title>
               <InfoText>
-                When sharing your States data, consider that the captured data might contain sensitive information like
+                When sharing your Stato data, consider that the captured data might contain sensitive information like
                 access tokens used in network requests.
               </InfoText>
               {this.state.errorArray.length > 0 && (
@@ -158,7 +158,7 @@ export default withTheme()(class ShareSheetExportFile extends React.Component<Pr
           <Center>
             <LoadingIndicator size={30} />
             <Uploading bold color={colors.accentText}>
-              Exporting States trace...
+              Exporting Stato trace...
             </Uploading>
           </Center>
         </Container>

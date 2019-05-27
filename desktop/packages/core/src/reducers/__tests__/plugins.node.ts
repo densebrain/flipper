@@ -5,18 +5,18 @@
  * @format
  */
 import {default as reducer, registerPlugins} from "../PluginReducer"
-import {StatesBasePluginComponent, StatesDevicePluginComponent, StatesPluginComponent} from "../../plugin"
+import {StatoBasePluginComponent,StatoDevicePluginComponent,StatoPluginComponent} from "../../plugin"
 import {makeDevicePlugin, makeNormalPlugin} from "../../PluginTypes"
 import {Device} from "../../index"
 
-const testBasePlugin = makeNormalPlugin(class extends StatesBasePluginComponent {
+const testBasePlugin = makeNormalPlugin(class extends StatoBasePluginComponent {
   static id = "TestPlugin"
 })
 
-const testPlugin = makeNormalPlugin(class extends StatesPluginComponent {
+const testPlugin = makeNormalPlugin(class extends StatoPluginComponent {
   static id = "TestPlugin"
 })
-const testDevicePlugin = makeDevicePlugin(class extends StatesDevicePluginComponent {
+const testDevicePlugin = makeDevicePlugin(class extends StatoDevicePluginComponent {
   static id = "TestDevicePlugin"
   static supportsDevice(_device: Device): boolean {
     return true

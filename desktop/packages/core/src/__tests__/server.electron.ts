@@ -24,10 +24,10 @@ const mockStore = configureStore([])(
 
 beforeAll(() => {
   // create config directory, which is usually created by static/index.js
-  const statesDir = path.join(os.homedir(), ".states")
+  const statoDir = path.join(os.homedir(), ".stato")
 
-  if (!fs.existsSync(statesDir)) {
-    fs.mkdirSync(statesDir)
+  if (!fs.existsSync(statoDir)) {
+    fs.mkdirSync(statoDir)
   }
 
   const logger = initLogger(mockStore)

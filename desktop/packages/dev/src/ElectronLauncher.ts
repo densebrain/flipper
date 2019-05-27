@@ -2,7 +2,7 @@ import * as ChildProcess from "child_process"
 import {getValue} from "typeguard"
 import * as URL from "url"
 import {rootDir} from "./dirs"
-import {getLogger} from "@states/common"
+import {getLogger} from "@stato/common"
 import {addShutdownHook} from "./process"
 import {WebpackOutputMap} from "./webpack/webpack.types"
 

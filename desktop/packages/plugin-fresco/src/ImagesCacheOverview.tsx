@@ -18,7 +18,7 @@ import {
   styled,
   Select,
   Checkbox
-} from "@states/core"
+} from "@stato/core"
 import { ImagesMap } from "./ImagePool"
 import { clipboard } from "electron"
 import * as React from "react"

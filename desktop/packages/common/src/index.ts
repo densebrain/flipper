@@ -1,4 +1,4 @@
-import "@states/types"
+import "@stato/types"
 import "./Types"
 
 export * from "./Types"

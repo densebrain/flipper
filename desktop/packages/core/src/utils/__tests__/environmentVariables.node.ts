@@ -4,29 +4,29 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import { parseStatesPorts } from "../environmentVariables"
+import { parseStatoPorts } from "../environmentVariables"
 test("Valid port overrides are parsed correctly", () => {
-  const overrides = parseStatesPorts("1111,2222")
+  const overrides = parseStatoPorts("1111,2222")
   expect(overrides).toEqual({
     insecure: 1111,
     secure: 2222
   })
 })
 test("Malformed numbers are ignored", () => {
-  const malformed1 = parseStatesPorts("1111,22s22")
+  const malformed1 = parseStatoPorts("1111,22s22")
   expect(malformed1).toBe(undefined)
-  const malformed2 = parseStatesPorts("11a11,2222")
+  const malformed2 = parseStatoPorts("11a11,2222")
   expect(malformed2).toBe(undefined)
 })
 test("Wrong number of values is ignored", () => {
-  const overrides = parseStatesPorts("1111")
+  const overrides = parseStatoPorts("1111")
   expect(overrides).toBe(undefined)
 })
 test("Empty values are ignored", () => {
-  const overrides = parseStatesPorts("1111,")
+  const overrides = parseStatoPorts("1111,")
   expect(overrides).toBe(undefined)
 })
 test("Negative values are ignored", () => {
-  const overrides = parseStatesPorts("-1111,2222")
+  const overrides = parseStatoPorts("-1111,2222")
   expect(overrides).toBe(undefined)
 })

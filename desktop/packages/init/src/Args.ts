@@ -1,13 +1,13 @@
 import * as yargs from "yargs"
 
-const StatesArgsGlobal = yargs
+const StatoArgsGlobal = yargs
   .usage("$0 [args]")
   .option("file", {
     describe: "Define a file to open on startup.",
     type: "string"
   })
   .option("url", {
-    describe: "Define a states:// URL to open on startup.",
+    describe: "Define a stato:// URL to open on startup.",
     type: "string"
   })
   .option("updater", {
@@ -29,10 +29,10 @@ const StatesArgsGlobal = yargs
   .parse(process.argv.slice(1))
 
 declare global {
-  type StatesOptions = typeof StatesArgsGlobal
-  const StatesArgs: StatesOptions
+  type StatoOptions = typeof StatoArgsGlobal
+  const StatoArgs:StatoOptions
 }
 Object.assign(global, {
-  StatesArgs: StatesArgsGlobal
+ StatoArgs:StatoArgsGlobal
 })
 export {}

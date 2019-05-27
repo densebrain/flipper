@@ -1,4 +1,4 @@
-import {fromJSON, getLogger, toJSON} from "@states/common"
+import {fromJSON, getLogger, toJSON} from "@stato/common"
 import Bluebird from "bluebird"
 
 import * as Path from 'path'

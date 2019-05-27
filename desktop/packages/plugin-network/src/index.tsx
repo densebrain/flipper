@@ -11,8 +11,8 @@ import {
   ContextMenuComponent,
   DetailSidebar,
   FlexColumn,
-  StatesPluginComponent,
-  StatesPluginProps,
+ StatoPluginComponent,
+ StatoPluginProps,
   Glyph,
   KeyboardActions,
   Notification, PluginClientMessage,
@@ -25,7 +25,7 @@ import {
   TableHighlightedRows,
   TableRows,
   Text
-} from "@states/core"
+} from "@stato/core"
 import {padStart} from "lodash"
 import RequestDetails from "./RequestDetails"
 import {URL} from "url"
@@ -170,10 +170,10 @@ type NetworkClientMessage =
   PluginClientMessage<"newResponse", Response> |
   PluginClientMessage<"newRequest", Request>
 
-type Props = StatesPluginProps<PersistedState>
+type Props =StatoPluginProps<PersistedState>
 
-class NetworkPluginComponent extends StatesPluginComponent<Props, State, Actions, PersistedState> {
-  static id = "@states/plugin-network"
+class NetworkPluginComponent extends StatoPluginComponent<Props, State, Actions, PersistedState> {
+  static id = "@stato/plugin-network"
   static keyboardActions:KeyboardActions = ["clear"]
   //static subscribed = []
   static defaultPersistedState = {

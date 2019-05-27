@@ -5,7 +5,7 @@
  * @format
  */
 import * as React from "react"
-import { Glyph, styled, colors } from "@states/core"
+import { Glyph, styled, colors } from "@stato/core"
 type Props = {
   title: string,
   icon: string,

@@ -1,11 +1,11 @@
 {
-  "name": "@states/common",
+  "name": "@stato/common",
   "version": "1.0.0",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "license": "MIT",
   "devDependencies": {
-    "@states/dev": "^1.0.0"
+    "@stato/dev": "^1.0.0"
   },
   "dependencies": {
     "bluebird": "^3.5.4",

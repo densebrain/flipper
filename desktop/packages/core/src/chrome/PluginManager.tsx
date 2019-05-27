@@ -175,7 +175,7 @@ const PluginItem = withTheme()(class PluginItem extends React.PureComponent<
         <FlexRow>
           {managed ? (
             <Text size="0.9em" color={colors.text}>
-              This plugin is not managed by States, but loaded from{" "}
+              This plugin is not managed by Stato, but loaded from{" "}
               <Text size="1em" code={true}>
                 {rootDir}
               </Text>

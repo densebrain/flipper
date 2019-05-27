@@ -5,11 +5,11 @@
  * @format
  */
 import * as React from "react"
-import { Client,Logger,Tooltips,Element } from "@states/core"
-import { PluginClient } from "@states/core"
+import { Client,Logger,Tooltips,Element } from "@stato/core"
+import { PluginClient } from "@stato/core"
 
 
-import { GK, ManagedDataInspector, Console, Panel, FlexCenter, styled, colors, SidebarExtensions } from "@states/core"
+import { GK, ManagedDataInspector, Console, Panel, FlexCenter, styled, colors, SidebarExtensions } from "@stato/core"
 import { Component } from "react"
 
 

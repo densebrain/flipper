@@ -88,11 +88,11 @@ if (!process.env.ANDROID_HOME) {
 
 process.env.PATH = `${process.env.ANDROID_HOME}/emulator:${process.env.ANDROID_HOME}/tools:${process.env.PATH}` // ensure .states folder and config exist
 
-export const statesDir = Path.join(Os.homedir(), ".states")
+export const statoDir = Path.join(Os.homedir(), ".states")
 
 
 export function getUserDataDir():string {
-  return statesDir
+  return statoDir
 }
 
 

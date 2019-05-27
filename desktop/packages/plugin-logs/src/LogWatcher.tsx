@@ -5,8 +5,8 @@
  * @format
  */
 import * as React from "react"
-import { TableBodyRow } from "@states/core"
-import { PureComponent, FlexColumn, Panel, Input, Toolbar, Text, ManagedTable, Button, styled } from "@states/core"
+import { TableBodyRow } from "@stato/core"
+import { PureComponent, FlexColumn, Panel, Input, Toolbar, Text, ManagedTable, Button, styled } from "@stato/core"
 export type Counter = {
   expression: RegExp,
   count: number,

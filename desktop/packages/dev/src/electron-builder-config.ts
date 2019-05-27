@@ -2,9 +2,9 @@ import {Configuration} from "app-builder-lib"
 
 export default async function makeElectronBuilderConfig():Promise<Configuration> {
   return {
-    appId: "states",
-    productName: "States",
-    artifactName: "States-${os}.${ext}",
+    appId: "stato",
+    productName: "Stato",
+    artifactName: "Stato-${os}.${ext}",
     mac: {
       publish: [
         "github"
@@ -23,7 +23,7 @@ export default async function makeElectronBuilderConfig():Promise<Configuration>
         ext: [
           ".states"
         ],
-        name: "States Data",
+        name: "Stato Data",
         role: "Viewer",
         icon: "build/document-icons/document.icns"
       }

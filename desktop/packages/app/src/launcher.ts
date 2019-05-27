@@ -5,7 +5,7 @@
  * @format
  */
 
-import {isMac} from "@states/common"
+import {isMac} from "@stato/common"
 
 import * as fs from "fs"
 
@@ -33,7 +33,7 @@ const isLauncherInstalled = () => {
   return false
 }
 
-const startLauncher = (argv: StatesOptions) => {
+const startLauncher = (argv:StatoOptions) => {
   const args = []
 
   if (argv.file) {
@@ -50,7 +50,7 @@ const startLauncher = (argv: StatesOptions) => {
 }
 
 const checkIsCycle = async () => {
-  const dir = path.join(xdg.cache, "states")
+  const dir = path.join(xdg.cache, "stato")
   const filePath = path.join(dir, "last-launcher-run") // This isn't monotonically increasing, so there's a change we get time drift
   // between the checks, but the worst case here is that we do two roundtrips
   // before this check works.
@@ -75,14 +75,14 @@ const checkIsCycle = async () => {
  * it has. You should shut down this instance of the app in that case.
  */
 
-export default async function delegateToLauncher(argv: StatesOptions) {
+export default async function delegateToLauncher(argv:StatoOptions) {
   if (argv.launcher && isProduction() && isLauncherInstalled()) {
     if (await checkIsCycle()) {
       console.error("Launcher cycle detected. Not delegating even though I usually would.")
       return false
     }
 
-    console.warn("Delegating to States Launcher ...")
+    console.warn("Delegating to Stato Launcher ...")
     console.warn(`You can disable this behavior by passing '--no-launcher' at startup.`)
     startLauncher(argv)
     return true

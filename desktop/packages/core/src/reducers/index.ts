@@ -20,6 +20,7 @@ import { State as NotificationsState, Action as NotificationsAction } from './No
 import { State as PluginsState, Action as PluginsAction } from './PluginReducer';
 import { State as UserState, Action as UserAction } from './UserReducer';
 import { Store as ReduxStore, MiddlewareAPI as ReduxMiddlewareAPI } from 'redux';
+
 export type AllActions = ApplicationAction | DevicesAction | PluginStatesAction | NotificationsAction | PluginsAction | UserAction | {
   type: "INIT";
 };
@@ -33,12 +34,12 @@ export type State = {
 };
 
 declare global {
-  type StatesStore = ReduxStore<RootState, AllActions>
+  type StatoStore = ReduxStore<RootState, AllActions>
 }
 
 export type LeafStates = ApplicationState | DevicesState | PluginsState | PluginStatesState | NotificationsState | UserState
 export type RootState = State;
-export type Store = StatesStore
+export type Store = StatoStore
 export type MiddlewareAPI = ReduxMiddlewareAPI<any, AllActions>;
 export default combineReducers<any>({
   application,

@@ -6,7 +6,7 @@
  * @flow
  */
 import { Leak } from "./index"
-import { Element } from "@states/core"
+import { Element } from "@stato/core"
 /**
  * Creates an Element (for ElementsInspector) representing a single Object in
  * the path to GC root view.

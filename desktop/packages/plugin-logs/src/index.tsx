@@ -4,7 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import {getLogger} from "@states/common"
+import {getLogger} from "@stato/common"
 import {
   BaseDevice,
   Button,
@@ -16,8 +16,8 @@ import {
   DeviceLogEntry,
   Filter,
   FlexColumn,
-  StatesDevicePluginComponent,
-  StatesPluginProps,
+ StatoDevicePluginComponent,
+ StatoPluginProps,
   Glyph,
   IManagedTable,
   jss,
@@ -36,7 +36,7 @@ import {
   Text,
   textContent,
   Theme
-} from "@states/core"
+} from "@stato/core"
 
 import * as _ from "lodash"
 
@@ -149,7 +149,7 @@ function pad(chunk: {}, len: number): string {
   }
   
   return str
-} //type LogProps = ThemedClassesProps<StatesPluginProps<PersistedState>, Classes>;
+} //type LogProps = ThemedClassesProps<StatoPluginProps<PersistedState>, Classes>;
 
 const baseStyles = (theme: Theme) => {
   const { colors, logs, getContrastText } = theme
@@ -177,14 +177,14 @@ const baseStyles = (theme: Theme) => {
   } as any
 }
 
-type Props = StatesPluginProps<PersistedState> & SimpleThemeProps
-export class LogTable extends StatesDevicePluginComponent<
+type Props =StatoPluginProps<PersistedState> & SimpleThemeProps
+export class LogTable extends StatoDevicePluginComponent<
   Props,
   State,
   Actions,
   PersistedState
 > {
-  static id = "@states/plugin-logs"
+  static id = "@stato/plugin-logs"
 
   static keyboardActions: KeyboardActions = [
     "clear",
@@ -579,7 +579,7 @@ export class LogTable extends StatesDevicePluginComponent<
     return jss.createStyleSheet(baseStyles(props.theme)).attach()
   }
 
-  updateTheme(props: StatesPluginProps<PersistedState, {}> = this.props) {
+  updateTheme(props:StatoPluginProps<PersistedState, {}> = this.props) {
     if (this.state && this.state.sheet) {
       this.state.sheet.detach()
     }
@@ -588,7 +588,7 @@ export class LogTable extends StatesDevicePluginComponent<
   }
 
   componentWillReceiveProps(
-    nextProps: StatesPluginProps<PersistedState, {}>,
+    nextProps:StatoPluginProps<PersistedState, {}>,
     _nextContext: any
   ) {
     const patch: Partial<State> = {}

@@ -4,7 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import {getLogger, NotificationEvent, shallowEquals} from "@states/common"
+import {getLogger, NotificationEvent, shallowEquals} from "@stato/common"
 import {oc} from "ts-optchain"
 import {ipcRenderer} from "electron"
 import {getValue} from "typeguard"
@@ -24,7 +24,7 @@ import * as _ from 'lodash'
 const log = getLogger(__filename)
 
 export default async function (store:Store, logger:Logger) {
-  if (GK.get("states_disable_notifications")) {
+  if (GK.get("stato_disable_notifications")) {
     return
   }
   

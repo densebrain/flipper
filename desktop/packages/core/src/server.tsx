@@ -323,7 +323,7 @@ export default class Server extends EventEmitter {
     client.init().then(() => {
       console.debug(`Device client initialised: ${id}. Supported plugins: ${client.plugins.join(', ')}`, 'server');
       /* If a device gets disconnected without being cleaned up properly,
-       * States won't be aware until it attempts to reconnect.
+       *Stato won't be aware until it attempts to reconnect.
        * When it does we need to terminate the zombie connection.
        */
 

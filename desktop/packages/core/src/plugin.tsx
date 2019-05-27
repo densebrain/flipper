@@ -27,9 +27,9 @@ import {KeyboardActionHandler} from "./KeyboardTypes"
 // If you want to `call` from the plugin use, this.client.call
 
 
-export type StatesPluginProps<PersistedState, ExtraProps = {}> = PluginComponentProps<PersistedState> & ExtraProps
+export type StatoPluginProps<PersistedState, ExtraProps = {}> = PluginComponentProps<PersistedState> & ExtraProps
 
-export class StatesBasePluginComponent<Props extends StatesPluginProps<PersistedState> = any, State = any, Actions extends PluginActions = any, PersistedState = any>
+export class StatoBasePluginComponent<Props extends StatoPluginProps<PersistedState> = any, State = any, Actions extends PluginActions = any, PersistedState = any>
   extends React.Component<Props,
     State> implements PluginComponent<Props, State, Actions, PersistedState> {
   
@@ -82,7 +82,7 @@ export class StatesBasePluginComponent<Props extends StatesPluginProps<Persisted
   // }
   
   onRegisterDevice(
-    _store:StatesStore,
+    _store: StatoStore,
     _baseDevice:BaseDevice,
     _setPersistedState:(pluginKey:string, newPluginState:PersistedState | null | undefined) => void
   ):void {
@@ -147,12 +147,12 @@ export class StatesBasePluginComponent<Props extends StatesPluginProps<Persisted
   
 }
 
-export class StatesPluginComponent<
-  Props extends StatesPluginProps<PersistedState> = any,
+export class StatoPluginComponent<
+  Props extends StatoPluginProps<PersistedState> = any,
   State = any,
   Actions extends PluginActions = any,
   PersistedState = any
-> extends StatesBasePluginComponent<
+> extends StatoBasePluginComponent<
   Props,
   State,
   Actions,
@@ -234,8 +234,8 @@ export class StatesPluginComponent<
   }
 }
 
-export class StatesDevicePluginComponent<Props extends StatesPluginProps<PersistedState> = any, State = any, Actions extends PluginActions = any, PersistedState = any>
-  extends StatesBasePluginComponent<
+export class StatoDevicePluginComponent<Props extends StatoPluginProps<PersistedState> = any, State = any, Actions extends PluginActions = any, PersistedState = any>
+  extends StatoBasePluginComponent<
     Props,
     State,
     Actions,
@@ -248,7 +248,7 @@ export class StatesDevicePluginComponent<Props extends StatesPluginProps<Persist
   > {
   
   static supportsDevice(_device:BaseDevice) {
-    throw new Error("supportsDevice is unimplemented in StatesDevicePlugin class")
+    throw new Error("supportsDevice is unimplemented in StatoDevicePlugin class")
   }
   
   readonly device:BaseDevice

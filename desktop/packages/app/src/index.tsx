@@ -1,5 +1,3 @@
-
-
 /**
  * Copyright 2018-present Facebook.
  * This source code is licensed under the MIT license found in the
@@ -22,7 +20,6 @@ const
   {env} = process as any
 
 
-
 if (!app) {
   console.error("This is not a single instance")
   process.exit(0)
@@ -33,12 +30,12 @@ if (!app) {
 env.ELECTRON_DISABLE_SECURITY_WARNINGS = true
 
 
-function onException (err: Error):void {
-  console.error("Exception", err);
+function onException(err:Error):void {
+  console.error("Exception", err)
 }
 
-function onRejection (err: Error):void {
-  console.error("Rejection", err);
+function onRejection(err:Error):void {
+  console.error("Rejection", err)
 }
 
 
@@ -54,9 +51,9 @@ if (isTestPkg) {
 async function onReady() {
   
   const
-    StatesCommon = await import("@states/common"),
-    {getLogger} = StatesCommon,
-    {setup} = await import("@states/init"),
+    StatoCommon = await import("@stato/common"),
+    {getLogger} = StatoCommon,
+    {setup} = await import("@stato/init"),
     
     checkMacAppName = (await import("./env-fixes/mac-app-name")).default,
     delegateToLauncher = (await import("./launcher")).default,
@@ -65,15 +62,15 @@ async function onReady() {
   
   const
     log = getLogger(__filename),
-    options = StatesArgs,
-    state: MainState = {
+    options = StatoArgs,
+    state:MainState = {
       win: null,
       link: _.pick(options, 'url', 'file'),
       options
     },
     {config, configPath} = setup(options),
     pluginPaths = [...(config.pluginPaths || [])] as Array<string>
-
+  
   process.env.CONFIG = JSON.stringify({...config, pluginPaths}) // possible reference to main app window
   
   const getWindow = () => {
@@ -99,17 +96,17 @@ async function onReady() {
       
       const win = getWindow()
       if (win) {
-        win.webContents.send("states-protocol-handler", url)
+        win.webContents.send("stato - protocol - handler", url)
       }
     })
     app.on("open-file", (event, file) => {
-      // When states app is running, and someone double clicks the import file, `componentDidMount` will not be called
+      // When stato app is running, and someone double clicks the import file, `componentDidMount` will not be called
       // again and windows object will exist in that case. That's why calling
       // `win.webContents.send('open-states-file', filePath);` again.
       event.preventDefault()
-  
+      
       state.link.file = file
-  
+      
       const win = getWindow()
       if (win) {
         win.webContents.send("open-states-file", file)
@@ -122,12 +119,12 @@ async function onReady() {
     const {url, file} = state.link
     const win = getWindow()
     if (url) {
-      win.webContents.send("states-protocol-handler", url)
+      win.webContents.send("stato - protocol - handler", url)
       state.link = {}
     }
     
     if (file) {
-      // When states app is not running, the windows object might not exist in the callback of `open-file`, but after
+      // When stato app is not running, the windows object might not exist in the callback of `open-file`, but after
       // ``componentDidMount` it will definitely exist.
       win.webContents.send("open-states-file", file)
       state.link = {}
@@ -137,14 +134,14 @@ async function onReady() {
   
   await import("./IPCHandlers")
   
-  app.setAsDefaultProtocolClient("states")
+  app.setAsDefaultProtocolClient("stato")
   
   function tryCreateWindow() {
-    log.info(`Creating window`, __dirname,__filename, process.cwd())
+    log.info(`Creating window`, __dirname, __filename, process.cwd())
     
     const win = state.win = new BrowserWindow({
       show: false,
-      title: "States",
+      title: "Stato",
       width: config.lastWindowPosition.width || 1400,
       height: config.lastWindowPosition.height || 1000,
       minWidth: 800,
@@ -167,7 +164,7 @@ async function onReady() {
         // Removes as a default protocol for debug builds. Because even when the
         // production application is installed, and one tries to deeplink through
         // browser, it still looks for the debug one and tries to open electron
-        app.removeAsDefaultProtocolClient("states")
+        app.removeAsDefaultProtocolClient("stato")
       }
       
       
@@ -186,7 +183,8 @@ async function onReady() {
       win.setPosition(config.lastWindowPosition.x, config.lastWindowPosition.y)
     }
     
-    const entryUrl = process.env.CORE_URL || `file://${process.resourcesPath}/app.asar/core/index.html`//Path.join("app", "index.html")
+    const entryUrl = process.env.CORE_URL || `file://${process.resourcesPath}/app.asar/core/index.html`//Path.join("app",
+                                                                                                       // "index.html")
     //   url.format({
     //   pathname: Path.join("app", "index.html"), protocol: "file:", slashes: true
     // })
@@ -211,10 +209,10 @@ async function onReady() {
         )
       })
     } else {
-      callback({ cancel: false })
+      callback({cancel: false})
     }
   })
-
+  
   
   // If we delegate to the launcher, shut down this instance of the app.
   delegateToLauncher(options).then(hasLauncherInvoked => {

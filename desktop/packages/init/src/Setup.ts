@@ -9,18 +9,18 @@ import "./Args"
 import * as Path from "path"
 
 import * as Fs from "fs"
-import {StatesConfig, statesDir} from "@states/common"
+import {StatoConfig,statoDir} from "@stato/common"
 
 
 
-export default function(argv: Partial<StatesOptions>) {
+export default function(argv: Partial<StatoOptions>) {
   
-  if (!Fs.existsSync(statesDir)) {
-    Fs.mkdirSync(statesDir)
+  if (!Fs.existsSync(statoDir)) {
+    Fs.mkdirSync(statoDir)
   }
 
-  const configPath = Path.join(statesDir, "config.json")
-  let config: StatesConfig = {
+  const configPath = Path.join(statoDir, "config.json")
+  let config:StatoConfig = {
     pluginPaths: [],
     disabledPlugins: [],
     lastWindowPosition: {}
@@ -37,6 +37,6 @@ export default function(argv: Partial<StatesOptions>) {
   return {
     config,
     configPath,
-    statesDir
+   statoDir
   }
 }

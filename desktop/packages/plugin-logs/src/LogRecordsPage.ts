@@ -1,4 +1,4 @@
-import {ManagedTableDataPage} from "@states/core"
+import {ManagedTableDataPage} from "@stato/core"
 import {LogRecord, PageSize} from "./LogTypes"
 
 export class LogRecordsPage extends ManagedTableDataPage<LogRecord> {

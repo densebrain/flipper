@@ -4,8 +4,8 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import {DeviceLogEntry} from "@states/core"
-import {LogTable} from "@states/plugin-logs"
+import {DeviceLogEntry} from "@stato/core"
+import {LogTable} from "@stato/plugin-logs"
 
 require('electron').remote.getCurrentWindow().show();
 

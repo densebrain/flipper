@@ -8,17 +8,17 @@
 import * as React from 'react'
 import {
   PluginModuleExport,
-  StatesPluginProps,
+ StatoPluginProps,
   Notification,
   Button,
   Input,
-  StatesPluginComponent,
+ StatoPluginComponent,
   FlexColumn,
   styled,
   Text,
   PluginType,
   PluginClientMessage
-} from "@states/core"
+} from "@stato/core"
 
 
 type Actions = {
@@ -68,10 +68,10 @@ const Container = styled(FlexColumn)({
   padding: 20
 })
 
-type Props = StatesPluginProps<PersistedState>
+type Props =StatoPluginProps<PersistedState>
 
-class ExamplePlugin extends StatesPluginComponent<Props, State, Actions, PersistedState> {
-  static id = "@states/plugin-example"
+class ExamplePlugin extends StatoPluginComponent<Props, State, Actions, PersistedState> {
+  static id = "@stato/plugin-example"
   static title = "Example"
   
   static defaultPersistedState = {

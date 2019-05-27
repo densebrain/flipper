@@ -17,16 +17,16 @@ import { ImagesMap } from "./ImagePool"
 import * as React from "react"
 import ImagesCacheOverview from "./ImagesCacheOverview"
 import {
-  StatesPluginComponent,
+ StatoPluginComponent,
   FlexRow,
   Text,
   DetailSidebar,
   colors,
   styled,
-  StatesPluginProps,
+ StatoPluginProps,
   PluginType,
   PluginModuleExport
-} from "@states/core"
+} from "@stato/core"
 import ImagesSidebar from "./ImagesSidebar"
 import ImagePool from "./ImagePool"
 export type ImageEventWithId = ImageEvent & {
@@ -57,10 +57,10 @@ const DEBUG = false
 const surfaceDefaultText = "SELECT ALL SURFACES"
 
 
-type Props = StatesPluginProps<PersistedState>
+type Props =StatoPluginProps<PersistedState>
 
-class FrescoPlugin extends StatesPluginComponent<Props, PluginState, {}, PersistedState> {
-  static id = "@states/plugin-fresco"
+class FrescoPlugin extends StatoPluginComponent<Props, PluginState, {}, PersistedState> {
+  static id = "@stato/plugin-fresco"
   
   static defaultPersistedState: PersistedState = {
     images: [],

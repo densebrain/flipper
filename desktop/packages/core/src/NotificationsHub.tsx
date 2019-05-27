@@ -22,7 +22,7 @@ import createPaste from './fb-stubs/createPaste'
 import Device from "./devices/BaseDevice"
 import {KeyboardActions} from "./KeyboardTypes"
 
-import {StatesDevicePluginComponent, StatesPluginProps} from "./plugin"
+import {StatoDevicePluginComponent,StatoPluginProps} from "./plugin"
 import Button from "./ui/components/Button"
 import styled from "./ui/styled"
 import FlexColumn from "./ui/components/FlexColumn"
@@ -39,8 +39,8 @@ import {getValue} from "typeguard"
 import {Filter} from "./ui/components/filter/types"
 
 
-//type Props = StatesPluginProps<{}>
-class NotificationsComponent extends StatesDevicePluginComponent<StatesPluginProps<{}>, {}, {}, {}> {
+//type Props =StatoPluginProps<{}>
+class NotificationsComponent extends StatoDevicePluginComponent<StatoPluginProps<{}>, {}, {}, {}> {
   
   
   static supportsDevice(_device:Device) {
@@ -598,4 +598,4 @@ export default {
   name: NotificationsComponent.title,
   icon: NotificationsComponent.icon,
   componentClazz: NotificationsComponent
-} as Plugin<StatesPluginProps<{}>,{},{},{}, typeof NotificationsComponent>
+} as Plugin<StatoPluginProps<{}>,{},{},{}, typeof NotificationsComponent>

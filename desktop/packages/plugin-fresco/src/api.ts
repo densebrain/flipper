@@ -13,7 +13,7 @@ export type CacheInfo = {
   maxSizeBytes?: number | undefined,
   imageIds: Array<ImageId>
 }
-export type ImagesList = Array<CacheInfo> // The iOS States api does not support a top-level array, so we wrap it in an object
+export type ImagesList = Array<CacheInfo> // The iOSStato api does not support a top-level array, so we wrap it in an object
 
 export type ImagesListResponse = {
   levels: ImagesList

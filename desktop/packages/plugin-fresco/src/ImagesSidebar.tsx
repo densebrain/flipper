@@ -7,7 +7,7 @@
 import * as React from "react"
 import { ImageData } from "./api"
 import { ImageEventWithId } from "./index"
-import { Component, DataDescription, Text, Panel, ManagedDataInspector, colors, styled } from "@states/core"
+import { Component, DataDescription, Text, Panel, ManagedDataInspector, colors, styled } from "@stato/core"
 type ImagesSidebarProps = {
   image: ImageData | null | undefined,
   events: Array<ImageEventWithId>

@@ -46,7 +46,7 @@ export interface PluginComponentProps<PersistedState> {
   bugs?: PluginBugContact  | null | undefined
   logger: Logger
   theme: Theme
-  store: StatesStore
+  store:StatoStore
   persistedState: PersistedState
   setPersistedState: (state: Partial<PersistedState>) => void
   target: PluginTarget

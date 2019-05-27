@@ -16,7 +16,7 @@ export const colors = {
   blueDark1: "#29487d",
   // Blue - Dark 1 (illustrations only)
   blueDark: "#365899",
-  // Blue - Dark 0 (blue links, blue button hover states)
+  // Blue - Dark 0 (blue links, blue button hover stato)
   blueTint15: "#577fbc",
   // Blue - Tint 15 (illustrations only)
   blueTint30: "#7596c8",
@@ -46,11 +46,11 @@ export const colors = {
   highlightTint90: "#ecf2ff",
   // Highlight - Tint 90 (illustrations only)
   highlightBackground: "#edf2fa",
-  // Highlight Background - Background fill for unread or highlighted states. Not intended for hover / pressed states
+  // Highlight Background - Background fill for unread or highlighted stato. Not intended for hover / pressed stato
   green: "#42b72a",
   // Green - Confirmation, success, commerce and status
   red: "#FC3A4B",
-  // Red - Badges, error states
+  // Red - Badges, error stato
   redTint: "#FEF2F1",
   white: "#ffffff",
   // White - Text and glyphs in Dark UI and media views
@@ -484,5 +484,5 @@ export const brandColors = {
   Facebook: "#4267B2",
   Messenger: "#0088FA",
   Instagram: "#E61E68",
-  States: "#8155cb"
+ Stato: "#8155cb"
 }

@@ -1,9 +1,9 @@
-import "@states/types"
+import "@stato/types"
 import {
   assert,
   fileExists,
   getLogger
-} from "@states/common"
+} from "@stato/common"
 import { Plugin, PluginMetadata, PluginModuleExport } from "../PluginTypes"
 //import * as assert from "assert"
 import Watch from "chokidar"

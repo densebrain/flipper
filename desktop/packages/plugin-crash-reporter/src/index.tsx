@@ -6,7 +6,7 @@
  * @flow
  */
 import {
-  StatesDevicePluginComponent,
+ StatoDevicePluginComponent,
   DefaultPluginId,
   Device,
   View,
@@ -32,11 +32,11 @@ import {
   OS,
   Notification,
   Plugin,
-  StatesPluginProps,
+ StatoPluginProps,
   PluginType,
   PluginModuleExport,
   PluginClientMessage
-} from "@states/core"
+} from "@stato/core"
 
 //import unicodeSubstring from "unicode-substring"
 import * as Fs from "fs"
@@ -471,23 +471,23 @@ class HeaderRow extends Component<HeaderRowProps> {
 
 
 
-type ActionType = "crash-report" | "states-crash-report"
+type ActionType = "crash-report" | "stato-crash-report"
 
 // interface CrashReporterActions extends PluginActions<ActionType> {
 //   "crash-report": { type: "crash-report"} & CrashLog
-//   "states-crash-report": { type: "states-crash-report"} & CrashLog
+//   stato-crash-report": { type: "stato-crash-report"} & CrashLog
 // }
 
 type ActionPayload<Type extends ActionType> =
-  Type extends "crash-report" ? CrashLog : Type extends "states-crash-report" ? CrashLog : never
+  Type extends "crash-report" ? CrashLog : Type extends "stato-crash-report" ? CrashLog : never
 
 type CrashReporterActions = {[type in ActionType]: ActionPayload<type>}
 
 type CrashReporterClientMessage =
   PluginClientMessage<"crash-report", CrashLog> |
-  PluginClientMessage<"states-crash-report", CrashLog>
+  PluginClientMessage<"stato-crash-report", CrashLog>
 
-class CrashReporterComponent extends StatesDevicePluginComponent<StatesPluginProps<CrashReporterPersistedState>,CrashReporterState, CrashReporterActions, CrashReporterPersistedState> {
+class CrashReporterComponent extends StatoDevicePluginComponent<StatoPluginProps<CrashReporterPersistedState>,CrashReporterState, CrashReporterActions, CrashReporterPersistedState> {
   static id = "CrashReporter"
   
   static defaultPersistedState = {
@@ -508,7 +508,7 @@ class CrashReporterComponent extends StatesDevicePluginComponent<StatesPluginPro
     msg: CrashReporterClientMessage
   ):Partial<CrashReporterPersistedState> => {
     const {type, payload} = msg
-    if (type === "crash-report" || type === "states-crash-report") {
+    if (type === "crash-report" || type === "stato-crash-report") {
       CrashReporterComponent.notificationID++
       const
         {callstack, name, reason, date} = payload,
@@ -606,7 +606,7 @@ class CrashReporterComponent extends StatesDevicePluginComponent<StatesPluginPro
     this.props.selectPlugin(DefaultPluginId, callstack)
   }
 
-  constructor(props: StatesPluginProps<CrashReporterPersistedState>) {
+  constructor(props:StatoPluginProps<CrashReporterPersistedState>) {
     // Required step: always call the parent class' constructor
     super(props)
     

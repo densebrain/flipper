@@ -1,4 +1,4 @@
-import {Deferred, getLogger, PluginModuleWhitelistRefs} from "@states/common"
+import {Deferred, getLogger, PluginModuleWhitelistRefs} from "@stato/common"
 
 type LoaderMap = { [id: string]: () => any }
 
@@ -6,9 +6,9 @@ const
   NodeModule = nodeRequire("module") as typeof NodeJS.Module,
   defaultRequire = NodeModule.prototype.require,
   customLoaders = {
-    "@states/common": () => require("@states/common"),
-    "@states/core": () => require("../index"),
-    "@states/sdk": () => require("../index")
+    "@stato/common": () => require("@stato/common"),
+    "@stato/core": () => require("../index"),
+    "@stato/sdk": () => require("../index")
   } as LoaderMap,
   log = getLogger(__filename)
 

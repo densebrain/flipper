@@ -4,9 +4,9 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import { StatesPluginComponent } from "../../plugin"
+import {StatoPluginComponent } from "../../plugin"
 import {PluginModuleExport} from "../../PluginTypes"
-class TestPluginComponent extends StatesPluginComponent {
+class TestPluginComponent extends StatoPluginComponent {
   static id = "Static ID"
 }
 export default {

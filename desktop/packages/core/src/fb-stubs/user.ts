@@ -17,7 +17,7 @@ export function logoutUser(): Promise<void> {
 }
 
 
-export async function shareStatesData(
+export async function shareStatoData(
   // @ts-ignore
   trace: string
 ): Promise<
@@ -27,7 +27,7 @@ export async function shareStatesData(
       deviceType: string,
       plugins: string[],
       fileUrl: string,
-      statesUrl: string
+     statoUrl: string
     }
 > {
   new Notification("Feature not implemented")

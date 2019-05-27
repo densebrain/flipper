@@ -29,7 +29,7 @@ export const IMPORT_STATES_TRACE_EVENT = "import-states-trace"
 export const EXPORT_STATES_TRACE_EVENT = "export-states-trace"
 export type ExportType = {
   fileVersion: string,
-  statesReleaseRevision: string | null | undefined,
+ statoReleaseRevision: string | null | undefined,
   clients: Array<ClientExport>,
   device: DeviceExport | null | undefined,
   store: {
@@ -112,7 +112,7 @@ const addSaltToDeviceSerial = async (
   const revision: string | null | undefined = await readCurrentRevision()
   return {
     fileVersion: remote.app.getVersion(),
-    statesReleaseRevision: revision,
+   statoReleaseRevision: revision,
     clients: updatedClients,
     device: newDevice.toJSON(),
     store: {
@@ -141,14 +141,14 @@ export const processStore = async (
       devicePlugins
     ) // Adding salt to the device id, so that the device_id in the device list is unique.
 
-    const exportStatesData = await addSaltToDeviceSerial(
+    const exportStatoData = await addSaltToDeviceSerial(
       salt,
       device,
       processedClients,
       processedPluginStates,
       processedActiveNotifications
     )
-    return exportStatesData
+    return exportStatoData
   }
 
   return null

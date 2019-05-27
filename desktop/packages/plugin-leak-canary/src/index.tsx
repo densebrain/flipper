@@ -13,13 +13,13 @@ import {
   Sidebar,
   Toolbar,
   Checkbox,
-  StatesPluginComponent,
+ StatoPluginComponent,
   Button,
   styled,
-  PluginModuleExport, StatesPluginProps, PluginType
-} from "@states/core"
+  PluginModuleExport,StatoPluginProps, PluginType
+} from "@stato/core"
 import * as React from "react"
-import { ElementID, Element } from "@states/core"
+import { ElementID, Element } from "@stato/core"
 import { processLeaks } from "./processLeakString"
 type State = {
   leaks: Leak[],
@@ -52,9 +52,9 @@ const ToolbarItem = styled(FlexRow)({
   alignItems: "center",
   marginLeft: "8px"
 })
-type Props = StatesPluginProps<{}>
-class LeakCanary extends StatesPluginComponent<Props,State> {
-  static id = "@states/plugin-leak-canary"
+type Props =StatoPluginProps<{}>
+class LeakCanary extends StatoPluginComponent<Props,State> {
+  static id = "@stato/plugin-leak-canary"
   constructor(props: Props) {
     super(props)
     this.state = {

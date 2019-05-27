@@ -65,7 +65,7 @@ export function updateDataSet<T = any>(newData:Array<T>, oldDataSet:IDataSet<T> 
 
 export type PromiseResolver<T = any,TResult1 = T> = ((value: T) => TResult1 | PromiseLike<TResult1>)
 
-export type StatesConfig = {
+export type StatoConfig = {
 	pluginPaths: Array<string>
 	disabledPlugins: Array<string>
 	lastWindowPosition?: any

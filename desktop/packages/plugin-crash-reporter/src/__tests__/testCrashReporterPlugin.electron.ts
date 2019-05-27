@@ -12,7 +12,7 @@ import CrashReporterPlugin, {
   parsePath,
   shouldShowCrashNotification
 } from "../index"
-import {BaseDevice, getPersistedState, getPluginKey} from "@states/core"
+import {BaseDevice, getPersistedState, getPluginKey} from "@stato/core"
 
 function setDefaultPersistedState(defaultState: CrashReporterPersistedState) {
   CrashReporterPlugin.componentClazz.defaultPersistedState = defaultState

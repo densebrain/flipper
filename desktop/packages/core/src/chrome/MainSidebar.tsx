@@ -261,7 +261,7 @@ const MainSidebar = withStyles(baseStyles, {
           width={200}
         >
           <Plugins>
-            {!GK.get("states_disable_notifications") && (
+            {!GK.get("stato_disable_notifications") && (
               <ListItem
                 active={selectedPlugin === "notifications"}
                 onClick={this.makeOnSelectPlugin("notifications")}

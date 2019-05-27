@@ -1,4 +1,4 @@
-import {getLogger, Identity} from "@states/common"
+import {getLogger, Identity} from "@stato/common"
 import * as Path from "path"
 import {isDefined} from "typeguard"
 import {coreDir, packageDir, appDir, rootDir, pluginNames, pluginNameMap, PluginConfig} from "../dirs"
@@ -161,7 +161,7 @@ async function createCoreConfig(): Promise<webpack.Configuration> {
     ],
     [
       new HtmlWebpackPlugin({
-        title: "States",
+        title: "Stato",
         inject: false,
         template: "./assets/index.pug"
       })
@@ -171,7 +171,7 @@ async function createCoreConfig(): Promise<webpack.Configuration> {
         ...config.resolve,
         alias: {
           ...config.resolve.alias,
-          "@states/common": Path.resolve(packageDir, "common","src","index.ts"),
+          "@stato/common": Path.resolve(packageDir, "common","src","index.ts"),
         }
       }
     })
@@ -238,7 +238,7 @@ async function createPluginConfig(pluginConfig: PluginConfig): Promise<webpack.C
     [
       (context, request, callback) => {
         if (request.includes("plugin-")) {
-          log.debug("States plugin request, ignoring", request, context)
+          log.debug("Stato plugin request, ignoring", request, context)
         } else if (/states/.test(request) || whitelistIds.includes(request)) {
           log.debug(`States resource`, request, context)
           return callback(null, "commonjs " + request)

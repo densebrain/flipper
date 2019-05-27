@@ -1,2 +1,2 @@
 
-export const DefaultPluginId = "@states/plugin-logs"
+export const DefaultPluginId = "@stato/plugin-logs"

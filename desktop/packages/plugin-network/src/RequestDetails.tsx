@@ -19,7 +19,7 @@ import {
   styled,
   colors,
   TableBodyRow
-} from "@states/core"
+} from "@stato/core"
 import { getHeaderValue } from "./index"
 import querystring from "querystring"
 import {isString} from "typeguard" // $FlowFixMe

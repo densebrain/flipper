@@ -163,8 +163,8 @@ function getTemplate(app: Electron.App, shell: Electron.Shell, store: Store): Me
         dialog.showSaveDialog(
           null,
           {
-            title: "StatesExport",
-            defaultPath: path.join(os.homedir(), "StatesExport.states")
+            title: "StatoExport",
+            defaultPath: path.join(os.homedir(), "StatoExport.states")
           },
           async file => {
             if (!file) {

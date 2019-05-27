@@ -1,5 +1,5 @@
 {
-  "name": "@states/app",
+  "name": "@stato/app",
   "version": "1.0.0",
   "main": "app/bundle.js",
   "types": "lib/index.d.ts",
@@ -15,8 +15,8 @@
     "xdg-basedir": "^3.0.0"
   },
   "devDependencies": {
-    "@states/common": "^1.0.0",
-    "@states/dev": "^1.0.0",
+    "@stato/common": "^1.0.0",
+    "@stato/dev": "^1.0.0",
     "electron": "5.0.2"
   },
   "resolutions": {

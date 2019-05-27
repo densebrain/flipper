@@ -7,7 +7,7 @@
 import "jest"
 import { default as ProxyArchiveClient, searchNodes } from "../ProxyArchiveClient"
 import {ElementMap, PersistedState} from "../index"
-import { ElementID, Element } from "@states/core"
+import { ElementID, Element } from "@stato/core"
 import { SearchResultTree } from "../Search"
 
 function constructElement(id: string, name: string, children: Array<ElementID>): Element {

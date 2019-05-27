@@ -1,5 +1,5 @@
 {
-  "name": "@states/plugin-crash-reporter",
+  "name": "@stato/plugin-crash-reporter",
   "version": "0.1.0",
   "description": "A plugin which will display a crash",
   "main": "dist/bundle.js",
@@ -12,10 +12,10 @@
     "url": "https://fb.workplace.com/groups/220760072184928/"
   },
   "devDependencies": {
-    "@states/dev": "^1.0.0"
+    "@stato/dev": "^1.0.0"
   },
   "dependencies": {
-    "@states/core": "^1.0.0",
+    "@stato/core": "^1.0.0",
     "@material-ui/core": "^3.9.3",
     "@material-ui/styles": "^3.0.0-alpha.10",
     "mz": "^2.7.0",

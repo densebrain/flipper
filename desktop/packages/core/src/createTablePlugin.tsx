@@ -9,7 +9,7 @@ import * as React from 'react'
 import FlexColumn from './ui/components/FlexColumn'
 import Button from './ui/components/Button'
 import DetailSidebar from './chrome/DetailSidebar'
-import {StatesPluginComponent, StatesPluginProps} from './plugin'
+import {StatoPluginComponent,StatoPluginProps} from './plugin'
 import SearchableTable from './ui/components/searchable/SearchableTable'
 import textContent from './utils/textContent'
 import createPaste from './fb-stubs/createPaste'
@@ -50,7 +50,7 @@ export type TablePluginMetadata = {
   columnOrder?:Array<TableColumnOrderVal>;
   filterableColumns?:Set<string>;
 };
-type TablePluginProps<PersistedState extends TablePluginPersistedState<T>, Actions extends PluginActions<any,any>, ExtraProps, T = any> = StatesPluginProps<PersistedState> & {
+type TablePluginProps<PersistedState extends TablePluginPersistedState<T>, Actions extends PluginActions<any,any>, ExtraProps, T = any> =StatoPluginProps<PersistedState> & {
   method:Actions["type"];
   resetMethod?:string;
   renderSidebar:(row:T) => any;
@@ -92,7 +92,7 @@ export type CreateTablePluginProps<RowData extends TablePluginRowData,
  or if omitted, will call the mobile plugin to dynamically determine the table metadata.
  *
  * An optional resetMethod argument can be provided which will replace the current rows with the
- * data provided. This is useful when connecting to States for this first time, or reconnecting to
+ * data provided. This is useful when connecting to Stato for this first time, or reconnecting to
  * the client in an unknown state.
  */
 
@@ -120,7 +120,7 @@ export function createTablePlugin<
       
   })
   
-  const PluginComponent = class PluginComponent extends StatesPluginComponent<Props,State, Actions, PersistedState> {
+  const PluginComponent = class PluginComponent extends StatoPluginComponent<Props,State, Actions, PersistedState> {
     
     static displayName = props.name
     static keyboardActions = ['clear', 'createPaste'] as KeyboardActions

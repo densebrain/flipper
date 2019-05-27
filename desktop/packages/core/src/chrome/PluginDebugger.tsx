@@ -170,7 +170,7 @@ class PluginDebugger extends Component<Props> {
 
   getRows(): Array<TableBodyRow> {
     let rows: Array<TableBodyRow> = [] // bundled plugins are loaded from the defaultPlugins directory within
-    // States's package.
+    //Stato's package.
 
     const externalPluginPath = (p: Plugin) =>
       p.entry ? (p.entry.startsWith("./defaultPlugins/") ? null : p.entry) : "Native Plugin"
@@ -183,9 +183,9 @@ class PluginDebugger extends Component<Props> {
         this.buildRow(
           plugin.id,
           true,
-          "", // $FlowFixMe: Flow doesn't know this is inherited from StatesBasePluginComponent
+          "", // $FlowFixMe: Flow doesn't know this is inherited from StatoBasePluginComponent
           plugin.gatekeeper,
-          true, // $FlowFixMe: Flow doesn't know this is inherited from StatesBasePluginComponent
+          true, // $FlowFixMe: Flow doesn't know this is inherited from StatoBasePluginComponent
           externalPluginPath(plugin)
         )
       )
@@ -195,9 +195,9 @@ class PluginDebugger extends Component<Props> {
         this.buildRow(
           plugin.id,
           true,
-          "", // $FlowFixMe: Flow doesn't know this is inherited from StatesBasePluginComponent
+          "", // $FlowFixMe: Flow doesn't know this is inherited from StatoBasePluginComponent
           plugin.gatekeeper,
-          true, // $FlowFixMe: Flow doesn't know this is inherited from StatesBasePluginComponent
+          true, // $FlowFixMe: Flow doesn't know this is inherited from StatoBasePluginComponent
           externalPluginPath(plugin)
         )
       )
@@ -219,7 +219,7 @@ class PluginDebugger extends Component<Props> {
         <InfoText>
           We can't find any device connected to your computer. Is an emulator/simulator currently running on your
           system, or is there a development device connected via USB? There are some devices/emulators known to have
-          problems connecting to States. Check out the{" "}
+          problems connecting to Stato. Check out the{" "}
           <Link href="https://fbstates.com/docs/troubleshooting.html#known-incompatibilities">
             known incompatibilities
           </Link>
@@ -231,7 +231,7 @@ class PluginDebugger extends Component<Props> {
       content = (
         <Fragment>
           <InfoText>
-            While States was able to connect to your device, it wasn't able to connect to the app you are running on
+            While Stato was able to connect to your device, it wasn't able to connect to the app you are running on
             your device. For this reason, app-specific plugins will not show up.
           </InfoText>
           {this.props.clients.length > 0 && ( // we have clients, but not for this device
@@ -241,7 +241,7 @@ class PluginDebugger extends Component<Props> {
             </InfoText>
           )}
           <InfoText>
-            To debug why States couldn't establish a connection to the app, check out our documentation about{" "}
+            To debug why Stato couldn't establish a connection to the app, check out our documentation about{" "}
             <Link href="https://fbstates.com/docs/troubleshooting.html#connection-issues">connection issues</Link>.
           </InfoText>
         </Fragment>
@@ -250,7 +250,7 @@ class PluginDebugger extends Component<Props> {
       content = (
         <Fragment>
           <InfoText>
-            The table lists all plugins known to States. Some of them might be blocked by GKs, others may not show up,
+            The table lists all plugins known to Stato. Some of them might be blocked by GKs, others may not show up,
             because none of the connected apps are supporting it.
           </InfoText>
           <TableContainer>

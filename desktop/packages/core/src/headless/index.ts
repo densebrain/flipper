@@ -13,22 +13,22 @@ import {init as initLogger} from "../fb-stubs/Logger"
 import reducers, {Store} from "../reducers/index"
 import {exportStore} from "../utils/exportData" // $FlowFixMe this file exist, trust me, flow!
 
-import {setup} from "@states/init"
+import {setup} from "@stato/init"
 
 yargs
   .usage("$0 [args]")
   .command(
     "*",
-    "Start a headless States instance",
+    "Start a headless Stato instance",
     yargs => yargs
       .option("secure-port", {
         default: "8088",
-        describe: "Secure port the States server should run on.",
+        describe: "Secure port the Stato server should run on.",
         type: "string"
       })
       .option("insecure-port", {
         default: "8089",
-        describe: "Insecure port the States server should run on.",
+        describe: "Insecure port the Stato server should run on.",
         type: "string"
       })
       .option("dev", {

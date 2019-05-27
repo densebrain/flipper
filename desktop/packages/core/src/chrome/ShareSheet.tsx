@@ -6,7 +6,7 @@
  */
 import * as React from 'react'
 
-import { shareStatesData } from "../fb-stubs/user"
+import { shareStatoData } from "../fb-stubs/user"
 import { exportStore } from "../utils/exportData"
 import PropTypes from "prop-types"
 import { clipboard } from "electron"
@@ -65,7 +65,7 @@ type State = {
             error_class?: string,
             error?: string
           } & {
-        statesUrl?: string
+       statoUrl?: string
       }) | null
 }
 export default withTheme()(class ShareSheet extends React.Component<Props, State> {
@@ -81,15 +81,15 @@ export default withTheme()(class ShareSheet extends React.Component<Props, State
   async componentDidMount() {
     try {
       const { serializedString, errorArray } = await exportStore((this as any).context.store)
-      const result = await shareStatesData(serializedString)
+      const result = await shareStatoData(serializedString)
       this.setState({
         errorArray,
         result
       })
 
-      if (result.statesUrl) {
-        clipboard.writeText(String(result.statesUrl))
-        new Notification("Sharable States trace created", {
+      if (result.statoUrl) {
+        clipboard.writeText(String(result.statoUrl))
+        new Notification("Sharable Stato trace created", {
           body: "URL copied to clipboard",
           requireInteraction: true
         })
@@ -112,16 +112,16 @@ export default withTheme()(class ShareSheet extends React.Component<Props, State
         {this.state.result ? (
           <>
             <FlexColumn>
-              {getValue(() => this.state.result!!.statesUrl) ? (
+              {getValue(() => this.state.result!!.statoUrl) ? (
                 <>
                   <Title bold>Data Upload Successful</Title>
                   <InfoText>
-                    States's data was successfully uploaded. This URL can be used to share with other States users.
+                   Stato's data was successfully uploaded. This URL can be used to share with other Stato users.
                     Opening it will import the data from your trace.
                   </InfoText>
-                  <Copy value={this.state.result.statesUrl} />
+                  <Copy value={this.state.result.statoUrl} />
                   <InfoText>
-                    When sharing your States link, consider that the captured data might contain sensitve information
+                    When sharing your Stato link, consider that the captured data might contain sensitve information
                     like access tokens used in network requests.
                   </InfoText>
                   {this.state.errorArray.length > 0 && (
@@ -153,7 +153,7 @@ export default withTheme()(class ShareSheet extends React.Component<Props, State
           <Center>
             <LoadingIndicator size={30} />
             <Uploading bold color={colors.text}>
-              Uploading States trace...
+              Uploading Stato trace...
             </Uploading>
           </Center>
         )}

@@ -6,9 +6,9 @@
  */
 import * as React from "react"
 import {
-  StatesDevicePluginComponent,
+ StatoDevicePluginComponent,
   Device,
-  StatesPluginProps,
+ StatoPluginProps,
   PluginType,
   PluginModuleExport,
   FlexColumn,
@@ -18,7 +18,7 @@ import {
   Text,
   ManagedTable,
   lighten
-} from "@states/core"
+} from "@stato/core"
 
 const adb = require("adbkit-fb")
 
@@ -100,10 +100,10 @@ function formatFrequency(freq: number): string {
   }
 }
 
-type Props = StatesPluginProps<{}>
+type Props =StatoPluginProps<{}>
 
-class CPUFrequencyTable extends StatesDevicePluginComponent<Props, CPUState> {
-  static id = "@states/plugin-cpu"
+class CPUFrequencyTable extends StatoDevicePluginComponent<Props, CPUState> {
+  static id = "@stato/plugin-cpu"
   static title = "CPU"
 
   adbClient: ADBClient

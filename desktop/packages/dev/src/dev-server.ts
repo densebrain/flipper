@@ -15,17 +15,17 @@ import {
   DevIPC,
   DevPluginModule,
   getDevIPCServer
-} from "@states/common"
+} from "@stato/common"
 import { appDir, packageDir } from "./dirs"
 import { startElectron } from "./ElectronLauncher"
-import { getLogger } from "@states/common"
+import { getLogger } from "@stato/common"
 import {addShutdownHook} from "./process"
 import {compileBasePackages, PackageName} from "./package-compiler"
 import {
   WebpackAssetInfo,
   WebpackOutputMap,
   WebpackStatsAsset
-} from "@states/common"
+} from "@stato/common"
 import * as _ from "lodash"
 import {attachProvidedPackagesAssembler} from "./provided-package-assembler"
 import generateWebpackConfig from "./webpack/webpack.config"

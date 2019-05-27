@@ -38,7 +38,7 @@ type Props = SimpleThemeProps & {
  * **Usage**
  *
  * ```jsx
- * import {ToggleButton} from "@states/core";
+ * import {ToggleButton} from "@stato/core";
  * <ToggleButton onClick={handler} toggled={boolean}/>
  * ```
  */

@@ -20,7 +20,7 @@ interface Props {
   children: React.ReactNode
 }
 /**
- * States's root is already wrapped with this component, so plugins should not
+ *Stato's root is already wrapped with this component, so plugins should not
  * need to use this. ContextMenu is what you probably want to use.
  */
 

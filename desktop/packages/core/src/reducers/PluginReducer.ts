@@ -5,7 +5,7 @@
  * @format
  */
 
-import {getDevIPCClient} from "@states/common"
+import {getDevIPCClient} from "@stato/common"
 import {getValue} from "typeguard"
 import {DevicePlugin, isDevicePlugin, isPlugin, Plugin, PluginError} from "../PluginTypes"
 export type State = {

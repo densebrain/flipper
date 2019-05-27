@@ -4,7 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import { getDevIPCClient } from "@states/common"
+import { getDevIPCClient } from "@stato/common"
 import { remote } from "electron"
 import * as Path from "path"
 import { getLogger, Logger } from "../fb-interfaces/Logger"
@@ -19,7 +19,7 @@ import {
   PluginPropNamesCopied
 } from "../PluginTypes"
 import { Store } from "../reducers/index"
-//import { StatesPlugin, StatesDevicePlugin } from "../plugin"
+//import {StatoPlugin,StatoDevicePlugin } from "../plugin"
 import {
   addDisabledPlugins,
   addFailedPlugins,
@@ -35,7 +35,7 @@ import { default as config } from "../utils/processConfig"
 const log = getLogger(__filename)
 
 export default async function(store: Store, _logger: Logger) {
-  // expose States and exact globally for dynamically loaded plugins
+  // expose Stato and exact globally for dynamically loaded plugins
   //const globalObject = typeof window === "undefined" ? global : window
 
   // globalObject.React = React

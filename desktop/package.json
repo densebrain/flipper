@@ -1,9 +1,9 @@
 {
-  "name": "@states/desktop",
+  "name": "@stato/desktop",
   "private": true,
   "version": "1.0.0",
   "description": "Development Platform",
-  "productName": "States",
+  "productName": "Stato",
   "author": "Facebook Inc",
   "icon": "icon.png",
   "category": "facebook-intern",

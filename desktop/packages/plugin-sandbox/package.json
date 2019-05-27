@@ -1,11 +1,11 @@
 {
-  "name": "@states/plugin-sandbox",
+  "name": "@stato/plugin-sandbox",
   "version": "1.0.0",
   "main": "dist/bundle.js",
   "types": "lib/index.d.ts",
   "license": "MIT",
   "dependencies": {
-    "@states/core": "^1.0.0",
+    "@stato/core": "^1.0.0",
     "@material-ui/core": "^3.9.3",
     "@material-ui/styles": "^3.0.0-alpha.10",
     "mz": "^2.7.0",
@@ -13,7 +13,7 @@
     "typeguard": "^0.0.13"
   },
   "devDependencies": {
-    "@states/dev": "^1.0.0"
+    "@stato/dev": "^1.0.0"
   },
   "title": "Shared Preferences Viewer",
   "bugs": {

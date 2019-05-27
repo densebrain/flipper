@@ -5,9 +5,9 @@
  * @format
  */
 import * as React from "react"
-import {StatesPluginComponent, StatesPluginProps, PluginModuleExport, PluginReducers, PluginType} from "@states/core"
-import { FlexColumn } from "@states/core"
-import { ButtonGroup, Button, styled, colors } from "@states/core"
+import {StatoPluginComponent,StatoPluginProps, PluginModuleExport, PluginReducers, PluginType} from "@stato/core"
+import { FlexColumn } from "@stato/core"
+import { ButtonGroup, Button, styled, colors } from "@stato/core"
 export type Sandbox = {
   name: string,
   value: string
@@ -26,16 +26,16 @@ const ButtonContainer = styled(FlexColumn)({
   alignItems: "center",
   padding: 20
 })
-type Props = StatesPluginProps<{}>
+type Props =StatoPluginProps<{}>
 type Actions = {
   UpdateSandboxes: {
     type: "UpdateSandboxes"
     sandboxes: Array<Sandbox>
   }
 }
-class SandboxView extends StatesPluginComponent<Props,SandboxState, Actions> {
+class SandboxView extends StatoPluginComponent<Props,SandboxState, Actions> {
   
-  static id = "@states/plugin-sandbox"
+  static id = "@stato/plugin-sandbox"
   
   static TextInput = styled("input")({
     border: `1px solid ${colors.light10}`,

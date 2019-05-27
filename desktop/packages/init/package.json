@@ -1,12 +1,12 @@
 {
-  "name": "@states/init",
+  "name": "@stato/init",
   "version": "1.0.0",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "license": "MIT",
   "devDependencies": {
-    "@states/common": "^1.0.0",
-    "@states/dev": "^1.0.0"
+    "@stato/common": "^1.0.0",
+    "@stato/dev": "^1.0.0"
   },
   "dependencies": {
     "mz": "^2.7.0",

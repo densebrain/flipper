@@ -1,4 +1,4 @@
-import {getLogger, NotificationEvent, NotificationEvents} from "@states/common"
+import {getLogger, NotificationEvent, NotificationEvents} from "@stato/common"
 import * as Electron from "electron"
 
 const

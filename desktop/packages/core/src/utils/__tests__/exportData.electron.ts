@@ -7,12 +7,12 @@
 import {default as BaseDevice} from "../../devices/BaseDevice"
 import {default as ArchivedDevice} from "../../devices/ArchivedDevice"
 import {processStore} from "../exportData"
-import {StatesDevicePluginComponent} from "../../plugin"
+import {StatoDevicePluginComponent} from "../../plugin"
 import {makeDevicePlugin, Notification} from "../../PluginTypes"
 import {ClientExport} from "../../Client"
 import {Device} from "../../index"
 
-const TestDevicePlugin = makeDevicePlugin(class TestDevicePluginComponent extends StatesDevicePluginComponent {
+const TestDevicePlugin = makeDevicePlugin(class TestDevicePluginComponent extends StatoDevicePluginComponent {
   static id = "TestDevicePlugin"
   
   static supportsDevice(_device: Device):boolean {

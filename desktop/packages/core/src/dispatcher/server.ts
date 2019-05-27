@@ -42,7 +42,7 @@ export default async function (store: Store, logger: Logger) {
   server.addListener("error", err => {
     const payload: string =
       err.code === "EADDRINUSE"
-        ? "Couldn't start websocket server. Looks like you have multiple copies of States running."
+        ? "Couldn't start websocket server. Looks like you have multiple copies of Stato running."
         : err.message || "Unknown error"
     store.dispatch({
       type: "SERVER_ERROR",
