@@ -1,5 +1,7 @@
 *.log
+
 build
+!packages/types/src/*/build
 node_modules
 packages/*/lib
 dist
