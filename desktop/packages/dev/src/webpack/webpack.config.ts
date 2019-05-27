@@ -1,7 +1,25 @@
-import {getLogger, Identity} from "@stato/common"
+/**
+ * Copyright 2019-present Densebrain.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * Copyright 2019-present Facebook.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ * @format
+ */
+import { getLogger, Identity } from "@stato/common"
 import * as Path from "path"
-import {isDefined} from "typeguard"
-import {coreDir, packageDir, appDir, rootDir, pluginNames, pluginNameMap, PluginConfig} from "../dirs"
+import { isDefined } from "typeguard"
+import {
+  coreDir,
+  packageDir,
+  appDir,
+  rootDir,
+  pluginNames,
+  pluginNameMap,
+  PluginConfig
+} from "../dirs"
 import webpack, { ExternalsElement } from "webpack"
 import ForkTsCheckerPlugin from "fork-ts-checker-webpack-plugin"
 
@@ -15,21 +33,15 @@ import {
 import moduleConfig from "./webpack.config.module"
 import IgnoreNotFoundExportPlugin from "./webpack.plugin.ignore-export"
 
-
 type Mode = "development" | "production"
 
-
-
-const
-  log = getLogger(__filename),
+const log = getLogger(__filename),
   browserTarget = "node" // "electron-renderer"
-  
 
 let mode: Mode = "development"
 let port: number | undefined = 3000
 
-const
-  devTools: { [mode in Mode]: webpack.Options.Devtool } = {
+const devTools: { [mode in Mode]: webpack.Options.Devtool } = {
     development: "inline-source-map",
     production: "#source-map"
   },
@@ -47,136 +59,22 @@ const
     }
   }
 
-
-/**
- * Generate all plugin configs
- *
- * @returns {Promise<webpack.Configuration[]>}
- */
-async function generatePluginConfigs() {
-  return Promise.all(
-    Object.values(pluginNameMap)
-      .map(plugin => createPluginConfig(plugin))
-  )
-}
-
-function makeDefaultConfig(
-  name: string,
-  context: string,
-  entry: string[],
-  target: "node" | "electron-renderer",
-  externals: ExternalsElement | ExternalsElement[],
-  plugins: webpack.Plugin[],
-  customizer: (config: webpack.Configuration) => webpack.Configuration | undefined = Identity
-) {
-  return customizer(applyMode(name, {
-    name,
-    mode,
-    cache: true,
-    context,
-    entry,
-    target,
-    module: moduleConfig,
-    resolve: resolveConfig,
-    output: {
-      libraryTarget: "commonjs2",
-      path: Path.resolve(context, "dist"),
-      publicPath: "./",
-      filename: "bundle.js"
-    },
-    devtool: devTools[mode],
-    externals,
-    optimization: {
-      namedModules: true,
-      noEmitOnErrors: true
-    },
-    watchOptions: {
-      ignored: [/node_modules.*(src|states)/]
-    },
-    node: nodeConfig,
-
-    plugins: [
-      new webpack.DefinePlugin({
-        "process.env.PluginModuleWhitelist": JSON.stringify(getWhitelistIds()),
-        isDev: JSON.stringify(mode === "development"),
-        ...(mode !== "production" ? {} : {
-          "process.env.BundledPluginNames": JSON.stringify(pluginNames)
-        })
-      }),
-      new IgnoreNotFoundExportPlugin(),
-      new ForkTsCheckerPlugin(),
-      ...plugins
-    ]
-  }))
-}
-
-function createAppConfig(): webpack.Configuration {
-  const name = "app"
-  return makeDefaultConfig(
-    name,
-    appDir,
-    ["./src/index"],
-    "node",
-    [
-      // /^\@states/,
-      ...ReactExternals,
-      /electron/,
-      /source-map-support/,
-      ...makeCommonExternals(appDir, [...WebpackHotWhitelist, /states/])
-    ],
-    [],
-    config => ({
-      ...config
-    })
-  )
-}
-
 function getWhitelistIds() {
-  return ['react',
-    'react-dom',
-    'react-hot-loader',
-    '@hot-loader/react-dom',
-  
-    '@material-ui/styles/ThemeContext',
-    '@material-ui/styles/withStyles',
-    '@material-ui/styles',
-    '@material-ui/core',
-    '@material-ui/core/styles/colorManipulator',
-    '@material-ui/styles/jssPreset',
-    '@material-ui/utils',
-    'jss']
-}
+  return [
+    "react",
+    "react-dom",
+    "react-hot-loader",
+    "@hot-loader/react-dom",
 
-async function createCoreConfig(): Promise<webpack.Configuration> {
-  const name = "core"
-  return makeDefaultConfig(
-    name,
-    coreDir,
-    ["react-hot-loader/patch", "./src/init"],
-    browserTarget,
-    [
-      // /^\@states/,
-      /electron/,
-      ...makeCommonExternals(coreDir, [...WebpackHotWhitelist, ...(getWhitelistIds()),/states/])
-    ],
-    [
-      new HtmlWebpackPlugin({
-        title: "Stato",
-        inject: false,
-        template: "./assets/index.pug"
-      })
-    ], config => ({
-      ...config,
-      resolve: {
-        ...config.resolve,
-        alias: {
-          ...config.resolve.alias,
-          "@stato/common": Path.resolve(packageDir, "common","src","index.ts"),
-        }
-      }
-    })
-    
-  )
+    "@material-ui/styles/ThemeContext",
+    "@material-ui/styles/withStyles",
+    "@material-ui/styles",
+    "@material-ui/core",
+    "@material-ui/core/styles/colorManipulator",
+    "@material-ui/styles/jssPreset",
+    "@material-ui/utils",
+    "jss"
+  ]
 }
 
 function applyMode(
@@ -213,6 +111,64 @@ function applyMode(
   }
 }
 
+function makeDefaultConfig(
+  name: string,
+  context: string,
+  entry: string[],
+  target: "node" | "electron-renderer",
+  externals: ExternalsElement | ExternalsElement[],
+  plugins: webpack.Plugin[],
+  customizer: (
+    config: webpack.Configuration
+  ) => webpack.Configuration | undefined = Identity
+) {
+  return customizer(
+    applyMode(name, {
+      name,
+      mode,
+      cache: true,
+      context,
+      entry,
+      target,
+      module: moduleConfig,
+      resolve: resolveConfig,
+      output: {
+        libraryTarget: "commonjs2",
+        path: Path.resolve(context, "dist"),
+        publicPath: "./",
+        filename: "bundle.js"
+      },
+      devtool: devTools[mode],
+      externals,
+      optimization: {
+        namedModules: true,
+        noEmitOnErrors: true
+      },
+      watchOptions: {
+        ignored: [/node_modules.*(src|stato)/]
+      },
+      node: nodeConfig,
+
+      plugins: [
+        new webpack.DefinePlugin({
+          "process.env.PluginModuleWhitelist": JSON.stringify(
+            // eslint-disable-next-line @typescript-eslint/no-use-before-define
+            getWhitelistIds()
+          ),
+          isDev: JSON.stringify(mode === "development"),
+          ...(mode !== "production"
+            ? {}
+            : {
+                "process.env.BundledPluginNames": JSON.stringify(pluginNames)
+              })
+        }),
+        new IgnoreNotFoundExportPlugin(),
+        new ForkTsCheckerPlugin(),
+        ...plugins
+      ]
+    })
+  )
+}
 /**
  * Create plugin config
  *
@@ -220,53 +176,122 @@ function applyMode(
  * @returns {Promise<webpack.Configuration>}
  * @param pluginConfig
  */
-async function createPluginConfig(pluginConfig: PluginConfig): Promise<webpack.Configuration> {
-  const
-    {
-      name,
-      dir
-    } = pluginConfig,
+async function createPluginConfig(
+  pluginConfig: PluginConfig
+): Promise<webpack.Configuration> {
+  const { name, dir } = pluginConfig,
     whitelistIds = getWhitelistIds()
-  
+
   return makeDefaultConfig(
     name,
     dir,
     ["./src/index"],
     browserTarget,
-    
+
     // Externals
     [
       (context, request, callback) => {
         if (request.includes("plugin-")) {
           log.debug("Stato plugin request, ignoring", request, context)
-        } else if (/states/.test(request) || whitelistIds.includes(request)) {
-          log.debug(`States resource`, request, context)
+        } else if (/stato/.test(request) || whitelistIds.includes(request)) {
+          log.debug("Stato resource", request, context)
           return callback(null, "commonjs " + request)
         } else {
-          log.debug(`Checking external`, context, request)
+          log.debug("Checking external", context, request)
         }
-        (callback as any)()
+        // noinspection JSUnnecessarySemicolon
+        ;(callback as any)()
       },
       /electron/,
       "lodash",
       ...ReactExternals,
-      ...makeCommonExternals(dir, [/webpack-hot/])///react-hot/]
+      ...makeCommonExternals(dir, [/webpack-hot/]) ///react-hot/]
     ],
     []
-    
+  )
+}
+
+/**
+ * Generate all plugin configs
+ *
+ * @returns {Promise<webpack.Configuration[]>}
+ */
+async function generatePluginConfigs() {
+  return Promise.all(
+    Object.values(pluginNameMap).map(plugin => createPluginConfig(plugin))
+  )
+}
+
+function createAppConfig(): webpack.Configuration {
+  const name = "app"
+  return makeDefaultConfig(
+    name,
+    appDir,
+    ["./src/index"],
+    "node",
+    [
+      ...ReactExternals,
+      /electron/,
+      /source-map-support/,
+      ...makeCommonExternals(appDir, [...WebpackHotWhitelist, /stato/])
+    ],
+    [],
+    config => ({
+      ...config
+    })
+  )
+}
+
+async function createCoreConfig(): Promise<webpack.Configuration> {
+  const name = "core"
+  return makeDefaultConfig(
+    name,
+    coreDir,
+    ["react-hot-loader/patch", "./src/init"],
+    browserTarget,
+    [
+      /electron/,
+      ...makeCommonExternals(coreDir, [
+        ...WebpackHotWhitelist,
+        ...getWhitelistIds(),
+        /stato/
+      ])
+    ],
+    [
+      new HtmlWebpackPlugin({
+        title: "Stato",
+        inject: false,
+        template: "./assets/index.pug"
+      })
+    ],
+    config => ({
+      ...config,
+      resolve: {
+        ...config.resolve,
+        alias: {
+          ...config.resolve.alias,
+          "@stato/common": Path.resolve(packageDir, "common", "src", "index.ts")
+        }
+      }
+    })
   )
 }
 
 export default async function generate(
   useMode: Mode = "development",
   usePort: number | undefined = undefined,
-  configCustomizer: ((config: webpack.Configuration) => webpack.Configuration)  = (c) => c
+  configCustomizer: (
+    config: webpack.Configuration
+  ) => webpack.Configuration = c => c
 ): Promise<Array<webpack.Configuration>> {
   if (!isDefined(usePort) && useMode === "development")
     throw new Error("Port must be set in 'development' mode")
-  
+
   port = usePort
   mode = useMode
-  return [createAppConfig(), await createCoreConfig(), ...(await generatePluginConfigs())]
-    .map(configCustomizer)
+  return [
+    createAppConfig(),
+    await createCoreConfig(),
+    ...(await generatePluginConfigs())
+  ].map(configCustomizer)
 }

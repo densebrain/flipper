@@ -1,3 +1,13 @@
+/**
+ * Copyright 2019-present Densebrain.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * Copyright 2019-present Facebook.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ * @format
+ */
 import "./dev-init"
 import ConsoleStamp from "console-stamp"
 
@@ -19,26 +29,25 @@ import {
 import { appDir, packageDir } from "./dirs"
 import { startElectron } from "./ElectronLauncher"
 import { getLogger } from "@stato/common"
-import {addShutdownHook} from "./process"
-import {compileBasePackages, PackageName} from "./package-compiler"
+import { addShutdownHook } from "./process"
+import { compileBasePackages, PackageName } from "./package-compiler"
 import {
   WebpackAssetInfo,
   WebpackOutputMap,
   WebpackStatsAsset
 } from "@stato/common"
 import * as _ from "lodash"
-import {attachProvidedPackagesAssembler} from "./provided-package-assembler"
+import { attachProvidedPackagesAssembler } from "./provided-package-assembler"
 import generateWebpackConfig from "./webpack/webpack.config"
 
+process.env.NODE_ENV = "development"
 
-
-const
-  StatsErrorsAndWarnings = {
-    errors: true,
-    warnings: true
-  },
-  port = isString(process.env.PORT) ? parseInt(process.env.PORT, 10) : 1616,
-  log = getLogger(__filename)
+const StatsErrorsAndWarnings = {
+  errors: true,
+  warnings: true
+}
+const port = isString(process.env.PORT) ? parseInt(process.env.PORT, 10) : 1616
+const log = getLogger(__filename)
 
 let ipcServer: DevIPC | null = null
 
@@ -66,10 +75,9 @@ function makeDevPluginModule(id: string): DevPluginModule {
 // This is the real meat of the example
 // ************************************
 export async function startDevServer() {
-  
   // Start the Dev Server for firing updates to app
   ipcServer = await getDevIPCServer()
-  
+
   // Add server event/request listeners
   ipcServer.on("getPlugins", (_ipc, _type, _msg) => {
     ipcServer.emit<"getPlugins">("getPlugins", {
@@ -78,37 +86,36 @@ export async function startDevServer() {
         .map(name => makeDevPluginModule(name))
     })
   })
-  
+
   // Package change listeners
-  const
-    changeEmitters: {[name: string]: (name: string) => void} = {},
-    fireChanged = (name: string) => {
-      const emitter = changeEmitters[name] = changeEmitters[name] ||
-        _.debounce((name: string) => {
-          if (name === "app") {
-            log.info("Main process updated bundle")
-            updateElectron()
-          } else if (name.startsWith("plugin-")) {
-            if (ipcServer) {
-              const id = `@states/${name}`
-              ipcServer.emit("pluginUpdated", {
-                plugin: makeDevPluginModule(id)
-              })
-            }
+  const changeEmitters: { [name: string]: (name: string) => void } = {}
+  const fireChanged = (name: string) => {
+    const emitter = (changeEmitters[name] =
+      changeEmitters[name] ||
+      _.debounce((name: string) => {
+        if (name === "app") {
+          log.info("Main process updated bundle")
+          updateElectron()
+        } else if (name.startsWith("plugin-")) {
+          if (ipcServer) {
+            const id = `@states/${name}`
+            ipcServer.emit("pluginUpdated", {
+              plugin: makeDevPluginModule(id)
+            })
           }
-        }, 500)
-      emitter(name)
-    }
-  
-  const
-    devServer = express(),
-    webpackConfig = await generateWebpackConfig("development",port),
-    multiCompiler = webpack(webpackConfig),
-    { compilers } = multiCompiler,
-    requiredPackages: Array<PackageName> = ["core", "app"],
-    isReady = () =>
-      requiredPackages.every(name => oc(compiledPackages[name]).length(0) > 0),
-    readyDeferred = new Deferred<void>()
+        }
+      }, 500))
+    emitter(name)
+  }
+
+  const devServer = express()
+  const webpackConfig = await generateWebpackConfig("development", port)
+  const multiCompiler = webpack(webpackConfig)
+  const { compilers } = multiCompiler
+  const requiredPackages: Array<PackageName> = ["core", "app"]
+  const isReady = () =>
+    requiredPackages.every(name => oc(compiledPackages[name]).length(0) > 0)
+  const readyDeferred = new Deferred<void>()
 
   compilers.forEach(compiler => {
     const { name } = compiler
@@ -148,17 +155,17 @@ export async function startDevServer() {
 
         if (!stats.hasErrors()) {
           const webpackChunks = _.flatten(
-              stats.compilation.chunkGroups
-                .filter(group => (group as any).isInitial())
-                .map(
-                  group =>
-                    (group as any).chunks.filter(
-                      (chunk: webpack.compilation.Chunk) => chunk.entryModule
-                    ) as Array<webpack.compilation.Chunk>
-                )
-            ),
-            webpackAssets = stats.compilation.assets,
-            assets = Array<WebpackAssetInfo>()
+            stats.compilation.chunkGroups
+              .filter(group => (group as any).isInitial())
+              .map(
+                group =>
+                  (group as any).chunks.filter(
+                    (chunk: webpack.compilation.Chunk) => chunk.entryModule
+                  ) as Array<webpack.compilation.Chunk>
+              )
+          )
+          const webpackAssets = stats.compilation.assets
+          const assets = Array<WebpackAssetInfo>()
 
           Object.entries(webpackAssets).forEach(
             ([assetName, _asset]: [string, WebpackStatsAsset]) => {
@@ -203,7 +210,7 @@ export async function startDevServer() {
   log.info("Waiting for required packages...")
   await readyDeferred.promise
 
-  log.info(`All required packages are ready`, Object.keys(compiledPackages))
+  log.info("All required packages are ready", Object.keys(compiledPackages))
 
   devServer.use(Morgan("short"))
 
@@ -232,26 +239,27 @@ export async function startDevServer() {
 let started = false
 
 function updateElectron() {
-  if (!started) return
+  if (!started) {
+    return
+  }
   startElectron(compiledPackages)
 }
 
 if (require.main === module) {
   log.info("Attaching provided package compiler")
   attachProvidedPackagesAssembler()
-  
+
   log.info("Compiling base packages")
-  
-  compileBasePackages()
-    .then(() => {
-      log.info("Compiled core, Starting dev server")
-      startDevServer()
-        .then(() => {
-          started = true
-          updateElectron()
-        })
-        .catch(err => log.error("Unable to start dev server", err))
-    })
+
+  compileBasePackages().then(() => {
+    log.info("Compiled core, Starting dev server")
+    startDevServer()
+      .then(() => {
+        started = true
+        updateElectron()
+      })
+      .catch(err => log.error("Unable to start dev server", err))
+  })
 }
 
 // Do anything you like with the rest of your express application.
