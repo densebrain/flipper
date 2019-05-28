@@ -3,18 +3,18 @@ source 'https://github.com/facebook/Sonar.git'
 source 'https://github.com/CocoaPods/Specs'
 platform :ios, '9.0'
 swift_version = "4.1"
-target 'StatesKit' do
+target 'StatoKit' do
   # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
   # use_frameworks!
 
-  project 'StatesKit.xcodeproj'
-  pod 'States', :path => '../States.podspec'
+  project 'StatoKit.xcodeproj'
+  pod 'Stato', :path => '../Stato.podspec'
   # Pods for SonarKit
-  pod 'States-PeerTalk', '~>0.0'
-  pod 'States-RSocket', '~>0.10'
+  pod 'Stato-PeerTalk', '~>0.0'
+  pod 'Stato-RSocket', '~>0.10'
   pod 'DoubleConversion', '~>1.1'
   pod 'glog', '~>0.3'
-  pod 'States-Folly', '~>1.2'
+  pod 'Stato-Folly', '~>1.2'
   pod 'CocoaAsyncSocket', '~>7.6'
 
 end

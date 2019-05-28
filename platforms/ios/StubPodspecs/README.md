@@ -1,1 +1,1 @@
-These podspecs are the stubs and are solely meant to reserve the name on cocoapods repo until this [issue](https://github.com/facebook/states/issues/132) is solved.
+These podspecs are the stubs and are solely meant to reserve the name on cocoapods repo until this [issue](https://github.com/facebook/stato/issues/132) is solved.

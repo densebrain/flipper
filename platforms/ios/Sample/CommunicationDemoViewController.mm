@@ -7,9 +7,9 @@
  */
 
 #import "CommunicationDemoViewController.h"
-#import <StatesKitExamplePlugin/StatesKitExamplePlugin.h>
+#import <StatoKitExamplePlugin/StatoKitExamplePlugin.h>
 
-@interface CommunicationDemoViewController()<StatesKitExampleCommunicationResponderDelegate>
+@interface CommunicationDemoViewController()<StatoKitExampleCommunicationResponderDelegate>
 @property (strong, nonatomic) NSMutableArray<NSString *> *messagesToDisplay;
 @property (weak, nonatomic) IBOutlet UITextField *messageTextField;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -19,16 +19,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [StatesKitExamplePlugin sharedInstance].delegate = self;
+    [StatoKitExamplePlugin sharedInstance].delegate = self;
 }
 
 - (IBAction)tappedTriggerNotification:(UIButton *)sender {
-    [[StatesKitExamplePlugin sharedInstance] triggerNotification];
+    [[StatoKitExamplePlugin sharedInstance] triggerNotification];
 }
 
 - (IBAction)tappedSendMessage:(UIButton *)sender {
     if (self.messageTextField.text.length > 0) {
-        [[StatesKitExamplePlugin sharedInstance] sendMessage:self.messageTextField.text];
+        [[StatoKitExamplePlugin sharedInstance] sendMessage:self.messageTextField.text];
     }
 }
 

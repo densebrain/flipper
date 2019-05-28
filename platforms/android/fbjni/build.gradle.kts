@@ -19,7 +19,7 @@ android {
       cmake {
         arguments.addAll(listOf("-DANDROID_TOOLCHAIN=clang", "-DANDROID_STL=c++_static"))
         targets.clear()
-        targets.add("statesfb")
+        targets.add("statofb")
       }
     }
   }
@@ -30,7 +30,7 @@ android {
     }
 
     getByName("test").apply {
-      java.exclude("com/facebook/states/plugins/facebook/**")
+      java.exclude("com/facebook/stato/plugins/facebook/**")
     }
   }
 
@@ -57,4 +57,4 @@ dependencies {
 }
 
 setupAndroidPublishProject(project,true)
-setupAndroidThirdPartyProject(project)
+//setupAndroidThirdPartyProject(project)

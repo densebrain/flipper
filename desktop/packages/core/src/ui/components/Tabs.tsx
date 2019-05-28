@@ -1,5 +1,9 @@
 /**
- * Copyright 2018-present Facebook.
+ * Copyright 2019-present Densebrain.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * Copyright 2019-present Facebook.
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  * @format
@@ -11,56 +15,64 @@ import Orderable from "./Orderable"
 import FlexRow from "./FlexRow"
 
 import Tab from "./Tab"
-import {SimpleThemeProps, ThemeProps} from "../themes"
+import { SimpleThemeProps, ThemeProps } from "../themes"
 const TabList = styled(FlexRow)({
   alignItems: "stretch"
 })
 
-type TabListItemProps = ThemeProps<{
-  active?: boolean
-},string,true>
+type TabListItemProps = ThemeProps<
+  {
+    active?: boolean
+  },
+  string,
+  true
+>
 
-const TabListItem = styled("div")(({active,theme:{colors}}:TabListItemProps) => ({
-  backgroundColor: active ? colors.accent : colors.background,
-  borderBottom: "1px solid #dddfe2",
-  boxShadow: active ? `inset 0px 0px 3px ${colors.border}` : "none",
-  color: active ? colors.accentText : colors.text,
-  flex: 1,
-  fontSize: 13,
-  lineHeight: "28px",
-  overflow: "hidden",
-  padding: "0 10px",
-  position: "relative",
-  textAlign: "center",
-  textOverflow: "ellipsis",
-  whiteSpace: "nowrap",
-  "&:hover": {
-    backgroundColor: colors.accent
-  }
-}))
+const TabListItem = styled("div")(
+  ({ active, theme: { colors } }: TabListItemProps) => ({
+    backgroundColor: active ? colors.accent : colors.background,
+    borderBottom: "1px solid #dddfe2",
+    boxShadow: active ? `inset 0px 0px 3px ${colors.border}` : "none",
+    color: active ? colors.accentText : colors.text,
+    flex: 1,
+    fontSize: 13,
+    lineHeight: "28px",
+    overflow: "hidden",
+    padding: "0 10px",
+    position: "relative",
+    textAlign: "center",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+    "&:hover": {
+      backgroundColor: colors.accent
+    }
+  })
+)
 const TabListAddItem = styled(TabListItem)({
   borderRight: "none",
   flex: 0,
   flexGrow: 0,
   fontWeight: "bold"
 })
-const CloseButton = styled("div")(({theme:{colors}}: SimpleThemeProps) => ({
-  color: colors.textLight,
-  float: "right",
-  fontSize: 10,
-  fontWeight: "bold",
-  textAlign: "center",
-  marginLeft: 6,
-  marginTop: 6,
-  width: 16,
-  height: 16,
-  lineHeight: "16px",
-  borderRadius: "50%",
-  "&:hover": {
-    backgroundColor: colors.error,
-    color: colors.errorText
-  }
-}))
+const CloseButton = styled("div")(
+  ({ theme: { colors } }: SimpleThemeProps) => ({
+    color: colors.textLight,
+    float: "right",
+    fontSize: 10,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginLeft: 6,
+    marginTop: 6,
+    width: 16,
+    height: 16,
+    lineHeight: "16px",
+    borderRadius: "50%",
+    "&:hover": {
+      backgroundColor: colors.error,
+      color: colors.errorText
+    }
+  })
+)
 const OrderableContainer = styled("div")({
   display: "inline-block"
 })
@@ -74,26 +86,27 @@ const TabContent = styled("div")({
  */
 
 export default function Tabs(props: {
-  onActive?: (key: string | null | undefined) => void,
-  defaultActive?: string,
-  active?: string | null | undefined,
-  children?: Array<React.ReactElement<any>>,
-  orderable?: boolean,
-  onOrder?: (order: Array<string>) => void,
-  order?: Array<string>,
-  persist?: boolean,
-  newable?: boolean,
-  onNew?: () => void,
-  before?: Array<React.ReactNode>,
+  onActive?: (key: string | null | undefined) => void
+  defaultActive?: string
+  active?: string | null | undefined
+  children?: Array<React.ReactElement<any>>
+  orderable?: boolean
+  onOrder?: (order: Array<string>) => void
+  order?: Array<string>
+  persist?: boolean
+  newable?: boolean
+  onNew?: () => void
+  before?: Array<React.ReactNode>
   after?: Array<React.ReactNode>
 }) {
   const { onActive } = props
-  const active: string | null | undefined = props.active == null ? props.defaultActive : props.active // array of other components that aren't tabs
+  const active: string | null | undefined =
+    props.active == null ? props.defaultActive : props.active // array of other components that aren't tabs
 
   const before = props.before || []
   const after = props.after || [] //
 
-  const tabs:{[key: string]: typeof TabListItem} = {} // a list of keys
+  const tabs: { [key: string]: typeof TabListItem } = {} // a list of keys
 
   const keys = props.order ? props.order.slice() : []
   const tabContents = Array<typeof TabContent>()
@@ -180,17 +193,22 @@ export default function Tabs(props: {
   }
 
   add(props.children)
-  let tabList:React.ReactNode | Array<React.ReactNode>
+  let tabList: React.ReactNode | Array<React.ReactNode>
 
   if (props.orderable === true) {
     tabList = (
       <OrderableContainer key="orderable-list">
-        <Orderable orientation="horizontal" items={tabs} onChange={props.onOrder} order={keys} />
+        <Orderable
+          orientation="horizontal"
+          items={tabs}
+          onChange={props.onOrder}
+          order={keys}
+        />
       </OrderableContainer>
     )
   } else {
-    const list = tabList = Array<typeof TabListItem>()
-    
+    const list = (tabList = Array<typeof TabListItem>())
+
     for (const key of Object.keys(tabs)) {
       list.push(tabs[key])
     }

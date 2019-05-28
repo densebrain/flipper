@@ -29,12 +29,12 @@
 }
 
 - (IBAction)tappedPOSTAPI:(UIButton *)sender {
-  NSString *post = @"https://demo9512366.mockable.io/StatesPost";
+  NSString *post = @"https://demo9512366.mockable.io/StatoPost";
   NSURL *url = [NSURL URLWithString:post];
   NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL: url];
   [urlRequest addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
   [urlRequest addValue:@"application/json" forHTTPHeaderField:@"Accept"];
-  NSDictionary *mapData = [[NSDictionary alloc] initWithObjectsAndKeys: @"States", @"app",
+  NSDictionary *mapData = [[NSDictionary alloc] initWithObjectsAndKeys: @"Stato", @"app",
                            @"Its awesome", @"remarks",
                            nil];
   NSError *error = nil;
@@ -60,7 +60,7 @@
 
 - (IBAction)tappedGetAPI:(UIButton *)sender {
   __weak NetworkViewController *weakSelf = self;
-  [[[NSURLSession sharedSession] dataTaskWithURL:[NSURL URLWithString:@"https://demo9512366.mockable.io/StatesGet"] completionHandler:^(NSData *_Nullable data, NSURLResponse *_Nullable response, NSError *_Nullable error) {
+  [[[NSURLSession sharedSession] dataTaskWithURL:[NSURL URLWithString:@"https://demo9512366.mockable.io/StatoGet"] completionHandler:^(NSData *_Nullable data, NSURLResponse *_Nullable response, NSError *_Nullable error) {
     if (error || !data) {
       UIAlertController *alertController = [weakSelf alertControllerForMessage:@"Received error in GET API response"];
       [weakSelf presentViewController:alertController animated:true completion:nil];
@@ -75,7 +75,7 @@
 
 
 - (UIAlertController *)alertControllerForMessage:(nonnull NSString *)msg {
-  UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"States" message:msg preferredStyle:UIAlertControllerStyleAlert];
+  UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Stato" message:msg preferredStyle:UIAlertControllerStyleAlert];
   UIAlertAction *action = [UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:nil];
   [controller addAction:action];
   return controller;

@@ -48,7 +48,7 @@ set(RSOCKET_ROOT_DIR ${EXTERNAL_DIR}/RSocket/rsocket-cpp-${RSOCKET_VERSION})
 set(RSOCKET_DIR ${RSOCKET_ROOT_DIR}/rsocket)
 
 
-set(NATIVE_LIBS statesfb statescpp fbjni folly rsocket glog event event_extra event_core doubleconversion)
+set(NATIVE_LIBS statofb statocpp fbjni folly rsocket glog event event_extra event_core doubleconversion)
 
 foreach (NATIVE_LIB ${NATIVE_LIBS})
   list(APPEND NATIVE_BUILD_DIRS ${NATIVE_BUILD_DIR}/${NATIVE_LIB}/${ANDROID_ABI})

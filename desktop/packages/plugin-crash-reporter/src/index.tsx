@@ -1,12 +1,15 @@
 /**
- * Copyright 2018-present Facebook.
+ * Copyright 2019-present Densebrain.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * Copyright 2019-present Facebook.
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  * @format
- * @flow
  */
 import {
- StatoDevicePluginComponent,
+  StatoDevicePluginComponent,
   DefaultPluginId,
   Device,
   View,
@@ -32,7 +35,7 @@ import {
   OS,
   Notification,
   Plugin,
- StatoPluginProps,
+  StatoPluginProps,
   PluginType,
   PluginModuleExport,
   PluginClientMessage
@@ -45,19 +48,18 @@ import * as Util from "util"
 import * as Path from "path"
 
 import * as React from "react"
-import {Component, CSSProperties} from "react"
-import {oc} from "ts-optchain"
+import { Component, CSSProperties } from "react"
+import { oc } from "ts-optchain"
 
-
-const unicodeSubstring = require("unicode-substring").default
+const unicodeSubstring = require("unicode-substring")
 
 type HeaderRowProps = {
-  title: string,
+  title: string
   value: string
 }
 type openLogsCallbackType = () => void
 type CrashReporterBarProps = {
-  openLogsCallback?: openLogsCallbackType,
+  openLogsCallback?: openLogsCallbackType
   crashSelector: CrashSelectorProps
 }
 type CrashSelectorProps = {
@@ -66,22 +68,22 @@ type CrashSelectorProps = {
         [key: string]: string
       }
     | null
-    | undefined,
-  orderedIDs: Array<string> | null | undefined,
-  selectedCrashID: string | null | undefined,
+    | undefined
+  orderedIDs: Array<string> | null | undefined
+  selectedCrashID: string | null | undefined
   onCrashChange: (a: string) => void | null | undefined
 }
 export type Crash = {
-  notificationID: string,
-  callstack: string,
-  reason: string,
-  name: string,
+  notificationID: string
+  callstack: string
+  reason: string
+  name: string
   date: Date
 }
 export type CrashLog = {
-  callstack: string,
-  reason: string,
-  name: string,
+  callstack: string
+  reason: string
+  name: string
   date: Date | null | undefined
 }
 export type CrashReporterPersistedState = {
@@ -90,10 +92,18 @@ export type CrashReporterPersistedState = {
 type CrashReporterState = {
   crash: Crash | null | undefined
 }
-export type PadderProps = Pick<CSSProperties, "paddingLeft" | "paddingRight" | "paddingTop" | "paddingBottom">
+export type PadderProps = Pick<
+  CSSProperties,
+  "paddingLeft" | "paddingRight" | "paddingTop" | "paddingBottom"
+>
 const Padder = styled("div")(
   styleCreator(
-    ({ paddingLeft, paddingRight, paddingBottom, paddingTop }:PadderProps) => ({
+    ({
+      paddingLeft,
+      paddingRight,
+      paddingBottom,
+      paddingTop
+    }: PadderProps) => ({
       paddingLeft: paddingLeft || 0,
       paddingRight: paddingRight || 0,
       paddingBottom: paddingBottom || 0,
@@ -174,43 +184,69 @@ export function getNewPersistedStateFromCrashLog(
   os?: OS | null | undefined,
   logDate?: Date | null | undefined
 ): Partial<CrashReporterPersistedState> | null | undefined {
-  const persistedStateReducer = (persistingPlugin.componentClazz as typeof CrashReporterComponent).persistedStateReducer
+  const persistedStateReducer = (persistingPlugin.componentClazz as typeof CrashReporterComponent)
+    .persistedStateReducer
 
   if (!os || !persistedStateReducer) {
     return null
   }
 
   const crash = parseCrashLog(content, os, logDate)
-  return persistedStateReducer(persistedState, {type: "crash-report", payload: crash})
+  return persistedStateReducer(persistedState, {
+    type: "crash-report",
+    payload: crash
+  })
 }
 export function parseCrashLogAndUpdateState(
   store: Store,
   content: string,
-  setPersistedState: (pluginKey: string, newPluginState: Partial<CrashReporterPersistedState> | null | undefined) => void,
+  setPersistedState: (
+    pluginKey: string,
+    newPluginState: Partial<CrashReporterPersistedState> | null | undefined
+  ) => void,
   logDate?: Date | null | undefined
 ) {
   const state = store.getState(),
-    {connections} = state,
+    { connections } = state,
     os = oc(connections).selectedDevice.os(null)
 
-  if (!os || !shouldShowCrashNotification(connections.selectedDevice, content, os)) {
+  if (
+    !os ||
+    !shouldShowCrashNotification(connections.selectedDevice, content, os)
+  ) {
     return
   }
 
   const pluginID = CrashReporterComponent.id
-  const pluginKey = getPluginKey(null, store.getState().connections.selectedDevice, pluginID)
+  const pluginKey = getPluginKey(
+    null,
+    store.getState().connections.selectedDevice,
+    pluginID
+  )
   const persistingPlugin:
     | Plugin
     | null
-    | undefined = store.getState().plugins.devicePlugins.get(CrashReporterComponent.id)
+    | undefined = store
+    .getState()
+    .plugins.devicePlugins.get(CrashReporterComponent.id)
 
   if (!persistingPlugin) {
     return
   }
 
   const pluginStates = store.getState().pluginStates
-  const persistedState = getPersistedState(pluginKey, persistingPlugin, pluginStates)
-  const newPluginState = getNewPersistedStateFromCrashLog(persistedState, persistingPlugin as any, content, os, logDate)
+  const persistedState = getPersistedState(
+    pluginKey,
+    persistingPlugin,
+    pluginStates
+  )
+  const newPluginState = getNewPersistedStateFromCrashLog(
+    persistedState,
+    persistingPlugin as any,
+    content,
+    os,
+    logDate
+  )
   setPersistedState(pluginKey, newPluginState)
 }
 export function shouldShowCrashNotification(
@@ -224,11 +260,15 @@ export function shouldShowCrashNotification(
 
   const appPath = parsePath(content)
   const serial: string = oc(baseDevice).serial("unknown")
-  
+
   // Do not show notifications for the app which are not the selected one
   return appPath && appPath.includes(serial)
 }
-export function parseCrashLog(content: string, os: OS, logDate?: Date | null | undefined): CrashLog {
+export function parseCrashLog(
+  content: string,
+  os: OS,
+  logDate?: Date | null | undefined
+): CrashLog {
   const stubString = "Cannot figure out the cause"
 
   switch (os) {
@@ -238,7 +278,8 @@ export function parseCrashLog(content: string, os: OS, logDate?: Date | null | u
       const exceptionString = arr ? arr[0] : ""
       const exceptionRegex = /[\w]*$/
       const tmp = exceptionRegex.exec(exceptionString)
-      const exception = tmp && tmp[0].length ? tmp[0] : "Cannot figure out the cause"
+      const exception =
+        tmp && tmp[0].length ? tmp[0] : "Cannot figure out the cause"
       let date = logDate
 
       if (!date) {
@@ -247,7 +288,8 @@ export function parseCrashLog(content: string, os: OS, logDate?: Date | null | u
         const dateString = dateArr ? dateArr[0] : ""
         const dateRegex2 = /[\w\s\.:-]*$/
         const tmp1 = dateRegex2.exec(dateString)
-        const extractedDateString: string | null | undefined = tmp1 && tmp1[0].length ? tmp1[0] : null
+        const extractedDateString: string | null | undefined =
+          tmp1 && tmp1[0].length ? tmp1[0] : null
         date = extractedDateString ? new Date(extractedDateString) : logDate
       }
 
@@ -267,13 +309,17 @@ export function parseCrashLog(content: string, os: OS, logDate?: Date | null | u
       const regForCallStack = /\tat[\w\s\n.$&+,:;=?@#|'<>.^*()%!-]*$/
       const callStackArray = regForCallStack.exec(content)
       const callStack = callStackArray ? callStackArray[0] : ""
-      let remainingString = callStack.length > 0 ? content.replace(callStack, "") : ""
+      let remainingString =
+        callStack.length > 0 ? content.replace(callStack, "") : ""
 
       if (remainingString[remainingString.length - 1] === "\n") {
         remainingString = remainingString.slice(0, -1)
       }
 
-      const reason = remainingString.length > 0 ? remainingString.split("\n").pop() : stubString
+      const reason =
+        remainingString.length > 0
+          ? remainingString.split("\n").pop()
+          : stubString
 
       if (name[name.length - 1] === "\n") {
         name = name.slice(0, -1)
@@ -299,8 +345,7 @@ function truncate(baseString: string, numOfChars: number): string {
     return baseString
   }
 
-  const truncated_string = unicodeSubstring(baseString, 0, numOfChars - 1)
-  return truncated_string + "\u2026"
+  return unicodeSubstring(baseString, 0, numOfChars - 1) + "\u2026"
 }
 
 export function parsePath(content: string): string | null | undefined {
@@ -325,7 +370,10 @@ export function parsePath(content: string): string | null | undefined {
 
 function addFileWatcherForiOSCrashLogs(
   store: Store,
-  setPersistedState: (pluginKey: string, newPluginState: CrashReporterPersistedState | null | undefined) => void
+  setPersistedState: (
+    pluginKey: string,
+    newPluginState: CrashReporterPersistedState | null | undefined
+  ) => void
 ) {
   const dir = Path.join(Os.homedir(), "Library", "Logs", "DiagnosticReports")
 
@@ -359,7 +407,6 @@ function addFileWatcherForiOSCrashLogs(
 }
 
 class CrashSelector extends Component<CrashSelectorProps> {
-  
   render() {
     const { crashes, selectedCrashID, orderedIDs, onCrashChange } = this.props
     return (
@@ -372,7 +419,8 @@ class CrashSelector extends Component<CrashSelectorProps> {
               onClick={() => {
                 if (onCrashChange && orderedIDs) {
                   const index = orderedIDs.indexOf(selectedCrashID)
-                  const nextIndex = index < 1 ? orderedIDs.length - 1 : index - 1
+                  const nextIndex =
+                    index < 1 ? orderedIDs.length - 1 : index - 1
                   const nextID = orderedIDs[nextIndex]
                   onCrashChange(nextID)
                 }
@@ -389,7 +437,8 @@ class CrashSelector extends Component<CrashSelectorProps> {
               onClick={() => {
                 if (onCrashChange && orderedIDs) {
                   const index = orderedIDs.indexOf(selectedCrashID)
-                  const nextIndex = index >= orderedIDs.length - 1 ? 0 : index + 1
+                  const nextIndex =
+                    index >= orderedIDs.length - 1 ? 0 : index + 1
                   const nextID = orderedIDs[nextIndex]
                   onCrashChange(nextID)
                 }
@@ -431,7 +480,10 @@ class CrashReporterBar extends Component<CrashReporterBarProps> {
       <Toolbar>
         <CrashSelector {...crashSelector} />
         <Spacer />
-        <Button disabled={Boolean(!openLogsCallback)} onClick={openLogsCallback}>
+        <Button
+          disabled={Boolean(!openLogsCallback)}
+          onClick={openLogsCallback}
+        >
           Open In Logs
         </Button>
       </Toolbar>
@@ -469,8 +521,6 @@ class HeaderRow extends Component<HeaderRowProps> {
   }
 }
 
-
-
 type ActionType = "crash-report" | "stato-crash-report"
 
 // interface CrashReporterActions extends PluginActions<ActionType> {
@@ -478,18 +528,26 @@ type ActionType = "crash-report" | "stato-crash-report"
 //   stato-crash-report": { type: "stato-crash-report"} & CrashLog
 // }
 
-type ActionPayload<Type extends ActionType> =
-  Type extends "crash-report" ? CrashLog : Type extends "stato-crash-report" ? CrashLog : never
+type ActionPayload<Type extends ActionType> = Type extends "crash-report"
+  ? CrashLog
+  : Type extends "stato-crash-report"
+  ? CrashLog
+  : never
 
-type CrashReporterActions = {[type in ActionType]: ActionPayload<type>}
+type CrashReporterActions = { [type in ActionType]: ActionPayload<type> }
 
 type CrashReporterClientMessage =
-  PluginClientMessage<"crash-report", CrashLog> |
-  PluginClientMessage<"stato-crash-report", CrashLog>
+  | PluginClientMessage<"crash-report", CrashLog>
+  | PluginClientMessage<"stato-crash-report", CrashLog>
 
-class CrashReporterComponent extends StatoDevicePluginComponent<StatoPluginProps<CrashReporterPersistedState>,CrashReporterState, CrashReporterActions, CrashReporterPersistedState> {
+class CrashReporterComponent extends StatoDevicePluginComponent<
+  StatoPluginProps<CrashReporterPersistedState>,
+  CrashReporterState,
+  CrashReporterActions,
+  CrashReporterPersistedState
+> {
   static id = "CrashReporter"
-  
+
   static defaultPersistedState = {
     crashes: []
   } as CrashReporterPersistedState
@@ -506,24 +564,23 @@ class CrashReporterComponent extends StatoDevicePluginComponent<StatoPluginProps
   static persistedStateReducer = (
     persistedState: CrashReporterPersistedState,
     msg: CrashReporterClientMessage
-  ):Partial<CrashReporterPersistedState> => {
-    const {type, payload} = msg
+  ): Partial<CrashReporterPersistedState> => {
+    const { type, payload } = msg
     if (type === "crash-report" || type === "stato-crash-report") {
       CrashReporterComponent.notificationID++
-      const
-        {callstack, name, reason, date} = payload,
+      const { callstack, name, reason, date } = payload,
         mergedState: CrashReporterPersistedState = {
-        crashes: persistedState.crashes.concat([
-          {
-            notificationID: CrashReporterComponent.notificationID.toString(),
-            // All notifications are unique
-            callstack,
-            name,
-            reason,
-            date: date || new Date()
-          }
-        ])
-      }
+          crashes: persistedState.crashes.concat([
+            {
+              notificationID: CrashReporterComponent.notificationID.toString(),
+              // All notifications are unique
+              callstack,
+              name,
+              reason,
+              date: date || new Date()
+            }
+          ])
+        }
       return mergedState
     }
 
@@ -538,11 +595,18 @@ class CrashReporterComponent extends StatoDevicePluginComponent<StatoPluginProps
    * Callback to provide the currently active notifications.
    */
 
-  static getActiveNotifications = (persistedState: CrashReporterPersistedState): Array<Notification> => {
+  static getActiveNotifications = (
+    persistedState: CrashReporterPersistedState
+  ): Array<Notification> => {
     return persistedState.crashes.map((crash: Crash) => {
       const id = crash.notificationID
-      const title = `CRASH: ${truncate(crash.name, 50)} Reason: ${truncate(crash.reason, 50)}`
-      const callstack = CrashReporterComponent.trimCallStackIfPossible(crash.callstack)
+      const title = `CRASH: ${truncate(crash.name, 50)} Reason: ${truncate(
+        crash.reason,
+        50
+      )}`
+      const callstack = CrashReporterComponent.trimCallStackIfPossible(
+        crash.callstack
+      )
       const msg = `Callstack: ${truncate(callstack, 200)}`
       return {
         id,
@@ -560,19 +624,24 @@ class CrashReporterComponent extends StatoDevicePluginComponent<StatoPluginProps
   static onRegisterDevice = (
     store: Store,
     baseDevice: BaseDevice,
-    setPersistedState: (pluginKey: string, newPluginState: CrashReporterPersistedState | null | undefined) => void
+    setPersistedState: (
+      pluginKey: string,
+      newPluginState: CrashReporterPersistedState | null | undefined
+    ) => void
   ) => {
     if (baseDevice.os.includes("iOS")) {
       addFileWatcherForiOSCrashLogs(store, setPersistedState)
     } else {
       const referenceDate = new Date()
-
       ;(function(
         store: Store,
         _date: Date,
-        setPersistedState: (pluginKey: string, newPluginState: CrashReporterPersistedState | null | undefined) => void
+        setPersistedState: (
+          pluginKey: string,
+          newPluginState: CrashReporterPersistedState | null | undefined
+        ) => void
       ) {
-        let androidLog: string = ""
+        let androidLog = ""
         let androidLogUnderProcess = false
         let timer: NodeJS.Timeout = null
         baseDevice.addLogListener((entry: DeviceLogEntry) => {
@@ -591,7 +660,12 @@ class CrashReporterComponent extends StatoDevicePluginComponent<StatoPluginProps
 
             timer = setTimeout(() => {
               if (androidLog.length > 0) {
-                parseCrashLogAndUpdateState(store, androidLog, setPersistedState, entry.date)
+                parseCrashLogAndUpdateState(
+                  store,
+                  androidLog,
+                  setPersistedState,
+                  entry.date
+                )
               }
 
               androidLogUnderProcess = false
@@ -606,18 +680,18 @@ class CrashReporterComponent extends StatoDevicePluginComponent<StatoPluginProps
     this.props.selectPlugin(DefaultPluginId, callstack)
   }
 
-  constructor(props:StatoPluginProps<CrashReporterPersistedState>) {
+  constructor(props: StatoPluginProps<CrashReporterPersistedState>) {
     // Required step: always call the parent class' constructor
     super(props)
-    
+
     let crash: Crash | null | undefined = null
-    const {persistedState, deepLinkPayload} = props,
-      {crashes} = persistedState
+    const { persistedState, deepLinkPayload } = props,
+      { crashes } = persistedState
     if (crashes && crashes.length > 0) {
       crash = crashes[crashes.length - 1]
     }
 
-    let deeplinkedCrash : Crash | null = null
+    let deeplinkedCrash: Crash | null = null
 
     if (deepLinkPayload) {
       const id = this.props.deepLinkPayload
@@ -636,12 +710,11 @@ class CrashReporterComponent extends StatoDevicePluginComponent<StatoPluginProps
   }
 
   render() {
-    const
-      {persistedState} = this.props,
-      {crashes} = persistedState
-    
-    let {crash: crashToBeInspected} = this.state
-    
+    const { persistedState } = this.props,
+      { crashes } = persistedState
+
+    let { crash: crashToBeInspected } = this.state
+
     if (!crashToBeInspected && crashes.length > 0) {
       crashToBeInspected = crashes[crashes.length - 1]
     }
@@ -649,16 +722,21 @@ class CrashReporterComponent extends StatoDevicePluginComponent<StatoPluginProps
     const crash = crashToBeInspected
 
     if (crash) {
-      const crashMap = crashes.reduce((acc: { [key: string]: string }, persistedCrash: Crash) => {
-        const { notificationID, date } = persistedCrash
-        const name = "Crash at " + date.toLocaleString()
-        acc[notificationID] = name
-        return acc
-      }, {})
-      const orderedIDs = crashes.map(persistedCrash => persistedCrash.notificationID)
+      const crashMap = crashes.reduce(
+        (acc: { [key: string]: string }, persistedCrash: Crash) => {
+          const { notificationID, date } = persistedCrash
+          const name = "Crash at " + date.toLocaleString()
+          acc[notificationID] = name
+          return acc
+        },
+        {}
+      )
+      const orderedIDs = crashes.map(
+        persistedCrash => persistedCrash.notificationID
+      )
       const selectedCrashID = crash.notificationID
 
-      const onCrashChange = (id:string)                                                                                                                     => {
+      const onCrashChange = (id: string) => {
         const newSelectedCrash = crashes.find(element => {
           return element.notificationID === id
         })
@@ -727,8 +805,7 @@ class CrashReporterComponent extends StatoDevicePluginComponent<StatoPluginProps
       selectedCrashID: null,
       onCrashChange: null
     } as CrashSelectorProps
-    
-    
+
     return (
       <StyledFlexGrowColumn>
         <CrashReporterBar crashSelector={crashSelector} />
@@ -746,6 +823,13 @@ const CrashReporterPlugin = {
   id: CrashReporterComponent.id,
   type: PluginType.Device,
   componentClazz: CrashReporterComponent
-} as PluginModuleExport<typeof CrashReporterComponent, any, any, any, any, PluginType.Device>
+} as PluginModuleExport<
+  typeof CrashReporterComponent,
+  any,
+  any,
+  any,
+  any,
+  PluginType.Device
+>
 
 export default CrashReporterPlugin

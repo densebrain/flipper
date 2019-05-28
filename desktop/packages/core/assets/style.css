@@ -120,7 +120,6 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: '';
   content: none;
 }
 table {
@@ -140,14 +139,16 @@ body,
   width: 100%;
 }
 
+
 body {
-  font-family: system-ui;
-  font-size: 13px;
+  font-family: 'AvenirNext', sans-serif;
+  font-size: 10px;
   user-select: none;
   -webkit-user-select: none;
   cursor: default;
   overflow: hidden;
 }
+
 
 .flipper-titlebar {
   -webkit-app-region: drag;
@@ -155,6 +156,7 @@ body {
 
 * {
   box-sizing: border-box;
+  font-family: 'AvenirNext', sans-serif;
 }
 
 #root {

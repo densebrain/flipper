@@ -1,5 +1,9 @@
 /**
- * Copyright 2018-present Facebook.
+ * Copyright 2019-present Densebrain.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * Copyright 2019-present Facebook.
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  * @format
@@ -21,9 +25,9 @@ import FlexRow from "../FlexRow"
 import { styleCreator } from "../../styled/index"
 import { lighten } from "@material-ui/core/styles/colorManipulator"
 import { makeRootView } from "../RootView"
-import {ThemeProps} from "../../themes"
+import { ThemeProps } from "../../themes"
 import * as React from "react"
-import {isNumber} from "typeguard"
+import { isNumber } from "typeguard"
 
 const invariant = require("invariant")
 
@@ -54,12 +58,16 @@ const TableHeadContainer = styled(FlexRow)(({ theme }) => ({
   zIndex: 2
 }))
 
-type TableHeadColumnContainerProps = ThemeProps<{
-  width?: number | string
-},string,true>
+type TableHeadColumnContainerProps = ThemeProps<
+  {
+    width?: number | string
+  },
+  string,
+  true
+>
 const TableHeadColumnContainer = styled("div")(
   styleCreator(
-    (props:TableHeadColumnContainerProps) => ({
+    (props: TableHeadColumnContainerProps) => ({
       position: "relative",
       backgroundColor: lighten(props.theme.colors.backgroundStatus, 0.15),
       flexShrink: props.width === "flex" ? 1 : 0,
@@ -93,23 +101,26 @@ function calculatePercentage(parentWidth: number, selfWidth: number): string {
 }
 
 class TableHeadColumn extends PureComponent<{
-  id: string,
-  width: string | number,
-  sortable: boolean | null | undefined,
-  isResizable: boolean,
-  leftHasResizer: boolean,
-  hasFlex: boolean,
-  sortOrder: TableRowSortOrder | null | undefined,
-  onSort: TableOnSort | null | undefined,
-  columnSizes: TableColumnSizes,
-  onColumnResize: TableOnColumnResize | null | undefined,
-  children?: React.ReactNode,
+  id: string
+  width: string | number
+  sortable: boolean | null | undefined
+  isResizable: boolean
+  leftHasResizer: boolean
+  hasFlex: boolean
+  sortOrder: TableRowSortOrder | null | undefined
+  onSort: TableOnSort | null | undefined
+  columnSizes: TableColumnSizes
+  onColumnResize: TableOnColumnResize | null | undefined
+  children?: React.ReactNode
   title?: string
 }> {
   ref: HTMLElement
   onClick = () => {
     const { id, onSort, sortOrder } = this.props
-    const direction = sortOrder && sortOrder.key === id && sortOrder.direction === "down" ? "up" : "down"
+    const direction =
+      sortOrder && sortOrder.key === id && sortOrder.direction === "down"
+        ? "up"
+        : "down"
 
     if (onSort) {
       onSort({
@@ -133,7 +144,10 @@ class TableHeadColumn extends PureComponent<{
       const parentWidth = parentElement.clientWidth
       const { childNodes } = parentElement
       const lastElem = childNodes[childNodes.length - 1]
-      const right = lastElem instanceof HTMLElement ? lastElem.offsetLeft + lastElem.clientWidth + 1 : 0
+      const right =
+        lastElem instanceof HTMLElement
+          ? lastElem.offsetLeft + lastElem.clientWidth + 1
+          : 0
 
       if (isNumber(newWidth) && right < parentWidth) {
         normalizedWidth = calculatePercentage(parentWidth, newWidth)
@@ -149,11 +163,17 @@ class TableHeadColumn extends PureComponent<{
   render() {
     const { isResizable, sortable, width, title } = this.props
     let { children } = this.props
-    children = <TableHeaderColumnContainer>{children}</TableHeaderColumnContainer>
+    children = (
+      <TableHeaderColumnContainer>{children}</TableHeaderColumnContainer>
+    )
 
     if (isResizable) {
       children = (
-        <TableHeaderColumnInteractive grow={true} resizable={RIGHT_RESIZABLE} onResize={this.onResize}>
+        <TableHeaderColumnInteractive
+          grow={true}
+          resizable={RIGHT_RESIZABLE}
+          onResize={this.onResize}
+        >
           {children}
         </TableHeaderColumnInteractive>
       )
@@ -173,12 +193,12 @@ class TableHeadColumn extends PureComponent<{
 }
 
 export default class TableHead extends PureComponent<{
-  columnOrder: TableColumnOrder,
-  onColumnOrder: (order: TableColumnOrder) => void | null | undefined,
-  columns: TableColumns,
-  sortOrder: TableRowSortOrder | null | undefined,
-  onSort: TableOnSort | null | undefined,
-  columnSizes: TableColumnSizes,
+  columnOrder: TableColumnOrder
+  onColumnOrder: (order: TableColumnOrder) => void | null | undefined
+  columns: TableColumns
+  sortOrder: TableRowSortOrder | null | undefined
+  onSort: TableOnSort | null | undefined
+  columnSizes: TableColumnSizes
   onColumnResize: TableOnColumnResize | null | undefined
 }> {
   buildContextMenu = (): MenuTemplate => {
@@ -225,7 +245,14 @@ export default class TableHead extends PureComponent<{
   }
 
   render() {
-    const { columnOrder, columns, columnSizes, onColumnResize, onSort, sortOrder } = this.props
+    const {
+      columnOrder,
+      columns,
+      columnSizes,
+      onColumnResize,
+      onSort,
+      sortOrder
+    } = this.props
     const elems = []
     let hasFlex = false
 
@@ -237,7 +264,7 @@ export default class TableHead extends PureComponent<{
     }
 
     let lastResizable = true
-    const colElems: {[key: string]: React.ReactNode} = {}
+    const colElems: { [key: string]: React.ReactNode } = {}
 
     for (const column of columnOrder) {
       if (!column.visible) {
@@ -249,7 +276,11 @@ export default class TableHead extends PureComponent<{
       let arrow
 
       if (col.sortable === true && sortOrder && sortOrder.key === key) {
-        arrow = <TableHeaderArrow>{sortOrder.direction === "up" ? "▲" : "▼"}</TableHeaderArrow>
+        arrow = (
+          <TableHeaderArrow>
+            {sortOrder.direction === "up" ? "▲" : "▼"}
+          </TableHeaderArrow>
+        )
       }
 
       const width = normaliseColumnWidth(columnSizes[key])

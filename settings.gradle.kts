@@ -1,19 +1,20 @@
-include(":common:third-party")
-include(":common:third-party:external:folly")
-include(":common:third-party:external:double-conversion")
-include(":common:third-party:external:glog")
-include(":common:third-party:external:LibEvent")
-include(":common:third-party:external:RSocket")
-
+//include(":common:third-party")
+//if (File(rootDir,"common${File.separator}third-party${File.separator}external${File.separator}double-conversion").exists()) {
+//  include(":common:third-party:external:folly")
+//  include(":common:third-party:external:double-conversion")
+//  include(":common:third-party:external:glog")
+//  include(":common:third-party:external:LibEvent")
+//  include(":common:third-party:external:RSocket")
+//}
 include(":common:xplat")
 
 //include(":platforms")
 include(":platforms:android:fbjni")
-include(":platforms:android:states")
+include(":platforms:android:stato")
 include(":platforms:android:sample")
 
-project(":platforms:android:states").apply {
-  name = "android-states"
+project(":platforms:android:stato").apply {
+  name = "android-stato"
 }
 
 project(":platforms:android:sample").apply {
@@ -21,7 +22,7 @@ project(":platforms:android:sample").apply {
 }
 
 pluginManagement {
-  addStatesRepositories()
+  addStatoRepositories()
 
   resolutionStrategy {
     eachPlugin {

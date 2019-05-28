@@ -9,14 +9,16 @@
  * @format
  */
 import * as React from "react"
-import { ActiveSheet, LauncherMsg } from "../reducers/ApplicationReducer"
-import { connect } from "react-redux"
+import { HTMLAttributes } from "react"
 import {
+  ACTIVE_SHEET_BUG_REPORTER,
+  ActiveSheet,
+  LauncherMsg,
   setActiveSheet,
   toggleLeftSidebarVisible,
-  toggleRightSidebarVisible,
-  ACTIVE_SHEET_BUG_REPORTER
+  toggleRightSidebarVisible
 } from "../reducers/ApplicationReducer"
+import { connect } from "react-redux"
 import DevicesButton from "./DevicesButton"
 import ScreenCaptureButtons from "./ScreenCaptureButtons"
 import AutoUpdateVersion from "./AutoUpdateVersion"
@@ -27,13 +29,15 @@ import isProduction from "../utils/isProduction"
 import styled, { styleCreator } from "../ui/styled"
 import FlexRow from "../ui/components/FlexRow"
 import { SimpleThemeProps } from "../ui/themes"
-import { HTMLAttributes } from "react"
 import Text from "../ui/components/Text"
 import LoadingIndicator from "../ui/components/LoadingIndicator"
 import { Spacer } from "../ui/components/Toolbar"
 import Button from "../ui/components/Button"
 import ButtonGroup from "../ui/components/ButtonGroup"
 import { RootState } from "../reducers"
+
+import imgRightSidebar from "assets/icons/sidebar_right.svg"
+import imgLeftSidebar from "assets/icons/sidebar_left.svg"
 
 type AppTitleBarProps = SimpleThemeProps & {
   focused?: boolean
@@ -138,7 +142,7 @@ export class TitleBarNaked extends React.Component<Props> {
             disabled={false}
             selected={leftSidebarVisible}
             onClick={() => toggleLeftSidebarVisible()}
-            icon={require("!!file-loader!assets/icons/sidebar_left.svg")}
+            icon={imgLeftSidebar}
             iconSize={20}
             title="Toggle Plugins"
           />
@@ -147,7 +151,7 @@ export class TitleBarNaked extends React.Component<Props> {
             disabled={false}
             selected={rightSidebarVisible}
             onClick={() => toggleRightSidebarVisible()}
-            icon={require("!!file-loader!assets/icons/sidebar_right.svg")}
+            icon={imgRightSidebar}
             iconSize={20}
             title="Toggle Details" //disabled={!rightSidebarAvailable}
           />

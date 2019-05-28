@@ -6,14 +6,14 @@
  *
  */
 #import "AppDelegate.h"
-#import <StatesKit/StatesClient.h>
-#import <StatesKitLayoutPlugin/StatesKitLayoutPlugin.h>
-#import <StatesKitNetworkPlugin/StatesKitNetworkPlugin.h>
-#import <StatesKitUserDefaultsPlugin/FKUserDefaultsPlugin.h>
-#import <StatesKitLayoutComponentKitSupport/StatesKitLayoutComponentKitSupport.h>
-#import <StatesKitExamplePlugin/StatesKitExamplePlugin.h>
+#import <StatoKit/StatoClient.h>
+#import <StatoKitLayoutPlugin/StatoKitLayoutPlugin.h>
+#import <StatoKitNetworkPlugin/StatoKitNetworkPlugin.h>
+#import <StatoKitUserDefaultsPlugin/FKUserDefaultsPlugin.h>
+#import <StatoKitLayoutComponentKitSupport/StatoKitLayoutComponentKitSupport.h>
+#import <StatoKitExamplePlugin/StatoKitExamplePlugin.h>
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
-#import <StatesKitUserDefaultsPlugin/FKUserDefaultsPlugin.h>
+#import <StatoKitUserDefaultsPlugin/FKUserDefaultsPlugin.h>
 
 #import "MainViewController.h"
 #import "RootViewController.h"
@@ -29,17 +29,17 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   _window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-  StatesClient *client = [StatesClient sharedClient];
+  StatoClient *client = [StatoClient sharedClient];
 
   SKDescriptorMapper *layoutDescriptorMapper = [[SKDescriptorMapper alloc] initWithDefaults];
-  [StatesKitLayoutComponentKitSupport setUpWithDescriptorMapper: layoutDescriptorMapper];
-  [client addPlugin: [[StatesKitLayoutPlugin alloc] initWithRootNode: application
+  [StatoKitLayoutComponentKitSupport setUpWithDescriptorMapper: layoutDescriptorMapper];
+  [client addPlugin: [[StatoKitLayoutPlugin alloc] initWithRootNode: application
                                                withDescriptorMapper: layoutDescriptorMapper]];
 
   [client addPlugin:[[FKUserDefaultsPlugin alloc] initWithSuiteName:nil]];
 
-  [[StatesClient sharedClient] addPlugin: [[StatesKitNetworkPlugin alloc] initWithNetworkAdapter:[SKIOSNetworkAdapter new]]];
-  [client addPlugin:[StatesKitExamplePlugin sharedInstance]];
+  [[StatoClient sharedClient] addPlugin: [[StatoKitNetworkPlugin alloc] initWithNetworkAdapter:[SKIOSNetworkAdapter new]]];
+  [client addPlugin:[StatoKitExamplePlugin sharedInstance]];
   [client start];
 
   UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryBoard" bundle:nil];
@@ -52,7 +52,7 @@
   [_window setRootViewController: [[UINavigationController alloc] initWithRootViewController: mainViewController]];
   [_window makeKeyAndVisible];
 
-  NSLog(@"Hello from States in an Objc app!");
+  NSLog(@"Hello from Stato in an Objc app!");
   return YES;
 }
 

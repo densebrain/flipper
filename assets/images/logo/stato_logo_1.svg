@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="500" height="250" viewBox="0 0 500 250">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke: #000;
+        stroke-linejoin: round;
+        stroke-width: 4px;
+        font-size: 153.102px;
+        opacity: 0.84;
+        filter: url(#filter);
+        font-family: FontAwesome;
+      }
+
+      .cls-1, .cls-2 {
+        fill: #2c2e2d;
+      }
+
+      .cls-2 {
+        font-size: 100px;
+        font-family: AvenirNext-UltraLight, "Avenir Next";
+        font-weight: 300;
+      }
+    </style>
+    <filter id="filter" x="260" y="39" width="229" height="191" filterUnits="userSpaceOnUse">
+      <feOffset result="offset" dy="13" in="SourceAlpha"/>
+      <feGaussianBlur result="blur" stdDeviation="5.385"/>
+      <feFlood result="flood" flood-opacity="0.35"/>
+      <feComposite result="composite" operator="in" in2="blur"/>
+      <feBlend result="blend" in="SourceGraphic"/>
+      <feImage preserveAspectRatio="none" x="288" y="54" width="172" height="134" result="image" xlink:href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTcyIiBoZWlnaHQ9IjEzNCIgdmlld0JveD0iMCAwIDE3MiAxMzQiPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuY2xzLTEgewogICAgICAgIGZpbGw6IHVybCgjbGluZWFyLWdyYWRpZW50KTsKICAgICAgfQogICAgPC9zdHlsZT4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ibGluZWFyLWdyYWRpZW50IiB4MT0iODYiIHkxPSIxMzQiIHgyPSI4NiIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZmZmIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8cmVjdCBjbGFzcz0iY2xzLTEiIHdpZHRoPSIxNzIiIGhlaWdodD0iMTM0Ii8+Cjwvc3ZnPgo="/>
+      <feComposite result="composite-2" operator="in" in2="SourceGraphic"/>
+      <feBlend result="blend-2" mode="colorBurn" in2="blend"/>
+      <feGaussianBlur result="blur-2" stdDeviation="5.385" in="SourceAlpha"/>
+      <feFlood result="flood-2" flood-opacity="0.35"/>
+      <feComposite result="composite-3" operator="out" in2="blur-2"/>
+      <feOffset result="offset-2" dy="13"/>
+      <feComposite result="composite-4" operator="in" in2="SourceAlpha"/>
+      <feBlend result="blend-3" mode="multiply" in2="blend-2"/>
+    </filter>
+  </defs>
+  <g transform="translate(290.901 166.4) rotate(7.053)" style="fill: #2c2e2d; filter: url(#filter)">
+    <text id="_" data-name="" class="cls-1" style="stroke: inherit; filter: none; fill: inherit"></text>
+  </g>
+  <use transform="translate(290.901 166.4) rotate(7.053)" xlink:href="#_" style="stroke: #000; filter: none; fill: none"/>
+  <text id="STAT" class="cls-2" x="78.859" y="155.211">STAT</text>
+</svg>

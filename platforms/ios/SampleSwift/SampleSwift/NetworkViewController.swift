@@ -5,7 +5,7 @@ import UIKit
 class NetworkViewController: UIViewController {
 
   @IBAction func tappedGetAPI(_ sender: UIButton) {
-    let getURL = URL(string: "https://demo9512366.mockable.io/StatesGet")!
+    let getURL = URL(string: "https://demo9512366.mockable.io/StatoGet")!
     let dataTask = URLSession.shared.dataTask(with: getURL){ [weak self] (data, response, error) in
       guard let strongSelf = self else { return }
       guard let dataUnwrapped = data else {
@@ -27,7 +27,7 @@ class NetworkViewController: UIViewController {
   }
 
   @IBAction func tappedPOSTAPI(_ sender: UIButton) {
-    guard let postURL = URL(string: "https://demo9512366.mockable.io/StatesPost") else {
+    guard let postURL = URL(string: "https://demo9512366.mockable.io/StatoPost") else {
       showAlert(message: "Check the POST URL")
       return
     }
@@ -35,7 +35,7 @@ class NetworkViewController: UIViewController {
     postRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
     postRequest.addValue("application/json", forHTTPHeaderField: "Accept")
 
-    let dict = ["app" : "States", "remarks": "Its Awesome"]
+    let dict = ["app" : "Stato", "remarks": "Its Awesome"]
     postRequest.httpBody = try! JSONSerialization.data(withJSONObject: dict, options: JSONSerialization.WritingOptions.init(rawValue: 0))
     postRequest.httpMethod = "POST"
     let dataTask = URLSession.shared.dataTask(with: postRequest){ [weak self] (data, response, error) in
@@ -80,7 +80,7 @@ class NetworkViewController: UIViewController {
   }
 
   func showAlert(message: String) {
-    let alertController = UIAlertController.init(title: "States", message: message, preferredStyle: .alert);
+    let alertController = UIAlertController.init(title: "Stato", message: message, preferredStyle: .alert);
     let alertAction = UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil)
     alertController.addAction(alertAction)
     present(alertController, animated: true, completion: nil)

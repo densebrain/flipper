@@ -5,18 +5,21 @@
   "types": "lib/index.d.ts",
   "license": "MIT",
   "dependencies": {
-    "mz": "^2.7.0",
-    "ts-optchain": "^0.1.6",
-    "typeguard": "^0.0.13",
-    "shelljs": "^0.8.3",
+    "electron-context-menu": "^0.12.1",
+    "electron-debug": "^3.0.0",
     "expand-tilde": "^2.0.2",
     "mkdirp": "^0.5.1",
+    "mz": "^2.7.0",
     "recursive-readdir": "2.2.2",
+    "shelljs": "^0.8.3",
+    "ts-optchain": "^0.1.6",
+    "typeguard": "^0.0.13",
     "xdg-basedir": "^3.0.0"
   },
   "devDependencies": {
     "@stato/common": "^1.0.0",
     "@stato/dev": "^1.0.0",
+    "@types/electron-devtools-installer": "^2.2.0",
     "electron": "5.0.2"
   },
   "resolutions": {

@@ -5,12 +5,12 @@ swift_version = "4.1"
 
 target 'SampleSwift' do
   platform :ios, '9.0'
-  pod 'States', :path => '../../States.podspec'
-  pod 'StatesKit', :path => '../../StatesKit.podspec'
-  pod 'StatesKit/SKIOSNetworkPlugin', :path => '../../StatesKit.podspec'
-  pod 'StatesKit/StatesKitUserDefaultsPlugin', :path => '../../StatesKit.podspec'
-  pod 'StatesKit/StatesKitExamplePlugin', :path => '../../StatesKit.podspec'
-  pod 'StatesKit/StatesKitLayoutComponentKitSupport', :path => '../../StatesKit.podspec'
+  pod 'Stato', :path => '../../Stato.podspec'
+  pod 'StatoKit', :path => '../../StatoKit.podspec'
+  pod 'StatoKit/SKIOSNetworkPlugin', :path => '../../StatoKit.podspec'
+  pod 'StatoKit/StatoKitUserDefaultsPlugin', :path => '../../StatoKit.podspec'
+  pod 'StatoKit/StatoKitExamplePlugin', :path => '../../StatoKit.podspec'
+  pod 'StatoKit/StatoKitLayoutComponentKitSupport', :path => '../../StatoKit.podspec'
   post_install do |installer|
     file_name = Dir.glob("*.xcodeproj")[0]
     app_project = Xcodeproj::Project.open(file_name)

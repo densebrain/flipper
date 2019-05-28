@@ -8,7 +8,7 @@ android {
       cmake {
         arguments.addAll(arrayOf("-DANDROID_TOOLCHAIN=clang","-DCMAKE_CXX_FLAGS=-Wno-error","-DANDROID_DISABLE_FORMAT_STRING_CHECKS=ON"))
         targets.clear()
-        targets.add("statescpp")
+        targets.add("statocpp")
         cppFlags.addAll(arrayOf("-Wno-error"))
       }
     }
@@ -20,12 +20,12 @@ android {
 
 }
 
-val prepareLibs = tasks.getByPath(":common:third-party:prepare")
-tasks.forEach { t ->
-  if (t.name.startsWith("externalNative"))
-    t.dependsOn(prepareLibs)
-}
+//val prepareLibs = tasks.getByPath(":common:third-party:prepare")
+//tasks.forEach { t ->
+//  if (t.name.startsWith("externalNative"))
+//    t.dependsOn(prepareLibs)
+//}
+//
+//tasks.getByName("preBuild").dependsOn(tasks.getByPath(":common:third-party:prepare"))
 
-tasks.getByName("preBuild").dependsOn(tasks.getByPath(":common:third-party:prepare"))
-
-setupAndroidThirdPartyProject(project)
+//setupAndroidThirdPartyProject(project)

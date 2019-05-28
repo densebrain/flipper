@@ -46,7 +46,6 @@ dependencies {
   androidTestImplementation(deps.testCore)
   androidTestImplementation(deps.testRules)
 
-  implementation(project(":platforms:android:android-states"))
+  implementation(project(":platforms:android:android-stato"))
   implementation(project(":platforms:android:fbjni"))
-  implementation(project(":common:xplat"))
 }

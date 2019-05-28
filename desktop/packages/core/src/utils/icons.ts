@@ -1,5 +1,9 @@
 /**
- * Copyright 2018-present Facebook.
+ * Copyright 2019-present Densebrain.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * Copyright 2019-present Facebook.
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  * @format
@@ -74,7 +78,12 @@ export const precachedIcons: Array<string> = [
     size: 8
   }
 ].map(icon => getIconUrl(icon.name, icon.size || undefined))
-export function getIconUrl(name: string, size: number = 16, variant: "filled" | "outline" = "filled"): string {
+
+export function getIconUrl(
+  name: string,
+  size: number = 16,
+  variant: "filled" | "outline" = "filled"
+): string {
   if (name.indexOf("/") > -1) {
     return name
   }
@@ -85,9 +94,11 @@ export function getIconUrl(name: string, size: number = 16, variant: "filled" | 
 
   if (!AVAILABLE_SIZES.includes(size)) {
     // find the next largest size
-    const possibleSize: number | null | undefined = AVAILABLE_SIZES.find(size => {
-      return size > requestedSize
-    }) // set to largest size if the real size is larger than what we have
+    const possibleSize: number | null | undefined = AVAILABLE_SIZES.find(
+      size => {
+        return size > requestedSize
+      }
+    ) // set to largest size if the real size is larger than what we have
 
     if (possibleSize == null) {
       requestedSize = Math.max(...AVAILABLE_SIZES)
@@ -96,7 +107,8 @@ export function getIconUrl(name: string, size: number = 16, variant: "filled" | 
     }
   }
 
-  let requestedScale: number = typeof window !== "undefined" ? window.devicePixelRatio : 1
+  let requestedScale: number =
+    typeof window !== "undefined" ? window.devicePixelRatio : 1
 
   if (!SCALE.includes(requestedScale)) {
     // find the next largest size

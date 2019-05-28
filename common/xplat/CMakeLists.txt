@@ -1,12 +1,15 @@
 cmake_minimum_required (VERSION 3.6.0)
-project(statescpp CXX)
-set(PACKAGE_NAME      statescpp)
+
+include(${CMAKE_CURRENT_LIST_DIR}/../../.cxxpods/cxxpods.cmake)
+
+project(statocpp CXX)
+set(PACKAGE_NAME      statocpp)
 
 # LIB SETUP DEFAULTS
 set(ROOT_DIR ${CMAKE_CURRENT_LIST_DIR}/../..)
 include(${ROOT_DIR}/cmake/setup.cmake)
 
-file(GLOB SOURCES States/*.cpp)
+file(GLOB SOURCES Stato/*.cpp)
 add_library(${PACKAGE_NAME} STATIC ${SOURCES})
 
 

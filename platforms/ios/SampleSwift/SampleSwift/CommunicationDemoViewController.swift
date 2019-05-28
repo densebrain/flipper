@@ -1,25 +1,25 @@
 // Copyright 2004-present Facebook. All Rights Reserved.
 
 import UIKit
-import StatesKit
+import StatoKit
 
-class CommunicationDemoViewController: UIViewController, UITableViewDataSource, StatesKitExampleCommunicationResponderDelegate {
+class CommunicationDemoViewController: UIViewController, UITableViewDataSource, StatoKitExampleCommunicationResponderDelegate {
   @IBOutlet weak var messageField: UITextField!
   @IBOutlet weak var tableView: UITableView!
   var messageArray: [String] = []
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    StatesKitExamplePlugin.sharedInstance()?.delegate = self
+    StatoKitExamplePlugin.sharedInstance()?.delegate = self
   }
 
   @IBAction func tappedTriggerNotification(_ sender: UIButton) {
-  StatesKitExamplePlugin.sharedInstance()?.triggerNotification();
+  StatoKitExamplePlugin.sharedInstance()?.triggerNotification();
   }
 
   @IBAction func tappedSendMessage(_ sender: UIButton) {
     if let message = self.messageField.text {
-      StatesKitExamplePlugin.sharedInstance()?.sendMessage(message);
+      StatoKitExamplePlugin.sharedInstance()?.sendMessage(message);
     }
   }
 

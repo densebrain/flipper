@@ -78,7 +78,7 @@ object deps {
 
   // Plugin dependencies
   val rhino = "org.mozilla:rhino:1.7.10"
-  val frescoStates = "com.facebook.fresco:flipper:1.13.0"
+  val frescoStato = "com.facebook.fresco:flipper:1.13.0"
   val frescoStetho = "com.facebook.fresco:stetho:1.13.0"
   val fresco = "com.facebook.fresco:fresco:1.13.0"
   val mdns = "com.github.cicdevelopmentnz:Android-MDNS:v0.0.2"

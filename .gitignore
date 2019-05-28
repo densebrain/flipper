@@ -1,4 +1,4 @@
-common/third-party/external
+.cxxpods
 node_modules
 dist
 website/build

@@ -1,9 +1,23 @@
+/**
+ * Copyright 2019-present Densebrain.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * Copyright 2019-present Facebook.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ * @format
+ */
 import darkThemeConfig from "./theme-dark"
 import lightThemeConfig from "./theme-light"
-import {ColorProperty} from "csstype"
-import {darken, getContrastRatio, lighten} from "@material-ui/core/styles/colorManipulator"
-import {BaseTheme, Colors, ThemeConfig} from "./ThemeTypes"
-import {alpha} from "../styled/prebuilt-styles"
+import { ColorProperty } from "csstype"
+import {
+  darken,
+  getContrastRatio,
+  lighten
+} from "@material-ui/core/styles/colorManipulator"
+import { BaseTheme, Colors, ThemeConfig } from "./ThemeTypes"
+import { alpha } from "../styled/prebuilt-styles"
 
 const contrastThreshold = 3
 
@@ -17,10 +31,12 @@ function makeTheme(themeConfig: ThemeConfig) {
     backgroundInverted = palette.base07,
     backgroundSelected = palette.base0D
 
-  const getContrastText = (bg: ColorProperty) => (getContrastRatio(bg, text) >= contrastThreshold ? text : textInverted)
+  const getContrastText = (bg: ColorProperty) =>
+    getContrastRatio(bg, text) >= contrastThreshold ? text : textInverted
 
   const textSelected = getContrastText(backgroundSelected),
     error = palette.base08
+
   let colors: Colors = {
     background,
     text,
@@ -53,9 +69,12 @@ function makeTheme(themeConfig: ThemeConfig) {
     palette,
     colors,
     getContrastText,
-    titlebar: ({ focused }:{focused?: boolean}) => ({
+    titlebar: ({ focused }: { focused?: boolean }) => ({
       background: focused
-        ? `linear-gradient(to bottom, ${colors.backgroundStatus} 0%, ${lighten(colors.backgroundStatus, 0.1)} 100%)`
+        ? `linear-gradient(to bottom, ${colors.backgroundStatus} 0%, ${lighten(
+            colors.backgroundStatus,
+            0.1
+          )} 100%)`
         : colors.backgroundStatus,
       borderBottom: `1px solid ${focused ? colors.border : colors.border}`
     }),
@@ -97,7 +116,7 @@ function makeTheme(themeConfig: ThemeConfig) {
       backgroundColor: palette.base01
     },
     plugin: {
-      colors: [palette.base0F] // Object.values(palette).slice(9)
+      colors: [palette.base0F]
     }
   }
 

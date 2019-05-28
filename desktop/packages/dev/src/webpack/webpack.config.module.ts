@@ -1,10 +1,37 @@
+/**
+ * Copyright 2019-present Densebrain.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * Copyright 2019-present Facebook.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ * @format
+ */
+
+import * as webpack from "webpack"
+
 const moduleConfig = {
   rules: [
     {
       test: /\.pug?$/,
       exclude: /(node_modules|lib\/)/,
       use: {
-        loader: 'pug-loader'
+        loader: "pug-loader"
+      }
+    },
+    {
+      test: /\.(svg|png|gif|jpg|woff|woff2|ttf|otf)$/,
+      exclude: /(node_modules|lib\/)/,
+      use: {
+        loader: "file-loader"
+      }
+    },
+    {
+      test: /\.(sass|scss|css)$/,
+      exclude: /(node_modules|lib\/)/,
+      use: {
+        loader: "style-loader!css-loader!sass-loader"
       }
     },
     {
@@ -15,7 +42,6 @@ const moduleConfig = {
         options: {
           cacheDirectory: true,
           babelrc: false,
-          
           presets: [
             [
               "@babel/preset-env",
@@ -35,6 +61,6 @@ const moduleConfig = {
       }
     }
   ]
-}
+} as webpack.Module
 
 export default moduleConfig

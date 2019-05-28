@@ -9,33 +9,49 @@
  * @format
  */
 import * as React from "react"
-import { PureComponent } from "react"
+import { HTMLAttributes, PureComponent } from "react"
 
 import isProduction from "../utils/isProduction"
 import { remote, shell } from "electron"
-import styled, { makeTransition, styleCreator, Transparent } from "../ui/styled"
+import styled, {
+  classNames,
+  Fill,
+  makeDimensionConstraints,
+  makeTransition,
+  PositionRelative,
+  rem,
+  styleCreator,
+  Transparent
+} from "../ui/styled"
 import { lighten } from "@material-ui/core/styles/colorManipulator"
 import FlexColumn from "../ui/components/FlexColumn"
 import FlexRow from "../ui/components/FlexRow"
 import Text from "../ui/components/Text"
-import Glyph from "../ui/components/Glyph"
-import { ThemeProps, withTheme } from "../ui/themes"
+//import Glyph, { GlyphProps } from "../ui/components/Glyph"
+import { Theme, ThemeProps, withStyles, withTheme } from "../ui/themes"
+import { Logo } from "../ui/components/Logo"
+import { FlexColumnCenter } from "../ui/styled/flex-styles"
+import {
+  Icon as FontIcon,
+  IconProps,
+  makeFASolidIcon
+} from "../ui/components/Icon"
+import Posed from "react-pose"
 
-const Container = styled(FlexColumn)(props => {
-  const { colors } = props.theme
-  return {
-    height: "100%",
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.background
-  }
-})
+const Container = styled(FlexColumn)(({ theme: { colors } }) => ({
+  height: "100%",
+  width: "100%",
+  justifyContent: "center",
+  alignItems: "center",
+  backgroundColor: colors.background
+}))
+
 const Welcome = styled(FlexColumn)(
   styleCreator(
     ({ theme, isMounted }) => ({
-      width: 460,
-      background: theme.colors.backgroundStatus,
+      ...FlexColumnCenter,
+      width: "50%",
+      background: lighten(theme.colors.backgroundStatus, 0.3),
       borderRadius: 10,
       boxShadow: "0 1px 3px rgba(0,0,0,0.25)",
       overflow: "hidden",
@@ -46,82 +62,124 @@ const Welcome = styled(FlexColumn)(
     ["isMounted", "mounted"]
   )
 )
+
 const Title = styled(Text)(({ theme: { colors } }) => ({
-  fontSize: 24,
+  fontSize: rem(1.8),
   fontWeight: 300,
   textAlign: "center",
   color: colors.text,
   marginBottom: 16
 }))
+
 const Version = styled(Text)(({ theme: { colors } }) => ({
   textAlign: "center",
-  fontSize: 11,
+  fontSize: rem(1),
   fontWeight: 300,
   color: colors.textStatus,
-  marginBottom: 60
+  marginBottom: rem(4)
 }))
-const Item = styled(FlexRow)(
-  styleCreator(
-    ({ iconColor, theme: { colors } }) => ({
-      ...makeTransition(["background-color"]),
-      backgroundColor: Transparent,
-      padding: 10,
-      cursor: "pointer",
-      alignItems: "center",
-      borderTop: `1px solid ${colors.border}`,
-      "&:hover, &:focus, &:active": {
-        backgroundColor: lighten(colors.backgroundStatus, 0.15),
-        textDecoration: "none",
-        "& .icon": {
-          ...(!iconColor
-            ? {}
-            : {
-                color: lighten(iconColor, 0.3),
-                backgroundColor: lighten(iconColor, 0.3)
-              })
-        }
+
+const Item = withStyles(({ colors }: Theme) => ({
+  root: {
+    ...makeTransition(["background-color"]),
+    backgroundColor: Transparent,
+    padding: rem(1),
+    cursor: "pointer",
+    alignItems: "center",
+    borderTop: `0.1rem solid ${lighten(colors.border, 0.25)}`,
+    "&:first-child": {
+      borderTop: `0.1rem solid ${Transparent}`
+    },
+    "&:hover, &:focus, &:active": {
+      backgroundColor: lighten(colors.backgroundStatus, 0.15),
+      textDecoration: "none",
+      "& .icon": {
+        color: ({ iconColor }: { iconColor: string }) =>
+          !iconColor ? colors.text : lighten(iconColor, 0.3),
+        // backgroundColor: ({ iconColor }: { iconColor: string }) =>
+        //   !iconColor ? null : lighten(iconColor, 0.3)
       }
-    }),
-    ["iconColor"]
-  )
-)
+    }
+  }
+}))(({ classes, className, ...other }) => (
+  <FlexRow className={classNames(classes.root, className)} {...other} />
+))
+
 const ItemTitle = styled(Text)(({ theme: { colors } }) => ({
   color: colors.text,
-  fontSize: 15
+  fontSize: rem(1.3)
 }))
+
 const ItemSubTitle = styled(Text)(({ theme: { colors } }) => ({
   color: colors.textStatus,
-  fontSize: 11,
+  fontSize: rem(1.0),
   marginTop: 2
 }))
-const Icon = styled(Glyph)(({ color }) => ({
-  ...(!color
-    ? {}
-    : {
-        color,
-        backgroundColor: color
-      }),
-  ...makeTransition(["background-color"]),
-  marginRight: 11,
-  marginLeft: 6
-}))
-const Logo = styled("img")({
-  width: 128,
-  height: 128,
-  alignSelf: "center",
-  marginTop: 50,
-  marginBottom: 20
+
+const Icon = styled((props: IconProps) => <FontIcon {...props} />)(
+  ({ theme: { colors } }) => ({
+    color: colors.accent,
+    fontSize: rem(1.8),
+    ...makeTransition(["background-color"]),
+    marginRight: rem(1.5),
+    marginLeft: rem(1)
+  })
+)
+
+const BigLogoWrapper = Posed.div({
+  hidden: {
+    opacity: 0,
+    rotate: 0,
+    scale: 0
+  },
+  visible: {
+    opacity: 1,
+
+    rotate: "180deg",
+    scale: 1,
+
+    transition: { duration: 750 }
+  }
 })
+
+const BigLogo = withStyles((_theme: Theme) => ({
+  root: {
+    ...FlexColumnCenter,
+    ...PositionRelative,
+    marginTop: 50,
+    marginBottom: 20,
+    ...makeDimensionConstraints("20%")
+  },
+  logo: {
+    ...Fill
+  }
+}))(
+  ({
+    classes,
+    className,
+    ...other
+  }: ThemeProps<HTMLAttributes<any>, "root" | "logo">) => (
+    <BigLogoWrapper className={classNames(classes.root, className)} {...other}>
+      <Logo className={classes.logo} />
+    </BigLogoWrapper>
+  )
+)
+
 type Props = ThemeProps<{}, string, true>
 type State = {
   isMounted: boolean
 }
 export default withTheme()(
   class WelcomeScreen extends PureComponent<Props, State> {
-    state = {
-      isMounted: false
+    constructor(props: Props) {
+      super(props)
+
+      this.state = {
+        isMounted: false
+      }
     }
-    timer: number | null | undefined
+
+    private timer: number | null | undefined
 
     componentDidMount() {
       // waiting sometime before showing the welcome screen to allow Stato to
@@ -131,7 +189,7 @@ export default withTheme()(
           isMounted: true
         })
         this.timer = null
-      }, 2000)
+      }, 1500)
     }
 
     componentWillUnmount() {
@@ -143,11 +201,16 @@ export default withTheme()(
 
     render() {
       const { theme } = this.props,
+        { isMounted } = this.state,
         { colors } = theme
       return (
         <Container>
           <Welcome isMounted={this.state.isMounted}>
-            <Logo src={require("!!file-loader!assets/icon.png")} />
+            {/* src={require("!!file-loader!assets/icon.png")} */}
+            <BigLogo
+              style={{ opacity: 0 }}
+              pose={isMounted ? "visible" : "hidden"}
+            />
 
             <Title>Welcome to Stato</Title>
             <Version>
@@ -155,82 +218,72 @@ export default withTheme()(
                 ? `Version ${remote.app.getVersion()}`
                 : "Development Mode"}
             </Version>
-            <Item
-              iconColor={colors.accent}
-              onClick={() =>
-                shell.openExternal("https://fbstates.com/docs/understand.html")
-              }
-            >
-              <Icon
-                size={20}
-                name="rocket"
-                className="icon"
-                color={colors.accent}
-              />
-              <FlexColumn>
-                <ItemTitle>Using Stato</ItemTitle>
-                <ItemSubTitle>
-                  Learn how Stato can help you debug your App
-                </ItemSubTitle>
-              </FlexColumn>
-            </Item>
-            <Item
-              iconColor={colors.accent}
-              onClick={() =>
-                shell.openExternal(
-                  "https://fbstates.com/docs/create-plugin.html"
-                )
-              }
-            >
-              <Icon
-                size={20}
-                name="magic-wand"
-                className="icon"
-                color={colors.accent}
-              />
-              <FlexColumn>
-                <ItemTitle>Create your own plugin</ItemTitle>
-                <ItemSubTitle>Get started with these pointers</ItemSubTitle>
-              </FlexColumn>
-            </Item>
-            <Item
-              iconColor={colors.accent}
-              onClick={() =>
-                shell.openExternal(
-                  "https://fbstates.com/docs/getting-started.html"
-                )
-              }
-            >
-              <Icon
-                size={20}
-                name="tools"
-                className="icon"
-                color={colors.accent}
-              />
-              <FlexColumn>
-                <ItemTitle>Add Stato support to your app</ItemTitle>
-                <ItemSubTitle>Get started with these pointers</ItemSubTitle>
-              </FlexColumn>
-            </Item>
-            <Item
-              iconColor={colors.accent}
-              onClick={() =>
-                shell.openExternal("https://github.com/facebook/states/issues")
-              }
-            >
-              <Icon
-                size={20}
-                name="posts"
-                className="icon"
-                color={colors.accent}
-              />
-              <FlexColumn>
-                <ItemTitle>Contributing and Feedback</ItemTitle>
-                <ItemSubTitle>
-                  Report issues and help us improve Stato
-                </ItemSubTitle>
-              </FlexColumn>
-            </Item>
+            <FlexColumn>
+              <Item
+                iconColor={colors.accent}
+                onClick={() =>
+                  shell.openExternal(
+                    "https://fbstates.com/docs/understand.html"
+                  )
+                }
+              >
+                <Icon meta={makeFASolidIcon("rocket")} className="icon" />
+                <FlexColumn>
+                  <ItemTitle>Using Stato</ItemTitle>
+                  <ItemSubTitle>
+                    Learn how Stato can help you debug your App
+                  </ItemSubTitle>
+                </FlexColumn>
+              </Item>
+              <Item
+                iconColor={colors.accent}
+                onClick={() =>
+                  shell.openExternal(
+                    "https://fbstates.com/docs/create-plugin.html"
+                  )
+                }
+              >
+                <Icon meta={makeFASolidIcon("magic")} className="icon" />
+                <FlexColumn>
+                  <ItemTitle>Create your own plugin</ItemTitle>
+                  <ItemSubTitle>Get started with these pointers</ItemSubTitle>
+                </FlexColumn>
+              </Item>
+              <Item
+                iconColor={colors.accent}
+                onClick={() =>
+                  shell.openExternal(
+                    "https://fbstates.com/docs/getting-started.html"
+                  )
+                }
+              >
+                <Icon meta={makeFASolidIcon("tools")} className="icon" />
+                <FlexColumn>
+                  <ItemTitle>Add Stato support to your app</ItemTitle>
+                  <ItemSubTitle>Get started with these pointers</ItemSubTitle>
+                </FlexColumn>
+              </Item>
+              <Item
+                iconColor={colors.accent}
+                onClick={() =>
+                  shell.openExternal(
+                    "https://github.com/facebook/states/issues"
+                  )
+                }
+              >
+                <Icon
+                  meta={makeFASolidIcon("comments-alt")}
+                  className="icon"
+                  style={{ color: colors.accent }}
+                />
+                <FlexColumn>
+                  <ItemTitle>Contributing and Feedback</ItemTitle>
+                  <ItemSubTitle>
+                    Report issues and help us improve Stato
+                  </ItemSubTitle>
+                </FlexColumn>
+              </Item>
+            </FlexColumn>
           </Welcome>
         </Container>
       )

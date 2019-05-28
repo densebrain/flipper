@@ -1,7 +1,7 @@
 // Copyright 2004-present Facebook. All Rights Reserved.
 
 import UIKit
-import StatesKit
+import StatoKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -12,14 +12,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     window = UIWindow()
 
-    let client = StatesClient.shared()
+    let client = StatoClient.shared()
     let layoutDescriptorMapper = SKDescriptorMapper(defaults: ())
     // If you want to debug componentkit view in swift, otherwise you can ignore the next line
-    StatesKitLayoutComponentKitSupport.setUpWith(layoutDescriptorMapper)
-    client?.add(StatesKitLayoutPlugin(rootNode: application, with: layoutDescriptorMapper!))
+    StatoKitLayoutComponentKitSupport.setUpWith(layoutDescriptorMapper)
+    client?.add(StatoKitLayoutPlugin(rootNode: application, with: layoutDescriptorMapper!))
 
-    client?.add(StatesKitNetworkPlugin(networkAdapter: SKIOSNetworkAdapter()))
-    client?.add(StatesKitExamplePlugin.sharedInstance());
+    client?.add(StatoKitNetworkPlugin(networkAdapter: SKIOSNetworkAdapter()))
+    client?.add(StatoKitExamplePlugin.sharedInstance());
     client?.add(FKUserDefaultsPlugin.init(suiteName: nil))
     client?.start()
 
@@ -27,14 +27,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let mainViewController = storyboard.instantiateViewController(withIdentifier: "MainViewController")
     let navigationController = UINavigationController(rootViewController: mainViewController)
 
-    navigationController.navigationBar.topItem?.title = "SampleStates"
+    navigationController.navigationBar.topItem?.title = "SampleStato"
     navigationController.navigationBar.isTranslucent = false
 
     window?.rootViewController = navigationController
     window?.makeKeyAndVisible()
 
     // Use NSLog since Flipepr doesn't capture print() by default
-    NSLog("Hello from States in a Swift app!")
+    NSLog("Hello from Stato in a Swift app!")
 
     return true
   }

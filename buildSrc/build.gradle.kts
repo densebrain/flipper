@@ -1,6 +1,8 @@
 import Script.Plugins
+
 buildscript {
-  apply(from = "ko-gradle.gradle")
+
+  apply(from = "${rootDir}/ko-gradle.gradle")
 
   repositories {
     google()
@@ -9,8 +11,6 @@ buildscript {
     mavenCentral()
     maven(url = "https://dl.bintray.com/densebrain/oss")
     maven(url = "https://jitpack.io")
-  }
-  repositories {
     flatDir {
       dirs("${buildDir}/ko-repo/ko-artifact")
     }

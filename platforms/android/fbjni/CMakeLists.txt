@@ -6,7 +6,9 @@
 #
 
 cmake_minimum_required(VERSION 3.6.0)
-set(PACKAGE_NAME "statesfb")
+include(${CMAKE_CURRENT_LIST_DIR}/../../../.cxxpods/cxxpods.cmake)
+
+set(PACKAGE_NAME "statofb")
 project(${PACKAGE_NAME} CXX)
 
 set(ROOT_DIR ${CMAKE_CURRENT_LIST_DIR}/../../..)

@@ -12,7 +12,7 @@
 #import "RootViewController.h"
 #import "UserDefaultsViewController.h"
 #import "CommunicationDemoViewController.h"
-#import <StatesKit/StatesDiagnosticsViewController.h>
+#import <StatoKit/StatoDiagnosticsViewController.h>
 
 @interface MainViewController ()
 
@@ -25,7 +25,7 @@
     // Do any additional setup after loading the view.
 }
 - (IBAction)tappedDiagnosticScreen:(UIButton *)sender {
-    StatesDiagnosticsViewController *controller = [[StatesDiagnosticsViewController alloc] init];
+    StatoDiagnosticsViewController *controller = [[StatoDiagnosticsViewController alloc] init];
     [self.navigationController pushViewController:controller animated:true];
 }
 

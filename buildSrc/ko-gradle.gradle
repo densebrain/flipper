@@ -28,7 +28,9 @@ def shouldUpdate = { File projectDir, File jarFile ->
 }
 
 
+logger.quiet("Checking KO")
 if (!kscriptDir.exists() || !kscriptExe.exists() || !koJar.exists() || shouldUpdate(projectDir, koJar)) {
+  logger.quiet("Compiling KO")
   koArtifactDir.mkdirs()
   kscriptDir.mkdirs()
 
@@ -57,6 +59,8 @@ if (!kscriptDir.exists() || !kscriptExe.exists() || !koJar.exists() || shouldUpd
 }
 //project.buildscript {
 
+
+
 buildscript {
   repositories {
     flatDir {
@@ -70,7 +74,4 @@ buildscript {
     classpath("ko-artifact:ko:1.0.0")
   }
 }
-//}
-//
-//
 
