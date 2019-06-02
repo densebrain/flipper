@@ -1,8 +1,8 @@
 //#/usr/bin/env kscript
 @file:MavenRepository("ko-generator-releases","https://dl.bintray.com/densebrain/oss")
 @file:DependsOn("org.densebrain.tools:ko-generator:1.0.9")
-@file:DependsOn("org.jetbrains.kotlin:kotlin-compiler-embeddable:1.3.21")
-@file:DependsOn("org.jetbrains.kotlin:kotlin-reflect:1.3.21")
+@file:DependsOn("org.jetbrains.kotlin:kotlin-compiler-embeddable:1.3.31")
+@file:DependsOn("org.jetbrains.kotlin:kotlin-reflect:1.3.31")
 @file:DependsOn("com.squareup:kotlinpoet:1.2.0")
 // https://mvnrepository.com/artifact/org.jetbrains.intellij.deps/trove4j
 @file:DependsOn("org.jetbrains.intellij.deps:trove4j:1.0.20181211")

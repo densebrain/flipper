@@ -1,25 +1,43 @@
 import org.gradle.kotlin.dsl.maven
+import java.util.*
+
+val props = Properties().apply {
+  load(file("${rootDir}/../gradle.properties").reader())
+}
 
 pluginManagement {
-    repositories {
-        mavenLocal()
-        jcenter()
-        mavenCentral()
-        gradlePluginPortal()
+  repositories {
+    mavenLocal()
+    jcenter()
+    mavenCentral()
+    gradlePluginPortal()
 
-        maven(url = "https://dl.bintray.com/densebrain/oss")
-    }
+    maven(url = "https://dl.bintray.com/densebrain/oss")
+  }
 
-    resolutionStrategy {
-        eachPlugin {
-            when {
-                requested.id.name == "ko-generator-plugin" ->
-                    // In a normal use case, you'll likely replace ${version} with either
-                    // a dynamic version "+" or a static version "1.0.0"
-                    useModule("org.densebrain.gradle:ko-generator-plugin:1.0.9")
-                requested.id.namespace?.startsWith("org.jetbrains") == true ->
-                    useModule("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.21")
-            }
-        }
+  val androidPlugin = Pair("android", "com.android.tools.build:gradle")
+  val kotlinPlugin = Pair("kotlin","org.jetbrains.kotlin:kotlin-gradle-plugin")
+  val pluginMappings = mapOf(
+    "kotlin-noarg" to Pair("kotlin", "org.jetbrains.kotlin:kotlin-noarg"),
+    "kotlin-sam-with-receiver" to Pair("kotlin", "org.jetbrains.kotlin:kotlin-sam-with-receiver"),
+    "kotlin-android" to androidPlugin,
+    "com.android" to androidPlugin,
+    "org.densebrain.gradle" to Pair("ko","org.densebrain.gradle:ko-generator-plugin"),
+    "org.jetbrains" to kotlinPlugin,
+    "org.cxxpods.gradle" to Pair("cxxpods","org.cxxpods.gradle:cmake-plugin")
+  )
+
+  resolutionStrategy {
+    eachPlugin {
+      with(requested) {
+        pluginMappings.entries
+          .find { (test) ->
+            listOfNotNull(id.namespace, id.name).any { it.startsWith(test) }
+          }?.let { (_, value) ->
+            val (name, mod) = value
+            useModule("${mod}:${props["plugins.${name}"]}")
+          }
+      }
     }
+  }
 }

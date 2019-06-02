@@ -61,7 +61,7 @@ import java.util.zip.ZipFile
 
 //            Upload upload = tasks.getByName("uploadArchives")
 //            upload.artifacts.each { artifact ->
-//                logger.quiet("artifact: ${artifact.getClass().getName()}")
+//                logger.quiet("artifact: ${artifact.javaClass.getName()}")
 //            }
 //            def deployers = upload.repositories//.withType(MavenDeployer)
 //            logger.quiet("Deployers: ${deployers}")

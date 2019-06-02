@@ -1,6 +1,7 @@
 import com.android.build.gradle.LibraryExtension
 import com.jfrog.bintray.gradle.tasks.BintrayUploadTask
 
+
 buildscript {
   repositories {
     mavenLocal()
@@ -8,31 +9,19 @@ buildscript {
     gradlePluginPortal()
     jcenter()
     mavenCentral()
-    maven { url = java.net.URI("https://jitpack.io") }
-    maven {
-      url = java.net.URI("https://dl.bintray.com/kotlin/kotlin-eap")
-    }
+    maven(url = "https://jitpack.io")
+    maven(url = "https://dl.bintray.com/kotlin/kotlin-eap")
   }
+
   dependencies {
     classpath("com.android.tools.build:gradle:${Plugins.Android}")
   }
 }
 
-//plugins {
-//  id "de.undercouch.download" version "3.4.3"
-//  ///id "com.github.ben-manes.versions" version "0.20.0"
-//  //id "com.github.dcendents.android-maven" version "2.1"
-//}
-//apply plugin: "com.jfrog.bintray"
+plugins {
+  id("idea")
+}
 
-// ext.isSnapshot = { VERSION_NAME.contains("SNAPSHOT") }
-// ext.isRelease = {
-//   ["uploadArchives", "bintrayUpload"].any { gradle.startParameter.taskNames.contains(it) }
-// }
-
-// def bintrayUploadAll = tasks.create("bintrayUploadAll") {
-
-// }
 
 val publishedProjects = mutableListOf<String>()
 

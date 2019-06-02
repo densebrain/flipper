@@ -22,11 +22,16 @@ fun Project.addStatoRepositories() = addRepositories(this.repositories)
  * Add default repositories
  */
 fun addRepositories(handler: RepositoryHandler) = with(handler) {
-    google()
-    jcenter()
-    gradlePluginPortal()
-    mavenCentral()
-    maven(url = "https://dl.bintray.com/densebrain/oss")
-    maven(url = "https://jitpack.io")
+  mavenLocal()
+  gradlePluginPortal()
+  google()
+  jcenter()
+  mavenCentral()
+  maven(url = "https://repo1.maven.org/maven2")
+  maven(url = "https://kotlin.bintray.com/kotlinx")
+  maven(url = "https://dl.bintray.com/densebrain/oss")
+  maven(url = "https://jitpack.io")
+
+  maven(url = "https://dl.bintray.com/kotlin/kotlin-eap")
 
 }

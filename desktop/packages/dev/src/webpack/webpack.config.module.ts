@@ -35,7 +35,7 @@ const moduleConfig = {
       }
     },
     {
-      test: /\.(j|t)sx?$/,
+      test: /\.([jt])sx?$/,
       exclude: /(node_modules|lib\/)/,
       use: {
         loader: "babel-loader",

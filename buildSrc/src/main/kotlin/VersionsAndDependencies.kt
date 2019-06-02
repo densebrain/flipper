@@ -1,5 +1,10 @@
 import Plugins as ScriptPlugins
 
+object KotlinEnv {
+  val LanguageVersion = "1.3"
+  val APIVersion = "1.3"
+}
+
 object AndroidEnv {
   val minSdkVersion = 16
   val targetSdkVersion = 28
@@ -18,9 +23,42 @@ object Versions {
 
   val litho = "0.25.0"
 
+  val kotlin = Plugins.Kotlin
+  val kotlinCoroutine = "1.2.1"
+
+
+  val source         = "1.8"
+  val googleTruth            = "0.42"
+  val arrow                  = "0.7.3"
+  val slf4j                  = "1.7.25"
+  val googleAuto             = "1.0-rc4"
+  val junit                  = "4.12"
+  val gson                   = "2.8.5"
+  val semver                 = "0.9.0"
+  val findBugs               = "3.0.1"
+
+
 }
 
 object deps {
+
+  object kotlin {
+    object coroutines {
+      val common = "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:${Versions.kotlinCoroutine}"
+      val jvm = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutine}"
+      val js = "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:${Versions.kotlinCoroutine}"
+      val native = "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:${Versions.kotlinCoroutine}"
+    }
+
+    object reflect {
+      val jvm = "org.jetbrains.kotlin:kotlin-reflect:${Plugins.Kotlin}"
+    }
+
+    object stdlib {
+      val jvm = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Plugins.Kotlin}"
+    }
+  }
+
   // Android support
   val supportAnnotations = "androidx.annotation:annotation:${Versions.androidXAnnotations}"
   val supportAppCompat = "androidx.appcompat:appcompat:${Versions.androidXAppcompat}"
@@ -32,6 +70,8 @@ object deps {
   val supportEspressoIntents = "androidx.test.espresso:espresso-intents:3.1.0"
   val supportTestRunner = "androidx.test:runner:1.1.0"
   val supportMultidex = "com.android.support:multidex:1.0.3"
+
+  val droidLogger = "org.densebrain.android:droid-logging:1.0.0@aar"
 
   // Reactive
   val reactive = arrayOf(

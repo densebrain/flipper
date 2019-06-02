@@ -1,31 +1,39 @@
 /**
- * Copyright 2018-present Facebook.
+ * Copyright 2019-present Densebrain.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * Copyright 2019-present Facebook.
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  * @format
  */
 import * as React from "react"
-import { ElementID, Element, PluginClient, ElementSearchResultSet } from "@stato/core"
+import {
+  ElementID,
+  Element,
+  PluginClient,
+  ElementSearchResultSet
+} from "@stato/core"
 import { ElementsInspector } from "@stato/core"
-import {debounce} from "lodash"
 import { PersistedState } from "./index"
-import {oc} from "ts-optchain"
+import { oc } from "ts-optchain"
 type GetNodesOptions = {
-  force?: boolean,
-  ax?: boolean,
+  force?: boolean
+  ax?: boolean
   forAccessibilityEvent?: boolean
 }
 type Props = {
-  ax?: boolean,
-  client: PluginClient,
-  showsSidebar: boolean,
-  inAlignmentMode?: boolean,
-  selectedElement: ElementID | null | undefined,
-  selectedAXElement: ElementID | null | undefined,
-  onSelect: (ids: ElementID | null | undefined) => void,
-  onDataValueChanged: (path: Array<string>, value: any) => void,
-  setPersistedState: (state: Partial<PersistedState>) => void,
-  persistedState: PersistedState,
+  ax?: boolean
+  client: PluginClient
+  showsSidebar: boolean
+  inAlignmentMode?: boolean
+  selectedElement: ElementID | null | undefined
+  selectedAXElement: ElementID | null | undefined
+  onSelect: (ids: ElementID | null | undefined) => void
+  onDataValueChanged: (path: Array<string>, value: any) => void
+  setPersistedState: (state: Partial<PersistedState>) => void
+  persistedState: PersistedState
   searchResults: ElementSearchResultSet | null | undefined
 }
 export default class Inspector extends React.Component<Props> {
@@ -40,13 +48,19 @@ export default class Inspector extends React.Component<Props> {
   }
 
   selected = () => {
-    return this.props.ax ? this.props.selectedAXElement : this.props.selectedElement
+    return this.props.ax
+      ? this.props.selectedAXElement
+      : this.props.selectedElement
   }
   root = () => {
-    return this.props.ax ? this.props.persistedState.rootAXElement : this.props.persistedState.rootElement
+    return this.props.ax
+      ? this.props.persistedState.rootAXElement
+      : this.props.persistedState.rootElement
   }
   elements = () => {
-    return this.props.ax ? this.props.persistedState.AXelements : this.props.persistedState.elements
+    return this.props.ax
+      ? this.props.persistedState.AXelements
+      : this.props.persistedState.elements
   }
 
   componentDidMount() {
@@ -63,40 +77,61 @@ export default class Inspector extends React.Component<Props> {
         nodes
       }: {
         nodes: Array<{
-          id: ElementID,
+          id: ElementID
           children: Array<ElementID>
         }>
       }) => {
-        this.getNodes(nodes.map(n => [n.id, ...(n.children || [])]).reduce((acc, cv) => acc.concat(cv), []), {})
+        this.getNodes(
+          nodes
+            .map(n => [n.id, ...(n.children || [])])
+            .reduce((acc, cv) => acc.concat(cv), []),
+          {}
+        )
       }
     )
-    this.props.client.subscribe(this.call().SELECT, ({ path }: { path: Array<ElementID> }) => {
-      this.getAndExpandPath(path)
-    })
+    this.props.client.subscribe(
+      this.call().SELECT,
+      ({ path }: { path: Array<ElementID> }) => {
+        this.getAndExpandPath(path)
+      }
+    )
   }
 
   componentDidUpdate(prevProps: Props) {
     const { ax, selectedElement, selectedAXElement } = this.props
 
-    if (ax && selectedElement !== prevProps.selectedElement && selectedElement) {
+    if (
+      ax &&
+      selectedElement !== prevProps.selectedElement &&
+      selectedElement
+    ) {
       // selected element changed, find linked AX element
-      const linkedAXNode = oc(this.props.persistedState.elements[selectedElement])
-        .extraInfo
-        .linkedAXNode(null)
-      
+      const linkedAXNode = oc(
+        this.props.persistedState.elements[selectedElement]
+      ).extraInfo.linkedAXNode(null)
+
       this.props.onSelect(linkedAXNode)
-    } else if (!ax && selectedAXElement !== prevProps.selectedAXElement && selectedAXElement) {
+    } else if (
+      !ax &&
+      selectedAXElement !== prevProps.selectedAXElement &&
+      selectedAXElement
+    ) {
       // selected AX element changed, find linked element
       const linkedNode: Element | null | undefined = Object.values(
         this.props.persistedState.elements // $FlowFixMe it's an Element not mixed
-      ).find((e: Element) => oc(e.extraInfo).linkedAXNode(null) === selectedAXElement)
+      ).find(
+        (e: Element) => oc(e.extraInfo).linkedAXNode(null) === selectedAXElement
+      )
       this.props.onSelect(oc(linkedNode).id(""))
     }
   }
 
-  updateElement(id: ElementID, data: Object) {
+  updateElement(id: ElementID, data: Record<string, any>) {
     this.props.setPersistedState({
-      [this.props.ax ? "AXelements" : "elements"]: { ...this.elements(), [id]: { ...this.elements()[id], ...data } }
+      [this.props.ax ? "AXelements" : "elements"]: {
+        ...this.elements(),
+        [id]: { ...this.elements()[id], ...data }
+      }
     })
   } // When opening the inspector for the first time, expand all elements that
   // contain only 1 child recursively.
@@ -107,17 +142,19 @@ export default class Inspector extends React.Component<Props> {
       return
     }
 
-    return this.getChildren(element.id, {}).then((_elements: Array<Element>) => {
-      if (element.children.length >= 2) {
-        // element has two or more children so we can stop expanding
-        return
+    return this.getChildren(element.id, {}).then(
+      (_elements: Array<Element>) => {
+        return element.children.length >= 2
+          ? null
+          : this.performInitialExpand(this.elements()[element.children[0]])
       }
-
-      return this.performInitialExpand(this.elements()[element.children[0]])
-    })
+    )
   }
 
-  async getChildren(id: ElementID, options: GetNodesOptions): Promise<Array<Element>> {
+  async getChildren(
+    id: ElementID,
+    options: GetNodesOptions
+  ): Promise<Array<Element>> {
     if (!this.elements()[id]) {
       await this.getNodes([id], options)
     }
@@ -128,12 +165,15 @@ export default class Inspector extends React.Component<Props> {
     return this.getNodes(this.elements()[id].children, options)
   }
 
-  getNodes(ids: Array<ElementID> = [], options: GetNodesOptions): Promise<Array<Element>> {
+  getNodes(
+    ids: Array<ElementID> = [],
+    options: GetNodesOptions
+  ): Promise<Array<Element>> {
     const { forAccessibilityEvent } = options
 
     if (ids.length > 0) {
       return this.props.client
-        .call<{elements: Array<Element>}>(this.call().GET_NODES, {
+        .call<{ elements: Array<Element> }>(this.call().GET_NODES, {
           ids,
           forAccessibilityEvent,
           selected: false
@@ -153,16 +193,17 @@ export default class Inspector extends React.Component<Props> {
     })
   }
 
-  onElementSelected = debounce((selectedKey: ElementID) => {
-    this.onElementHovered(selectedKey)
+  //debounce(
+  onElementSelected = async (selectedKey: ElementID) => {
+    await this.onElementHovered(selectedKey)
     this.props.onSelect(selectedKey)
-  })
-  onElementHovered = debounce((key: ElementID | null | undefined) =>
+  }
+  onElementHovered = (key: ElementID | null | undefined) =>
     this.props.client.call(this.call().SET_HIGHLIGHTED, {
       id: key,
       isAlignmentMode: this.props.inAlignmentMode
     })
-  )
+
   onElementExpanded = (id: ElementID, deep: boolean) => {
     const expanded = !this.elements()[id].expanded
     this.updateElement(id, {

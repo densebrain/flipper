@@ -1,25 +1,12 @@
-//include(":common:third-party")
-//if (File(rootDir,"common${File.separator}third-party${File.separator}external${File.separator}double-conversion").exists()) {
-//  include(":common:third-party:external:folly")
-//  include(":common:third-party:external:double-conversion")
-//  include(":common:third-party:external:glog")
-//  include(":common:third-party:external:LibEvent")
-//  include(":common:third-party:external:RSocket")
-//}
-include(":common:xplat")
+enableFeaturePreview("GRADLE_METADATA")
 
-//include(":platforms")
-include(":platforms:android:fbjni")
-include(":platforms:android:stato")
-include(":platforms:android:sample")
 
-project(":platforms:android:stato").apply {
-  name = "android-stato"
-}
+include(":common:common-stato")
 
-project(":platforms:android:sample").apply {
-  name = "android-sample"
-}
+include(":platforms:android:android-fbjni")
+include(":platforms:android:android-stato")
+include(":platforms:android:android-sample")
+
 
 pluginManagement {
   addStatoRepositories()
@@ -27,17 +14,25 @@ pluginManagement {
   resolutionStrategy {
     eachPlugin {
 
-      val module = when (requested.id.namespace) {
-        "com.android" -> "com.android.tools.build:gradle:${Versions.Plugins.Android}"
-        "com.jfrog" -> "com.jfrog.bintray.gradle:gradle-bintray-plugin:${Versions.Plugins.Bintray}"
-        "org.jetbrains.kotlin.frontend" -> "org.jetbrains.kotlin:kotlin-frontend-plugin:${Versions.Plugins.KotlinFrontend}"
-        "org.jetbrains.kotlin" -> "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.Plugins.Kotlin}"
-        else -> null
-      }
+      val androidPlugin = "com.android.tools.build:gradle:${Plugins.Android}"
+      val kotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Plugins.Kotlin}"
 
-      logger.debug("Plugin requested (${requested.id.namespace}/${requested.id.name}): ${module}")
-      if (module != null) {
-        useModule(module)
+      val pluginMappings = mapOf(
+        "org.jetbrains.kotlin.frontend" to "org.jetbrains.kotlin:kotlin-frontend-plugin:${Plugins.KotlinFrontend}",
+        "kotlin-android" to androidPlugin,
+        "com.android" to androidPlugin,
+        "org.densebrain.gradle" to "org.densebrain.gradle:ko-generator-plugin:${Plugins.Ko}",
+        "org.jetbrains" to kotlinPlugin,
+        "org.cxxpods.gradle" to "org.cxxpods.gradle:cmake-plugin:${Plugins.Cxxpods}"
+      )
+
+      with(requested) {
+        pluginMappings.entries
+          .find { (test) ->
+            listOfNotNull(id.namespace, id.name).any { it.startsWith(test) }
+          }?.let { (_, mod) ->
+            useModule(mod)
+          }
       }
 
     }

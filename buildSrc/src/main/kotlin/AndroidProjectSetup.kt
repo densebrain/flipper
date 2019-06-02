@@ -19,6 +19,7 @@ import com.jfrog.bintray.gradle.BintrayPlugin
 import com.jfrog.bintray.gradle.tasks.BintrayUploadTask
 import org.gradle.plugins.signing.SigningExtension
 import org.gradle.plugins.signing.signatory.pgp.PgpSignatoryProvider
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.File
 import java.util.*
 
@@ -38,6 +39,9 @@ val Project.localProps: Properties
     }
     props
   }
+
+fun Project.commonStatoInstallPrefix(targetName: String) =
+  "${rootDir}/build/native/${targetName}/${name}"
 
 fun Project.getProjectProperty(vararg names: String): String? {
   for (name in names) {
@@ -75,12 +79,30 @@ fun Project.getProperty(systemProps: Array<String>, projectProps: Array<String>,
 fun setupAndroidProject(project: Project) = with(project) {
   addRepositories(repositories)
 
+  tasks.withType(KotlinCompile::class).all({
+    kotlinOptions {
+      jvmTarget = "1.8"
+      apiVersion = KotlinEnv.APIVersion
+      languageVersion = KotlinEnv.LanguageVersion
+      //allWarningsAsErrors = true
+    }
+  })
 
+  configurations.all {
+    resolutionStrategy {
+      exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jre7")
+      exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jre8")
+      exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jdk8")
 
+      force(
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
+      )
+    }
+  }
 
   configure<TestedExtension> {
     setCompileSdkVersion(AndroidEnv.compileSdkVersion)
-    setBuildToolsVersion(AndroidEnv.buildToolsVersion)
+    buildToolsVersion = AndroidEnv.buildToolsVersion
 
     useLibrary("android.test.runner")
     useLibrary("android.test.base")
@@ -90,6 +112,8 @@ fun setupAndroidProject(project: Project) = with(project) {
       setMinSdkVersion(AndroidEnv.minSdkVersion)
       setTargetSdkVersion(AndroidEnv.targetSdkVersion)
       testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+      multiDexEnabled = true
 
     }
 
@@ -108,6 +132,12 @@ fun setupAndroidProject(project: Project) = with(project) {
       pickFirst("lib/**/*.so")
     }
 
+    sourceSets.forEach { sourceSet ->
+      sourceSet.java.srcDirs("${projectDir}/src/main/kotlin")
+//    getByName("test").apply {
+//      kotlin.exclude("org/stato/plugins/facebook/**")
+//    }
+    }
   }
 
 }

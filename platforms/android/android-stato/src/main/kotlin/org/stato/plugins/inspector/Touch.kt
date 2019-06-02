@@ -1,0 +1,32 @@
+/*
+ *  Copyright (c) 2018-present, Facebook, Inc.
+ *
+ *  This source code is licensed under the MIT license found in the LICENSE
+ *  file in the root directory of this source tree.
+ *
+ */
+
+package org.stato.plugins.inspector
+
+/**
+ * Used to collect the path from the root node to the node at point [x, y]. This is used for
+ * creating a node path to the targeting node from the root when performing hit testing.
+ */
+interface Touch {
+
+  /**
+   * Call this when the path has reached its destination. This should be called from the descriptor
+   * which described the leaf node containing [x, y].
+   */
+  fun finish()
+
+  /**
+   * Continue hit testing in child at the given index. Offseting the touch location to the child's
+   * coordinate system.
+   */
+  fun continueWithOffset(childIndex: Int, offsetX: Int, offsetY: Int)
+
+  /** @return Whether or not this Touch is contained within the provided bounds.
+   */
+  fun containedIn(l: Int, t: Int, r: Int, b: Int): Boolean
+}

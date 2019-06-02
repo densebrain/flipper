@@ -1,5 +1,9 @@
 /**
- * Copyright 2018-present Facebook.
+ * Copyright 2019-present Densebrain.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * Copyright 2019-present Facebook.
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  * @format
@@ -15,15 +19,14 @@ import Glyph from "../Glyph"
 import { colors } from "../../themes/colors"
 import Text from "../Text"
 import styled from "../../styled/index"
-import * as Electron from 'electron'
+import * as Electron from "electron"
 import { clipboard } from "electron"
-
 
 const ROW_HEIGHT = 23
 
 type Props = {
-  selected?: boolean | undefined,
-  highlighted?: string | null | undefined,
+  selected?: boolean | undefined
+  highlighted?: string | null | undefined
   content?: string | null | undefined
   focused?: boolean | null | undefined
   even?: boolean | null | undefined
@@ -132,7 +135,9 @@ class PartialHighlight extends PureComponent<Props> {
       highlighted != "" &&
       content.toLowerCase().includes(highlighted.toLowerCase())
     ) {
-      const highlightStart = content.toLowerCase().indexOf(highlighted.toLowerCase())
+      const highlightStart = content
+        .toLowerCase()
+        .indexOf(highlighted.toLowerCase())
       const highlightEnd = highlightStart + highlighted.length
       const before = content.substring(0, highlightStart)
       const match = content.substring(highlightStart, highlightEnd)
@@ -140,7 +145,9 @@ class PartialHighlight extends PureComponent<Props> {
       renderedValue = [
         <span>
           {before}
-          <PartialHighlight.HighlightedText selected={selected}>{match}</PartialHighlight.HighlightedText>
+          <PartialHighlight.HighlightedText selected={selected}>
+            {match}
+          </PartialHighlight.HighlightedText>
           {after}
         </span>
       ]
@@ -161,7 +168,9 @@ class ElementsRowAttribute extends PureComponent<Props> {
         <ElementsRowAttributeValue>
           <PartialHighlight
             content={value}
-            highlighted={name === "id" || name === "addr" ? matchingSearchQuery : ""}
+            highlighted={
+              name === "id" || name === "addr" ? matchingSearchQuery : ""
+            }
             selected={selected}
           />
         </ElementsRowAttributeValue>
@@ -171,27 +180,27 @@ class ElementsRowAttribute extends PureComponent<Props> {
 }
 
 type FlatElement = {
-  key: ElementID,
-  element: Element,
+  key: ElementID
+  element: Element
   level: number
 }
 type FlatElements = Array<FlatElement>
 type ElementsRowProps = {
-  id: ElementID,
-  level: number,
-  selected: boolean,
-  focused: boolean,
-  matchingSearchQuery: string | null | undefined,
-  element: Element,
-  elements: {
-    [key in ElementID]: Element
-  },
-  even: boolean,
-  onElementSelected: (key: ElementID) => void,
-  onElementExpanded: (key: ElementID, deep: boolean) => void,
-  childrenCount: number,
-  onElementHovered: (key: ElementID | null | undefined) => void | null | undefined,
-  style?: Object,
+  id: ElementID
+  level: number
+  selected: boolean
+  focused: boolean
+  matchingSearchQuery: string | null | undefined
+  element: Element
+  elements: { [key in ElementID]: Element }
+  even: boolean
+  onElementSelected: (key: ElementID) => void
+  onElementExpanded: (key: ElementID, deep: boolean) => void
+  childrenCount: number
+  onElementHovered: (
+    key: ElementID | null | undefined
+  ) => void | null | undefined
+  style?: Record<string, any>
   contextMenuExtensions: Array<ContextMenuExtension>
 }
 type ElementsRowState = {
@@ -199,7 +208,7 @@ type ElementsRowState = {
 }
 
 class ElementsRow extends PureComponent<ElementsRowProps, ElementsRowState> {
-  constructor(props: ElementsRowProps, context: Object) {
+  constructor(props: ElementsRowProps, context: Record<string, any>) {
     super(props, context)
     this.state = {
       hovered: false
@@ -266,7 +275,16 @@ class ElementsRow extends PureComponent<ElementsRowProps, ElementsRowState> {
   }
 
   render() {
-    const { element, id, level, selected, focused, style, even, matchingSearchQuery } = this.props
+    const {
+      element,
+      id,
+      level,
+      selected,
+      focused,
+      style,
+      even,
+      matchingSearchQuery
+    } = this.props
     const hasChildren = element.children && element.children.length > 0
     let arrow
 
@@ -298,16 +316,20 @@ class ElementsRow extends PureComponent<ElementsRowProps, ElementsRowState> {
     const decoration = (() => {
       switch (element.decoration) {
         case "litho":
-          return <DecorationImage src="icons/litho-logo.png" />
+          return <DecorationImage src={require("assets/icons/litho-logo.png")} />
 
         case "componentkit":
-          return <DecorationImage src="icons/componentkit-logo.png" />
+          return (
+            <DecorationImage src={require("assets/icons/componentkit-logo.png")} />
+          )
 
         case "componentscript":
-          return <DecorationImage src="icons/componentscript-logo.png" />
+          return (
+            <DecorationImage src={require("assets/icons/componentscript-logo.png")} />
+          )
 
         case "accessibility":
-          return <DecorationImage src="icons/accessibility.png" />
+          return <DecorationImage src={require("assets/icons/accessibility.png")} />
 
         default:
           return null
@@ -316,7 +338,8 @@ class ElementsRow extends PureComponent<ElementsRowProps, ElementsRowState> {
     // bottom of the element to the next sibling
 
     let line
-    const shouldShowLine = (selected || this.state.hovered) && hasChildren && element.expanded
+    const shouldShowLine =
+      (selected || this.state.hovered) && hasChildren && element.expanded
 
     if (shouldShowLine) {
       line = <ElementsLine childrenCount={this.props.childrenCount} />
@@ -343,7 +366,11 @@ class ElementsRow extends PureComponent<ElementsRowProps, ElementsRowState> {
         </ElementsRowDecoration>
         <NoShrinkText code={true}>
           {decoration}
-          <PartialHighlight content={element.name} highlighted={matchingSearchQuery} selected={selected} />
+          <PartialHighlight
+            content={element.name}
+            highlighted={matchingSearchQuery}
+            selected={selected}
+          />
         </NoShrinkText>
         {attributes}
       </ElementsRowContainer>
@@ -363,26 +390,26 @@ const ElementsBox = styled(FlexColumn)({
   overflow: "auto"
 })
 type ElementsProps = {
-  root: ElementID | null | undefined,
-  selected: ElementID | null | undefined,
-  focused?: ElementID | null | undefined,
-  searchResults: ElementSearchResultSet | null | undefined,
-  elements: {
-    [key in ElementID]: Element
-  },
-  onElementSelected: (key: ElementID) => void,
-  onElementExpanded: (key: ElementID, deep: boolean) => void,
-  onElementHovered: (key: ElementID | null | undefined) => void | null | undefined,
-  alternateRowColor?: boolean,
+  root: ElementID | null | undefined
+  selected: ElementID | null | undefined
+  focused?: ElementID | null | undefined
+  searchResults: ElementSearchResultSet | null | undefined
+  elements: { [key in ElementID]: Element }
+  onElementSelected: (key: ElementID) => void
+  onElementExpanded: (key: ElementID, deep: boolean) => void
+  onElementHovered: (
+    key: ElementID | null | undefined
+  ) => void | null | undefined
+  alternateRowColor?: boolean
   contextMenuExtensions?: Array<ContextMenuExtension>
 }
 type ElementsState = {
-  flatKeys: Array<ElementID>,
-  flatElements: FlatElements,
+  flatKeys: Array<ElementID>
+  flatElements: FlatElements
   maxDepth: number
 }
 export type ContextMenuExtension = {
-  label: string,
+  label: string
   click: (a: ElementID) => void
 }
 export class Elements extends PureComponent<ElementsProps, ElementsState> {
@@ -427,7 +454,11 @@ export class Elements extends PureComponent<ElementsProps, ElementsState> {
       })
       flatKeys.push(key)
 
-      if (element.children != null && element.children.length > 0 && element.expanded) {
+      if (
+        element.children != null &&
+        element.children.length > 0 &&
+        element.expanded
+      ) {
         for (const key of element.children) {
           seed(key, level + 1)
         }
@@ -471,7 +502,8 @@ export class Elements extends PureComponent<ElementsProps, ElementsState> {
 
     if (
       e.key === "c" &&
-      ((e.metaKey && process.platform === "darwin") || (e.ctrlKey && process.platform !== "darwin"))
+      ((e.metaKey && process.platform === "darwin") ||
+        (e.ctrlKey && process.platform !== "darwin"))
     ) {
       e.preventDefault()
       clipboard.writeText(selectedElement.name)
@@ -575,7 +607,11 @@ export class Elements extends PureComponent<ElementsProps, ElementsState> {
         onElementSelected={onElementSelected}
         selected={selected === row.key}
         focused={focused === row.key}
-        matchingSearchQuery={searchResults && searchResults.matches.has(row.key) ? searchResults.query : null}
+        matchingSearchQuery={
+          searchResults && searchResults.matches.has(row.key)
+            ? searchResults.query
+            : null
+        }
         element={row.element}
         elements={elements}
         childrenCount={childrenCount}

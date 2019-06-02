@@ -68,7 +68,7 @@
     "react-transition-group": "^2.5.1",
     "react-valid-props": "^1.0.12",
     "react-virtualized-auto-sizer": "^1.0.2",
-    "react-window": "https://github.com/densebrain/react-window/releases/download/v1.8.3/react-window-1.8.3.tgz",
+    "react-window": "https://github.com/densebrain/react-window/releases/download/v1.8.7/react-window-v1.8.7.tgz",
     "redux": "^4.0.0",
     "redux-persist": "^5.10.0",
     "remote-redux-devtools": "^0.5.16",
