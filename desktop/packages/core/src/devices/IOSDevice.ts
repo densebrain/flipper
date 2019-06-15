@@ -9,6 +9,8 @@ import child_process from "child_process"
 import BaseDevice from "./BaseDevice"
 import JSONStream from "JSONStream"
 import { Transform } from "stream"
+import {stato as Models} from "@stato/models"
+
 type IOSLogLevel = "Default" | "Info" | "Debug" | "Error" | "Fault"
 type RawLogEntry = {
   eventMessage: string,
@@ -26,6 +28,9 @@ type RawLogEntry = {
   timezoneName: string,
   traceID: string
 }
+
+
+
 export default class IOSDevice extends BaseDevice {
   icon = "icons/ios.svg"
   
@@ -33,7 +38,7 @@ export default class IOSDevice extends BaseDevice {
   buffer: string
 
   constructor(serial: string, deviceType: DeviceType, title: string) {
-    super("iOS",serial, deviceType, title)
+    super(Models.OS.OSIOS,serial, deviceType, title)
     this.buffer = ""
     this.log = this.startLogListener()
   }

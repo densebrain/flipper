@@ -1,0 +1,34 @@
+syntax = "proto3";
+option java_package = "org.stato.models";
+option java_multiple_files = true;
+
+package stato.models;
+
+enum OS {
+  OSUnknown = 0;
+  OSIOS = 1;
+  OSAndroid = 2;
+  OSWindows = 3;
+  OSMacOS = 4;
+}
+
+message SDKConfig {
+  string host = 1;
+  int32 secure_port = 2;
+  int32 insecure_port = 3;
+}
+
+message SDKState {
+  OS os = 1;
+  string node_id = 2;
+  string node_name = 3;
+  string app_name = 4;
+  string app_package = 5;
+  string sdk_version = 6;
+  string connection_id = 7;
+  SDKConfig config = 8;
+  map<string,string> extra = 9;
+}
+
+
+

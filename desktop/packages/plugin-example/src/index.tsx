@@ -16,18 +16,15 @@ import {
   FlexColumn,
   styled,
   Text,
-  PluginType,
-  PluginClientMessage
+  PluginType
 } from "@stato/core"
-
+import {stato as Models} from "@stato/models"
 
 type Actions = {
   triggerNotification: TriggerNotificationAction
   displayMessage: DisplayMessageAction
   
 }
-
-//type ActionType = keyof Actions
 
 type TriggerNotificationAction = {
   id: number
@@ -47,9 +44,9 @@ type DisplayMessageResponse = {
   greeting: string
 }
 
-type ExampleClientMessage =
-  PluginClientMessage<"triggerNotification", TriggerNotificationAction> |
-  PluginClientMessage<"displayMessage", DisplayMessageAction>
+// type ExampleClientMessage =
+//   PluginClientMessage<"triggerNotification", TriggerNotificationAction> |
+//   PluginClientMessage<"displayMessage", DisplayMessageAction>
 
 type State = {
   prompt?: string | null | undefined
@@ -85,16 +82,25 @@ class ExamplePlugin extends StatoPluginComponent<Props, State, Actions, Persiste
    */
   static persistedStateReducer = (
     persistedState: PersistedState,
-    msg: ExampleClientMessage
+    msg: Models.PluginCallRequestResponse
   ): PersistedState => {
-    const {type} = msg
-    if (msg.type === "displayMessage") {
+  
+    const
+      { method, body } = msg,
+      payload = JSON.parse(body || "[]")
+    
+    if (method === "displayMessage") {
       
-      const {payload:{message}} = msg
-      return { ...persistedState, receivedMessage: message }
-    } else if (type === "triggerNotification") {
-      const {payload:{id}} = msg
-      return { ...persistedState, currentNotificationIds: persistedState.currentNotificationIds.concat([id]) }
+      //const {payload:{message}} = msg
+      return { ...persistedState, receivedMessage: (payload as DisplayMessageAction).message }
+    } else if (method === "triggerNotification") {
+      
+      return {
+        ...persistedState,
+        currentNotificationIds:
+          persistedState
+            .currentNotificationIds
+            .concat([(payload as TriggerNotificationAction).id]) }
     }
     
     

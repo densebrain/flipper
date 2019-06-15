@@ -41,7 +41,7 @@ val Project.localProps: Properties
   }
 
 fun Project.commonStatoInstallPrefix(targetName: String) =
-  "${rootDir}/build/native/${targetName}/${name}"
+  "${rootDir}/../../build/native/${targetName}/${name}"
 
 fun Project.getProjectProperty(vararg names: String): String? {
   for (name in names) {
@@ -133,7 +133,7 @@ fun setupAndroidProject(project: Project) = with(project) {
     }
 
     sourceSets.forEach { sourceSet ->
-      sourceSet.java.srcDirs("${projectDir}/src/main/kotlin")
+//      sourceSet.java.srcDirs("${projectDir}/src/main/kotlin")
 //    getByName("test").apply {
 //      kotlin.exclude("org/stato/plugins/facebook/**")
 //    }
@@ -228,9 +228,9 @@ fun setupAndroidPublishProject(project: Project, shouldPublish: Boolean = false)
     if (shouldPublish) {
       BintrayPlugin().apply(this@with)
 
-      rootProject.tasks
-        .getByName("publishReleaseArtifacts")
-        .dependsOn(tasks.withType(BintrayUploadTask::class))
+//      rootProject.tasks
+//        .getByName("publishReleaseArtifacts")
+//        .dependsOn(tasks.withType(BintrayUploadTask::class))
 
       configure<BintrayExtension> {
         val skipMavenRepos = gradle.startParameter.taskNames.contains("bintrayUploadAll")

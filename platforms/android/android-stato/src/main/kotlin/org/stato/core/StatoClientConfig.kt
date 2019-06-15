@@ -9,7 +9,6 @@ open class StatoClientConfig(
   val os: String,
   val device: String,
   val deviceId: String,
-  val app: String,
-  val appId: String,
-  val privateAppDirectory: String
+  val appName: String,
+  val appPackage: String
 )

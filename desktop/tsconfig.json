@@ -8,6 +8,7 @@
     {"path": "./packages/dev"},
     {"path": "./packages/core"},
     {"path": "./packages/app"},
+    {"path": "./packages/models"},
     {"path": "./packages/plugin-cpu"},
     {"path": "./packages/plugin-crash-reporter"},
     {"path": "./packages/plugin-example"},

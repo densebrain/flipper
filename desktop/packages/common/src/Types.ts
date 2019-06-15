@@ -14,7 +14,21 @@ export type StringMap<V> = { [key: string]: V }
 
 export type StringOrNumber = string | number
 
+// export function Pair<T1, T2>(first: T1, second: T2): Pair<T1, T2> {
+//   return [first, second] as Pair<T1, T2>
+// }
+
 export type Pair<T1, T2> = [T1, T2]
+export type Triple<T1, T2, T3> = [T1, T2, T3]
+export type Quad<T1, T2, T3, T4> = [T1, T2, T3, T4]
+
+// export namespace Pair {
+//   export function of<T1, T2>(first: T1, second: T2): Pair<T1, T2> {
+//     return [first, second]
+//   }
+// }
+
+
 
 export type FunctionOrValue<T> = (() => T) | T | null
 
@@ -123,4 +137,11 @@ if (typeof isDev === "undefined") {
   Object.assign(global, {
     isDev: false
   })
+}
+
+
+export interface ErrorType {
+  message: string
+  stacktrace?: string
+  name?: string
 }

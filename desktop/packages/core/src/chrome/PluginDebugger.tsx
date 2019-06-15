@@ -160,7 +160,7 @@ class PluginDebugger extends Component<Props> {
     return this.props.clients
       .reduce((acc: Array<string>, cv: Client) => {
         if (cv.plugins.includes(id)) {
-          acc.push(cv.query.app)
+          acc.push(cv.query.appName)
         }
 
         return acc
@@ -226,7 +226,7 @@ class PluginDebugger extends Component<Props> {
           .
         </InfoText>
       )
-    } else if (!this.props.clients.some((client: Client) => client.query.device_id === this.props.selectedDevice)) {
+    } else if (!this.props.clients.some((client: Client) => client.query.nodeId === this.props.selectedDevice)) {
       // no clients for selected device
       content = (
         <Fragment>

@@ -23,22 +23,25 @@ export type DeviceShell = {
 export type DeviceLogListener = (entry: DeviceLogEntry) => void
 export type DeviceType = "emulator" | "physical" | "archivedEmulator" | "archivedPhysical"
 export type DeviceExport = {
-  os: string,
+  os: Models.OS,
   title: string,
   deviceType: DeviceType,
   serial: string,
   logs: Array<DeviceLogEntry>
 }
-export type OS = "iOS" | "Android" | "Windows"
+
+import {stato as Models} from "@stato/models"
+
+//export type OS = Models.OS //"iOS" | "Android" | "Windows" | never
 export default class BaseDevice {
-  constructor(os: OS, serial: string, deviceType: DeviceType, title: string) {
+  constructor(os: Models.OS, serial: string, deviceType: DeviceType, title: string) {
     this.os = os
     this.serial = serial
     this.title = title
     this.deviceType = deviceType
   } // operating system of this device
 
-  os: OS // human readable name for this device
+  os: Models.OS // human readable name for this device
 
   title: string // type of this device
 
@@ -50,8 +53,8 @@ export default class BaseDevice {
   logListeners: Map<Symbol, DeviceLogListener> = new Map()
   logEntries: Array<DeviceLogEntry> = []
 
-  supportsOS(os: OS) {
-    return os.toLowerCase() === this.os.toLowerCase()
+  supportsOS(os: Models.OS) {
+    return os === this.os
   }
 
   toJSON(): DeviceExport {

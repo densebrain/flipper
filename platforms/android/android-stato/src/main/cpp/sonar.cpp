@@ -7,6 +7,7 @@
 #include <memory>
 
 
+#include <folly/dynamic.h>
 #include <folly/json.h>
 #include <folly/io/async/EventBase.h>
 #include <folly/io/async/EventBaseManager.h>
@@ -17,8 +18,12 @@
 #include <stato/StatoResponder.h>
 #include <stato/StatoStateUpdateListener.h>
 #include <stato/StatoState.h>
-
+#include <stato/StatoRequestResponse.h>
+#include <stato/utils/Messaging.h>
 #include <fbjni/fbjni.h>
+
+#include <stato-models/Payload.pb.h>
+
 //#ifdef STATO_OSS
 //
 //#else
@@ -110,6 +115,7 @@ namespace {
 
   class JStatoResponderImpl : public jni::HybridClass<JStatoResponderImpl, JStatoResponder> {
   public:
+
     constexpr static auto kJavaDescriptor = "Lorg/stato/core/StatoResponderImpl;";
 
     static void registerNatives() {
@@ -120,37 +126,83 @@ namespace {
       });
     }
 
+    void respond(const folly::dynamic &payload) {
+      EnvelopePayload envelopePayload;
+      //PluginCallRequestResponse requestResponse;
+      requestResponse->set_body(folly::toJson(payload));
+      envelopePayload.set_body(messageToJson(*requestResponse));
+      envelopePayload.set_type(PayloadTypePluginCall);
+
+      responder->success(envelopePayload);
+    };
+
     void successObject(jni::alias_ref<JStatoObject> json) {
-      _responder->success(json ? folly::parseJson(json->toJsonString()) : folly::dynamic::object());
-    }
+      folly::dynamic payload = (!json) ?
+                               folly::dynamic::object() :
+                               folly::parseJson(json->toJsonString());
+
+      respond(payload);
+    };
 
     void successArray(jni::alias_ref<JStatoArray> json) {
-      _responder->success(json ? folly::parseJson(json->toJsonString()) : folly::dynamic::object());
+      auto payload = json ? folly::parseJson(json->toJsonString()) : folly::dynamic::object();
+      respond(payload);
+
     }
 
     void error(jni::alias_ref<JStatoObject> json) {
-      _responder->error(json ? folly::parseJson(json->toJsonString()) : folly::dynamic::object());
+      auto o = json ? folly::parseJson(json->toJsonString()) : folly::dynamic::object();
+
+      ErrorRequestResponse error;
+      error.set_message(o.getDefault("message", "").asString());
+      error.set_name(o.getDefault("name", "").asString());
+      error.set_stacktrace(o.getDefault("stacktrace", "").asString());
+      responder->error(error);
     }
 
   private:
     friend HybridBase;
-    std::shared_ptr<StatoResponder> _responder;
+    std::shared_ptr<PluginCallRequestResponse> requestResponse;
+    std::shared_ptr<StatoResponder> responder;
 
-    JStatoResponderImpl(std::shared_ptr<StatoResponder> responder) : _responder(
-      std::move(responder)) {}
+    JStatoResponderImpl(
+      std::shared_ptr<PluginCallRequestResponse> requestResponse,
+      std::shared_ptr<StatoResponder> responder
+    ) :
+      requestResponse(std::move(requestResponse)),
+      responder(std::move(responder)) {}
   };
 
   class JStatoReceiver : public jni::JavaClass<JStatoReceiver> {
   public:
     constexpr static auto kJavaDescriptor = "Lorg/stato/core/StatoReceiver;";
 
-    void receive(const folly::dynamic params, std::shared_ptr<StatoResponder> responder) const {
-      static const auto method = javaClassStatic()->getMethod<void(
-        jni::alias_ref<JStatoObject::javaobject>, jni::alias_ref<JStatoResponder::javaobject>)>(
-        "onReceive");
+    void receive(
+      const std::string &pluginId,
+      const std::string &apiMethod,
+      const folly::dynamic params,
+      //std::shared_ptr<StatoRequestResponse> requestResponse,
+      const PluginCallRequestResponse &requestResponse,
+      std::shared_ptr<EnvelopePayload> envelopePayload,
+      std::shared_ptr<Envelope> envelope,
+      std::shared_ptr<StatoResponder> responder
+    ) const {
+      static const auto method = javaClassStatic()->getMethod<
+        void(
+          jni::alias_ref<JStatoObject::javaobject>,
+          jni::alias_ref<JStatoResponder::javaobject>
+        )
+      >("onReceive");
+
+      auto newRequestResponse = std::make_shared<PluginCallRequestResponse>();
+      newRequestResponse->CopyFrom(requestResponse);
+      newRequestResponse->set_plugin_id(pluginId);
+
       method(self(), JStatoObject::create(std::move(params)),
-        JStatoResponderImpl::newObjectCxxArgs(responder));
+        JStatoResponderImpl::newObjectCxxArgs(newRequestResponse, responder));
     }
+
+
   };
 
   class JStatoPluginConnection : public jni::JavaClass<JStatoPluginConnection> {
@@ -173,13 +225,13 @@ namespace {
     }
 
     void sendObject(const std::string method, jni::alias_ref<JStatoObject> json) {
-      _connection->send(std::move(method),
-        json ? folly::parseJson(json->toJsonString()) : folly::dynamic::object());
+      _connection->send(std::move(method), json ? json->toJsonString() : "{}");
+      //json ? folly::parseJson(json->toJsonString()) : folly::dynamic::object());
     }
 
     void sendArray(const std::string method, jni::alias_ref<JStatoArray> json) {
-      _connection->send(std::move(method),
-        json ? folly::parseJson(json->toJsonString()) : folly::dynamic::object());
+      _connection->send(std::move(method), json ? json->toJsonString() : "{}");
+      //json ? folly::parseJson(json->toJsonString()) : folly::dynamic::object());
     }
 
     void reportError(jni::alias_ref<jni::JThrowable> throwable) {
@@ -188,18 +240,38 @@ namespace {
 
     void receive(const std::string method, jni::alias_ref<JStatoReceiver> receiver) {
       auto global = make_global(receiver);
-      _connection->receive(std::move(method), [global](const folly::dynamic &params,
-        std::shared_ptr<StatoResponder> responder) {
-        global->receive(params, responder);
+
+      _connection->receive(std::move(method), [this, global](
+        const std::string & pluginId,
+        const std::string &apiMethod,
+        std::shared_ptr<EnvelopePayload> envelopePayload,
+        std::shared_ptr<Envelope> envelope,
+        std::shared_ptr<StatoResponder> responder
+      ) {
+        PluginCallRequestResponse requestResponse;
+        JsonStringToMessage(envelopePayload->body(), &requestResponse);
+        //envelopePayload->body().UnpackTo(&requestResponse);
+
+//        envelopePayload->
+        global->receive(
+          pluginId,
+          apiMethod,
+          folly::parseJson(requestResponse.body()),
+          requestResponse,
+          envelopePayload,
+          envelope,
+          responder
+        );
       });
-    }
+    };
+
 
   private:
     friend HybridBase;
     std::shared_ptr<StatoPluginConnection> _connection;
 
-    JStatoPluginConnectionImpl(std::shared_ptr<StatoPluginConnection> connection) : _connection(
-      std::move(connection)) {}
+    JStatoPluginConnectionImpl(std::shared_ptr<StatoPluginConnection> connection) :
+      _connection(std::move(connection)) {}
   };
 
   class JStatoPlugin : public jni::JavaClass<JStatoPlugin> {
@@ -228,7 +300,9 @@ namespace {
           ->getMethod<void(jni::alias_ref<JStatoPluginConnection::javaobject>)>(
             "onConnect");
       try {
+
         method(self(), JStatoPluginConnectionImpl::newObjectCxxArgs(conn));
+
       } catch (const std::exception &e) {
         handleException(e);
       } catch (const std::exception *e) {
@@ -341,6 +415,9 @@ namespace {
   };
 
   class JStatoPluginWrapper : public StatoPlugin {
+  private:
+    std::atomic_bool connected {false};
+
   public:
     jni::global_ref<JStatoPlugin> jplugin;
 
@@ -349,13 +426,19 @@ namespace {
     }
 
     virtual void didConnect(std::shared_ptr<StatoPluginConnection> conn) override {
+      connected = true;
       jplugin->didConnect(conn);
     }
 
     virtual void didDisconnect() override {
+      connected = false;
       jplugin->didDisconnect();
     }
 
+    bool isConnected() override {
+      //infoStream() << "Connected plugin: "
+      return connected;
+    }
     virtual bool runInBackground() override {
       return jplugin->runInBackground();
     }
@@ -408,6 +491,7 @@ namespace {
 //        return nullptr;
 //      }
 //    }
+
 
     void start() {
       try {
@@ -509,7 +593,7 @@ namespace {
         auto elements = getClient()->getStateElements();
         for (auto &&element : elements) {
           std::string status;
-          switch (element.state_) {
+          switch (element.state) {
             case State::in_progress:
               status = "IN_PROGRESS";
               break;
@@ -520,7 +604,7 @@ namespace {
               status = "SUCCESS";
               break;
           }
-          summary->addEntry(element.name_, status);
+          summary->addEntry(element.name, status);
         }
         return summary;
       } catch (const std::exception &e) {
@@ -565,27 +649,27 @@ namespace {
       const std::string os,
       const std::string device,
       const std::string deviceId,
-      const std::string app,
-      const std::string appId,
-      const std::string privateAppDirectory) {
+      const std::string appName,
+      const std::string appPackage
+    ) {
 
+      SDKState state;
+      SDKConfig config;
+      config.set_host(std::move(host));
+      config.set_insecure_port(insecurePort);
+      config.set_secure_port(securePort);
 
-      getClient()->init(
-        {
-          {
-            std::move(host),
-            std::move(os),
-            std::move(device),
-            std::move(deviceId),
-            std::move(app),
-            std::move(appId),
-            std::move(privateAppDirectory)
-          },
-          callbackWorker->eventBase(),
-          connectionWorker->eventBase(),
-          insecurePort,
-          securePort
-        });
+      state.set_os(OSAndroid);
+      state.set_node_id(deviceId);
+      state.set_node_name(device);
+      state.set_app_name(appName);
+      state.set_app_package(appPackage);
+
+      StatoClientInit init(state, config);
+      init.callbackWorker = callbackWorker->eventBase();
+      init.connectionWorker = connectionWorker->eventBase();
+
+      getClient()->init(init);
     }
 
   private:

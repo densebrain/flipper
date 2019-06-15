@@ -107,9 +107,8 @@ class StatoDefaultClient private constructor(private val hybridData: HybridData)
         os,
         device,
         deviceId,
-        app,
-        appId,
-        privateAppDirectory
+        appName,
+        appPackage
       )
     }
   }
@@ -124,9 +123,8 @@ class StatoDefaultClient private constructor(private val hybridData: HybridData)
     os: String,
     device: String,
     deviceId: String,
-    app: String,
     appId: String,
-    privateAppDirectory: String)
+    appPackage: String)
 
   companion object {
     init {

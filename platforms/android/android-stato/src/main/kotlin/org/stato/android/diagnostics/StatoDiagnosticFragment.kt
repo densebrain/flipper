@@ -19,18 +19,19 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import org.densebrain.android.logging.DroidLogger
+import org.densebrain.android.logging.error
 import org.stato.android.AndroidStatoClientManager
 import org.stato.core.StateSummary.State.*
 import org.stato.core.StatoClient
 import org.stato.core.StatoStateUpdateListener
 
-class StatoDiagnosticFragment : Fragment(), StatoStateUpdateListener {
+class StatoDiagnosticFragment : Fragment(), StatoStateUpdateListener, DroidLogger {
 
-  internal lateinit var summaryView: TextView
-  internal lateinit var logView: TextView
-  internal lateinit var scrollView: ScrollView
-  private lateinit var reportButton: Button
-
+  private lateinit var summaryView: TextView
+  private lateinit var logView: TextView
+  private lateinit var scrollView: ScrollView
+  private var reportButton: Button? = null
 
   private var reportCallback: StatoDiagnosticReportListener? = null
 
@@ -46,9 +47,10 @@ class StatoDiagnosticFragment : Fragment(), StatoStateUpdateListener {
 
     }
   }
-  internal val summary: CharSequence
+
+  private val summary: CharSequence
     get() {
-      val context = getContext()
+      val context = context
       val client = AndroidStatoClientManager.client ?: return ""
       val summary = client.stateSummary
       val stateText = StringBuilder(16)
@@ -66,20 +68,18 @@ class StatoDiagnosticFragment : Fragment(), StatoStateUpdateListener {
     }
 
   @SuppressLint("SetTextI18n")
-
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
     val root = LinearLayout(context)
     root.orientation = LinearLayout.VERTICAL
 
     if (reportCallback != null) {
       reportButton = Button(context)
-      reportButton.text = "Report Bug"
-      reportButton.setOnClickListener(mOnBugReportClickListener)
+      reportButton!!.text = "Report Bug"
+      reportButton!!.setOnClickListener(mOnBugReportClickListener)
     }
     summaryView = TextView(context)
-    logView = TextView(getContext())
-    scrollView = ScrollView(getContext())
+    logView = TextView(context)
+    scrollView = ScrollView(context)
     scrollView.addView(logView)
     if (reportButton != null) {
       root.addView(reportButton)
@@ -89,26 +89,19 @@ class StatoDiagnosticFragment : Fragment(), StatoStateUpdateListener {
     return root
   }
 
-
   override fun onStart() {
     super.onStart()
     try {
-      val context = context!!
-      AndroidStatoClientManager.Builder(context)
-        .withOnReady(object : AndroidStatoClientManager.OnReadyCallback {
-          override fun call(client: StatoClient) {
-            client.subscribeForUpdates(this@StatoDiagnosticFragment)
-            summaryView.text = summary
-            logView.text = client.state
-          }
-        })
-        .start()
+      AndroidStatoClientManager.onReady += { (client) ->
+        client.subscribeForUpdates(this@StatoDiagnosticFragment)
+        summaryView.text = summary
+        logView.text = client.state
+      }
     } catch (ex: Exception) {
-      Log.e(javaClass.name, "Unable to build client", ex)
+      error("Unable to build client", ex)
     }
 
     //final StatoClient client = AndroidStatoClientManager.getInstance(getContext());
-
 
   }
 
@@ -124,8 +117,6 @@ class StatoDiagnosticFragment : Fragment(), StatoStateUpdateListener {
       summary
     else
       diagnosticSummaryTextFilter!!.applyDiagnosticSummaryTextFilter(summary)
-
-
 
     activity?.runOnUiThread {
       summaryView.text = summary
@@ -144,13 +135,11 @@ class StatoDiagnosticFragment : Fragment(), StatoStateUpdateListener {
     super.onAttach(context)
 
     reportCallback = context as? StatoDiagnosticReportListener
-
     diagnosticSummaryTextFilter = context as? StatoDiagnosticSummaryTextFilter
 
   }
 
   companion object {
-
     fun newInstance(): StatoDiagnosticFragment {
       return StatoDiagnosticFragment()
     }

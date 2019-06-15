@@ -1,0 +1,18 @@
+syntax = "proto3";
+option java_package = "org.stato.models";
+option java_multiple_files = true;
+
+package stato.models;
+import "SDKState.proto";
+import "Payload.proto";
+
+message Envelope {
+  SDKState state = 1;
+  string request_id = 2;
+  bool is_error = 3;
+  bool is_response = 4;
+  EnvelopePayload payload = 5;
+}
+
+
+

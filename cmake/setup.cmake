@@ -5,7 +5,7 @@ include(${CMAKE_CURRENT_LIST_DIR}/Cache.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/Macros.cmake)
 
 # GLOBAL COMPILER OPTIONS
-if(NOT CMAKE_CXX_STANDARD STREQUAL "17")
+if(NOT ${CMAKE_CXX_STANDARD} STREQUAL "17")
   set(CMAKE_CXX_STANDARD 14)
   set(CMAKE_CXX_EXTENSIONS OFF)
 endif()
@@ -41,7 +41,6 @@ add_compile_options(
 
   # TODO: Remove the following flag - investigate first
   -DSTATO_OSS=1
-
   -frtti
   -fexceptions
   -Wno-error
@@ -52,5 +51,6 @@ add_compile_options(
   -Wno-comment
   -Wno-return-type
   -Wno-tautological-constant-compare
+
 )
 

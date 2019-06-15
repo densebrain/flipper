@@ -10,10 +10,12 @@
  */
 import "@stato/types"
 import "./Types"
+export {default as Models} from "./Models"
 
 export * from "./Types"
 export * from "./async/Deferred"
 export * from "./logging/Logger"
+export * from "./util/FP"
 export * from "./util/JSONUtil"
 export * from "./util/StringExt"
 export * from "./util/ObjectUtil"
@@ -25,3 +27,5 @@ export * from "./events/Event"
 export * from "./dev/DevIPC"
 export * from "./webpack/webpack.types"
 export * from "./plugin/PluginWhitelist"
+
+

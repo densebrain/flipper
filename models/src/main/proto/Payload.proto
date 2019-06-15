@@ -1,0 +1,61 @@
+syntax = "proto3";
+option java_package = "org.stato.models";
+option java_multiple_files = true;
+
+package stato.models;
+
+import "PayloadType.proto";
+import "google/protobuf/any.proto";
+
+
+message ErrorRequestResponse {
+  string name = 1;
+  string message = 2;
+  string stacktrace= 3;
+
+}
+
+
+message CertificateExchangeRequest {
+  string csr = 1;
+  string connection_id = 2;
+}
+
+message CertificateExchangeResponse {
+  string ca_cert = 1;
+  string client_cert = 2;
+  string connection_id = 3;
+}
+
+message PluginListRequest {
+
+}
+
+message PluginListResponse {
+  repeated string plugins = 1;
+}
+
+
+// Same body for request and response
+message PluginCallRequestResponse {
+  string plugin_id = 1;
+  string method = 2;
+  string request_id = 3;
+  string body = 4;
+}
+
+// Same body for request and response
+message PluginSetActiveRequestResponse {
+  string plugin_id = 1;
+}
+
+message PluginSupportedRequestResponse {
+  string plugin_id = 1;
+  string method = 2;
+  bool is_supported = 3;
+}
+
+message EnvelopePayload {
+  PayloadType type = 1;
+  string body = 2;
+}

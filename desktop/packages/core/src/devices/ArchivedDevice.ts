@@ -5,9 +5,10 @@
  * @format
  */
 import BaseDevice from "./BaseDevice"
-import { DeviceType, OS, DeviceShell, DeviceLogEntry } from "./BaseDevice"
+import { DeviceType, DeviceShell, DeviceLogEntry } from "./BaseDevice"
+import {stato as Models} from "@stato/models"
 export default class ArchivedDevice extends BaseDevice {
-  constructor(serial: string, deviceType: DeviceType, title: string, os: OS, logEntries: Array<DeviceLogEntry>) {
+  constructor(serial: string, deviceType: DeviceType, title: string, os: Models.OS, logEntries: Array<DeviceLogEntry>) {
     let archivedDeviceType = deviceType
 
     if (archivedDeviceType === "emulator") {

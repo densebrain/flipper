@@ -68,17 +68,17 @@ object RootComponentSpec {
   }
 
   @OnEvent(ClickEvent::class)
-  fun hitGetRequest(c: ComponentContext) {
+  fun hitGetRequest(_c: ComponentContext) {
     ExampleActions.sendGetRequest()
   }
 
   @OnEvent(ClickEvent::class)
-  fun hitPostRequest(c: ComponentContext) {
+  fun hitPostRequest(_c: ComponentContext) {
     ExampleActions.sendPostRequest()
   }
 
   @OnEvent(ClickEvent::class)
-  fun triggerNotification(c: ComponentContext) {
+  fun triggerNotification(_c: ComponentContext) {
     ExampleActions.sendNotification()
   }
 

@@ -5,11 +5,13 @@
  * @format
  */
 import BaseDevice from "./BaseDevice"
+import {stato as Models} from "@stato/models"
+
 export default class WindowsDevice extends BaseDevice {
   
 
   constructor() {
-    super("Windows","", "physical", "desktop")
+    super(Models.OS.OSWindows,"", "physical", "desktop")
   }
 
   teardown() {}

@@ -16,7 +16,6 @@ import org.stato.core.*
 @DoNotStrip
 internal class StatoPluginConnectionImpl private constructor(private val hybridData: HybridData) : StatoPluginConnection {
 
-
   override fun send(method: String, params: StatoObject) {
     sendObject(method, params)
   }
@@ -29,17 +28,14 @@ internal class StatoPluginConnectionImpl private constructor(private val hybridD
 
   external fun sendArray(method: String, params: StatoArray)
 
-    external override fun reportError(throwable: Throwable)
+  external override fun reportError(throwable: Throwable)
 
   external fun receive(method: String, receiver: StatoReceiver)
 
   override fun receive(method: String, receiver: StatoReceiverCallback) {
 
-
-
-    receive(method, object: StatoReceiver {
+    receive(method, object : StatoReceiver {
       override fun onReceive(params: StatoObject, responder: StatoResponder) {
-        //info("Received method: ${method}")
         receiver(params, responder)
       }
     })

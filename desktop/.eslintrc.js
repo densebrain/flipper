@@ -45,6 +45,8 @@ module.exports = {
     "react/no-find-dom-node": 0,
     "react/prop-types": 0,
     "react/display-name": 0,
+    "@typescript-eslint/no-ban-types": 0,
+    "@typescript-eslint/no-parameter-properties": 0,
     "@typescript-eslint/no-non-null-assertion": 0,
     "@typescript-eslint/no-use-before-define": 0,
     "@typescript-eslint/no-object-literal-type-assertion": 0,

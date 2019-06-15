@@ -22,12 +22,12 @@ import {
   TableHighlightedRows,
   TableRows
 } from "./ui/components/table/types"
-import {Plugin, PluginActions, PluginClientMessage} from "./PluginTypes"
+import {Plugin, PluginActions} from "./PluginTypes"
 import {Run} from "./utils/runtime"
 import {isDefined} from "typeguard"
 import {getLogger} from "./fb-interfaces/Logger"
 import {Store} from "./reducers"
-
+import {stato as Models} from "@stato/models"
 const log = getLogger(__filename)
 
 export type TablePluginID = string;
@@ -133,23 +133,25 @@ export function createTablePlugin<
       tableMetadata: defaultTableMetadata
     } as PersistedState
     
-    static persistedStateReducer<Type extends Actions["type"] = any>(
+    static persistedStateReducer(
       persistedState: PersistedState,
-      msg: PluginClientMessage<Type,Actions[Type]>
+      msg: Models.PluginCallRequestResponse
     ):Partial<PersistedState> {
       
       if (!msg)
         return persistedState
       
-      const {type, payload} = msg
+      const
+        { method, body } = msg,
+        payload = JSON.parse(body || "{}")
       
-      if (type === props.resetMethod) {
+      if (method === props.resetMethod) {
         return {
           ...persistedState, rows: [], data: {}
         }
-      } else if (type) {
+      } else if (method) {
         const newRows = []
-        const newData:TablePluginPersistedDataType<RowData> = {}
+        const newData: TablePluginPersistedDataType<RowData> = {}
         const items = (Array.isArray(payload) ? payload : [payload]) as Array<RowData>
         
         for (const item of items.reverse()) {

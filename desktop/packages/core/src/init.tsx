@@ -12,7 +12,7 @@
 import "react-hot-loader"
 import "./react-hot-config"
 import "./GlobalTypes"
-
+import "./errors/GlobalHandler"
 import * as ReactDOM from "react-dom"
 
 import { getLogger } from "@stato/common"

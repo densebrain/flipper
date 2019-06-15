@@ -29,19 +29,18 @@ include(${ROOT_DIR}/cmake/CxxpodsArch.cmake)
 #  -DDISABLE_XPLAT)
 #
 set(SRC ${CMAKE_CURRENT_LIST_DIR}/src/main)
-
+set(MODELS_INCLUDE ${ROOT_DIR}/models/build/proto/include)
 
 include_directories(
   BEFORE
-#  ${SRC}
   ${SRC}/cpp
-#  ${SRC}/fbjni/detail
-#  ${SRC}/lyra
   ${SRC}/jni-hack
+  ${MODELS_INCLUDE}
 )
 
 file(
   GLOB_RECURSE FILES
+  LIST_DIRECTORIES false
   "${SRC}/*.cpp"
   "${SRC}/*.h"
 )

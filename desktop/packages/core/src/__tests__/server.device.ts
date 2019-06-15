@@ -11,8 +11,8 @@ import { createStore } from "redux"
 import * as path from "path"
 import * as os from "os"
 import * as fs from "fs"
-import androidDevice from "../dispatcher/androidDevice"
-import iosDevice from "../dispatcher/iOSDevice"
+import androidDevice from "../dispatcher/AndroidDeviceDispatcher"
+import iosDevice from "../dispatcher/iOSDeviceDispatcher"
 import Client from "../Client"
 
 let server: Server | null = null
@@ -38,7 +38,7 @@ test("Device can connect successfully", done => {
   const registeredClients:Array<Client> = []
   server.addListener("new-client", (client: Client) => {
     // Check there is a connected device that has the same device_id as the new client
-    const deviceId = client.query.device_id
+    const deviceId = client.query.nodeId
     expect(deviceId).toBeTruthy()
     const devices = store.getState().connections.devices
     expect(devices.map(device => device.serial)).toContain(deviceId) // Make sure it only connects once

@@ -1,0 +1,28 @@
+{
+  "name": "@stato/models",
+  "version": "1.0.0",
+  "private": false,
+  "description": "Data structures for all",
+  "files": [
+    "stato-models-bundle.js",
+    "stato-models-bundle.d.ts"
+  ],
+  "main": "stato-models-bundle.js",
+  "typings": "stato-models-bundle.d.ts",
+  "scripts": {
+   "bundle": "rm -Rf out && mkdir -p out && chmod +x ./node_modules/.bin/* &&  ./node_modules/.bin/pbjs -t static-module -w commonjs -o stato-models-bundle.js  $(ls ./src/main/proto/*.proto) && ./node_modules/.bin/pbts -o stato-models-bundle.d.ts stato-models-bundle.js"
+    
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/densebrain/stato.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "protobufjs": "6.8.8"
+  },
+  "devDependencies": {
+    "replace": "^1.1.0"
+  }
+}

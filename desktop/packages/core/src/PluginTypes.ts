@@ -1,33 +1,43 @@
+/**
+ * Copyright 2019-present Densebrain.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * Copyright 2019-present Facebook.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ * @format
+ */
 import * as React from "react"
 import BaseDevice from "./devices/BaseDevice"
 import Client from "./Client"
-import {Logger} from "./fb-interfaces/Logger"
-import {Theme} from "./ui/themes"
+import { Logger } from "./fb-interfaces/Logger"
+import { Theme } from "./ui/themes"
 import AndroidDevice from "./devices/AndroidDevice"
 import IOSDevice from "./devices/IOSDevice"
-import {IBugs, IPackageJSON} from "package-json"
-import {getValue, isString} from "typeguard"
-import {KeyboardActionHandler, KeyboardActions} from "./KeyboardTypes"
-import {Store} from "./reducers"
-import * as _ from 'lodash'
+import { IBugs, IPackageJSON } from "package-json"
+import { getValue, isString } from "typeguard"
+import { KeyboardActionHandler, KeyboardActions } from "./KeyboardTypes"
+import { Store } from "./reducers"
+import * as _ from "lodash"
 import Device from "./devices/BaseDevice"
+import {stato as Models} from "@stato/models"
 
 export interface PluginClient {
-  send<P = any>(method: string, params: P): void;
-  call<T = any, P = any>(method: string, params?: P): Promise<T>;
-  subscribe<P = any>(method: string, callback: (params: P) => void): void;
-  unsubscribe<P = any>(method: string, callback: (params: P) => void): void;
-  supportsMethod(method: string): Promise<boolean>;
+  send<P = any>(method: string, params: P): void
+  call<T = any, P = any>(method: string, params?: P): Promise<T>
+  subscribe<P = any>(method: string, callback: (params: P) => void): void
+  unsubscribe<P = any>(method: string, callback: (params: P) => void): void
+  supportsMethod(method: string): Promise<boolean>
 }
 
-
 export type Notification = {
-  id: string,
-  title: string,
-  message: string | React.ReactNode | Node,
-  severity: "warning" | "error",
-  timestamp?: number,
-  category?: string,
+  id: string
+  title: string
+  message: string | React.ReactNode | Node
+  severity: "warning" | "error"
+  timestamp?: number
+  category?: string
   action?: string
 }
 
@@ -35,93 +45,124 @@ export type PluginTarget = BaseDevice | Client
 
 export type PluginBugContact = IBugs
 
-
 export interface PluginComponentProps<PersistedState> {
   id: string
   key?: string
   title: string
   icon?: string | null | undefined
   entry?: string | null | undefined
-  gatekeeper?: string  | null | undefined
-  bugs?: PluginBugContact  | null | undefined
+  gatekeeper?: string | null | undefined
+  bugs?: PluginBugContact | null | undefined
   logger: Logger
   theme: Theme
-  store:StatoStore
+  store: StatoStore
   persistedState: PersistedState
   setPersistedState: (state: Partial<PersistedState>) => void
   target: PluginTarget
   deepLinkPayload?: string | null
   selectPlugin: (pluginID: string, deepLinkPayload: string | null) => boolean
   isArchivedDevice?: boolean
-  ref?:React.Ref<any> | React.RefObject<any> | undefined
-}// & ExtraProps
+  ref?: React.Ref<any> | React.RefObject<any> | undefined
+} // & ExtraProps
 
+// export type PluginActionType = string
 
-export type PluginActionType = string
+export type PluginActions<
+  Actions = any,
+  Type extends keyof Actions = keyof Actions
+> = { [type in Type]: Actions[type] }
 
-export type PluginActions<Actions = any, Type extends keyof Actions = keyof Actions> = {
-  [type in Type]: Actions[type]
-}
+// export type PluginActionPayloadParam<
+//   Actions,
+//   Type extends keyof Actions
+// > = PluginClientMessage<Type, Actions[Type]>
 
-export type PluginActionPayloadParam<Actions, Type extends keyof Actions> =
-  PluginClientMessage<Type,Actions[Type]>
+export interface PluginComponent<
+  Props extends PluginComponentProps<PersistedState> = any,
+  State = any,
+  Actions extends PluginActions<any, any> = any,
+  PersistedState = any
+> extends React.Component<Props, State> {
+  readonly reducers?: PluginReducers<State, Actions>
 
-export interface PluginComponent<Props extends PluginComponentProps<PersistedState> = any, State = any, Actions extends PluginActions<any,any> = any, PersistedState = any> extends React.Component<
-  Props,
-  State
-  > {
-  readonly reducers?: PluginReducers<State,Actions>
-  
   init?: () => void | null
   teardown?: () => void | null
   onKeyboardAction?: KeyboardActionHandler
-  dispatchAction: <Type extends Actions["type"], Payload extends Actions[Type] = Actions[Type]>(type: Type, payload: Payload) => void
+  dispatchAction: <
+    Type extends Actions["type"],
+    Payload extends Actions[Type] = Actions[Type]
+  >(
+    type: Type,
+    payload: Payload
+  ) => void
 }
 
-export type PluginReducers<State, Actions extends PluginActions<any,Type>, Type extends string = any> = {
-  [actionName in Type]: (state: State, actionData: Actions[actionName]) => Partial<State>
+export type PluginReducers<
+  State,
+  Actions extends PluginActions<any, Type>,
+  Type extends string = any
+> = {
+  [actionName in Type]: (
+    state: State,
+    actionData: Actions[actionName]
+  ) => Partial<State>
 }
 
 export interface PluginComponentClass<
   Props extends PluginComponentProps<PersistedState>,
   State,
-  Actions extends PluginActions<any,any>,
+  Actions extends PluginActions<any, any>,
   PersistedState
-> extends React.ComponentClass<
+> extends React.ComponentClass<Props, State> {
+  new (props: Props, context?: any): PluginComponent<
     Props,
-    State
-  > {
-  new(props: Props, context?: any): PluginComponent<Props, State,Actions, PersistedState>
-  
-  
+    State,
+    Actions,
+    PersistedState
+  >
+
   keyboardActions?: KeyboardActions | null | undefined
   defaultPersistedState?: PersistedState
-  
-  getActiveNotifications?: (persistedState: PersistedState) => Array<Notification>
-  
+
+  getActiveNotifications?: (
+    persistedState: PersistedState
+  ) => Array<Notification>
+
   exportPersistedState?: (
     _callClient: (a: string, b?: Plugin | null) => Promise<PersistedState>,
-    persistedState: PersistedState | null ,
+    persistedState: PersistedState | null,
     _store: Store | null
   ) => Promise<PersistedState | null>
-  
+
   persistedStateReducer?: (
     persistedState: PersistedState,
-    msg: PluginClientMessage<any,any>
+    msg: Models.PluginCallRequestResponse
   ) => Partial<PersistedState>
-  
+
   onRegisterDevice?: (
     store: Store,
     baseDevice: BaseDevice,
-    setPersistedState: (pluginKey: string, newPluginState: PersistedState | null | undefined) => void
+    setPersistedState: (
+      pluginKey: string,
+      newPluginState: PersistedState | null | undefined
+    ) => void
   ) => void
 }
 
-export interface DevicePluginComponentClass<Props extends PluginComponentProps<PersistedState>, State, Actions extends PluginActions<any,any>, PersistedState>
-extends PluginComponentClass<Props,State, Actions, PersistedState> {
-  new(props: Props, context?: any): DevicePluginComponent<Props, State,Actions, PersistedState>
-  
-  supportsDevice: (device: Device)=> boolean
+export interface DevicePluginComponentClass<
+  Props extends PluginComponentProps<PersistedState>,
+  State,
+  Actions extends PluginActions<any, any>,
+  PersistedState
+> extends PluginComponentClass<Props, State, Actions, PersistedState> {
+  new (props: Props, context?: any): DevicePluginComponent<
+    Props,
+    State,
+    Actions,
+    PersistedState
+  >
+
+  supportsDevice: (device: Device) => boolean
 }
 
 export enum PluginType {
@@ -136,13 +177,16 @@ export type PluginTypes = typeof PluginTypeValues[number]
 
 export type PluginID = string
 
-export type PluginClientMessage<Type, Payload> =
-   {
-  api?:string
-  type: Type
-  payload?: Payload
-}
-
+// export type PluginClientMessage<Type, Payload> = {
+//   api?: string
+//   type: Type
+//   payload?: Payload
+// }
+//
+// export type PluginClientResponse<Payload> = {
+//   success?: Payload
+//   error?: ErrorType
+// }
 
 export type PluginMetadata = {
   id: PluginID
@@ -152,10 +196,15 @@ export type PluginMetadata = {
 }
 
 export interface PluginModuleExport<
-  ComponentClazz extends PluginComponentClass<Props, State, Actions, PersistedState> = any,
+  ComponentClazz extends PluginComponentClass<
+    Props,
+    State,
+    Actions,
+    PersistedState
+  > = any,
   Props extends PluginComponentProps<PersistedState> = any,
   State = any,
-  Actions extends PluginActions<any,any> = any,
+  Actions extends PluginActions<any, any> = any,
   PersistedState = any,
   Type extends PluginType = PluginType.Normal
 > extends PluginMetadata {
@@ -167,13 +216,18 @@ export interface PluginModuleExport<
 }
 
 export interface DevicePluginModuleExport<
-  ComponentClazz extends DevicePluginComponentClass<Props, State, Actions, PersistedState> = any,
+  ComponentClazz extends DevicePluginComponentClass<
+    Props,
+    State,
+    Actions,
+    PersistedState
+  > = any,
   Props extends PluginComponentProps<PersistedState> = any,
   State = any,
-  Actions extends PluginActions<any,any> = any,
+  Actions extends PluginActions<any, any> = any,
   PersistedState = any,
   Type extends PluginType = PluginType.Device
-  > extends PluginMetadata {
+> extends PluginMetadata {
   type: Type
   path?: string
   title?: string
@@ -184,21 +238,36 @@ export interface DevicePluginModuleExport<
 export interface Plugin<
   Props extends PluginComponentProps<PersistedState> = any,
   State = any,
-  Actions extends PluginActions<any,any> = any,
+  Actions extends PluginActions<any, any> = any,
   PersistedState = any,
-  ComponentClazz extends PluginComponentClass<Props, State, Actions, PersistedState> = PluginComponentClass<Props, State, Actions, PersistedState>,
+  ComponentClazz extends PluginComponentClass<
+    Props,
+    State,
+    Actions,
+    PersistedState
+  > = PluginComponentClass<Props, State, Actions, PersistedState>,
   Type extends PluginType = any
-> extends PluginModuleExport<ComponentClazz,Props,State, Actions, PersistedState, Type> {
-  
+>
+  extends PluginModuleExport<
+    ComponentClazz,
+    Props,
+    State,
+    Actions,
+    PersistedState,
+    Type
+  > {
   pluginPath?: string | null
   name: string
   title: string
-  entry?: string  | null | undefined
-  icon?: string  | null | undefined
-  gatekeeper?: string  | null | undefined
+  entry?: string | null | undefined
+  icon?: string | null | undefined
+  gatekeeper?: string | null | undefined
   error?: string
-  bugs?: PluginBugContact  | null | undefined
-  component?: PluginComponent<Props, State, Actions, PersistedState> | null | undefined
+  bugs?: PluginBugContact | null | undefined
+  component?:
+    | PluginComponent<Props, State, Actions, PersistedState>
+    | null
+    | undefined
 }
 
 export type Plugins = Array<PluginID>
@@ -207,37 +276,52 @@ export type PluginProp = keyof Plugin
 
 export type PluginProps = { [key in PluginProp]: Plugin[key] }
 
-export const PluginPropNamesRequired = Array<PluginProp>("id", "title", "componentClazz")
-export const PluginPropNamesCopied = Array<PluginProp>("id", "name", "title", "entry", "icon", "gatekeeper", "bugs")
-
+export const PluginPropNamesRequired = Array<PluginProp>(
+  "id",
+  "title",
+  "componentClazz"
+)
+export const PluginPropNamesCopied = Array<PluginProp>(
+  "id",
+  "name",
+  "title",
+  "entry",
+  "icon",
+  "gatekeeper",
+  "bugs"
+)
 
 export interface DevicePlugin<
   Props extends PluginComponentProps<PersistedState> = any,
-  Actions extends PluginActions<any,any> = any,
+  Actions extends PluginActions<any, any> = any,
   State = any,
   PersistedState = any
-> extends Plugin<
-  Props,
-  Actions,
+>
+  extends Plugin<
+    Props,
+    Actions,
+    State,
+    PersistedState,
+    DevicePluginComponentClass<Props, Actions, State, PersistedState>,
+    PluginType.Device
+  > {}
+
+export interface DevicePluginComponent<
+  Props extends PluginComponentProps<PersistedState>,
   State,
-  PersistedState,
-  DevicePluginComponentClass<Props, Actions,State, PersistedState>,
-  PluginType.Device
-> {
-
-
-}
-
-export interface DevicePluginComponent<Props extends PluginComponentProps<PersistedState>, State, Actions extends PluginActions<any,any>, PersistedState>
-  extends PluginComponent<Props, State, Actions, PersistedState> {
+  Actions extends PluginActions<any, any>,
+  PersistedState
+> extends PluginComponent<Props, State, Actions, PersistedState> {
   getDevice(): BaseDevice | null
   getAndroidDevice(): AndroidDevice | null
   getIOSDevice(): IOSDevice | null
 }
 
 export function validatePlugin(plugin: Partial<Plugin>): boolean {
-  return PluginPropNamesRequired.every(prop => !!plugin[prop]) &&
+  return (
+    PluginPropNamesRequired.every(prop => !!plugin[prop]) &&
     getValue(() => !!plugin.id && !!plugin.componentClazz, false)
+  )
 }
 
 export function isPlugin(plugin: Partial<Plugin>): plugin is Plugin {
@@ -248,29 +332,38 @@ export function isDevicePlugin(o: any): o is DevicePlugin {
   return o.type === PluginType.Device && isPlugin(o)
 }
 
-export function callClient<T extends object = any>(client: Client, id: string): (a: string, b: Plugin | undefined) => Promise<T> {
+export function callClient<T extends object = any>(
+  client: Client,
+  id: string
+): (a: string, b: Plugin | undefined) => Promise<T> {
   return (method, params) => client.call(id, method, false, params)
 }
 
 export type PluginError = [IPackageJSON, Plugin | null, Error | null, string]
 
+export type PluginComponentClassAny = PluginComponentClass<any, any, any, any>
+export type DevicePluginComponentClassAny = DevicePluginComponentClass<
+  any,
+  any,
+  any,
+  any
+>
 
-export type PluginComponentClassAny = PluginComponentClass<any,any,any,any>
-export type DevicePluginComponentClassAny = DevicePluginComponentClass<any,any,any,any>
+export function makePlugin<Type extends PluginType>(
+  componentClazz: PluginComponentClassAny,
+  type: Type
+): typeof type extends PluginType.Device ? DevicePlugin : Plugin {
+  const props = _.pick(componentClazz, "id", "title", "name") as Pick<
+    Plugin,
+    "id" | "title" | "name"
+  >
+  let { id, name, title } = props
 
-export function makePlugin<Type extends PluginType>(componentClazz:PluginComponentClassAny, type: Type): typeof type extends PluginType.Device ? DevicePlugin : Plugin  {
-  const props = _.pick(componentClazz, "id", "title", "name") as Pick<Plugin, "id" | "title" |"name">
-  let {
-    id,
-    name,
-    title
-  } = props
-  
   Object.assign(props, {
     name: name || id,
     title: title || name || id
   })
-  
+
   return {
     ...props,
     type,
@@ -278,10 +371,11 @@ export function makePlugin<Type extends PluginType>(componentClazz:PluginCompone
   } as any
 }
 
-
-export function makeNormalPlugin(componentClazz:PluginComponentClassAny) {
+export function makeNormalPlugin(componentClazz: PluginComponentClassAny) {
   return makePlugin<PluginType.Normal>(componentClazz, PluginType.Normal)
 }
-export function makeDevicePlugin(componentClazz:DevicePluginComponentClassAny) {
+export function makeDevicePlugin(
+  componentClazz: DevicePluginComponentClassAny
+) {
   return makePlugin<PluginType.Device>(componentClazz, PluginType.Device)
 }

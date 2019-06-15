@@ -1,5 +1,9 @@
 /**
- * Copyright 2018-present Facebook.
+ * Copyright 2019-present Densebrain.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * Copyright 2019-present Facebook.
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  * @format
@@ -10,7 +14,10 @@ import { PluginNotification } from "../reducers/NotificationsReducer"
 import { ActiveSheet, setActiveSheet } from "../reducers/ApplicationReducer"
 import * as React from "react"
 import NotificationsHub from "../NotificationsHub"
-import { selectPlugin, SelectPluginPayload } from "../reducers/ConnectionsReducer"
+import {
+  selectPlugin,
+  SelectPluginPayload
+} from "../reducers/ConnectionsReducer"
 import UserAccount from "./UserAccount"
 import { connect } from "react-redux"
 import { lighten } from "@material-ui/core/styles/colorManipulator"
@@ -23,12 +30,14 @@ import Glyph from "../ui/components/Glyph"
 import { isDevicePlugin, Plugin } from "../PluginTypes"
 import LoadingIndicator from "../ui/components/LoadingIndicator"
 import BaseDevice from "../devices/BaseDevice"
-import { UninitializedClient } from "../UninitializedClient"
+//import { UninitializedClient } from "../UninitializedClient"
 import GK from "../fb-stubs/GK"
 import Sidebar from "../ui/components/Sidebar"
 import { RootState } from "../reducers"
 import { Run } from "../utils/runtime"
 import * as _ from "lodash"
+//import { ConnectionMetadata } from "../messaging/MessagePayloads"
+import { UninitializedClient } from "../UninitializedClient"
 
 type Classes = "list"
 
@@ -38,7 +47,7 @@ const baseStyles = (theme: Theme): StyleDeclaration<Classes> => ({
   }
 })
 
-const ListItem = styled("div")(
+const ListItem = styled("div","ListItem")(
   styleCreator(({ active, theme }) => ({
     paddingLeft: 10,
     display: "flex",
@@ -69,6 +78,7 @@ const SidebarHeader = styled(FlexBox, "SidebarHeader")(({ theme }) => ({
   whiteSpace: "nowrap",
   flexShrink: 0
 }))
+
 const PluginShape = styled(FlexBox, "PluginShape")(
   styleCreator(
     props => ({
@@ -145,11 +155,11 @@ type PluginIconProps = {
 
 const PluginIcon = withStyles(baseStyles, {
   withTheme: true
-})(({ backgroundColor, name, color }: PluginIconProps) =>
-    <PluginShape backgroundColor={backgroundColor}>
-      <Glyph size={12} name={name} color={color} />
-    </PluginShape>
-  )
+})(({ backgroundColor, name, color }: PluginIconProps) => (
+  <PluginShape backgroundColor={backgroundColor}>
+    <Glyph size={12} name={name} color={color} />
+  </PluginShape>
+))
 
 type PluginSidebarListItemProps = {
   onClick: () => void
@@ -201,11 +211,7 @@ type StateProps = {
   selectedDevice: BaseDevice | null | undefined
   windowIsFocused: boolean
   clients: Array<Client>
-  uninitializedClients: Array<{
-    client: UninitializedClient
-    deviceId?: string
-    errorMessage?: string
-  }>
+  uninitializedClients: Array<UninitializedClient>
   numNotifications: number
   devicePlugins: Map<string, Plugin>
   clientPlugins: Map<string, Plugin>
@@ -231,6 +237,8 @@ const MainSidebar = withStyles(baseStyles, {
       })
     )
 
+    private showDebugger = () => this.props.setActiveSheet("PLUGIN_DEBUGGER")
+    
     render() {
       const {
         selectedDevice,
@@ -249,7 +257,9 @@ const MainSidebar = withStyles(baseStyles, {
           (client: Client) =>
             selectedDevice && selectedDevice.supportsOS(client.query.os)
         )
-        .sort((a, b) => (a.query.app || "").localeCompare(b.query.app))
+        .sort((a, b) =>
+          (a.query.appName || "").localeCompare(b.query.appName)
+        )
 
       const byPluginNameOrId = (a: Plugin, b: Plugin) =>
         (a.title || a.id) > (b.title || b.id) ? 1 : -1
@@ -312,17 +322,17 @@ const MainSidebar = withStyles(baseStyles, {
               </>
             )}
             {clients
-              .filter(
-                (client: Client) =>
-                  (selectedDevice &&
-                    client.query.device_id === selectedDevice.serial) || // Old android sdk versions don't know their
-                  // device_id
-                  // Display their plugins under all selected devices until they die out
-                  client.query.device_id === "unknown"
-              )
+              // .filter(
+              //   (client: Client) =>
+              //     (selectedDevice &&
+              //       client.query.nodeId === selectedDevice.serial) || // Old android sdk versions don't know their
+              //     // device_id
+              //     // Display their plugins under all selected devices until they die out
+              //     client.query.nodeId === "unknown"
+              // )
               .map((client: Client) => (
                 <React.Fragment key={client.id}>
-                  <SidebarHeader>{client.query.app}</SidebarHeader>
+                  <SidebarHeader>{client.query.appName}</SidebarHeader>
                   {Array.from(this.props.clientPlugins.values())
                     .filter((p: Plugin) => client.plugins.indexOf(p.id) > -1)
                     .sort(byPluginNameOrId)
@@ -341,14 +351,16 @@ const MainSidebar = withStyles(baseStyles, {
                           })
                         }
                         plugin={plugin}
-                        app={client.query.app}
+                        app={client.query.appName}
                       />
                     ))}
                 </React.Fragment>
               ))}
+              
+            {/*  Uninitialized Clients */}
             {uninitializedClients.map(entry => (
-              <React.Fragment key={JSON.stringify(entry.client)}>
-                <SidebarHeader>{entry.client.appName}</SidebarHeader>
+              <React.Fragment key={JSON.stringify(entry.metadata.connectionId)}>
+                <SidebarHeader>{entry.metadata.appName}</SidebarHeader>
                 {entry.errorMessage ? (
                   <ErrorIndicator name={"mobile-cross"} size={16} />
                 ) : (
@@ -357,9 +369,9 @@ const MainSidebar = withStyles(baseStyles, {
               </React.Fragment>
             ))}
           </Plugins>
-          <PluginDebugger
-            onClick={() => this.props.setActiveSheet("PLUGIN_DEBUGGER")}
-          >
+          
+          {/* Plugin Debugger */}
+          <PluginDebugger onClick={this.showDebugger}>
             <Glyph
               name="question-circle"
               size={16}
@@ -368,6 +380,8 @@ const MainSidebar = withStyles(baseStyles, {
             />
             &nbsp;Plugin not showing?
           </PluginDebugger>
+          
+          
           {config.showLogin && <UserAccount />}
         </Sidebar>
       )
@@ -388,7 +402,7 @@ export default connect<StateProps, Actions, {}, RootState>(
     plugins: { devicePlugins, clientPlugins }
   }) => ({
     numNotifications: Run(() => {
-      const blacklist = new Set(blacklistedPlugins)
+      const blacklist = new Set<string>(blacklistedPlugins)
       return activeNotifications.filter(
         (n: PluginNotification) => !blacklist.has(n.pluginId)
       ).length

@@ -8,69 +8,85 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import { SecureServerConfig } from "./utils/CertificateProvider"
+import CertificateProvider, { SecureServerConfig } from "./utils/CertificateProvider"
 import { Logger } from "./fb-interfaces/Logger"
-import { ClientQuery } from "./Client"
 import { Store } from "./reducers"
-import os from "os"
-import CertificateProvider from "./utils/CertificateProvider"
-import { RSocketServer } from "rsocket-core"
+import * as Os from "os"
+import { BufferEncoders, IdentitySerializer, RSocketServer, Serializer } from "rsocket-core"
 import RSocketTCPServer from "rsocket-tcp-server"
 import { Single } from "rsocket-flowable"
 import Client from "./Client"
 import { UninitializedClient } from "./UninitializedClient"
 import { reportPlatformFailures } from "./utils/metrics"
 import * as net from "net"
-import { EventEmitter } from "events"
 import { PartialResponder, Payload, ReactiveSocket } from "rsocket-types"
-import { isString } from "typeguard"
-import { getLogger } from "@stato/common"
+import { getLogger, Models } from "@stato/common"
 import invariant from "invariant"
 import * as tls from "tls"
+import { MessageHandlerConfig } from "./messaging/Messages"
+import { Messenger } from "./messaging/Messenger"
+import { MessageChannelEvents } from "./messaging/MessageChannelEvents"
+import * as _ from "lodash"
+import { envelopFromPayload } from "./messaging/Messages"
+import { stato } from "@stato/models"
+import { Option } from "prelude-ts"
 
 const log = getLogger(__filename),
-  MDNS = require("multicast-dns")(),
+  MDNS:any = require("multicast-dns")(),
   MDNS_NAME = "stato._stato._tcp.local"
 
 type ClientInfo = {
-  connection: ReactiveSocket<string, string> | null | undefined
-  client: Client
+  connection:ReactiveSocket<Uint8Array, Uint8Array> | null | undefined
+  client:Client
 }
-export default class Server extends EventEmitter {
-  connections: Map<string, ClientInfo>
-  secureServer: Promise<RSocketServer<string, string>> | null = null
-  insecureServer: Promise<RSocketServer<string, string>> | null = null
-  certificateProvider: CertificateProvider
-  connectionTracker: ConnectionTracker
-  logger: Logger
-  store: Store
-  initialisePromise: Promise<void> | null = null
-
-  constructor(logger: Logger, store: Store) {
+export default class Server extends Messenger {
+  connections:Map<string, ClientInfo>
+  secureServer:Promise<RSocketServer<Uint8Array, Uint8Array>> | null = null
+  insecureServer:Promise<RSocketServer<Uint8Array, Uint8Array>> | null = null
+  certificateProvider:CertificateProvider
+  connectionTracker:ConnectionTracker
+  logger:Logger
+  store:Store
+  initialisePromise:Promise<void> | null = null
+  
+  constructor(logger:Logger, store:Store) {
     super()
+    
+    this.on("error", err => {
+      log.error("A server error occurred", err)
+    })
+    
     this.logger = logger
     this.connections = new Map()
     this.certificateProvider = new CertificateProvider(this, logger)
     this.connectionTracker = new ConnectionTracker(logger)
     this.store = store
   }
-
-  on(event: "error", callback: (err: Error) => void): this
-  on(event: "new-client", callback: (client: Client) => void): this
-  on(event: "clients-change", callback: () => void): this
-  on(event: string | symbol, callback: any): this {
+  
+  
+  getCertificateProvider():CertificateProvider {
+    return this.certificateProvider
+  }
+  
+  on<Error>(event:"error", callback:(err:Error) => void):this
+  on<Client>(event:"new-client", callback:(client:Client) => void):this
+  on<undefined>(event:"clients-change", callback:() => void):this
+  on<E>(
+    event:MessageChannelEvents[number],
+    callback:(event?:E) => void
+  ):this {
     return super.on(event, callback)
   }
-
+  
   init() {
     const { insecure, secure } = this.store.getState().application.serverPorts
-
+    
     try {
       this.startMDnsServer(insecure, secure)
     } catch (err) {
       console.error("Unable to start MDNS advertiser", err)
     }
-
+    
     this.initialisePromise = this.certificateProvider
       .loadSecureServerConfig()
       .then(options => (this.secureServer = this.startServer(secure, options)))
@@ -78,30 +94,33 @@ export default class Server extends EventEmitter {
         this.insecureServer = this.startServer(insecure)
         return
       })
+    
     reportPlatformFailures(this.initialisePromise, "initializeServer")
     return this.initialisePromise
   }
+  
   /**
    * Responds to mDns queries with network info
    *
-   * @param query
+   * @param insecure
+   * @param secure
    */
-
-  startMDnsServer(insecure: number, secure: number) {
+  
+  startMDnsServer(insecure:number, secure:number) {
     // mdns.on("response", (_response: any) => {
     // })
-    MDNS.on("query", (query: any) => {
+    MDNS.on("query", (query:any) => {
       if (!Array.isArray(query.questions)) {
         return
       }
-
-      const question = query.questions.find(function(q: any) {
+      
+      const question = query.questions.find(function(q:any) {
         return (
           (q.type === "PTR" && q.class.includes("UNKNOWN")) ||
           q.name.includes("stato")
         )
       })
-
+      
       if (question) {
         //console.log('got a query packet:', question, query);
         const addresses = getNetworkAddresses()
@@ -161,188 +180,247 @@ export default class Server extends EventEmitter {
       }
     })
   }
-
+  
   startServer(
-    port: number,
-    sslConfig?: SecureServerConfig
-  ): Promise<RSocketServer<string, string>> {
+    port:number,
+    sslConfig?:SecureServerConfig
+  ):Promise<RSocketServer<string, string>> {
+    
     const server = this
+    
     return new Promise((resolve, reject) => {
-      let rsServer: RSocketServer<string, string> | null = null
-
+      let rsServer:RSocketServer<string, string> | null = null
+      
       const serverFactory = (
-        onConnect: (socket: net.Socket) => void
-      ): net.Server => {
+        onConnect:(socket:net.Socket) => void
+      ):net.Server => {
+        
         const transportServer = sslConfig
-          ? tls.createServer(sslConfig, (socket: net.Socket) => {
-              onConnect(socket)
+          ? tls.createServer(sslConfig, (socket:net.Socket) => {
+            socket.on("error", err => {
+              log.error("TLS socket error", err)
             })
-          : net.createServer(onConnect)
+            onConnect(socket)
+          })
+          : net.createServer((socket:net.Socket) => {
+            socket.on("error", err => {
+              log.error("Certificate socket error", err)
+            })
+            onConnect(socket)
+          })
+        
         transportServer
-          .on("error", (err: Error) => {
+          .on("error", (err:Error) => {
             server.emit("error", err)
-            console.error(`Error opening server on port ${port}`, "server")
+            log.error(`Error opening server on port ${port}`, "server")
             reject(err)
           })
           .on("listening", () => {
+            const name = sslConfig ? "Secure" : "Certificate"
             log.debug(
-              `${
-                sslConfig ? "Secure" : "Certificate"
-              } server started on port ${port}`,
+              `${name} server started on port ${port}`,
               "server"
             )
             server.emit("listening", port)
             resolve(rsServer!!)
           })
+        
         return transportServer
       }
-
-      rsServer = new RSocketServer<string, string>({
+      
+      rsServer = new RSocketServer<Uint8Array, Uint8Array>({
+        serializers: {
+          data: IdentitySerializer as Serializer<Uint8Array>,
+          metadata: IdentitySerializer as Serializer<Uint8Array>
+        },
         getRequestHandler: sslConfig
-          ? this._trustedRequestHandler
-          : this._untrustedRequestHandler,
+          ? this.trustedRequestHandler
+          : this.untrustedRequestHandler,
         transport: new RSocketTCPServer({
           port,
           serverFactory
-        })
+        },BufferEncoders)
       })
       rsServer.start()
     })
   }
-
-  _trustedRequestHandler = (
-    conn: ReactiveSocket<string, string>,
-    connectRequest: Payload<string, string>
-  ): PartialResponder<string, string> => {
-    const server = this
-    const clientData: ClientQuery = JSON.parse(connectRequest.data!!)
+  
+  /**
+   * Trusted handler
+   *
+   * @param conn
+   * @param connectRequest
+   */
+  trustedRequestHandler = (
+    conn:ReactiveSocket<Uint8Array, Uint8Array>,
+    connectRequest:Payload<Uint8Array, Uint8Array>
+  ):PartialResponder<Uint8Array, Uint8Array> => {
+    log.info("Trusted connection", connectRequest)
+    const server = this,
+      clientData = Models.SDKState.decode(connectRequest.metadata!!)// as Models.SDKState
+    
     this.connectionTracker.logConnectionAttempt(clientData)
+    
     const client = this.addConnection(conn, clientData)
+    
     conn.connectionStatus().subscribe({
       onNext(payload) {
         if (payload.kind == "ERROR" || payload.kind == "CLOSED") {
-          console.debug(`Device disconnected ${client.id}`, "server")
+          log.debug(`Device disconnected ${client.id}`, "server")
           server.removeConnection(client.id)
         }
       },
-
       onSubscribe(subscription) {
         subscription.request(Number.MAX_SAFE_INTEGER)
       }
     })
     return client.responder
   }
-  _untrustedRequestHandler = (
-    _conn: ReactiveSocket<string, string>,
-    connectRequest: Payload<string, string>
-  ): PartialResponder<string, string> => {
-    const clientData = JSON.parse(connectRequest.data!!)
-    this.connectionTracker.logConnectionAttempt(clientData)
-    const client: UninitializedClient = {
-      os: clientData.os,
-      deviceName: clientData.device,
-      appName: clientData.app
-    }
-    this.emit("start-client-setup", client)
-    return {
-      requestResponse: payload => {
-        if (!isString(payload.data)) {
-          return Single.of({} as Payload<string, string>)
-        }
-
-        let rawData
-
-        try {
-          rawData = JSON.parse(payload.data)
-        } catch (err) {
-          console.error(
-            `Invalid JSON: ${payload.data}`,
-            "clientMessage",
-            "server"
-          )
-          return Single.of({} as Payload<string, string>)
-        }
-
-        const json: {
-          method: "signCertificate"
-          csr: string
-          destination: string
-        } = rawData
-
-        if (json.method === "signCertificate") {
-          console.debug("CSR received from device", "server")
-          const { csr, destination } = json
-          return new Single(subscriber => {
+  
+  /**
+   * Certificate exchange
+   *
+   * @param _conn
+   * @param connectRequest
+   */
+  untrustedRequestHandler = (
+    _conn:ReactiveSocket<Uint8Array, Uint8Array>,
+    connectRequest:Payload<Uint8Array, Uint8Array>
+  ):PartialResponder<Uint8Array, Uint8Array> => {
+    log.info("Data for cert sign", connectRequest)
+    
+    return Option.of(connectRequest.metadata)
+      .ifNone(() => {
+        throw new Error("No metadata")
+      })
+      .map(connectionMetadata => {
+        const metadata = Models.SDKState.decode(connectionMetadata), //as Models.SDKState,
+          client = {
+            metadata
+          } as UninitializedClient
+        //
+        // this.connectionTracker.logConnectionAttempt(metadata)
+      
+        this.emit("start-client-setup", client)
+      
+        return {
+          requestResponse: (payload:Payload<Uint8Array,Uint8Array>) => new Single<Payload<Uint8Array, Uint8Array>>(async (subscriber) => {
+            log.info("requestResponse payload", payload)
             subscriber.onSubscribe()
-            reportPlatformFailures(
-              this.certificateProvider.processCertificateSigningRequest(
-                csr,
-                clientData.os,
-                destination
-              ),
-              "processCertificateSigningRequest"
-            )
-              .then(result => {
-                subscriber.onComplete({
-                  data: JSON.stringify({
-                    deviceId: result.deviceId
-                  }),
-                  metadata: ""
+            if (!payload.data) {
+              subscriber.onError(new Error("No payload"))
+              return
+            }
+            
+            try {
+              Option.of(payload.data)
+                .ifSome(async () => {
+                  const [handler, envelope, envelopePayload, message] = envelopFromPayload(payload)
+                
+                  const
+                    result = await handler(
+                      Object.assign(_.clone(this), {
+                        ...this,
+                        getConnectionId() {
+                          return metadata.connectionId
+                        },
+                      
+                        getSDKState() {
+                          return metadata
+                        }
+                      }),
+                      message,
+                      envelopePayload,
+                      envelope
+                    ),
+                    resultPayload = !result ? {
+                        data: stato.Envelope.encode(stato.Envelope.create()).finish(),
+                        metadata: Uint8Array.of()
+                      } :
+                      this.toPayload(envelope, result)
+                
+                
+                  log.info("Signing result", result, resultPayload)
+                  //if (resultPayload)
+                  subscriber.onComplete(resultPayload)
+                  // Single<Payload<Uint8Array, Uint8Array>>
+                
                 })
-                this.emit("finish-client-setup", {
-                  client,
-                  deviceId: result.deviceId
-                })
-              })
-              .catch(e => {
-                subscriber.onError(e)
-                this.emit("client-setup-error", {
-                  client,
-                  error: e
-                })
-              })
-          })
-        }
-
-        return Single.of({} as Payload<string, string>)
-      },
-      // Leaving this here for a while for backwards compatibility,
-      // but for up to date SDKs it will no longer used.
-      // We can delete it after the SDK change has been using requestResponse for a few weeks.
-      fireAndForget: payload => {
-        if (!isString(payload.data)) {
-          return
-        }
-
-        let rawData
-
-        try {
-          rawData = JSON.parse(payload.data!!)
-        } catch (err) {
-          console.error(`Invalid JSON: ${payload.data}`, "server")
-          return
-        }
-
-        const json: {
-          method: "signCertificate"
-          csr: string
-          destination: string
-        } = rawData
-
-        if (json.method === "signCertificate") {
-          console.debug("CSR received from device", "server")
-          const { csr, destination } = json
-          this.certificateProvider
-            .processCertificateSigningRequest(csr, clientData.os, destination)
-            .catch(e => {
-              console.error(e)
-            })
-        }
-      }
-    }
+                .ifNone(() => subscriber.onError(new Error("Unknown result")))
+              
+            } catch (err) {
+              log.error("Unable to handle cert exchange", err)
+              subscriber.onError(err)
+            }
+            return {
+              onSubscribe: () => {
+                log.warn("cancelled")
+              }
+            }
+            // if (!isString(payload.data)) {
+            //   return
+            // }
+            //
+            // let rawData
+            //
+            // try {
+            //   rawData = JSON.parse(payload.data)
+            // } catch (err) {
+            //   log.error(
+            //     `Invalid JSON: ${payload.data}`,
+            //     "clientMessage",
+            //     "server"
+            //   )
+            //   return Single.of({} as Payload<Uint8Array, Uint8Array>)
+            // }
+            //
+            // const json = rawData as
+          
+            //return Single.of({} as Payload<Uint8Array, Uint8Array>)
+          }),
+          // Leaving this here for a while for backwards compatibility,
+          // but for up to date SDKs it will no longer used.
+          // We can delete it after the SDK change has been using requestResponse for a few weeks.
+          fireAndForget: (payload:Payload<Uint8Array,Uint8Array>) => {
+            log.info("fireAndForget payload", payload)
+            if (!payload.data)
+              return
+            
+            Option.of(envelopFromPayload(payload))
+              .map(([handler, envelope, envelopePayload, message]:MessageHandlerConfig) =>
+                handler(this, message, envelopePayload, envelope)
+              )
+          
+            // if (!isString(payload.data)) {
+            //   return
+            // }
+            //
+            // let rawData
+            //
+            // try {
+            //   rawData = JSON.parse(payload.data!!)
+            // } catch (err) {
+            //   console.error(`Invalid JSON: ${payload.data}`, "server")
+            //   return
+            // }
+            //
+            // const json:  = rawData
+            //
+            // if (json.method === "signCertificate") {
+            //   log.debug("CSR received from device", "server")
+            //   const { csr, destination } = json
+            //   this.certificateProvider
+            //     .processCertificateSigningRequest(csr, clientData.os, destination)
+            //     .catch(e => {
+            //       log.error(e)
+            //     })
+            // }
+          }
+        } as PartialResponder<Uint8Array, Uint8Array>
+      }).getOrThrow()
   }
-
-  close(): Promise<void> {
+  
+  close():Promise<void> {
     if (this.initialisePromise) {
       return this.initialisePromise.then(_ => {
         return Promise.all([
@@ -351,20 +429,20 @@ export default class Server extends EventEmitter {
         ]).then(() => undefined)
       })
     }
-
+    
     return Promise.resolve()
   }
-
-  toJSON(): null {
+  
+  toJSON():null {
     return null
   }
-
+  
   addConnection(
-    conn: ReactiveSocket<string, string>,
-    query: ClientQuery
-  ): Client {
+    conn:ReactiveSocket<Uint8Array, Uint8Array>,
+    query:Models.SDKState
+  ):Client {
     invariant(query, "expected query")
-    const id = `${query.app}#${query.os}#${query.device}#${query.device_id}`
+    const id = `${query.appPackage}#${query.os}#${query.nodeName}#${query.nodeId}`
     console.debug(`Device connected: ${id}`, "server")
     const client = new Client(id, query, conn, this.logger, this.store)
     const info = {
@@ -372,7 +450,7 @@ export default class Server extends EventEmitter {
       connection: conn
     }
     client.init().then(() => {
-      console.debug(
+      log.info(
         `Device client initialised: ${id}. Supported plugins: ${client.plugins.join(
           ", "
         )}`,
@@ -382,15 +460,15 @@ export default class Server extends EventEmitter {
        *Stato won't be aware until it attempts to reconnect.
        * When it does we need to terminate the zombie connection.
        */
-
+      
       if (this.connections.has(id)) {
         const connectionInfo = this.connections.get(id)
         connectionInfo &&
-          connectionInfo.connection &&
-          connectionInfo.connection.close()
+        connectionInfo.connection &&
+        connectionInfo.connection.close()
         this.removeConnection(id)
       }
-
+      
       this.connections.set(id, info)
       this.emit("new-client", client)
       this.emit("clients-change")
@@ -398,17 +476,17 @@ export default class Server extends EventEmitter {
     })
     return client
   }
-
-  attachFakeClient(client: Client) {
+  
+  attachFakeClient(client:Client) {
     this.connections.set(client.id, {
       client,
       connection: null
     })
   }
-
-  removeConnection(id: string) {
+  
+  removeConnection(id:string) {
     const info = this.connections.get(id)
-
+    
     if (info) {
       info.client.emit("close")
       this.connections.delete(id)
@@ -421,40 +499,40 @@ export default class Server extends EventEmitter {
 class ConnectionTracker {
   timeWindowMillis = 20 * 1000
   connectionProblemThreshold = 4 // "${device}.${app}" -> [timestamp1, timestamp2...]
-
-  connectionAttempts: Map<string, Array<number>> = new Map()
-  logger: Logger
-
-  constructor(logger: Logger) {
+  
+  connectionAttempts:Map<string, Array<number>> = new Map()
+  logger:Logger
+  
+  constructor(logger:Logger) {
     this.logger = logger
   }
-
-  logConnectionAttempt(client: ClientQuery) {
-    const key = `${client.os}-${client.device}-${client.app}`
+  
+  logConnectionAttempt(client:Models.SDKState) {
+    const key = `${client.os}-${client.nodeName}-${client.appName}`
     const time = Date.now()
     var entry = this.connectionAttempts.get(key) || []
     entry.push(time)
     entry = entry.filter(t => t >= time - this.timeWindowMillis)
     this.connectionAttempts.set(key, entry)
-
+    
     if (entry.length >= this.connectionProblemThreshold) {
-      console.error(
+      log.error(
         `Connection loop detected with ${key}. Connected ${
           this.connectionProblemThreshold
-        } times within ${this.timeWindowMillis / 1000}s.`,
+          } times within ${this.timeWindowMillis / 1000}s.`,
         "server"
       )
     }
   }
 }
 
-function getNetworkAddresses(): Array<string> {
-  return Object.entries(os.networkInterfaces()).reduce(
-    (addresses, [_name, iface]: [string, Array<os.NetworkInterfaceInfo>]) => {
+function getNetworkAddresses():Array<string> {
+  return Object.entries(Os.networkInterfaces()).reduce(
+    (addresses, [_name, iface]:[string, Array<Os.NetworkInterfaceInfo>]) => {
       addresses.push(
         ...iface
           .filter(
-            (it: os.NetworkInterfaceInfo) =>
+            (it:Os.NetworkInterfaceInfo) =>
               "IPv4" === it.family && !it.internal && it.address
           )
           .map(it => it.address)

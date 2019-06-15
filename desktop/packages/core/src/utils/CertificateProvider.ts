@@ -1,10 +1,14 @@
 /**
- * Copyright 2018-present Facebook.
+ * Copyright 2019-present Densebrain.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * Copyright 2019-present Facebook.
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import {getLogger, Logger} from "../fb-interfaces/Logger"
+import { getLogger, Logger } from "../fb-interfaces/Logger"
 import { promisify } from "util"
 import { reportPlatformFailures } from "./metrics"
 import { getAdbClient } from "./adbClient"
@@ -15,17 +19,21 @@ import * as os from "os"
 import Server from "../server"
 import iosUtil from "../fb-stubs/iOSContainerUtility"
 import * as Fs from "mz/fs"
-
-import { openssl, isInstalled as opensslInstalled } from "./openssl-wrapper-with-promises"
+import { stato as Models } from "@stato/models"
+import {
+  openssl,
+  isInstalled as opensslInstalled
+} from "./openssl-wrapper-with-promises"
 
 import * as Path from "path"
 
 import * as Tmp from "tmp"
+import { Option } from "prelude-ts"
 
 //const FsAsync = Fs.promises
-type TmpFile = {path: string, fd: any, cleanupFn: () => void}
+type TmpFile = { path:string; fd:any; cleanupFn:() => void }
 
-function tmpFile(): Promise<TmpFile> {
+function tmpFile():Promise<TmpFile> {
   return new Promise<TmpFile>((resolve, reject) => {
     Tmp.file((err, path, fd, cleanupFn) => {
       if (err) {
@@ -41,11 +49,10 @@ function tmpFile(): Promise<TmpFile> {
   })
 }
 
-  
-  //promisify(Tmp.file) as (options: Tmp.FileOptions) => Promise<string>
-const tmpDir = promisify(Tmp.dir) as (options: Tmp.DirOptions) => Promise<string>
-
-
+//promisify(Tmp.file) as (options: Tmp.FileOptions) => Promise<string>
+const tmpDir = promisify(Tmp.dir) as (
+  options:Tmp.DirOptions
+) => Promise<string>
 
 const caKey = getFilePath("ca.key")
 const caCert = getFilePath("ca.crt")
@@ -54,9 +61,9 @@ const serverCsr = getFilePath("server.csr")
 const serverSrl = getFilePath("server.srl")
 const serverCert = getFilePath("server.crt") // Device file paths
 
-const csrFileName = "app.csr"
-const deviceCAcertFile = "sonarCA.crt"
-const deviceClientCertFile = "device.crt"
+//const csrFileName = "app.csr"
+// const deviceCAcertFile = "sonarCA.crt"
+// const deviceClientCertFile = "device.crt"
 const caSubject = "/C=US/ST=CA/L=Menlo Park/O=Sonar/CN=SonarCA"
 const serverSubject = "/C=US/ST=CA/L=Menlo Park/O=Sonar/CN=localhost"
 const minCertExpiryWindowSeconds = 24 * 60 * 60
@@ -74,11 +81,11 @@ const log = getLogger(__filename)
 
 const x509SubjectCNRegex = /[=,]\s*CN=([^,]*)(,.*)?$/
 export type SecureServerConfig = {
-  key: Buffer,
-  cert: Buffer,
-  ca: Buffer,
-  requestCert: boolean,
-  rejectUnauthorized: boolean
+  key:Buffer
+  cert:Buffer
+  ca:Buffer
+  requestCert:boolean
+  rejectUnauthorized:boolean
 }
 /*
  * This class is responsible for generating and deploying server and client
@@ -93,274 +100,375 @@ export type SecureServerConfig = {
  */
 
 export default class CertificateProvider {
-  logger: Logger
-  adb: Promise<any>
-  certificateSetup: Promise<void>
-  server: Server
-
-  constructor(server: Server, logger: Logger) {
+  logger:Logger
+  adb:Promise<any>
+  certificateSetup:Promise<void>
+  server:Server
+  
+  constructor(server:Server, logger:Logger) {
     this.logger = logger
     this.adb = getAdbClient()
-    this.certificateSetup = reportPlatformFailures(this.ensureServerCertExists(), "ensureServerCertExists")
+    this.certificateSetup = reportPlatformFailures(
+      this.ensureServerCertExists(),
+      "ensureServerCertExists"
+    )
     this.server = server
   }
-
-  processCertificateSigningRequest(
-    unsanitizedCsr: string,
-    os: string,
-    appDirectory: string
-  ): Promise<{
-    deviceId: string
-  }> {
-    const csr = this.santitizeString(unsanitizedCsr)
-
-    if (csr === "") {
-      return Promise.reject(new Error(`Received empty CSR from ${os} device`))
-    }
-
+  
+  async processCertificateSigningRequest(
+    connectionId:string,
+    csr:string
+  ):Promise<Models.CertificateExchangeResponse> {
     this.ensureOpenSSLIsAvailable()
-    return this.certificateSetup
-      .then(_ => this.getCACertificate())
-      .then(caCert => this.deployFileToMobileApp(appDirectory, deviceCAcertFile, caCert, csr, os))
-      .then(_ => this.generateClientCertificate(csr))
-      .then(clientCert => this.deployFileToMobileApp(appDirectory, deviceClientCertFile, clientCert, csr, os))
-      .then(_ => this.extractAppNameFromCSR(csr))
-      .then(appName => this.getTargetDeviceId(os, appName, appDirectory, csr))
-      .then(deviceId => {
-        return {
-          deviceId
-        }
-      })
+    return Option.of(
+      await Promise.all([
+        this.getCACertificate(),
+        this.generateClientCertificate(this.santitizeString(csr))
+      ])
+    ).map(([caCert, clientCert]) => Models.CertificateExchangeResponse.create({
+      caCert,
+      clientCert,
+      connectionId
+    })).getOrThrow()
+    // .then(([caCert, clientCert]) =>
+    // Future.do(async () => {
+    //   const appName = await this.extractAppNameFromCSR(csr)
+    //   return [appName, await this.getTargetDeviceId(os, appName, csr)]
+    // })
+    //   .map(
+    //     (): SignCertificateResponse => ({
+    //       caCert,
+    //       clientCert,
+    //       connectionId
+    //     })
+    //   )
+    //   .toPromise()
+    
+    // const
+    //   clientCert =
+    //
+    // if (csr === "") {
+    //   return Promise.reject(new Error(`Received empty CSR from ${os} device`))
+    // }
+    //
+    //
+    // await this.certificateSetup
+    // const
+    //   caCert = await ,
+    //   appName = await this.extractAppNameFromCSR(csr),
+    //   deviceId = await this.getTargetDeviceId(os, appName, csr)
+    //
+    // // await this.deployFileToMobileApp(
+    // //   appDirectory,
+    // //   deviceCAcertFile,
+    // //   caCert,
+    // //   csr,
+    // //   os
+    // // )
+    //
+    // // await this.deployFileToMobileApp(
+    // //   appDirectory,
+    // //   deviceClientCertFile,
+    // //   clientCert,
+    // //   csr,
+    // //   os
+    // // )
+    //
+    // return  {
+    //   caCert,
+    //   clientCert,
+    //   connectionId
+    // }
   }
-
-  getTargetDeviceId(os: string, appName: string, appDirectory: string, csr: string): Promise<string> {
-    if (os === "Android") {
-      return this.getTargetAndroidDeviceId(appName, appDirectory, csr)
-    } else if (os === "iOS") {
-      return this.getTargetiOSDeviceId(appName, appDirectory, csr)
-    }
-
-    return Promise.resolve("unknown")
-  }
-
+  
+  // getTargetDeviceId(
+  //   os: string,
+  //   appName: string,
+  //   csr: string
+  // ): Promise<string> {
+  //   if (os === "Android") {
+  //     return this.getTargetAndroidDeviceId(appName, csr)
+  //   } else if (os === "iOS") {
+  //     return this.getTargetiOSDeviceId(appName, csr)
+  //   }
+  //
+  //   return Promise.resolve("unknown")
+  // }
+  
   ensureOpenSSLIsAvailable() {
     if (!opensslInstalled()) {
-      const e = Error("It looks like you don't have OpenSSL installed. Please install it to continue.")
+      const e = Error(
+        "It looks like you don't have OpenSSL installed. Please install it to continue."
+      )
       this.server.emit("error", e)
+      throw e
     }
   }
-
-  async getCACertificate(): Promise<string> {
+  
+  async getCACertificate():Promise<string> {
     const data = await Fs.readFile(caCert)
     return data.toString()
   }
-
-  generateClientCertificate(csr: string): Promise<string> {
+  
+  async generateClientCertificate(csr:string):Promise<string> {
     log.debug("Creating new client cert")
-    return this.writeToTempFile(csr).then(path => {
-      return openssl("x509", {
-        req: true,
-        in: path,
-        CA: caCert,
-        CAkey: caKey,
-        CAcreateserial: true,
-        CAserial: serverSrl
-      })
+    const path = await this.writeToTempFile(csr)
+    return await openssl("x509", {
+      req: true,
+      in: path,
+      CA: caCert,
+      CAkey: caKey,
+      CAcreateserial: true,
+      CAserial: serverSrl
     })
   }
-
-  getRelativePathInAppContainer(absolutePath: string) {
+  
+  getRelativePathInAppContainer(absolutePath:string) {
     const matches = /Application\/[^/]+\/(.*)/.exec(absolutePath)
-
+    
     if (matches && matches.length === 2) {
       return matches[1]
     }
-
+    
     throw new Error("Path didn't match expected pattern: " + absolutePath)
   }
-
-  async deployFileToMobileApp(
-    destination: string,
-    filename: string,
-    contents: string,
-    csr: string,
-    os: string
-  ): Promise<void> {
-    const appNamePromise = this.extractAppNameFromCSR(csr)
-
-    if (os === "Android") {
-      const deviceIdPromise = appNamePromise.then(app => this.getTargetAndroidDeviceId(app, destination, csr))
-      const [deviceId, appName] = await Promise.all([deviceIdPromise, appNamePromise])
-      return await this.pushFileToAndroidDevice(deviceId, appName, destination + filename, contents)
-      
-    }
-
-    if (os === "iOS" || os === "windows") {
-      try {
-        return await Fs.writeFile(destination + filename, contents)
-      } catch (err) {
-        if (os === "iOS") {
-          // Writing directly to FS failed. It's probably a physical device.
-          const relativePathInsideApp = this.getRelativePathInAppContainer(destination)
-          const appName = await appNamePromise
-            const udid = await this.getTargetiOSDeviceId(appName, destination, csr)
-            return await this.pushFileToiOSDevice(udid, appName, relativePathInsideApp, filename, contents)
-        }
   
-        throw new Error(`Invalid appDirectory recieved from ${os} device: ${destination}: ` + err.toString())
-      }
-      // return promisify()(destination + filename, contents).catch(err => {
-      //   if (os === "iOS") {
-      //     // Writing directly to FS failed. It's probably a physical device.
-      //     const relativePathInsideApp = this.getRelativePathInAppContainer(destination)
-      //     return appNamePromise
-      //       .then(appName => this.getTargetiOSDeviceId(appName, destination, csr))
-      //       .then(udid => {
-      //         return appNamePromise.then(appName =>
-      //           this.pushFileToiOSDevice(udid, appName, relativePathInsideApp, filename, contents)
-      //         )
-      //       })
-      //   }
-      //
-      //   throw new Error(`Invalid appDirectory recieved from ${os} device: ${destination}: ` + err.toString())
-      // })
-    }
-
-    return Promise.reject(new Error(`Unsupported device os: ${os}`))
-  }
-
+  // async deployFileToMobileApp(
+  //   destination: string,
+  //   filename: string,
+  //   contents: string,
+  //   csr: string,
+  //   os: string
+  // ): Promise<void> {
+  //   const appNamePromise = this.extractAppNameFromCSR(csr)
+  //
+  //   if (os === "Android") {
+  //     const deviceIdPromise = appNamePromise.then(app =>
+  //       this.getTargetAndroidDeviceId(app, destination, csr)
+  //     )
+  //     const [deviceId, appName] = await Promise.all([
+  //       deviceIdPromise,
+  //       appNamePromise
+  //     ])
+  //     return await this.pushFileToAndroidDevice(
+  //       deviceId,
+  //       appName,
+  //       destination + filename,
+  //       contents
+  //     )
+  //   }
+  //
+  //   if (os === "iOS" || os === "windows") {
+  //     try {
+  //       return await Fs.writeFile(destination + filename, contents)
+  //     } catch (err) {
+  //       if (os === "iOS") {
+  //         // Writing directly to FS failed. It's probably a physical device.
+  //         const relativePathInsideApp = this.getRelativePathInAppContainer(
+  //           destination
+  //         )
+  //         const appName = await appNamePromise
+  //         const udid = await this.getTargetiOSDeviceId(
+  //           appName,
+  //           destination,
+  //           csr
+  //         )
+  //         return await this.pushFileToiOSDevice(
+  //           udid,
+  //           appName,
+  //           relativePathInsideApp,
+  //           filename,
+  //           contents
+  //         )
+  //       }
+  //
+  //       throw new Error(
+  //         `Invalid appDirectory recieved from ${os} device: ${destination}: ` +
+  //           err.toString()
+  //       )
+  //     }
+  // return promisify()(destination + filename, contents).catch(err => {
+  //   if (os === "iOS") {
+  //     // Writing directly to FS failed. It's probably a physical device.
+  //     const relativePathInsideApp = this.getRelativePathInAppContainer(destination)
+  //     return appNamePromise
+  //       .then(appName => this.getTargetiOSDeviceId(appName, destination, csr))
+  //       .then(udid => {
+  //         return appNamePromise.then(appName =>
+  //           this.pushFileToiOSDevice(udid, appName, relativePathInsideApp, filename, contents)
+  //         )
+  //       })
+  //   }
+  //
+  //   throw new Error(`Invalid appDirectory recieved from ${os} device: ${destination}: ` + err.toString())
+  // })
+  //   }
+  //
+  //   return Promise.reject(new Error(`Unsupported device os: ${os}`))
+  // }
+  
   pushFileToiOSDevice(
-    udid: string,
-    bundleId: string,
-    destination: string,
-    filename: string,
-    contents: string
-  ): Promise<void> {
+    udid:string,
+    bundleId:string,
+    destination:string,
+    filename:string,
+    contents:string
+  ):Promise<void> {
     return tmpDir({
       unsafeCleanup: true
     }).then(dir => {
       const filePath = Path.resolve(dir, filename)
-      promisify(Fs.writeFile)(filePath, contents).then(() => iosUtil.push(udid, filePath, bundleId, destination))
-    })
-  }
-
-  getTargetAndroidDeviceId(appName: string, deviceCsrFilePath: string, csr: string): Promise<string> {
-    return this.adb
-      .then(client => client.listDevices())
-      .then((devices: Array<{ id: string }>) => {
-        const deviceMatchList = devices.map(device =>
-          this.androidDeviceHasMatchingCSR(deviceCsrFilePath, device.id, appName, csr)
-            .then(isMatch => {
-              return {
-                id: device.id,
-                isMatch
-              }
-            })
-            .catch((e: Error) => {
-              log.error(`Unable to check for matching CSR in ${device.id}:${appName}`,  e)
-              return {
-                id: device.id,
-                isMatch: false
-              }
-            })
-        )
-        return Promise.all(deviceMatchList).then(devices => {
-          const matchingIds = devices.filter(m => m.isMatch).map(m => m.id)
-
-          if (matchingIds.length == 0) {
-            throw new Error(`No matching device found for app: ${appName}`)
-          }
-
-          if (matchingIds.length > 1) {
-            console.error(new Error("More than one matching device found for CSR"), csr)
-          }
-
-          return matchingIds[0]
-        })
-      })
-  }
-
-  getTargetiOSDeviceId(appName: string, deviceCsrFilePath: string, csr: string): Promise<string> {
-    const matches = /\/Devices\/([^/]+)\//.exec(deviceCsrFilePath)
-
-    if (matches && matches.length == 2) {
-      // It's a simulator, the deviceId is in the filepath.
-      return Promise.resolve(matches[1])
-    }
-
-    return iosUtil.targets().then(targets => {
-      const deviceMatchList = targets.map(target =>
-        this.iOSDeviceHasMatchingCSR(deviceCsrFilePath, target.udid, appName, csr).then(isMatch => {
-          return {
-            id: target.udid,
-            isMatch
-          }
-        })
+      promisify(Fs.writeFile)(filePath, contents).then(() =>
+        iosUtil.push(udid, filePath, bundleId, destination)
       )
-      return Promise.all(deviceMatchList).then(devices => {
-        const matchingIds = devices.filter(m => m.isMatch).map(m => m.id)
-
-        if (matchingIds.length == 0) {
-          throw new Error(`No matching device found for app: ${appName}`)
-        }
-
-        return matchingIds[0]
-      })
     })
   }
-
-  async androidDeviceHasMatchingCSR(directory: string, deviceId: string, processName: string, csr: string): Promise<boolean> {
-    try {
-      const deviceCsr = await this.executeCommandOnAndroid(deviceId, processName, `cat ${directory + csrFileName}`)
-      return this.santitizeString(deviceCsr.toString()) === csr
-    } catch (err) {
-      log.error('androidDeviceHasMatchingCSR failed ', err)
-      return false
-    }
-  }
-
-  async iOSDeviceHasMatchingCSR(directory: string, deviceId: string, bundleId: string, csr: string): Promise<boolean> {
-    const originalFile = this.getRelativePathInAppContainer(Path.resolve(directory, csrFileName))
-    let dir = await tmpDir({
-      unsafeCleanup: true
-    })
-    await iosUtil.pull(deviceId, originalFile, bundleId, dir)
-    const items = await Fs.readdir(dir)
-    if (items.length !== 1) {
-      throw new Error("Conflict in temp dir")
-    }
-    const filename = items[0]
-    const copiedFile = Path.resolve(dir, filename)
-    const csrData = await Fs.readFile(copiedFile)
-    const csrFromDevice = this.santitizeString(csrData.toString())
-    return csrFromDevice === csr
-  }
-
-  santitizeString(csrString: string): string {
+  
+  // getTargetAndroidDeviceId(appName: string, csr: string): Promise<string> {
+  //   return this.adb
+  //     .then(client => client.listDevices())
+  //     .then((devices: Array<{ id: string }>) => {
+  //       const deviceMatchList = devices.map(device =>
+  //         this.androidDeviceHasMatchingCSR(
+  //           deviceCsrFilePath,
+  //           device.id,
+  //           appName,
+  //           csr
+  //         )
+  //           .then(isMatch => {
+  //             return {
+  //               id: device.id,
+  //               isMatch
+  //             }
+  //           })
+  //           .catch((e: Error) => {
+  //             log.error(
+  //               `Unable to check for matching CSR in ${device.id}:${appName}`,
+  //               e
+  //             )
+  //             return {
+  //               id: device.id,
+  //               isMatch: false
+  //             }
+  //           })
+  //       )
+  //       return Promise.all(deviceMatchList).then(devices => {
+  //         const matchingIds = devices.filter(m => m.isMatch).map(m => m.id)
+  //
+  //         if (matchingIds.length == 0) {
+  //           throw new Error(`No matching device found for app: ${appName}`)
+  //         }
+  //
+  //         if (matchingIds.length > 1) {
+  //           console.error(
+  //             new Error("More than one matching device found for CSR"),
+  //             csr
+  //           )
+  //         }
+  //
+  //         return matchingIds[0]
+  //       })
+  //     })
+  // }
+  //
+  // getTargetiOSDeviceId(
+  //   appName: string,
+  //   deviceCsrFilePath: string,
+  //   csr: string
+  // ): Promise<string> {
+  //   const matches = /\/Devices\/([^/]+)\//.exec(deviceCsrFilePath)
+  //
+  //   if (matches && matches.length == 2) {
+  //     // It's a simulator, the deviceId is in the filepath.
+  //     return Promise.resolve(matches[1])
+  //   }
+  //
+  //   return iosUtil.targets().then(targets => {
+  //     const deviceMatchList = targets.map(target =>
+  //       this.iOSDeviceHasMatchingCSR(
+  //         deviceCsrFilePath,
+  //         target.udid,
+  //         appName,
+  //         csr
+  //       ).then(isMatch => {
+  //         return {
+  //           id: target.udid,
+  //           isMatch
+  //         }
+  //       })
+  //     )
+  //     return Promise.all(deviceMatchList).then(devices => {
+  //       const matchingIds = devices.filter(m => m.isMatch).map(m => m.id)
+  //
+  //       if (matchingIds.length == 0) {
+  //         throw new Error(`No matching device found for app: ${appName}`)
+  //       }
+  //
+  //       return matchingIds[0]
+  //     })
+  //   })
+  // }
+  //
+  // async iOSDeviceHasMatchingCSR(
+  //   directory: string,
+  //   deviceId: string,
+  //   bundleId: string,
+  //   csr: string
+  // ): Promise<boolean> {
+  //   const originalFile = this.getRelativePathInAppContainer(
+  //     Path.resolve(directory, csrFileName)
+  //   )
+  //   let dir = await tmpDir({
+  //     unsafeCleanup: true
+  //   })
+  //   await iosUtil.pull(deviceId, originalFile, bundleId, dir)
+  //   const items = await Fs.readdir(dir)
+  //   if (items.length !== 1) {
+  //     throw new Error("Conflict in temp dir")
+  //   }
+  //   const filename = items[0]
+  //   const copiedFile = Path.resolve(dir, filename)
+  //   const csrData = await Fs.readFile(copiedFile)
+  //   const csrFromDevice = this.santitizeString(csrData.toString())
+  //   return csrFromDevice === csr
+  // }
+  //
+  santitizeString(csrString:string):string {
     return csrString.replace(/\r/g, "").trim()
   }
-
-  async pushFileToAndroidDevice(deviceId: string, app: string, filename: string, contents: string): Promise<void> {
-    log.debug(`Deploying ${filename} to ${deviceId}:${app}`)
-    await this.executeCommandOnAndroid(
-      deviceId,
-      app,
-      `echo "${contents}" > ${filename} && chmod 600 ${filename}`
-    )
-  }
-
-  async executeCommandOnAndroid(deviceId: string, user: string, command: string): Promise<string> {
+  
+  //
+  // async pushFileToAndroidDevice(
+  //   deviceId: string,
+  //   app: string,
+  //   filename: string,
+  //   contents: string
+  // ): Promise<void> {
+  //   log.debug(`Deploying ${filename} to ${deviceId}:${app}`)
+  //   await this.executeCommandOnAndroid(
+  //     deviceId,
+  //     app,
+  //     `echo "${contents}" > ${filename} && chmod 600 ${filename}`
+  //   )
+  // }
+  
+  async executeCommandOnAndroid(
+    deviceId:string,
+    user:string,
+    command:string
+  ):Promise<string> {
     if (!user.match(allowedAppNameRegex)) {
       throw new Error(`Disallowed run-as user: ${user}`)
     }
-
+    
     if (command.match(/[']/)) {
       throw new Error(`Disallowed escaping command: ${command}`)
     }
-
     
     const client = await this.adb
-    const buffer = await adb.util.readAll(await client.shell(deviceId, `echo '${command}' | run-as '${user}'`))
+    const buffer = await adb.util.readAll(
+      await client.shell(deviceId, `echo '${command}' | run-as '${user}'`)
+    )
     const output = buffer.toString()
     if (output.match(appNotDebuggableRegex)) {
       const e = new Error(
@@ -369,7 +477,7 @@ export default class CertificateProvider {
       this.server.emit("error", e)
       throw e
     }
-  
+    
     if (output.toLowerCase().match(operationNotPermittedRegex)) {
       const e = new Error(
         `Your android device (${deviceId}) does not support the adb shell run-as command. We're tracking this at https://github.com/densebrain/states/issues`
@@ -377,7 +485,7 @@ export default class CertificateProvider {
       this.server.emit("error", e)
       throw e
     }
-  
+    
     return output
     // return this.adb
     //   .then(client => client.shell(deviceId, `echo '${command}' | run-as '${user}'`))
@@ -387,8 +495,8 @@ export default class CertificateProvider {
     //
     //   })
   }
-
-  async extractAppNameFromCSR(csr: string): Promise<string> {
+  
+  async extractAppNameFromCSR(csr:string):Promise<string> {
     const path = await this.writeToTempFile(csr)
     const subject = await openssl("req", {
       in: path,
@@ -399,17 +507,19 @@ export default class CertificateProvider {
     })
     
     await Fs.unlink(path)
-  
+    
     const matches = subject.trim().match(x509SubjectCNRegex)
-  
+    
     if (!matches || matches.length < 2) {
       throw new Error(`Cannot extract CN from ${subject}`)
     }
     
     const appName = matches[1]
-  
+    
     if (!appName.match(allowedAppNameRegex)) {
-      throw new Error(`Disallowed app name in CSR: ${appName}. Only alphanumeric characters and '.' allowed.`)
+      throw new Error(
+        `Disallowed app name in CSR: ${appName}. Only alphanumeric characters and '.' allowed.`
+      )
     }
     
     return appName
@@ -453,8 +563,8 @@ export default class CertificateProvider {
     //     return appName
     //   })
   }
-
-  loadSecureServerConfig(): Promise<SecureServerConfig> {
+  
+  loadSecureServerConfig():Promise<SecureServerConfig> {
     return this.certificateSetup.then(() => {
       return {
         key: Fs.readFileSync(serverKey),
@@ -465,8 +575,8 @@ export default class CertificateProvider {
       }
     })
   }
-
-  async ensureCertificateAuthorityExists(): Promise<void> {
+  
+  async ensureCertificateAuthorityExists():Promise<void> {
     if (!(await Fs.exists(caKey))) {
       return this.generateCertificateAuthority()
     }
@@ -477,8 +587,8 @@ export default class CertificateProvider {
       return this.generateCertificateAuthority()
     }
   }
-
-  checkCertIsValid(filename: string): Promise<void> {
+  
+  checkCertIsValid(filename:string):Promise<void> {
     if (!Fs.existsSync(filename)) {
       return Promise.reject()
     } // openssl checkend is a nice feature but it only checks for certificates
@@ -486,7 +596,7 @@ export default class CertificateProvider {
     // So we need a separate check for certificates that have already expired
     // but since this involves parsing date outputs from openssl, which is less
     // reliable, keeping both checks for safety.
-
+    
     return openssl("x509", {
       checkend: minCertExpiryWindowSeconds,
       in: filename
@@ -508,26 +618,30 @@ export default class CertificateProvider {
           .split("=")[1]
           .trim()
         const expiryDate = Date.parse(dateString)
-
+        
         if (isNaN(expiryDate)) {
-          console.error("Unable to parse certificate expiry date: " + endDateOutput)
-          throw new Error("Cannot parse certificate expiry date. Assuming it has expired.")
+          console.error(
+            "Unable to parse certificate expiry date: " + endDateOutput
+          )
+          throw new Error(
+            "Cannot parse certificate expiry date. Assuming it has expired."
+          )
         }
-
+        
         if (expiryDate <= Date.now() + minCertExpiryWindowSeconds * 1000) {
           throw new Error("Certificate has expired or will expire soon.")
         }
       })
   }
-
+  
   verifyServerCertWasIssuedByCA() {
-    const options: {[name: string]: boolean | string} = {
+    const options:{ [name:string]:boolean | string } = {
       CAfile: caCert
     }
     options[serverCert] = false
     return openssl("verify", options).then(output => {
       const verified = output.match(/[^:]+: OK/)
-
+      
       if (!verified) {
         // This should never happen, but if it does, we need to notice so we can
         // generate a valid one, or no clients will trust our server.
@@ -535,12 +649,12 @@ export default class CertificateProvider {
       }
     })
   }
-
-  generateCertificateAuthority(): Promise<void> {
+  
+  generateCertificateAuthority():Promise<void> {
     if (!Fs.existsSync(getFilePath(""))) {
       Fs.mkdirSync(getFilePath(""))
     }
-
+    
     log.info("Generating new CA")
     return openssl("genrsa", {
       out: caKey,
@@ -557,18 +671,24 @@ export default class CertificateProvider {
       )
       .then(_ => undefined)
   }
-
-  ensureServerCertExists(): Promise<void> {
-    if (!(Fs.existsSync(serverKey) && Fs.existsSync(serverCert) && Fs.existsSync(caCert))) {
+  
+  ensureServerCertExists():Promise<void> {
+    if (
+      !(
+        Fs.existsSync(serverKey) &&
+        Fs.existsSync(serverCert) &&
+        Fs.existsSync(caCert)
+      )
+    ) {
       return this.generateServerCertificate()
     }
-
+    
     return this.checkCertIsValid(serverCert)
       .then(() => this.verifyServerCertWasIssuedByCA())
       .catch(() => this.generateServerCertificate())
   }
-
-  generateServerCertificate(): Promise<void> {
+  
+  generateServerCertificate():Promise<void> {
     return this.ensureCertificateAuthorityExists()
       .then(_ => {
         log.warn("Creating new server cert")
@@ -600,15 +720,15 @@ export default class CertificateProvider {
       )
       .then(_ => undefined)
   }
-
-  async writeToTempFile(content: string): Promise<string> {
-    const {path} = await tmpFile()
+  
+  async writeToTempFile(content:string):Promise<string> {
+    const { path } = await tmpFile()
     await Fs.writeFile(path, content)
     
     return path
   }
 }
 
-function getFilePath(fileName: string): string {
+function getFilePath(fileName:string):string {
   return Path.resolve(os.homedir(), ".states", "certs", fileName)
 }

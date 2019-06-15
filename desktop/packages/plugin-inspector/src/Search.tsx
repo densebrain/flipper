@@ -1,5 +1,9 @@
 /**
- * Copyright 2018-present Facebook.
+ * Copyright 2019-present Densebrain.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * Copyright 2019-present Facebook.
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  * @format
@@ -7,25 +11,32 @@
 import * as React from "react"
 import { PluginClient, ElementSearchResultSet, Element } from "@stato/core"
 import { PersistedState, ElementMap } from "./"
-import { SearchInput, SearchBox, SearchIcon, LoadingIndicator, styled, colors } from "@stato/core"
+import {
+  SearchInput,
+  SearchBox,
+  SearchIcon,
+  LoadingIndicator,
+  styled,
+  colors
+} from "@stato/core"
 import { Component } from "react"
 export type SearchResultTree = {
-  id: string,
-  isMatch: boolean,
-  hasChildren: boolean,
-  children?: Array<SearchResultTree> | null | undefined,
-  element: Element,
+  id: string
+  isMatch: boolean
+  hasChildren: boolean
+  children?: Array<SearchResultTree> | null | undefined
+  element: Element
   axElement: Element | null | undefined
 }
 type Props = {
-  client: PluginClient,
-  inAXMode: boolean,
-  onSearchResults: (searchResults: ElementSearchResultSet) => void,
-  setPersistedState: (state: Partial<PersistedState>) => void,
+  client: PluginClient
+  inAXMode: boolean
+  onSearchResults: (searchResults: ElementSearchResultSet) => void
+  setPersistedState: (state: Partial<PersistedState>) => void
   persistedState: PersistedState
 }
 type State = {
-  value: string,
+  value: string
   outstandingSearchQuery: string | null | undefined
 }
 const LoadingSpinner = styled(LoadingIndicator)({
@@ -34,17 +45,16 @@ const LoadingSpinner = styled(LoadingIndicator)({
   marginTop: -1
 })
 export default class Search extends Component<Props, State> {
-  
   private timer: number | null = null
-  
-  constructor(props:Props) {
+
+  constructor(props: Props) {
     super(props)
     this.state = {
       value: "",
       outstandingSearchQuery: null
     }
   }
-  
+
   private onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     clearTimeout(this.timer)
     const { value } = e.target
@@ -53,7 +63,7 @@ export default class Search extends Component<Props, State> {
     })
     this.timer = (setTimeout as any)(() => this.performSearch(value), 200)
   }
-  
+
   private onKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       this.performSearch(this.state.value)
@@ -79,7 +89,9 @@ export default class Search extends Component<Props, State> {
           query,
           axEnabled: this.props.inAXMode
         })
-        .then(response => this.displaySearchResults(response, this.props.inAXMode))
+        .then(response =>
+          this.displaySearchResults(response, this.props.inAXMode)
+        )
     }
   }
 
@@ -88,13 +100,16 @@ export default class Search extends Component<Props, State> {
       results,
       query
     }: {
-      results: SearchResultTree | null | undefined,
+      results: SearchResultTree | null | undefined
       query: string
     },
     axMode: boolean
   ) {
     this.setState({
-      outstandingSearchQuery: query === this.state.outstandingSearchQuery ? null : this.state.outstandingSearchQuery
+      outstandingSearchQuery:
+        query === this.state.outstandingSearchQuery
+          ? null
+          : this.state.outstandingSearchQuery
     })
     const searchResults = this.getElementsFromSearchResultTree(results)
     const searchResultIDs = new Set(searchResults.map(r => r.element.id))
@@ -104,7 +119,7 @@ export default class Search extends Component<Props, State> {
         [element.id]: {
           ...element,
           // expand all search results, that we have have children for
-          expanded: element.children.some(c => searchResultIDs.has(c))
+          expanded: element.children.some((c: any) => searchResultIDs.has(c))
         }
       }),
       this.props.persistedState.elements
@@ -112,20 +127,23 @@ export default class Search extends Component<Props, State> {
     let { AXelements } = this.props.persistedState
 
     if (axMode) {
-      AXelements = searchResults.reduce((acc: ElementMap, { axElement }: SearchResultTree) => {
-        if (!axElement) {
-          return acc
-        }
-
-        return {
-          ...acc,
-          [axElement.id]: {
-            ...axElement,
-            // expand all search results, that we have have children for
-            expanded: axElement.children.some(c => searchResultIDs.has(c))
+      AXelements = searchResults.reduce(
+        (acc: ElementMap, { axElement }: SearchResultTree) => {
+          if (!axElement) {
+            return acc
           }
-        }
-      }, this.props.persistedState.AXelements)
+
+          return {
+            ...acc,
+            [axElement.id]: {
+              ...axElement,
+              // expand all search results, that we have have children for
+              expanded: axElement.children.some((c: any) => searchResultIDs.has(c))
+            }
+          }
+        },
+        this.props.persistedState.AXelements
+      )
     }
 
     this.props.setPersistedState({
@@ -133,17 +151,21 @@ export default class Search extends Component<Props, State> {
       AXelements
     })
     this.props.onSearchResults({
-      matches: new Set(searchResults.filter(x => x.isMatch).map(x => x.element.id)),
+      matches: new Set(
+        searchResults.filter(x => x.isMatch).map(x => x.element.id)
+      ),
       query: query
     })
   }
 
-  getElementsFromSearchResultTree(tree: SearchResultTree | null | undefined): Array<SearchResultTree> {
+  getElementsFromSearchResultTree(
+    tree: SearchResultTree | null | undefined
+  ): Array<SearchResultTree> {
     if (!tree) {
       return []
     }
 
-    let elements:Array<SearchResultTree> = [
+    let elements: Array<SearchResultTree> = [
       {
         id: tree.id,
         isMatch: tree.isMatch,
@@ -165,7 +187,11 @@ export default class Search extends Component<Props, State> {
   render() {
     return (
       <SearchBox tabIndex={-1}>
-        <SearchIcon name="magnifying-glass" color={colors.macOSTitleBarIcon} size={16} />
+        <SearchIcon
+          name="magnifying-glass"
+          color={colors.macOSTitleBarIcon}
+          size={16}
+        />
         <SearchInput
           placeholder={"Search"}
           onChange={this.onChange}

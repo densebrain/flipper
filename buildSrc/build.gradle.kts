@@ -43,5 +43,6 @@ dependencies {
   "implementation"("org.jetbrains.kotlin:kotlin-sam-with-receiver:${Plugins.Kotlin}")
   "implementation"("com.android.tools.build:gradle:${Plugins.Android}")
   "implementation"("org.jetbrains.kotlin:kotlin-gradle-plugin:${Plugins.Kotlin}")
+  "implementation"("gradle.plugin.org.jetbrains.gradle.plugin.idea-ext:gradle-idea-ext:${Plugins.IdeaExt}")
   "implementation"("com.jfrog.bintray.gradle:gradle-bintray-plugin:${Plugins.Bintray}")
 }

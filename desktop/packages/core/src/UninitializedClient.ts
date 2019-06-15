@@ -4,8 +4,14 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-export type UninitializedClient = {
-  os: string,
-  deviceName: string,
-  appName: string
+import { stato } from "@stato/models"
+
+
+export interface UninitializedClient {
+  metadata: stato.SDKState
+  // os: string
+  // deviceName: string,
+  // appName: string
+  errorMessage?: string | null | undefined
+  deviceId?: string | null | undefined
 }

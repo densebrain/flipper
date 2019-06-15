@@ -2,12 +2,18 @@ plugins {
   `platform-android-lib`
 }
 
-
+android {
+  sourceSets {
+    getByName("main") {
+      jniLibs.srcDirs("${rootDir}/../../build/jni-libs/lib")
+    }
+  }
+}
 
 dependencies {
   compileOnly(deps.lithoAnnotations)
 
-  implementation(project(":platforms:android:android-fbjni"))
+  implementation(project(":android-fbjni"))
   implementation(kotlin("stdlib-jdk7",Versions.kotlin))
   implementation(kotlin("reflect",Versions.kotlin))
   implementation(deps.droidLogger)
@@ -39,5 +45,41 @@ dependencies {
   testImplementation(deps.hamcrest)
   testImplementation(deps.junit)
 }
-
+//
+//project.afterEvaluate {
+//  tasks {
+//
+//    val commonLib = gradle.includedBuild("common-stato")//project(":common-stato")
+//
+//    val abis = arrayOf("Arm_android", "Aarch64_android", "X86_android")
+//
+//
+//    getByName("preDebugBuild").dependsOn(abis.map { abi -> commonLib.task(":cmakeInstallStatocppDebug${abi}") })
+//    getByName("preReleaseBuild").dependsOn(abis.map { abi -> commonLib.task(":cmakeInstallStatocppRelease${abi}") })
+//  }
+//}
+//
+//val commonLib = project(":common:common-stato")
+//
+//  tasks {
+//
+//
+//    val updateJniLibs by registering {
+//      doLast {
+//        logger.quiet("Updating JNI Libs")
+//      }
+//    }
+//
+//logger.quiet("Checking for common tasks")
+//    commonLib.tasks
+//      .filter {
+//        logger.quiet("Filtering ${it.name}")
+//        it.name.startsWith("cmakeInstall")
+//      }
+//      .forEach {
+//        logger.quiet("Attaching to ${it.name}")
+//        updateJniLibs.mustRunAfter(updateJniLibs)
+//        it.finalizedBy(updateJniLibs)
+//      }
+//  }
 

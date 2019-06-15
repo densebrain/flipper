@@ -20,6 +20,9 @@ import ToolbarIcon from "./ToolbarIcon"
 import InspectorSidebar from "./InspectorSidebar"
 import Search from "./Search"
 import ProxyArchiveClient from "./ProxyArchiveClient"
+import {stato as Models} from "@stato/models"
+
+
 type State = {
   init: boolean,
   inTargetMode: boolean,
@@ -47,6 +50,7 @@ const BetaBar = styled(Toolbar)({
 })
 
 type Props =StatoPluginProps<PersistedState>
+
 class LayoutPlugin extends StatoPluginComponent<Props, State, {}, PersistedState> {
   
   static id = "@stato/plugin-inspector"
@@ -195,7 +199,7 @@ class LayoutPlugin extends StatoPluginComponent<Props, State, {}, PersistedState
                   active={this.state.inTargetMode}
                 />
               )}
-              {this.realClient.query.os === "Android" && (
+              {this.realClient.query.os === Models.OS.OSAndroid && (
                 <ToolbarIcon
                   onClick={this.onToggleAXMode}
                   title="Toggle to see the accessibility hierarchy"

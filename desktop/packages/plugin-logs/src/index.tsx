@@ -38,6 +38,7 @@ import {
   Theme
 } from "@stato/core"
 
+import {stato as Models} from "@stato/models"
 import * as _ from "lodash"
 
 import * as React from "react"
@@ -193,7 +194,7 @@ export class LogTable extends StatoDevicePluginComponent<
   ]
 
   static supportsDevice(device: Device) {
-    return device.os === "iOS" || device.os === "Android"
+    return device.os === Models.OS.OSIOS || device.os === Models.OS.OSAndroid
   }
   
   static ContextMenu = styled(ContextMenuComponent)({

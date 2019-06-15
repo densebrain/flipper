@@ -1,35 +1,46 @@
 /**
- * Copyright 2018-present Facebook.
+ * Copyright 2019-present Densebrain.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * Copyright 2019-present Facebook.
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  * @format
  */
 import { showOpenDialog } from "./utils/exportData"
-import { setExportDataToFileActiveSheet, setActiveSheet, ACTIVE_SHEET_SHARE_DATA } from "./reducers/ApplicationReducer"
+import {
+  setExportDataToFileActiveSheet,
+  setActiveSheet,
+  ACTIVE_SHEET_SHARE_DATA
+} from "./reducers/ApplicationReducer"
 import { Store } from "./reducers/"
 import * as Electron from "electron"
-import {MenuItemConstructorOptions, BrowserWindow} from 'electron'
-import {Plugin, PluginComponent} from "./PluginTypes"
-import {ENABLE_SHAREABLE_LINK} from "./fb-stubs/constants"
+import { MenuItemConstructorOptions, BrowserWindow } from "electron"
+import { Plugin, PluginComponent } from "./PluginTypes"
+import { ENABLE_SHAREABLE_LINK } from "./fb-stubs/constants"
 
 import * as os from "os"
 import * as path from "path"
-import {DefaultKeyboardAction, KeyboardAction, KeyboardActionHandler, KeyboardActions} from "./KeyboardTypes"
-import {getLogger} from "./fb-interfaces/Logger"
-
+import {
+  DefaultKeyboardAction,
+  KeyboardAction,
+  KeyboardActionHandler,
+  KeyboardActions
+} from "./KeyboardTypes"
+import { getLogger } from "./fb-interfaces/Logger"
 
 const log = getLogger(__filename)
 const { dialog } = Electron.remote
 type MenuItem = {
-  label?: string,
-  accelerator?: string,
-  role?: string,
-  click?: Function,
-  submenu?: Array<MenuItem>,
-  type?: string,
+  label?: string
+  accelerator?: string
+  role?: string
+  click?: Function
+  submenu?: Array<MenuItem>
+  type?: string
   enabled?: boolean
 }
-
 
 const defaultKeyboardActions: Array<KeyboardAction> = [
   {
@@ -63,14 +74,20 @@ function actionHandler(action: string) {
 }
 
 export function setupMenuBar(plugins: Array<Plugin>, store: Store) {
-  const template = getTemplate(Electron.remote.app, Electron.remote.shell, store) // collect all keyboard actions from all plugins
+  const template = getTemplate(
+    Electron.remote.app,
+    Electron.remote.shell,
+    store
+  ) // collect all keyboard actions from all plugins
 
   const registeredActions: Set<KeyboardAction> = new Set(
     plugins
       .map((plugin: Plugin) => plugin.componentClazz.keyboardActions || [])
       .reduce((acc: KeyboardActions, cv) => acc.concat(cv), [])
       .map((action: DefaultKeyboardAction | KeyboardAction) =>
-        typeof action === "string" ? defaultKeyboardActions.find(a => a.action === action) : action
+        typeof action === "string"
+          ? defaultKeyboardActions.find(a => a.action === action)
+          : action
       )
   ) // add keyboard actions to
 
@@ -85,13 +102,16 @@ export function setupMenuBar(plugins: Array<Plugin>, store: Store) {
   registeredActions.forEach(keyboardAction => {
     if (keyboardAction != null) {
       const { topLevelMenu, label, action } = keyboardAction
-      const menu = applicationMenu.items.find(menuItem => menuItem.label === topLevelMenu) as Electron.MenuItemConstructorOptions | null
+      const menu = applicationMenu.items.find(
+        menuItem => menuItem.label === topLevelMenu
+      ) as Electron.MenuItemConstructorOptions | null
 
       if (menu) {
         // $FlowFixMe submenu is missing in Electron API spec
-        const
-          {submenu} = menu,
-          menuItem = Array.isArray(submenu) ? null : submenu.items.find(menuItem => menuItem.label === label)
+        const { submenu } = menu,
+          menuItem = Array.isArray(submenu)
+            ? null
+            : submenu.items.find(menuItem => menuItem.label === label)
         if (!menuItem) {
           log.error(`Unable to find menu item: ${label}`)
         }
@@ -114,8 +134,10 @@ function appendMenuItem(
     return
   }
 
-  const itemIndex = template.findIndex(menu => menu.label === keyboardAction.topLevelMenu)
-  
+  const itemIndex = template.findIndex(
+    menu => menu.label === keyboardAction.topLevelMenu
+  )
+
   const menuItem = template[itemIndex]
   if (itemIndex > -1 && Array.isArray(menuItem.submenu)) {
     menuItem.submenu.push({
@@ -128,8 +150,8 @@ function appendMenuItem(
 }
 
 export function activateMenuItems(plugin: Plugin, component: PluginComponent) {
-  const {componentClazz} = plugin
-  
+  const { componentClazz } = plugin
+
   // disable all keyboard actions
   for (const item of menuItems) {
     item[1].enabled = false
@@ -139,10 +161,13 @@ export function activateMenuItems(plugin: Plugin, component: PluginComponent) {
     pluginActionHandler = component.onKeyboardAction
   } // enable keyboard actions for the current plugin
 
-  const {keyboardActions} = componentClazz
+  const { keyboardActions } = componentClazz
   if (keyboardActions) {
     keyboardActions.forEach(keyboardAction => {
-      const action = typeof keyboardAction === "string" ? keyboardAction : keyboardAction.action
+      const action =
+        typeof keyboardAction === "string"
+          ? keyboardAction
+          : keyboardAction.action
       const item = menuItems.get(action)
 
       if (item != null) {
@@ -151,15 +176,24 @@ export function activateMenuItems(plugin: Plugin, component: PluginComponent) {
     })
   } // set the application menu again to make sure it updates
 
-  Electron.remote.Menu.setApplicationMenu(Electron.remote.Menu.getApplicationMenu())
+  Electron.remote.Menu.setApplicationMenu(
+    Electron.remote.Menu.getApplicationMenu()
+  )
 }
 
-function getTemplate(app: Electron.App, shell: Electron.Shell, store: Store): MenuItemConstructorOptions[] {
+function getTemplate(
+  app: Electron.App,
+  shell: Electron.Shell,
+  store: Store
+): MenuItemConstructorOptions[] {
   const exportSubmenu = [
     {
       label: "File...",
       accelerator: "CommandOrControl+E",
-      click: function(_item: Object, _focusedWindow: Object) {
+      click: function(
+        _item: Record<string, any>,
+        _focusedWindow: Record<string, any>
+      ) {
         dialog.showSaveDialog(
           null,
           {
@@ -182,20 +216,26 @@ function getTemplate(app: Electron.App, shell: Electron.Shell, store: Store): Me
     exportSubmenu.push({
       label: "Sharable Link",
       accelerator: "CommandOrControl+Shift+E",
-      click: async function(_item: Object, _focusedWindow: Object) {
+      click: async function(
+        _item: Record<string, any>,
+        _focusedWindow: Record<string, any>
+      ) {
         store.dispatch(setActiveSheet(ACTIVE_SHEET_SHARE_DATA))
       }
     })
   }
 
-  const template:MenuItemConstructorOptions[] = [
+  const template: MenuItemConstructorOptions[] = [
     {
       label: "File",
       submenu: [
         {
           label: "Open File...",
           accelerator: "CommandOrControl+O",
-          click: function(_item: Object, _focusedWindow: Object) {
+          click: function(
+            _item: Record<string, any>,
+            _focusedWindow: Record<string, any>
+          ) {
             showOpenDialog(store)
           }
         },
@@ -249,7 +289,10 @@ function getTemplate(app: Electron.App, shell: Electron.Shell, store: Store): Me
         {
           label: "Reload",
           accelerator: "CmdOrCtrl+R",
-          click: function(_item: Object, focusedWindow: BrowserWindow) {
+          click: function(
+            _item: Record<string, any>,
+            focusedWindow: BrowserWindow
+          ) {
             if (focusedWindow) {
               focusedWindow.reload()
             }
@@ -264,7 +307,10 @@ function getTemplate(app: Electron.App, shell: Electron.Shell, store: Store): Me
               return "F11"
             }
           })(),
-          click: function(_item: Object, focusedWindow: BrowserWindow) {
+          click: function(
+            _item: Record<string, any>,
+            focusedWindow: BrowserWindow
+          ) {
             if (focusedWindow) {
               focusedWindow.setFullScreen(!focusedWindow.isFullScreen())
             }
@@ -279,7 +325,10 @@ function getTemplate(app: Electron.App, shell: Electron.Shell, store: Store): Me
               return "Ctrl+Shift+I"
             }
           })(),
-          click: function(_item: Object, focusedWindow: BrowserWindow) {
+          click: function(
+            _item: Record<string, any>,
+            focusedWindow: BrowserWindow
+          ) {
             if (focusedWindow) {
               focusedWindow.webContents.toggleDevTools()
             }

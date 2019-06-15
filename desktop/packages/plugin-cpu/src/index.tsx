@@ -19,6 +19,7 @@ import {
   ManagedTable,
   lighten
 } from "@stato/core"
+import {stato as Models} from "@stato/models"
 
 const adb = require("adbkit-fb")
 
@@ -120,7 +121,7 @@ class CPUFrequencyTable extends StatoDevicePluginComponent<Props, CPUState> {
   }
 
   static supportsDevice(device: Device) {
-    return device.os === "Android" && device.deviceType === "physical"
+    return device.os === Models.OS.OSAndroid
   }
 
   init() {

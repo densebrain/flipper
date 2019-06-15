@@ -4,15 +4,16 @@
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import androidDevice from "./androidDevice"
-import iOSDevice from "./iOSDevice"
-import windowsDevice from "./windowsDevice"
-import application from "./application"
-import tracking from "./tracking"
-import server from "./server"
-import notifications from "./notifications"
-import plugins from "./plugins"
-import user from "./user"
+import androidDevice from "./AndroidDeviceDispatcher"
+import iOSDevice from "./iOSDeviceDispatcher"
+import windowsDevice from "./WindowsDeviceDispatcher"
+import application from "./ApplicationDispatcher"
+import tracking from "./TrackingDispatcher"
+import server from "./ServerDispatcher"
+import notifications from "./NotificationsDispatcher"
+import plugins from "./PluginDispatcher"
+import user from "./UserDispatcher"
+
 import { Logger } from "../fb-interfaces/Logger"
 import { Store } from "../reducers/index"
 

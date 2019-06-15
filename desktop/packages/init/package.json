@@ -11,7 +11,7 @@
   "dependencies": {
     "mz": "^2.7.0",
     "ts-optchain": "^0.1.6",
-    "typeguard": "^0.0.13",
+    "typeguard": "^0.0.14",
     "yargs": "^13.2.2"
   },
   "title": "Shared Preferences Viewer",

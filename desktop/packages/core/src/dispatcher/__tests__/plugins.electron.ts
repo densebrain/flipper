@@ -5,7 +5,7 @@
  * @format
  */
 //checkGK
-import dispatcher, { getDynamicPlugins, checkDisabled, makeRequirePlugin } from "../plugins"
+import dispatcher, { getDynamicPlugins, checkDisabled, makeRequirePlugin } from "../PluginDispatcher"
 import path from "path"
 import { remote } from "electron"
 import {StatoPluginComponent } from "../../plugin"

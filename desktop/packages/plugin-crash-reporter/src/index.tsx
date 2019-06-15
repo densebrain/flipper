@@ -32,14 +32,13 @@ import {
   styleCreator,
   Store,
   DeviceLogEntry,
-  OS,
   Notification,
   Plugin,
   StatoPluginProps,
   PluginType,
-  PluginModuleExport,
-  PluginClientMessage
+  PluginModuleExport
 } from "@stato/core"
+import { stato as Models } from "@stato/models"
 
 //import unicodeSubstring from "unicode-substring"
 import * as Fs from "fs"
@@ -181,7 +180,7 @@ export function getNewPersistedStateFromCrashLog(
   persistedState: CrashReporterPersistedState | null | undefined,
   persistingPlugin: typeof CrashReporterPlugin,
   content: string,
-  os?: OS | null | undefined,
+  os?: Models.OS | null | undefined,
   logDate?: Date | null | undefined
 ): Partial<CrashReporterPersistedState> | null | undefined {
   const persistedStateReducer = (persistingPlugin.componentClazz as typeof CrashReporterComponent)
@@ -191,11 +190,17 @@ export function getNewPersistedStateFromCrashLog(
     return null
   }
 
-  const crash = parseCrashLog(content, os, logDate)
-  return persistedStateReducer(persistedState, {
-    type: "crash-report",
-    payload: crash
-  })
+  const
+    crash = parseCrashLog(content, os, logDate),
+    body = Models.PluginCallRequestResponse.create({
+      body: JSON.stringify({
+        type: "crash-report",
+        payload: crash
+      })
+    })
+  
+    
+  return persistedStateReducer(persistedState, body)
 }
 export function parseCrashLogAndUpdateState(
   store: Store,
@@ -252,9 +257,9 @@ export function parseCrashLogAndUpdateState(
 export function shouldShowCrashNotification(
   baseDevice: BaseDevice | null | undefined,
   content: string,
-  os?: OS | null | undefined
+  os?: Models.OS | null | undefined
 ): boolean {
-  if (os && os === "Android") {
+  if (os && os === Models.OS.OSAndroid) {
     return true
   }
 
@@ -266,13 +271,13 @@ export function shouldShowCrashNotification(
 }
 export function parseCrashLog(
   content: string,
-  os: OS,
+  os: Models.OS,
   logDate?: Date | null | undefined
 ): CrashLog {
   const stubString = "Cannot figure out the cause"
 
   switch (os) {
-    case "iOS": {
+    case Models.OS.OSIOS: {
       const regex = /Exception Type: *[\w]*/
       const arr = regex.exec(content)
       const exceptionString = arr ? arr[0] : ""
@@ -301,8 +306,9 @@ export function parseCrashLog(
       }
       return crash
     }
-
-    case "Android": {
+  
+    
+    case Models.OS.OSAndroid: {
       const regForName = /.*\n/
       const nameRegArr = regForName.exec(content)
       let name = nameRegArr ? nameRegArr[0] : stubString
@@ -391,7 +397,7 @@ function addFileWatcherForiOSCrashLogs(
     }
 
     Fs.readFile(Path.join(dir, filename), "utf8", function(err, data) {
-      if (oc(store.getState()).connections.selectedDevice.os(null) !== "iOS") {
+      if (oc(store.getState()).connections.selectedDevice.os(null) !== Models.OS.OSIOS) {
         // If the selected device is not iOS don't show crash notifications
         return
       }
@@ -536,9 +542,9 @@ type ActionPayload<Type extends ActionType> = Type extends "crash-report"
 
 type CrashReporterActions = { [type in ActionType]: ActionPayload<type> }
 
-type CrashReporterClientMessage =
-  | PluginClientMessage<"crash-report", CrashLog>
-  | PluginClientMessage<"stato-crash-report", CrashLog>
+///type CrashReporterClientMessage = Models.PluginCallRequestResponse
+  // | PluginClientMessage<"crash-report", CrashLog>
+  // | PluginClientMessage<"stato-crash-report", CrashLog>
 
 class CrashReporterComponent extends StatoDevicePluginComponent<
   StatoPluginProps<CrashReporterPersistedState>,
@@ -553,7 +559,7 @@ class CrashReporterComponent extends StatoDevicePluginComponent<
   } as CrashReporterPersistedState
 
   static supportsDevice(device: Device) {
-    return device.os === "iOS" || device.os === "Android"
+    return device.os === Models.OS.OSIOS || device.os === Models.OS.OSAndroid
   }
 
   static notificationID: number = 0
@@ -563,10 +569,13 @@ class CrashReporterComponent extends StatoDevicePluginComponent<
 
   static persistedStateReducer = (
     persistedState: CrashReporterPersistedState,
-    msg: CrashReporterClientMessage
+    msg: Models.PluginCallRequestResponse
   ): Partial<CrashReporterPersistedState> => {
-    const { type, payload } = msg
-    if (type === "crash-report" || type === "stato-crash-report") {
+    const
+      { method, body } = msg,
+      payload = JSON.parse(body ||"[]") as CrashLog
+    
+    if (method === "crash-report" || method === "stato-crash-report") {
       CrashReporterComponent.notificationID++
       const { callstack, name, reason, date } = payload,
         mergedState: CrashReporterPersistedState = {
@@ -629,7 +638,7 @@ class CrashReporterComponent extends StatoDevicePluginComponent<
       newPluginState: CrashReporterPersistedState | null | undefined
     ) => void
   ) => {
-    if (baseDevice.os.includes("iOS")) {
+    if (baseDevice.os === Models.OS.OSIOS) {
       addFileWatcherForiOSCrashLogs(store, setPersistedState)
     } else {
       const referenceDate = new Date()
@@ -760,7 +769,7 @@ class CrashReporterComponent extends StatoDevicePluginComponent<
       }
       return (
         <FlexColumn>
-          {this.device.os == "Android" ? (
+          {this.device.os === Models.OS.OSAndroid ? (
             <CrashReporterBar
               crashSelector={crashSelector}
               openLogsCallback={() => {

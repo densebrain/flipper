@@ -13,6 +13,7 @@ import CrashReporterPlugin, {
   shouldShowCrashNotification
 } from "../index"
 import {BaseDevice, getPersistedState, getPluginKey} from "@stato/core"
+import {stato as Models} from "@stato/models"
 
 function setDefaultPersistedState(defaultState: CrashReporterPersistedState) {
   CrashReporterPlugin.componentClazz.defaultPersistedState = defaultState
@@ -65,7 +66,7 @@ afterAll(() => {
 test("test the parsing of the date and crash info for the log which matches the predefined regex", () => {
   const log =
     "Blaa Blaaa \n Blaa Blaaa \n Exception Type:  SIGSEGV \n Blaa Blaa \n Blaa Blaa Date/Time: 2019-03-21 12:07:00.861 +0000 \n Blaa balaaa"
-  const crash = parseCrashLog(log, "iOS")
+  const crash = parseCrashLog(log, Models.OS.OSIOS)
   expect(crash.callstack).toEqual(log)
   expect(crash.reason).toEqual("SIGSEGV")
   expect(crash.name).toEqual("SIGSEGV")
@@ -73,7 +74,7 @@ test("test the parsing of the date and crash info for the log which matches the 
 })
 test("test the parsing of the reason for crash when log matches the crash regex, but there is no mention of date", () => {
   const log = "Blaa Blaaa \n Blaa Blaaa \n Exception Type:  SIGSEGV \n Blaa Blaa \n Blaa Blaa"
-  const crash = parseCrashLog(log, "iOS")
+  const crash = parseCrashLog(log, Models.OS.OSIOS)
   expect(crash.callstack).toEqual(log)
   expect(crash.reason).toEqual("SIGSEGV")
   expect(crash.name).toEqual("SIGSEGV")
@@ -81,14 +82,14 @@ test("test the parsing of the reason for crash when log matches the crash regex,
 })
 test("test the parsing of the crash log when log does not match the predefined regex but is alphanumeric", () => {
   const log = "Blaa Blaaa \n Blaa Blaaa \n Blaa Blaaa"
-  const crash = parseCrashLog(log, "iOS")
+  const crash = parseCrashLog(log, Models.OS.OSIOS)
   expect(crash.callstack).toEqual(log)
   expect(crash.reason).toEqual("Cannot figure out the cause")
   expect(crash.name).toEqual("Cannot figure out the cause")
 })
 test("test the parsing of the reason for crash when log does not match the predefined regex contains unicode character", () => {
   const log = "Blaa Blaaa \n Blaa Blaaa \n Exception Type:  🍕🐬 \n Blaa Blaa \n Blaa Blaa"
-  const crash = parseCrashLog(log, "iOS")
+  const crash = parseCrashLog(log, Models.OS.OSIOS)
   expect(crash.callstack).toEqual(log)
   expect(crash.reason).toEqual("Cannot figure out the cause")
   expect(crash.name).toEqual("Cannot figure out the cause")
@@ -96,7 +97,7 @@ test("test the parsing of the reason for crash when log does not match the prede
 })
 test("test the parsing of the reason for crash when log is empty", () => {
   const log = ""
-  const crash = parseCrashLog(log, "iOS")
+  const crash = parseCrashLog(log, Models.OS.OSIOS)
   expect(crash.callstack).toEqual(log)
   expect(crash.reason).toEqual("Cannot figure out the cause")
   expect(crash.name).toEqual("Cannot figure out the cause")
@@ -106,7 +107,7 @@ test("test the parsing of the Android crash log for the proper android crash for
   const log =
     "FATAL EXCEPTION: main\nProcess: com.facebook.states.sample, PID: 27026\njava.lang.IndexOutOfBoundsException: Index: 190, Size: 0\n\tat java.util.ArrayList.get(ArrayList.java:437)\n\tat com.facebook.states.sample.RootComponentSpec.hitGetRequest(RootComponentSpec.java:72)\n\tat com.facebook.states.sample.RootComponent.hitGetRequest(RootComponent.java:46)\n"
   const date = new Date()
-  const crash = parseCrashLog(log, "Android", date)
+  const crash = parseCrashLog(log, Models.OS.OSAndroid, date)
   expect(crash.callstack).toEqual(log)
   expect(crash.reason).toEqual("java.lang.IndexOutOfBoundsException: Index: 190, Size: 0")
   expect(crash.name).toEqual("FATAL EXCEPTION: main")
@@ -114,7 +115,7 @@ test("test the parsing of the Android crash log for the proper android crash for
 })
 test("test the parsing of the Android crash log for the unknown crash format and no date", () => {
   const log = "Blaa Blaa Blaa"
-  const crash = parseCrashLog(log, "Android")
+  const crash = parseCrashLog(log, Models.OS.OSAndroid)
   expect(crash.callstack).toEqual(log)
   expect(crash.reason).toEqual("Cannot figure out the cause")
   expect(crash.name).toEqual("Cannot figure out the cause")
@@ -122,7 +123,7 @@ test("test the parsing of the Android crash log for the unknown crash format and
 })
 test("test the parsing of the Android crash log for the partial format matching the crash format", () => {
   const log = "First Line Break \n Blaa Blaa \n Blaa Blaa "
-  const crash = parseCrashLog(log, "Android")
+  const crash = parseCrashLog(log, Models.OS.OSAndroid)
   expect(crash.callstack).toEqual(log)
   expect(crash.reason).toEqual("Cannot figure out the cause")
   expect(crash.name).toEqual("First Line Break ")
@@ -130,13 +131,13 @@ test("test the parsing of the Android crash log for the partial format matching 
 test("test the parsing of the Android crash log with os being iOS", () => {
   const log =
     "FATAL EXCEPTION: main\nProcess: com.facebook.states.sample, PID: 27026\njava.lang.IndexOutOfBoundsException: Index: 190, Size: 0\n\tat java.util.ArrayList.get(ArrayList.java:437)\n\tat com.facebook.states.sample.RootComponentSpec.hitGetRequest(RootComponentSpec.java:72)\n\tat com.facebook.states.sample.RootComponent.hitGetRequest(RootComponent.java:46)\n"
-  const crash = parseCrashLog(log, "iOS")
+  const crash = parseCrashLog(log, Models.OS.OSIOS)
   expect(crash.callstack).toEqual(log)
   expect(crash.reason).toEqual("Cannot figure out the cause")
   expect(crash.name).toEqual("Cannot figure out the cause")
 })
 test("test the getter of pluginKey with proper input", () => {
-  const device = new BaseDevice("Android","serial", "emulator", "test device")
+  const device = new BaseDevice(Models.OS.OSAndroid,"serial", "emulator", "test device")
   const pluginKey = getPluginKey(null, device, "CrashReporter")
   expect(pluginKey).toEqual("serial#CrashReporter")
 })
@@ -149,7 +150,7 @@ test("test the getter of pluginKey with defined selected app", () => {
   expect(pluginKey).toEqual("selectedApp#CrashReporter")
 })
 test("test the getter of pluginKey with defined selected app and defined base device", () => {
-  const device = new BaseDevice("Android","serial", "emulator", "test device")
+  const device = new BaseDevice(Models.OS.OSAndroid,"serial", "emulator", "test device")
   const pluginKey = getPluginKey("selectedApp", device, "CrashReporter")
   expect(pluginKey).toEqual("selectedApp#CrashReporter")
 })
@@ -219,7 +220,7 @@ test("test getNewPersisitedStateFromCrashLog for non-empty defaultPersistedState
   expect(crashes).toBeDefined()
   expect(crashes.length).toEqual(1)
   expect(crashes[0]).toEqual(pluginStateCrash)
-  const newPersistedState = getNewPersistedStateFromCrashLog(perisistedState, CrashReporterPlugin, content, "iOS")
+  const newPersistedState = getNewPersistedStateFromCrashLog(perisistedState, CrashReporterPlugin, content, Models.OS.OSIOS)
   expect(newPersistedState).toBeDefined() // $FlowFixMe: Checked if perisistedState is defined or not
 
   const newPersistedStateCrashes = newPersistedState.crashes
@@ -241,7 +242,7 @@ test("test getNewPersisitedStateFromCrashLog for non-empty defaultPersistedState
   expect(perisistedState).toEqual({
     crashes: [crash]
   })
-  const newPersistedState = getNewPersistedStateFromCrashLog(perisistedState, CrashReporterPlugin, content, "iOS")
+  const newPersistedState = getNewPersistedStateFromCrashLog(perisistedState, CrashReporterPlugin, content, Models.OS.OSIOS)
   expect(newPersistedState).toBeDefined() // $FlowFixMe: Checked if perisistedState is defined or not
 
   const { crashes } = newPersistedState
@@ -268,7 +269,7 @@ test("test getNewPersisitedStateFromCrashLog for non-empty defaultPersistedState
   expect(perisistedState).toEqual({
     crashes: [pluginStateCrash]
   })
-  const newPersistedState = getNewPersistedStateFromCrashLog(perisistedState, CrashReporterPlugin, content, "iOS")
+  const newPersistedState = getNewPersistedStateFromCrashLog(perisistedState, CrashReporterPlugin, content, Models.OS.OSIOS)
   expect(newPersistedState).toBeDefined() // $FlowFixMe: Checked if perisistedState is defined or not
 
   const { crashes } = newPersistedState
@@ -321,14 +322,14 @@ test("test parsing of path when a regex is not present", () => {
   expect(id).toEqual(null)
 })
 test("test shouldShowCrashNotification function for all correct inputs", () => {
-  const device = new BaseDevice("Android","TH1S-15DEV1CE-1D", "emulator", "test device")
+  const device = new BaseDevice(Models.OS.OSAndroid,"TH1S-15DEV1CE-1D", "emulator", "test device")
   let content =
     "Blaa Blaaa \n Blaa Blaaa \n Path:  path/to/simulator/TH1S-15DEV1CE-1D/App Name.app/App Name \n Blaa Blaa \n Blaa Blaa"
   const shouldShowNotification = shouldShowCrashNotification(device, content)
   expect(shouldShowNotification).toEqual(true)
 })
 test("test shouldShowCrashNotification function for all correct inputs but incorrect id", () => {
-  const device = new BaseDevice("Android","TH1S-15DEV1CE-1D", "emulator", "test device")
+  const device = new BaseDevice(Models.OS.OSAndroid,"TH1S-15DEV1CE-1D", "emulator", "test device")
   let content =
     "Blaa Blaaa \n Blaa Blaaa \n Path:  path/to/simulator/TH1S-1598DEV1CE-2D/App Name.app/App Name \n Blaa Blaa \n Blaa Blaa"
   const shouldShowNotification = shouldShowCrashNotification(device, content)

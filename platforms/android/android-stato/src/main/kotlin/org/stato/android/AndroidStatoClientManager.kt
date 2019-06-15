@@ -7,10 +7,13 @@
  */
 package org.stato.android
 
+import android.Manifest.permission.READ_PHONE_STATE
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
+import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.net.wifi.WifiManager
+import android.os.AsyncTask
 import android.os.Build.*
 import android.util.Log
 
@@ -19,57 +22,68 @@ import com.facebook.soloader.SoLoader
 
 import io.reactivex.disposables.Disposable
 import nz.co.cic.mdns.MDNS
+import org.densebrain.android.logging.DroidLogger
+import org.densebrain.android.logging.error
+import org.densebrain.android.logging.info
+import org.densebrain.android.logging.warn
 import org.stato.BuildConfig
 import org.stato.core.*
 import org.stato.core.StatoThread
+import org.stato.core.event.Event
 
 import java.net.*
 import java.util.*
 import java.util.concurrent.*
 import java.util.concurrent.atomic.AtomicReference
 
+private val REQUIRED_PERMISSIONS = arrayOf(
+  READ_PHONE_STATE,
+  "android.permission.INTERNET",
+  "android.permission.ACCESS_WIFI_STATE"
+)
+
+private val isRunningOnGenymotion: Boolean
+  get() = FINGERPRINT.contains("vbox")
+
+private val isRunningOnStockEmulator: Boolean
+  get() = "(generic|vbox)"
+    .toRegex()
+    .containsMatchIn(FINGERPRINT)
+
 @SuppressWarnings("WeakerAccess")
-object AndroidStatoClientManager {
+object AndroidStatoClientManager  {
+
+  val log = DroidLogger("AndroidStatoClientManager")
+
+  private val worker = Executors.newSingleThreadExecutor()
 
   init {
     if (BuildConfig.IS_INTERNAL_BUILD) {
+      SoLoader.loadLibrary("common-stato")
       SoLoader.loadLibrary("android-stato")
     }
   }
 
-  private val TAG = AndroidStatoClientManager::class.java.name
+  /**
+   * Event types
+   */
+  data class ReadyEvent(val client: StatoClient)
 
-  private val REQUIRED_PERMISSIONS = arrayOf(
-    "android.permission.INTERNET",
-    "android.permission.ACCESS_WIFI_STATE"
-  )
+  /**
+   * Events
+   */
+  val onReady = Event<ReadyEvent>(true)
 
   private val clientRef = AtomicReference<StatoClient?>(null)
 
   private lateinit var statoThread: StatoThread
   private lateinit var connectionThread: StatoThread
 
-
   val isInitialized
     get() = clientRef.get() != null
 
   val client: StatoClient?
     get() = clientRef.get()
-
-
-  private val isRunningOnGenymotion: Boolean
-    get() = FINGERPRINT.contains("vbox")
-
-  private val isRunningOnStockEmulator: Boolean
-    get() = "(generic|vbox)"
-      .toRegex()
-      .containsMatchIn(FINGERPRINT)
-
-
-  @Suppress("DEPRECATION")
-  private val id: String
-    @SuppressLint("HardwareIds")
-    get() = SERIAL
 
   // Genymotion already has a friendly name by default
   private val friendlyDeviceName: String
@@ -79,15 +93,11 @@ object AndroidStatoClientManager {
       "${MODEL} - ${VERSION.RELEASE} - API ${VERSION.SDK_INT}"
 
 
-  interface OnReadyCallback {
-    fun call(client: StatoClient)
-  }
-
   @Synchronized
   private fun createClient(
     context: Context,
     address: AndroidStatoAddress,
-    rootDir: String
+    deviceId: String
   ): StatoClient {
     val client = StatoClientManager.getClient()
     if (!isInitialized) {
@@ -97,7 +107,7 @@ object AndroidStatoClientManager {
       connectionThread = StatoThread("StatoConnectionThread")
       connectionThread.start()
 
-      Log.i(TAG, "Connecting to address: ${address}")
+      log.info("Connecting to address: ${address}")
       val app = context.applicationContext ?: context
 
       client.init(StatoClientConfig(
@@ -108,11 +118,11 @@ object AndroidStatoClientManager {
         address.host,
         "Android",
         friendlyDeviceName,
-        id,
+        deviceId,
         getRunningAppName(app),
-        getPackageName(app),
-        rootDir
+        getPackageName(app)
       ))
+
 
     }
     return client
@@ -144,8 +154,8 @@ object AndroidStatoClientManager {
         val info = wifi.connectionInfo
         val ip = info.ipAddress
         return String.format(Locale.getDefault(), "%d.%d.%d.2", ip and 0xff, ip shr 8 and 0xff, ip shr 16 and 0xff)
-      } catch (cause: Throwable) {
-        Log.e(TAG, "Unable to get wifi state", cause)
+      } catch (ex: Throwable) {
+        log.error("Unable to get wifi state", ex)
       }
 
     }
@@ -156,17 +166,21 @@ object AndroidStatoClientManager {
   }
 
   private fun getRunningAppName(context: Context): String {
-    return context.getApplicationInfo().loadLabel(context.getPackageManager()).toString()
+    return context.applicationInfo.loadLabel(context.packageManager).toString()
   }
 
   private fun getPackageName(context: Context): String {
-    return context.getPackageName()
+    return context.packageName
   }
 
+  /**
+   * Client builder
+   *
+   */
   class Builder(private val context: Context) {
 
     private var plugins = mutableListOf<StatoPlugin>()
-    private var onReady: OnReadyCallback? = null
+
 
     private var address: AndroidStatoAddress? = null
     private val defaultAddress: AndroidStatoAddress = AndroidStatoAddress(
@@ -176,8 +190,6 @@ object AndroidStatoClientManager {
     )
 
 
-    private var rootDir: String = context.filesDir.absolutePath
-
     private var mdns: MDNS? = null
 
     private var mdnsListener: Disposable? = null
@@ -185,25 +197,56 @@ object AndroidStatoClientManager {
     private val discoveredAddresses = mutableSetOf<AndroidStatoAddress>()
 
     private fun connect(address: AndroidStatoAddress): StatoClient {
-      val client = createClient(context, address, rootDir)
+      val client = createClient(context, address, nodeId)
       AndroidStatoClientManager.clientRef.set(client)
 
       plugins.forEach(client::addPlugin)
 
-      if (onReady != null)
-        onReady!!.call(client)
-
       client.start()
+      onReady.emit(ReadyEvent(client))
       return client
     }
 
+    /**
+     * Get device id/serial number depending on SDK
+     */
+    @Suppress("DEPRECATION")
+    private val nodeId: String
+
+      @SuppressLint("HardwareIds", "MissingPermission","ApplySharedPref")
+      get() = when {
+        VERSION.SDK_INT >= 26 &&
+          context.checkSelfPermission(READ_PHONE_STATE) == PERMISSION_GRANTED ->
+          getSerial()
+
+        else -> {
+          val prefs = context.getSharedPreferences("__stato", Context.MODE_PRIVATE)
+          var nodeId:String?
+
+          synchronized(AndroidStatoClientManager) {
+            nodeId = prefs.getString("nodeId", null)
+            if (nodeId == null) {
+              nodeId = UUID.randomUUID().toString()
+              prefs.edit().run {
+                putString("nodeId", nodeId)
+                commit()
+              }
+            }
+
+          }
+
+          nodeId!!
+        }
+      }
+
     init {
 
-
       // Above SDK 21 - use MDNS
-      if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
-        this.mdns = MDNS(context)
+      if (VERSION.SDK_INT < VERSION_CODES.LOLLIPOP) {
+        log.warn("Unable to use MDNS if ANDROID < ${VERSION_CODES.LOLLIPOP}")
 
+      } else {
+        this.mdns = MDNS(context)
         mdnsListener = mdns!!.scan("_stato._tcp").subscribe(
           { service ->
             val attrs = service.attributes
@@ -211,7 +254,7 @@ object AndroidStatoClientManager {
             for (ip in ips) {
               val requiredAttrs = Arrays.asList("insecurePort", "securePort")
               if (!attrs.keys.containsAll(requiredAttrs)) {
-                Log.e(TAG, "Required attributes are missing")
+                error("Required attributes are missing")
                 continue
               }
 
@@ -220,13 +263,13 @@ object AndroidStatoClientManager {
               val address = AndroidStatoAddress(ip, insecurePort, securePort)
 
               if (!discoveredAddresses.contains(address) && address.isValid) {
-                Log.i(TAG, "Found address: $address")
+                log.info("Found address: $address")
                 discoveredAddresses.add(address)
               }
             }
           },
           { throwable ->
-            Log.e(TAG, "Error while scanning", throwable)
+            log.error("Error while scanning", throwable)
           }
         )
       }
@@ -234,16 +277,12 @@ object AndroidStatoClientManager {
 
     protected fun finalize() {
       try {
-        if (mdnsListener != null && !mdnsListener!!.isDisposed())
+        if (mdnsListener != null && !mdnsListener!!.isDisposed)
           mdnsListener!!.dispose()
       } catch (ignored: Throwable) {
       }
     }
 
-    fun withRootDir(rootDir: String): Builder {
-      this.rootDir = rootDir
-      return this
-    }
 
     fun withAddress(address: AndroidStatoAddress): Builder {
       this.address = address
@@ -260,10 +299,6 @@ object AndroidStatoClientManager {
       return this
     }
 
-    fun withOnReady(onReady: OnReadyCallback): Builder {
-      this.onReady = onReady
-      return this
-    }
 
     /**
      * Test stato address
@@ -276,7 +311,8 @@ object AndroidStatoClientManager {
       for (port in Arrays.asList(address.insecurePort, address.securePort)) {
         var socket: Socket? = null
 
-        Log.i(TAG, String.format(Locale.getDefault(), "Connecting to [%s:%d]", host, port))
+        log.info("Connecting to [${host}:${port}]")
+
         try {
           val inetAddress = Inet4Address.getByName(host)
           socket = Socket()
@@ -286,7 +322,7 @@ object AndroidStatoClientManager {
             return true
           }
         } catch (err: Throwable) {
-          Log.e(TAG, String.format(Locale.getDefault(), "Unable to connect to %s:%d", host, port))
+          error("Unable to connect to ${host}:${port}")
         } finally {
           try {
             if (socket != null)
@@ -296,52 +332,84 @@ object AndroidStatoClientManager {
 
         }
       }
-      Log.i(TAG, String.format(Locale.getDefault(), "Unable to connect to [%s]", address.host))
+      log.info("Unable to connect to [${address.host}]")
       return false
     }
 
-
-    fun start(): Future<StatoClient> {
-      return worker.submit(Callable<StatoClient> {
-        lateinit var client: StatoClient
-        while (true) {
-          var address: AndroidStatoAddress? = null
-          if (discoveredAddresses.size > 0) {
-            for (nextAddress in discoveredAddresses) {
-              if (testAddress(nextAddress)) {
-                address = nextAddress
-                break
+    @SuppressLint("StaticFieldLeak")
+    fun start(): AsyncTask<Void,Void,StatoClient> {
+      return object : AsyncTask<Void,Void,StatoClient>() {
+        override fun doInBackground(vararg params: Void?): StatoClient {
+          lateinit var client: StatoClient
+          while (true) {
+            var address: AndroidStatoAddress? = null
+            if (discoveredAddresses.size > 0) {
+              for (nextAddress in discoveredAddresses) {
+                if (testAddress(nextAddress)) {
+                  address = nextAddress
+                  break
+                }
               }
             }
-          }
 
-          if (address == null && this@Builder.address != null && testAddress(this@Builder.address!!)) {
-            address = this@Builder.address
-          }
-
-          if (address != null && address.isValid) {
-            Log.i(TAG, String.format("Using AndroidStatoAddress: %s", address!!.toString()))
-            try {
-              client = connect(address)
-              break
-            } catch (ex: Throwable) {
-              Log.e(TAG, "Unable to connect", ex)
+            if (address == null && this@Builder.address != null && testAddress(this@Builder.address!!)) {
+              address = this@Builder.address
             }
 
+            if (address != null && address.isValid) {
+              log.info("Using address: ${address}")
+              try {
+                client = connect(address)
+                break
+              } catch (ex: Throwable) {
+                log.error("Unable to connect", ex)
+              }
+
+            }
+
+            Thread.sleep(1000L)
           }
 
-          Thread.sleep(1000L)
+          return client
         }
+      }.execute()
+//      return CompletableFuture.supplyAsync {
+//        lateinit var client: StatoClient
+//        while (true) {
+//          var address: AndroidStatoAddress? = null
+//          if (discoveredAddresses.size > 0) {
+//            for (nextAddress in discoveredAddresses) {
+//              if (testAddress(nextAddress)) {
+//                address = nextAddress
+//                break
+//              }
+//            }
+//          }
+//
+//          if (address == null && this@Builder.address != null && testAddress(this@Builder.address!!)) {
+//            address = this@Builder.address
+//          }
+//
+//          if (address != null && address.isValid) {
+//            log.info("Using AndroidStatoAddress: ${address}")
+//            try {
+//              client = connect(address)
+//              break
+//            } catch (ex: Throwable) {
+//              log.error("Unable to connect", ex)
+//            }
+//
+//          }
+//
+//          Thread.sleep(1000L)
+//        }
+//
+//        client
+//      }
 
-        client
-      })
     }
 
-    companion object {
 
-      private val worker = Executors.newSingleThreadExecutor()
-    }
   }
-
 
 }

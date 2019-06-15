@@ -1,19 +1,31 @@
-import {Flowable, Single} from "rsocket-flowable"
+/**
+ * Copyright 2019-present Densebrain.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * Copyright 2019-present Facebook.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ * @format
+ */
+import { Flowable, Single } from "rsocket-flowable"
 
 export interface Responder<D, M> {
-  fireAndForget:(payload:Payload<D, M>) => void
-  requestResponse:(payload:Payload<D, M>) => Single<Payload<D, M>>
-  requestStream:(payload:Payload<D, M>) => Flowable<Payload<D, M>>
-  requestChannel:(payloads:Flowable<Payload<D, M>>) => Flowable<Payload<D, M>>
-  metadataPush:(payload:Payload<D, M>) => Single<void>
+  fireAndForget: (payload: Payload<D, M>) => void
+  requestResponse: (payload: Payload<D, M>) => Single<Payload<D, M>>
+  requestStream: (payload: Payload<D, M>) => Flowable<Payload<D, M>>
+  requestChannel: (payloads: Flowable<Payload<D, M>>) => Flowable<Payload<D, M>>
+  metadataPush: (payload: Payload<D, M>) => Single<void>
 }
 
 export interface PartialResponder<D, M> {
-  fireAndForget?:(payload:Payload<D, M>) => void
-  requestResponse?:(payload:Payload<D, M>) => Single<Payload<D, M>>
-  requestStream?:(payload:Payload<D, M>) => Flowable<Payload<D, M>>
-  requestChannel?:(payloads:Flowable<Payload<D, M>>) => Flowable<Payload<D, M>>
-  metadataPush?:(payload:Payload<D, M>) => Single<void>
+  fireAndForget?: (payload: Payload<D, M>) => void
+  requestResponse?: (payload: Payload<D, M>) => Single<Payload<D, M>>
+  requestStream?: (payload: Payload<D, M>) => Flowable<Payload<D, M>>
+  requestChannel?: (
+    payloads: Flowable<Payload<D, M>>
+  ) => Flowable<Payload<D, M>>
+  metadataPush?: (payload: Payload<D, M>) => Single<void>
 }
 
 /**
@@ -22,8 +34,8 @@ export interface PartialResponder<D, M> {
  */
 
 export interface ReactiveSocket<D, M> extends Responder<D, M> {
-  close:() => void
-  connectionStatus:() => Flowable<ConnectionStatus>
+  close: () => void
+  connectionStatus: () => Flowable<ConnectionStatus>
 }
 
 /**
@@ -32,12 +44,12 @@ export interface ReactiveSocket<D, M> extends Responder<D, M> {
  */
 
 export interface DuplexConnection {
-  sendOne:(frame:Frame) => void
-  send:(input:Flowable<Frame>) => void
-  receive:() => Flowable<Frame>
-  close:() => void
-  connect:() => void
-  connectionStatus:() => Flowable<ConnectionStatus>
+  sendOne: (frame: Frame) => void
+  send: (input: Flowable<Frame>) => void
+  receive: () => Flowable<Frame>
+  close: () => void
+  connect: () => void
+  connectionStatus: () => Flowable<ConnectionStatus>
 }
 
 /**
@@ -52,27 +64,27 @@ export interface DuplexConnection {
 
 export type ConnectionStatus =
   | {
-  kind:"NOT_CONNECTED"
-}
+      kind: "NOT_CONNECTED"
+    }
   | {
-  kind:"CONNECTING"
-}
+      kind: "CONNECTING"
+    }
   | {
-  kind:"CONNECTED"
-}
+      kind: "CONNECTED"
+    }
   | {
-  kind:"CLOSED"
-}
+      kind: "CLOSED"
+    }
   | {
-  kind:"ERROR"
-  error:Error
-}
+      kind: "ERROR"
+      error: Error
+    }
 
-export const CONNECTION_STATUS:{
-  CLOSED:ConnectionStatus,
-  CONNECTED:ConnectionStatus,
-  CONNECTING:ConnectionStatus,
-  NOT_CONNECTED:ConnectionStatus
+export const CONNECTION_STATUS: {
+  CLOSED: ConnectionStatus
+  CONNECTED: ConnectionStatus
+  CONNECTING: ConnectionStatus
+  NOT_CONNECTED: ConnectionStatus
 }
 /**
  * A type that can be written to a buffer.
@@ -84,8 +96,8 @@ export type Encodable = string | Buffer | Uint8Array
  */
 
 export type Payload<D, M> = {
-  data:D | null | undefined
-  metadata?:M | null | undefined
+  data: D | null | undefined
+  metadata?: M | null | undefined
 }
 export type Frame =
   | CancelFrame
@@ -221,7 +233,7 @@ export type SetupFrame = {
 }; // prettier-ignore
 
 export type UnsupportedFrame = {
-  type:63 | 12 | 0
-  streamId:0
-  flags:number
+  type: 63 | 12 | 0
+  streamId: 0
+  flags: number
 }

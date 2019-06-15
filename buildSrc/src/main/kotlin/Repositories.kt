@@ -23,10 +23,16 @@ fun Project.addStatoRepositories() = addRepositories(this.repositories)
  */
 fun addRepositories(handler: RepositoryHandler) = with(handler) {
   mavenLocal()
+  maven(url = "https://repo.spring.io/snapshot")
+  maven(url = "https://repo.spring.io/milestone")
   gradlePluginPortal()
   google()
   jcenter()
   mavenCentral()
+
+  maven(url = "https://dl.bintray.com/arrow-kt/arrow-kt/")
+  maven(url = "https://oss.jfrog.org/artifactory/oss-snapshot-local/")
+
   maven(url = "https://repo1.maven.org/maven2")
   maven(url = "https://kotlin.bintray.com/kotlinx")
   maven(url = "https://dl.bintray.com/densebrain/oss")

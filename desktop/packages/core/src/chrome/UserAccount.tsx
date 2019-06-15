@@ -63,15 +63,20 @@ type UserAccountProps = SimpleThemeProps & StateProps & Actions
 
 const UserAccount = withTheme()(
   class UserAccount extends React.PureComponent<UserAccountProps> {
-    _ref: HTMLElement | null | undefined
-    setRef = (ref: Element) => {
+  
+    private ref: HTMLElement | null | undefined
+    
+    private setRef = (ref: Element) => {
       const element = findDOMNode(ref)
 
       if (element instanceof HTMLElement) {
-        this._ref = element
+        this.ref = element
       }
     }
-    showDetails = () => {
+    
+    private showLogin = () => this.props.setActiveSheet(ACTIVE_SHEET_SIGN_IN)
+    
+    private showDetails = () => {
       const menuTemplate = [
         {
           label: "Sign Out",
@@ -79,8 +84,8 @@ const UserAccount = withTheme()(
         }
       ]
       const menu = Electron.remote.Menu.buildFromTemplate(menuTemplate)
-      const { bottom = 0, left = 0 } = this._ref
-        ? this._ref.getBoundingClientRect()
+      const { bottom = 0, left = 0 } = this.ref
+        ? this.ref.getBoundingClientRect()
         : ({} as ClientRect)
       menu.popup({
         window: Electron.remote.getCurrentWindow(),
@@ -101,7 +106,7 @@ const UserAccount = withTheme()(
         </Container>
       ) : (
         <Container
-          onClick={() => this.props.setActiveSheet(ACTIVE_SHEET_SIGN_IN)}
+          onClick={this.showLogin}
         >
           <Glyph
             name="profile-circle"

@@ -1,0 +1,16 @@
+syntax = "proto3";
+option java_package = "org.stato.models";
+option java_multiple_files = true;
+
+package stato.models;
+
+enum PayloadType {
+  PayloadTypeUnknown = 0;
+  PayloadTypeAll = 1;
+  PayloadTypeCertificateExchange = 2;
+  PayloadTypePluginSetActive = 3;
+  PayloadTypePluginCall = 4;
+  PayloadTypePluginList = 5;
+  PayloadTypePluginSupported = 6;
+  PayloadTypeError = 7;
+}

@@ -11,11 +11,11 @@ import {
   ContextMenuComponent,
   DetailSidebar,
   FlexColumn,
- StatoPluginComponent,
- StatoPluginProps,
+  StatoPluginComponent,
+  StatoPluginProps,
   Glyph,
   KeyboardActions,
-  Notification, PluginClientMessage,
+  Notification,
   PluginModuleExport,
   PluginType,
   PureComponent,
@@ -26,10 +26,11 @@ import {
   TableRows,
   Text
 } from "@stato/core"
-import {padStart} from "lodash"
+import { stato as Models } from "@stato/models"
+import { padStart } from "lodash"
 import RequestDetails from "./RequestDetails"
-import {URL} from "url"
-import {oc} from "ts-optchain"
+import { URL } from "url"
+import { oc } from "ts-optchain"
 
 type RequestId = string
 
@@ -166,16 +167,15 @@ type Actions = {
   newRequest:{ type:"newRequest" } & Request
 }
 
-type NetworkClientMessage =
-  PluginClientMessage<"newResponse", Response> |
-  PluginClientMessage<"newRequest", Request>
 
-type Props =StatoPluginProps<PersistedState>
+type Props = StatoPluginProps<PersistedState>
 
 class NetworkPluginComponent extends StatoPluginComponent<Props, State, Actions, PersistedState> {
+  
   static id = "@stato/plugin-network"
+  
   static keyboardActions:KeyboardActions = ["clear"]
-  //static subscribed = []
+  
   static defaultPersistedState = {
     requests: {},
     responses: {}
@@ -183,14 +183,17 @@ class NetworkPluginComponent extends StatoPluginComponent<Props, State, Actions,
   
   static persistedStateReducer = (
     persistedState:PersistedState,
-    msg: NetworkClientMessage
+    msg:Models.PluginCallRequestResponse
   ):PersistedState => {
-    if (msg.type === "newRequest") {
-      const {payload: data} = msg
-      return {...persistedState, requests: {...persistedState["requests"], [data.id]: data}}
-    } else if (msg.type === "newResponse") {
-        const {payload:data} = msg
-        return {...persistedState, responses: {...persistedState["responses"], [data.id]: data}}
+    
+    const
+      { method, body } = msg,
+      payload = JSON.parse(body || "[]") as (Request | Response)
+    
+    if (method === "newRequest") {
+      return { ...persistedState, requests: { ...persistedState["requests"], [payload.id]: payload as Request } }
+    } else if (method === "newResponse") {
+      return { ...persistedState, responses: { ...persistedState["responses"], [payload.id]: payload as Response } }
     }
     return persistedState
   }
@@ -244,8 +247,8 @@ class NetworkPluginComponent extends StatoPluginComponent<Props, State, Actions,
     })
   }
   renderSidebar = () => {
-    const {requests, responses} = this.props.persistedState
-    const {selectedIds} = this.state
+    const { requests, responses } = this.props.persistedState
+    const { selectedIds } = this.state
     const selectedId = selectedIds.length === 1 ? selectedIds[0] : null
     return selectedId != null ? (
       <RequestDetails key={selectedId} request={requests[selectedId]} response={responses[selectedId]}/>
@@ -253,7 +256,7 @@ class NetworkPluginComponent extends StatoPluginComponent<Props, State, Actions,
   }
   
   render() {
-    const {requests, responses} = this.props.persistedState
+    const { requests, responses } = this.props.persistedState
     return (
       <FlexColumn grow={true}>
         <NetworkTable
@@ -411,8 +414,8 @@ class NetworkTable extends PureComponent<NetworkTableProps, NetworkTableState> {
   
   render() {
     const
-      {clear, onRowHighlighted, highlightedRows} = this.props,
-      {sortedRows} = this.state
+      { clear, onRowHighlighted, highlightedRows } = this.props,
+      { sortedRows } = this.state
     
     return (
       <NetworkTable.ContextMenu items={this.contextMenuItems}>
@@ -446,7 +449,7 @@ class StatusColumn extends PureComponent<{
   children?:number
 }> {
   render() {
-    const {children} = this.props
+    const { children } = this.props
     let glyph
     
     if (children != null && children >= 400 && children < 600) {
@@ -473,7 +476,7 @@ class DurationColumn extends PureComponent<{
   })
   
   render() {
-    const {request, response} = this.props
+    const { request, response } = this.props
     const duration = response ? response.timestamp - request.timestamp : undefined
     return (
       <DurationColumn.Text selectable={false}>
@@ -510,7 +513,7 @@ class SizeColumn extends PureComponent<{
   }
   
   render() {
-    const {response} = this.props
+    const { response } = this.props
     
     if (response) {
       const text = formatBytes(SizeColumn.getResponseLength(response))

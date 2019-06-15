@@ -13,7 +13,7 @@
     "recursive-readdir": "2.2.2",
     "shelljs": "^0.8.3",
     "ts-optchain": "^0.1.6",
-    "typeguard": "^0.0.13",
+    "typeguard": "^0.0.14",
     "xdg-basedir": "^3.0.0"
   },
   "devDependencies": {

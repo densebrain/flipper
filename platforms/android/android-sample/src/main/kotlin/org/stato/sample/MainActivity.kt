@@ -24,10 +24,9 @@ class MainActivity : AppCompatActivity() {
     val c = ComponentContext(this)
     setContentView(LithoView.create(c, RootComponent.create(c).build()))
 
-    AndroidStatoClientManager.client?.let { client ->
-
+    AndroidStatoClientManager.onReady += { (client) ->
       val samplePlugin = client.getPlugin<ExampleStatoPlugin>()
-      samplePlugin!!.setActivity(this)
+      samplePlugin!!.setActivity(this@MainActivity)
       startService(Intent(this, RecordLeakService::class.java))
     }
   }

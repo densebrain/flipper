@@ -1,17 +1,28 @@
 /**
- * Copyright 2018-present Facebook.
+ * Copyright 2019-present Densebrain.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * Copyright 2019-present Facebook.
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  * @format
  */
 import * as React from "react"
-import { Client,Logger,Tooltips,Element } from "@stato/core"
+import { Client, Logger, Tooltips, Element } from "@stato/core"
 import { PluginClient } from "@stato/core"
 
-
-import { GK, ManagedDataInspector, Console, Panel, FlexCenter, styled, colors, SidebarExtensions } from "@stato/core"
+import {
+  GK,
+  ManagedDataInspector,
+  Console,
+  Panel,
+  FlexCenter,
+  styled,
+  colors,
+  SidebarExtensions
+} from "@stato/core"
 import { Component } from "react"
-
 
 const deepEqual = require("deep-equal")
 
@@ -21,9 +32,9 @@ const NoData = styled(FlexCenter)({
 })
 type OnValueChanged = (path: Array<string>, val: any) => void
 type InspectorSidebarSectionProps = {
-  data: any,
-  id: string,
-  onValueChanged: OnValueChanged | null | undefined,
+  data: any
+  id: string
+  onValueChanged: OnValueChanged | null | undefined
   tooltips?: Tooltips
 }
 
@@ -76,11 +87,11 @@ class InspectorSidebarSection extends Component<InspectorSidebarSectionProps> {
 }
 
 type Props = {
-  element: Element | null | undefined,
-  tooltips?: Tooltips,
-  onValueChanged: OnValueChanged | null | undefined,
-  client: PluginClient,
-  realClient: Client,
+  element: Element | null | undefined
+  tooltips?: Tooltips
+  onValueChanged: OnValueChanged | null | undefined
+  client: PluginClient
+  realClient: Client
   logger: Logger
 }
 type State = {
@@ -103,11 +114,13 @@ export default class Sidebar extends Component<Props, State> {
   }
 
   checkIfConsoleIsEnabled() {
-    this.props.client.call("isConsoleEnabled").then((result: { isEnabled: boolean }) => {
-      this.setState({
-        isConsoleEnabled: result.isEnabled
+    this.props.client
+      .call("isConsoleEnabled")
+      .then((result: { isEnabled: boolean }) => {
+        this.setState({
+          isConsoleEnabled: result.isEnabled
+        })
       })
-    })
   }
 
   render() {
@@ -119,20 +132,29 @@ export default class Sidebar extends Component<Props, State> {
 
     const sections: Array<any> =
       (SidebarExtensions &&
-        SidebarExtensions.map(ext => ext(this.props.client, this.props.realClient, element.id, this.props.logger))) ||
+        SidebarExtensions.map((ext: any) =>
+          ext(
+            this.props.client,
+            this.props.realClient,
+            element.id,
+            this.props.logger
+          )
+        )) ||
       []
 
     for (const key in element.data) {
       if (key === "Extra Sections") {
         for (const extraSection of Object.keys(element.data[key])) {
-          let data:any = element.data[key][extraSection] // data might be sent as stringified JSON, we want to parse it for a nicer persentation.
+          let data: any = element.data[key][extraSection] // data might be sent as stringified JSON, we want to parse it for a nicer persentation.
 
           if (typeof data === "string") {
             try {
               data = JSON.parse(data)
             } catch (e) {
               // data was not a valid JSON, type is required to be an object
-              console.error(`ElementsInspector unable to parse extra section: ${extraSection}`)
+              console.error(
+                `ElementsInspector unable to parse extra section: ${extraSection}`
+              )
               data = {}
             }
           }
@@ -162,7 +184,12 @@ export default class Sidebar extends Component<Props, State> {
 
     if (GK.get("sonar_show_console_plugin") && this.state.isConsoleEnabled) {
       sections.push(
-        <Panel key="js-console" heading="JS Console" floating={false} grow={false}>
+        <Panel
+          key="js-console"
+          heading="JS Console"
+          floating={false}
+          grow={false}
+        >
           <Console client={this.props.client} getContext={() => element.id} />
         </Panel>
       )

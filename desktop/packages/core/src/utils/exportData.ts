@@ -1,44 +1,51 @@
 /**
- * Copyright 2018-present Facebook.
+ * Copyright 2019-present Densebrain.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * Copyright 2019-present Facebook.
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  * @format
  */
-import {getInstance as getLogger, getInstance} from "../fb-stubs/Logger"
-import {Store} from "../reducers"
-import {default as BaseDevice, DeviceExport} from "../devices/BaseDevice"
+import { getInstance as getLogger, getInstance } from "../fb-stubs/Logger"
+import { Store } from "../reducers"
+import { default as BaseDevice, DeviceExport } from "../devices/BaseDevice"
 import {
   pluginKey,
-  PluginStatesState as PluginStatesState,
+  PluginStatesState,
   PluginStatesState as PluginStates
 } from "../reducers/PluginStatesReducer"
-import {PluginNotification} from "../reducers/NotificationsReducer"
-import {ClientExport, default as Client} from "../Client"
-import {default as ArchivedDevice} from "../devices/ArchivedDevice"
+import { PluginNotification } from "../reducers/NotificationsReducer"
+import { ClientExport, default as Client } from "../Client"
+import { default as ArchivedDevice } from "../devices/ArchivedDevice"
 import fs from "fs"
 import uuid from "uuid"
-import {remote} from "electron"
-import {deserialize, serialize} from "./serialization"
-import {readCurrentRevision} from "./packageMetadata"
-import {tryCatchReportPlatformFailures} from "./metrics"
-import {promisify} from "util"
+import { remote } from "electron"
+import { deserialize, serialize } from "./serialization"
+import { readCurrentRevision } from "./packageMetadata"
+import { tryCatchReportPlatformFailures } from "./metrics"
+import { promisify } from "util"
 import promiseTimeout from "./promiseTimeout"
-import {callClient, DevicePlugin, Plugin} from "../PluginTypes"
+import { callClient, DevicePlugin, Plugin } from "../PluginTypes"
 
 export const IMPORT_STATES_TRACE_EVENT = "import-states-trace"
 export const EXPORT_STATES_TRACE_EVENT = "export-states-trace"
 export type ExportType = {
-  fileVersion: string,
- statoReleaseRevision: string | null | undefined,
-  clients: Array<ClientExport>,
-  device: DeviceExport | null | undefined,
+  fileVersion: string
+  statoReleaseRevision: string | null | undefined
+  clients: Array<ClientExport>
+  device: DeviceExport | null | undefined
   store: {
-    pluginStates: PluginStates,
+    pluginStates: PluginStates
     activeNotifications: Array<PluginNotification>
   }
 }
-export function processClients(clients: Array<ClientExport>, serial: string): Array<ClientExport> {
-  return clients.filter(client => client.query.device_id === serial)
+export function processClients(
+  clients: Array<ClientExport>,
+  serial: string
+): Array<ClientExport> {
+  return clients.filter(client => client.query.nodeId === serial)
 }
 export function processPluginStates(
   clients: Array<ClientExport>,
@@ -56,7 +63,10 @@ export function processPluginStates(
       return client.id.includes(keyArray.join("#"))
     })
 
-    if (filteredClients.length > 0 || (devicePlugins.has(pluginName) && serial === keyArray[0])) {
+    if (
+      filteredClients.length > 0 ||
+      (devicePlugins.has(pluginName) && serial === keyArray[0])
+    ) {
       // There need not be any client for device Plugins
       pluginStates = { ...pluginStates, [key]: allPluginStates[key] }
     }
@@ -71,8 +81,13 @@ export function processNotificationStates(
   devicePlugins: Map<string, DevicePlugin>
 ): Array<PluginNotification> {
   let activeNotifications = allActiveNotifications.filter(notif => {
-    const filteredClients = clients.filter(client => (notif.client ? client.id.includes(notif.client) : false))
-    return filteredClients.length > 0 || (devicePlugins.has(notif.pluginId) && serial === notif.client) // There need not be any client for device Plugins
+    const filteredClients = clients.filter(client =>
+      notif.client ? client.id.includes(notif.client) : false
+    )
+    return (
+      filteredClients.length > 0 ||
+      (devicePlugins.has(notif.pluginId) && serial === notif.client)
+    ) // There need not be any client for device Plugins
   })
   return activeNotifications
 }
@@ -86,15 +101,27 @@ const addSaltToDeviceSerial = async (
 ): Promise<ExportType> => {
   const { serial } = device
   const newSerial = salt + "-" + serial
-  const newDevice = new ArchivedDevice(newSerial, device.deviceType, device.title, device.os, device.getLogs())
+  const newDevice = new ArchivedDevice(
+    newSerial,
+    device.deviceType,
+    device.title,
+    device.os,
+    device.getLogs()
+  )
   const updatedClients = clients.map((client: ClientExport) => {
-    return { ...client, id: client.id.replace(serial, newSerial), query: { ...client.query, device_id: newSerial } }
+    return {
+      ...client,
+      id: client.id.replace(serial, newSerial),
+      query: { ...client.query, deviceId: newSerial }
+    }
   })
   const updatedPluginStates: PluginStatesState = {}
 
   for (let key in pluginStates) {
     if (!key.includes(serial)) {
-      throw new Error(`Error while exporting, plugin state (${key}) does not have ${serial} in its key`)
+      throw new Error(
+        `Error while exporting, plugin state (${key}) does not have ${serial} in its key`
+      )
     }
 
     const pluginData = pluginStates[key]
@@ -104,7 +131,11 @@ const addSaltToDeviceSerial = async (
 
   const updatedPluginNotifications = pluginNotification.map(notif => {
     if (!notif.client || !notif.client.includes(serial)) {
-      throw new Error(`Error while exporting, plugin state (${notif.pluginId}) does not have ${serial} in it`)
+      throw new Error(
+        `Error while exporting, plugin state (${
+          notif.pluginId
+        }) does not have ${serial} in it`
+      )
     }
 
     return { ...notif, client: notif.client.replace(serial, newSerial) }
@@ -112,7 +143,7 @@ const addSaltToDeviceSerial = async (
   const revision: string | null | undefined = await readCurrentRevision()
   return {
     fileVersion: remote.app.getVersion(),
-   statoReleaseRevision: revision,
+    statoReleaseRevision: revision,
     clients: updatedClients,
     device: newDevice.toJSON(),
     store: {
@@ -133,7 +164,12 @@ export const processStore = async (
   if (device) {
     const { serial } = device
     const processedClients = processClients(clients, serial)
-    let processedPluginStates = processPluginStates(processedClients, serial, pluginStates, devicePlugins)
+    let processedPluginStates = processPluginStates(
+      processedClients,
+      serial,
+      pluginStates,
+      devicePlugins
+    )
     const processedActiveNotifications = processNotificationStates(
       processedClients,
       serial,
@@ -155,13 +191,11 @@ export const processStore = async (
 }
 
 export interface StoreExport {
-  exportData: ExportType | null | undefined,
+  exportData: ExportType | null | undefined
   errorArray: Array<Error>
 }
 
-export async function getStoreExport(
-  store: Store
-): Promise<StoreExport> {
+export async function getStoreExport(store: Store): Promise<StoreExport> {
   const state = store.getState()
   const { clients } = state.connections
   const { pluginStates } = state
@@ -183,7 +217,9 @@ export async function getStoreExport(
       const pluginClass: Plugin | null | undefined = plugin
         ? pluginsMap.get(plugin)
         : null
-      const exportState = pluginClass ? pluginClass.componentClazz.exportPersistedState : null
+      const exportState = pluginClass
+        ? pluginClass.componentClazz.exportPersistedState
+        : null
 
       if (exportState) {
         const key = pluginKey(client.id, plugin)
@@ -221,7 +257,7 @@ export async function getStoreExport(
 export function exportStore(
   store: Store
 ): Promise<{
-  serializedString: string,
+  serializedString: string
   errorArray: Array<Error>
 }> {
   getLogger().track("usage", EXPORT_STATES_TRACE_EVENT)
@@ -252,23 +288,33 @@ export const exportStoreToFile = (
   errorArray: Array<Error>
 }> => {
   return exportStore(store).then(({ serializedString, errorArray }) => {
-    return promisify(fs.writeFile)(exportFilePath, serializedString).then(() => {
-      return {
-        errorArray
+    return promisify(fs.writeFile)(exportFilePath, serializedString).then(
+      () => {
+        return {
+          errorArray
+        }
       }
-    })
+    )
   })
 }
 export function importDataToStore(data: string, store: Store) {
   getLogger().track("usage", IMPORT_STATES_TRACE_EVENT)
-  
+
   // TODO: Type all of this
   const json = deserialize(data) as any
   const { device, clients } = json
   const { serial, deviceType, title, os, logs } = device
-  const archivedDevice = new ArchivedDevice(serial, deviceType, title, os, logs ? logs : [])
+  const archivedDevice = new ArchivedDevice(
+    serial,
+    deviceType,
+    title,
+    os,
+    logs ? logs : []
+  )
   const devices = store.getState().connections.devices
-  const matchedDevices = devices.filter(availableDevice => availableDevice.serial === serial)
+  const matchedDevices = devices.filter(
+    availableDevice => availableDevice.serial === serial
+  )
 
   if (matchedDevices.length > 0) {
     store.dispatch({
@@ -296,10 +342,17 @@ export function importDataToStore(data: string, store: Store) {
         const clientPlugin = arr.join("#")
         return client.id === clientPlugin
       })
-      .map((client:any) => client.split("#").pop())
+      .map((client: any) => client.split("#").pop())
     store.dispatch({
       type: "NEW_CLIENT",
-      payload: new Client(client.id, client.query, null, getInstance(), store, clientPlugins)
+      payload: new Client(
+        client.id,
+        client.query,
+        null,
+        getInstance(),
+        store,
+        clientPlugins
+      )
     })
   })
   keys.forEach(key => {

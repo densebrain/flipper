@@ -42,6 +42,6 @@ export { default as AndroidDevice } from "./devices/AndroidDevice"
 export { default as ArchivedDevice } from "./devices/ArchivedDevice"
 export { default as Device } from "./devices/BaseDevice"
 export { default as IOSDevice } from "./devices/IOSDevice"
-export { OS, DeviceLogListener, DeviceLogEntry, LogLevel } from "./devices/BaseDevice"
+export { DeviceLogListener, DeviceLogEntry, LogLevel } from "./devices/BaseDevice"
 export * from "./KeyboardTypes"
 

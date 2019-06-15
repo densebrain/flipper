@@ -33,7 +33,7 @@ configure<LibraryExtension> {
         targets.clear()
         targets.add(project.name)
         abiFilters.clear()
-        abiFilters.addAll(setOf("arm64-v8a", "armeabi-v7a"))
+        abiFilters.addAll(setOf("arm64-v8a", "armeabi-v7a", "x86"))
       }
     }
   }
@@ -47,33 +47,10 @@ configure<LibraryExtension> {
 //    }
 //  }
 
-  buildTypes {
 
-    //    getByName("release") {
-//      isMinifyEnabled = false
-//      isDebuggable = false
-//      isJniDebuggable = false
-//    }
-//
-//    getByName("debug") {
-//      isMinifyEnabled = false
-//      isDebuggable = true
-//      isJniDebuggable = true
-//    }
-
-//    create("local") {
-//      isMinifyEnabled = false
-//      isDebuggable = true
-//      isJniDebuggable = true
-//
-//      externalNativeBuild {
-//        cmake {
-//          abiFilters.clear()
-//          abiFilters.addAll(setOf("arm64-v8a"))
-//        }
-//      }
+  packagingOptions {
+    doNotStrip.add("**/*.so")
   }
-
 
   lintOptions {
     isAbortOnError = false
@@ -96,6 +73,9 @@ configure<LibraryExtension> {
     javaMaxHeapSize = "4g"
   }
 
+  sourceSets.forEach { set ->
+    set.java.srcDir(file("${projectDir}/src/main/kotlin"))
+  }
 
 }
 
@@ -103,41 +83,48 @@ setupAndroidPublishProject(project, true)
 
 
 
-project.afterEvaluate {
-  tasks {
+// project.afterEvaluate {
+//   tasks {
 
 
-    val commonLib = project(":common:common-stato")
+//     val commonLib = gradle.includedBuild("common-stato")//project(":common-stato")
 
-    getByName("preDebugBuild").dependsOn(commonLib.tasks.filter { task ->
-      arrayOf("install", "debug", "android").all {
-        task.name.toLowerCase().contains(it)
-      }
-    })
-    getByName("preReleaseBuild").dependsOn(commonLib.tasks.filter { task ->
-      arrayOf("install", "release", "android").all {
-        task.name.toLowerCase().contains(it)
-      }
-    })
-//    configure<LibraryExtension> {
-//      libraryVariants.forEach { variant ->
-//        logger.quiet("Variant Filters: ${variant}")
-//        val commonConfigs = when (variant.buildType.name) {
-//          "local" -> listOf("arm64_android")
-//          else -> listOf("arm64_android", "arm_android")
-//        }
-//
-//        preBuild.dependsOn(commonConfigs.map { commonConfig ->
-//          commonLib.tasks.filter { task ->
-//            arrayOf("install", commonConfig).all {
-//              task.name.toLowerCase().contains(it)
-//            }
-//          }
-//        })
-//      }
+//     val abis = arrayOf("Arm_android", "Aarch64_android", "X86_android")
 
-    //project(":common:common-stato").tasks.getByName("")
-    //dependsOn()
-  }
 
-}
+//     getByName("preDebugBuild").dependsOn(abis.map { abi -> "cmakeInstallStatocppDebug${abi}" })
+//     getByName("preReleaseBuild").dependsOn(abis.map { abi -> "cmakeInstallStatocppRelease${abi}" })
+
+//     //getByName("preDebugBuild").dependsOn(
+//     //   commonLib.tasks.filter { task ->
+//     //   arrayOf("install", "debug", "android").all {
+//     //     task.name.toLowerCase().contains(it)
+//     //   }
+//     // })
+//     getByName("preReleaseBuild").dependsOn(commonLib.tasks.filter { task ->
+//       arrayOf("install", "release", "android").all {
+//         task.name.toLowerCase().contains(it)
+//       }
+//     })
+// //    configure<LibraryExtension> {
+// //      libraryVariants.forEach { variant ->
+// //        logger.quiet("Variant Filters: ${variant}")
+// //        val commonConfigs = when (variant.buildType.name) {
+// //          "local" -> listOf("arm64_android")
+// //          else -> listOf("arm64_android", "arm_android")
+// //        }
+// //
+// //        preBuild.dependsOn(commonConfigs.map { commonConfig ->
+// //          commonLib.tasks.filter { task ->
+// //            arrayOf("install", commonConfig).all {
+// //              task.name.toLowerCase().contains(it)
+// //            }
+// //          }
+// //        })
+// //      }
+
+//     //project(":common:common-stato").tasks.getByName("")
+//     //dependsOn()
+//   }
+
+// }

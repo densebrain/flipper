@@ -21,7 +21,11 @@ android {
     getByName("main").apply {
       manifest.srcFile("./AndroidManifest.xml")
     }
+    forEach { set ->
+      set.java.srcDir(file("${projectDir}/src/main/kotlin"))
+    }
   }
+
 
 }
 
@@ -31,6 +35,7 @@ dependencies {
   implementation(kotlin("stdlib-jdk7",Versions.kotlin))
   implementation(kotlin("reflect",Versions.kotlin))
   implementation(deps.leakcanary)
+  implementation(deps.droidLogger)
 
   // Android Support Library
   implementation(deps.supportAppCompat)
@@ -59,8 +64,8 @@ dependencies {
   androidTestImplementation(deps.testCore)
   androidTestImplementation(deps.testRules)
 
-  implementation(project(":platforms:android:android-stato")) {
+  implementation(project(":android-stato")) {
     isTransitive = true
   }
-  implementation(project(":platforms:android:android-fbjni"))
+  implementation(project(":android-fbjni"))
 }

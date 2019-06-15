@@ -1,102 +1,108 @@
 /**
- * Copyright 2018-present Facebook.
+ * Copyright 2019-present Densebrain.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * Copyright 2019-present Facebook.
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  * @format
  */
 import BaseDevice from "../devices/BaseDevice"
 import Client from "../Client"
-import {DefaultPluginId} from "../Constants"
+import { DefaultPluginId } from "../Constants"
 import { UninitializedClient } from "../UninitializedClient"
 import { isEqual } from "lodash"
 import iosUtil from "../fb-stubs/iOSContainerUtility" // $FlowFixMe perf_hooks is a new API in node
+import * as _ from "lodash"
 
 import { performance } from "perf_hooks"
+import { getLogger } from "@stato/common"
+import {stato as Models} from "@stato/models"
+
+const log = getLogger(__filename)
+
 export type State = {
-  devices: Array<BaseDevice>,
-  androidEmulators: Array<string>,
-  selectedDevice: BaseDevice | null,
-  selectedPlugin: string | null,
-  selectedApp: string | null,
-  userPreferredDevice: string | null,
-  userPreferredPlugin: string | null,
-  userPreferredApp: string | null,
-  error: string | null,
-  clients: Array<Client>,
-  uninitializedClients: Array<{
-    client: UninitializedClient,
-    deviceId?: string,
-    errorMessage?: string
-  }>,
+  devices: Array<BaseDevice>
+  androidEmulators: Array<string>
+  selectedDevice: BaseDevice | null
+  selectedPlugin: string | null
+  selectedApp: string | null
+  userPreferredDevice: string | null
+  userPreferredPlugin: string | null
+  userPreferredApp: string | null
+  error: string | null
+  clients: Array<Client>
+  uninitializedClients: Array<UninitializedClient>
   deepLinkPayload: string | null | undefined
 }
 
-export type SelectPluginPayload = {
-  selectedPlugin: string | null,
-  selectedApp?: string | null,
+export interface SelectPluginPayload {
+  selectedPlugin: string | null
+  selectedApp?: string | null
   deepLinkPayload?: string | null
 }
 
 export type Action =
   | {
-      type: "UNREGISTER_DEVICES",
+      type: "UNREGISTER_DEVICES"
       payload: Set<string>
     }
   | {
-      type: "REGISTER_DEVICE",
+      type: "REGISTER_DEVICE"
       payload: BaseDevice
     }
   | {
-      type: "REGISTER_ANDROID_EMULATORS",
+      type: "REGISTER_ANDROID_EMULATORS"
       payload: Array<string>
     }
   | {
-      type: "SELECT_DEVICE",
+      type: "SELECT_DEVICE"
       payload: BaseDevice
     }
   | {
-      type: "SELECT_PLUGIN",
+      type: "SELECT_PLUGIN"
       payload: SelectPluginPayload
     }
   | {
-      type: "SELECT_USER_PREFERRED_PLUGIN",
+      type: "SELECT_USER_PREFERRED_PLUGIN"
       payload: string
     }
   | {
-      type: "SERVER_ERROR",
+      type: "SERVER_ERROR"
       payload: string | null
     }
   | {
-      type: "NEW_CLIENT",
+      type: "NEW_CLIENT"
       payload: Client
     }
   | {
-      type: "NEW_CLIENT_SANITY_CHECK",
+      type: "NEW_CLIENT_SANITY_CHECK"
       payload: Client
     }
   | {
-      type: "CLIENT_REMOVED",
+      type: "CLIENT_REMOVED"
       payload: string
     }
   | {
-      type: "PREFER_DEVICE",
+      type: "PREFER_DEVICE"
       payload: string
     }
   | {
-      type: "START_CLIENT_SETUP",
+      type: "START_CLIENT_SETUP"
       payload: UninitializedClient
     }
   | {
-      type: "FINISH_CLIENT_SETUP",
+      type: "FINISH_CLIENT_SETUP"
       payload: {
-        client: UninitializedClient,
+        client: UninitializedClient
         deviceId: string
       }
     }
   | {
-      type: "CLIENT_SETUP_ERROR",
+      type: "CLIENT_SETUP_ERROR"
       payload: {
-        client: UninitializedClient,
+        client: UninitializedClient
         error: Error
       }
     }
@@ -239,7 +245,10 @@ const reducer = (state: State = INITAL_STATE, action: Action): State => {
         ...state,
         clients: state.clients.concat(payload),
         uninitializedClients: state.uninitializedClients.filter(c => {
-          return c.deviceId !== payload.query.device_id || c.client.appName !== payload.query.app
+          return (
+            c.deviceId !== payload.query.nodeId ||
+            c.metadata.appName !== payload.query.appName
+          )
         }),
         selectedApp,
         selectedPlugin
@@ -249,13 +258,19 @@ const reducer = (state: State = INITAL_STATE, action: Action): State => {
     case "NEW_CLIENT_SANITY_CHECK": {
       const { payload } = action // Check for clients initialised when there is no matching device
 
-      const clientIsStillConnected = state.clients.filter(client => client.id == payload.query.device_id)
+      const clientIsStillConnected = state.clients.filter(
+        client => client.id == payload.query.nodeId
+      )
 
       if (clientIsStillConnected) {
-        const matchingDeviceForClient = state.devices.filter(device => payload.query.device_id === device.serial)
+        const matchingDeviceForClient = state.devices.filter(
+          device => payload.query.nodeId === device.serial
+        )
 
         if (matchingDeviceForClient.length === 0) {
-          console.error(`Client initialised for non-displayed device: ${payload.id}`)
+          console.error(
+            `Client initialised for non-displayed device: ${payload.id}`
+          )
         }
       }
 
@@ -271,7 +286,11 @@ const reducer = (state: State = INITAL_STATE, action: Action): State => {
         selected.selectedPlugin = DEFAULT_PLUGIN
       }
 
-      return { ...state, ...selected, clients: state.clients.filter((client: Client) => client.id !== payload) }
+      return {
+        ...state,
+        ...selected,
+        clients: state.clients.filter((client: Client) => client.id !== payload)
+      }
     }
 
     case "PREFER_DEVICE": {
@@ -289,13 +308,13 @@ const reducer = (state: State = INITAL_STATE, action: Action): State => {
       return {
         ...state,
         uninitializedClients: state.uninitializedClients
-          .filter(entry => !isEqual(entry.client, payload))
+          .filter(entry => !isEqual(entry.metadata, payload.metadata))
           .concat([
             {
-              client: payload
+              ...payload
             }
           ])
-          .sort((a, b) => a.client.appName.localeCompare(b.client.appName))
+          .sort((a, b) => a.metadata.appName.localeCompare(b.metadata.appName))
       }
     }
 
@@ -304,24 +323,38 @@ const reducer = (state: State = INITAL_STATE, action: Action): State => {
       return {
         ...state,
         uninitializedClients: state.uninitializedClients
-          .map(c => (isEqual(c.client, payload.client) ? { ...c, deviceId: payload.deviceId } : c))
-          .sort((a, b) => a.client.appName.localeCompare(b.client.appName))
+          .map(c =>
+            isEqual(
+              _.omit(c, ["deviceId", "errorMessage"]),
+              _.omit(payload, ["deviceId", "errorMessage"])
+            )
+              ? { ...c, deviceId: payload.deviceId }
+              : c
+          )
+          .sort((a, b) => a.metadata.appName.localeCompare(b.metadata.appName))
       }
     }
 
     case "CLIENT_SETUP_ERROR": {
       const { payload } = action
-      const errorMessage = payload.error instanceof Error ? payload.error.message : payload.error
-      console.error(
-        `Client setup error: ${errorMessage} while setting up client: ${payload.client.os}:${
-          payload.client.deviceName
-        }:${payload.client.appName}`
+      const errorMessage =
+        payload.error instanceof Error ? payload.error.message : payload.error,
+        {client} = payload
+      
+      log.error(
+        `Client setup error: ${errorMessage} while setting up client: ${
+          client.metadata.os
+        }:${client.metadata.nodeName}:${client.metadata.appName}`
       )
       return {
         ...state,
         uninitializedClients: state.uninitializedClients
-          .map(c => (isEqual(c.client, payload.client) ? { ...c, errorMessage: errorMessage } : c))
-          .sort((a, b) => a.client.appName.localeCompare(b.client.appName)),
+          .map(c =>
+            isEqual(c.metadata, client.metadata)
+              ? { ...c, errorMessage: errorMessage }
+              : c
+          )
+          .sort((a, b) => a.metadata.appName.localeCompare(b.metadata.appName)),
         error: `Client setup error: ${errorMessage}`
       }
     }
@@ -334,16 +367,18 @@ const reducer = (state: State = INITAL_STATE, action: Action): State => {
 function checkSupportedDevice(state: State) {
   if (state.selectedDevice) {
     const { selectedDevice } = state
-    
-    
+
     return {
       ...state,
-      error: selectedDevice.os === "iOS" && selectedDevice.deviceType === "physical" && !iosUtil.isAvailable()
-        ? "iOS Devices are not yet supported"
-        : null
+      error:
+        selectedDevice.os === Models.OS.OSIOS &&
+        selectedDevice.deviceType === "physical" &&
+        !iosUtil.isAvailable()
+          ? "iOS Devices are not yet supported"
+          : null
     }
   }
-  
+
   return state
 }
 

@@ -8,7 +8,7 @@ import {DeviceType, DeviceShell, LogLevel} from "./BaseDevice"
 import * as Logcat from "adbkit-logcat-fb"
 import child_process from "child_process"
 import BaseDevice from "./BaseDevice"
-
+import {stato as Models} from "@stato/models"
 const child_process_promise  = require("child-process-es6-promise")
 
 type ADBClient = any
@@ -16,7 +16,7 @@ type ADBClient = any
 
 export default class AndroidDevice extends BaseDevice {
   constructor(serial: string, deviceType: DeviceType, title: string, adb: ADBClient) {
-    super("Android", serial, deviceType, title)
+    super(Models.OS.OSAndroid, serial, deviceType, title)
     this.adb = adb
     this.adb.openLogcat(this.serial).then((reader: any) => {
       reader.on("entry", (entry: any) => {

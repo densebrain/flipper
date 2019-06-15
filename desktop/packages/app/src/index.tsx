@@ -41,10 +41,10 @@ process.on("uncaughtException", onException)
 process.on("unhandledRejection", onRejection)
 
 // DISABLE WEB-SECURITY
-if (isTestPkg) {
+//if (isTestPkg) {
   app.commandLine.appendSwitch("remote-debugging-port", "9223")
   app.commandLine.appendSwitch("disable-web-security")
-}
+//}
 
 require("electron-debug")()
 require("electron-context-menu")({
